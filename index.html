@@ -20,7 +20,6 @@
       --gold2:#C9A24A;
       --muted:rgba(255,255,255,.70);
     }
-
     html, body { height: 100%; }
     body{
       background:
@@ -29,12 +28,10 @@
         radial-gradient(900px 700px at 50% 100%, rgba(99,102,241,.10), transparent 60%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
       color: #fff;
-      overflow-x: hidden; /* MOBILE FIX: no horizontal scroll */
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
-
-    /* Keep everything from overflowing on mobile */
     * { box-sizing: border-box; }
     img, video, canvas, svg { max-width: 100%; height: auto; }
     pre { white-space: pre-wrap; word-break: break-word; }
@@ -56,12 +53,10 @@
       color: transparent;
     }
     .muted{ color: var(--muted); }
-
     .chip{
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.05);
     }
-
     .btn-gold{
       background: linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
       color: #111827;
@@ -76,7 +71,6 @@
       box-shadow:none;
       transform:none;
     }
-
     .bar{
       height: 10px;
       border-radius: 999px;
@@ -91,17 +85,15 @@
       width: 0%;
       transition: width .35s ease;
     }
-
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
-
-    /* MOBILE FIX: safe area padding */
     .safe-pb{ padding-bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
 
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-    <!-- Header (mobile-friendly, stacks) -->
+
+    <!-- Header -->
     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-6">
       <div class="min-w-0">
         <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
@@ -131,19 +123,16 @@
             <div class="text-sm font-semibold gold-text" id="modeLabel">PROD</div>
           </div>
         </div>
+
         <div class="mt-3 text-xs muted break-all">
           <span class="mono" id="backendUrl"></span>
         </div>
 
-        <!-- MOBILE FIX: mode toggle -->
         <div class="mt-4 flex gap-2">
-          <button id="btnProd" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">
-            PROD
-          </button>
-          <button id="btnLocal" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">
-            LOCAL
-          </button>
+          <button id="btnProd" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">PROD</button>
+          <button id="btnLocal" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">LOCAL</button>
         </div>
+
         <div class="mt-2 text-[11px] muted">
           Tip: Use LOCAL only when your backend runs on <span class="mono">127.0.0.1:10000</span>.
         </div>
@@ -152,6 +141,7 @@
 
     <!-- Main grid -->
     <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+
       <!-- Left -->
       <div class="lg:col-span-1 glass rounded-2xl p-5 sm:p-6">
         <h2 class="text-lg font-semibold">Analyze a sample</h2>
@@ -166,19 +156,17 @@
         </div>
 
         <div class="mt-5 grid grid-cols-3 gap-3">
-          <button id="recordBtn"
-                  class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
+          <button id="recordBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-microphone mr-2"></i>Record
           </button>
-          <button id="analyzeBtn"
-                  class="btn-gold rounded-xl px-4 py-3 text-sm font-bold"
-                  disabled>
+
+          <button id="analyzeBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold" disabled>
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
-          <button id="demoBtn"
-class="chip rounded-xl px-4 py-3 text-sm font-semibold">
-<i class="fa-solid fa-flask mr-2"></i>Try DEMO
-</button>
+
+          <button id="demoBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold">
+            <i class="fa-solid fa-flask mr-2"></i>Try DEMO
+          </button>
         </div>
 
         <div class="mt-5 border-t border-white/10 pt-5">
@@ -187,27 +175,26 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
 
           <div class="mt-4 space-y-3">
             <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Title (e.g. 'Telegram investor')" />
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Platform (Telegram)" />
               <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Country (US)" />
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Language (EN)" />
               <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Tags (comma separated)" />
             </div>
+
             <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Notes (what happened)"></textarea>
           </div>
 
-          <div class="mt-4 text-xs muted">
-            Tip: Keep personal data out of notes. This is a prototype.
-          </div>
+          <div class="mt-4 text-xs muted">Tip: Keep personal data out of notes. This is a prototype.</div>
         </div>
 
         <div class="mt-5 chip rounded-xl p-3 text-xs muted">
           <div class="font-semibold text-white/90">Disclaimer</div>
-          <div class="mt-1">
-            Scores are prototypes and can be wrong. Always verify identity and use official channels.
-          </div>
+          <div class="mt-1">Scores are prototypes and can be wrong. Always verify identity and use official channels.</div>
         </div>
       </div>
 
@@ -218,6 +205,7 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
             <h2 class="text-lg font-semibold">Results</h2>
             <p class="muted text-sm mt-1">Prototype risk signals & summary.</p>
           </div>
+
           <div class="flex items-center gap-2 flex-wrap">
             <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90">
               <i class="fa-regular fa-copy mr-2"></i>Copy JSON
@@ -228,7 +216,6 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
           </div>
         </div>
 
-        <!-- MOBILE FIX: cards stack properly -->
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Scam score</div>
@@ -271,21 +258,19 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
 
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold">Search cases</div>
+
             <div class="mt-3 flex gap-2">
               <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Search title / notes..." />
-              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold shrink-0">
-                Search
-              </button>
-            </div>
-            <div class="mt-3 text-xs muted">Tip: try tag filter like <span class="mono">crypto</span> (below).</div>
-            <div class="mt-3 flex gap-2">
-              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Tag filter (optional)" />
-              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">
-                Clear
-              </button>
+              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold shrink-0">Search</button>
             </div>
 
-            <!-- MOBILE FIX: list uses viewport height, scrolls nicely -->
+            <div class="mt-3 text-xs muted">Tip: try tag filter like <span class="mono">crypto</span> (below).</div>
+
+            <div class="mt-3 flex gap-2">
+              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Tag filter (optional)" />
+              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">Clear</button>
+            </div>
+
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height: min(46vh, 360px);"></div>
           </div>
         </div>
@@ -316,6 +301,7 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
   const fileInput = $("fileInput");
   const analyzeBtn = $("analyzeBtn");
   const recordBtn = $("recordBtn");
+  const demoBtn = $("demoBtn");
   const fileHint = $("fileHint");
 
   const scamScoreEl = $("scamScore");
@@ -331,6 +317,7 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
 
   const copyJsonBtn = $("copyJsonBtn");
   const shareBtn = $("shareBtn");
+
   const caseIdEl = $("caseId");
   const caseSavedHint = $("caseSavedHint");
 
@@ -379,17 +366,12 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
     $("backendUrl").textContent = backendBase;
     $("modeLabel").textContent = mode;
 
-    // Button highlight
     const active = "border border-yellow-300/40";
-    const inactive = "";
     btnProd.className = btnProd.className.replace(active, "").trim();
     btnLocal.className = btnLocal.className.replace(active, "").trim();
 
-    if(mode === "PROD"){
-      btnProd.className += " " + active;
-    } else {
-      btnLocal.className += " " + active;
-    }
+    if (mode === "PROD") btnProd.className += " " + active;
+    else btnLocal.className += " " + active;
 
     checkBackend();
   }
@@ -398,196 +380,159 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
   btnLocal.addEventListener("click", () => setMode("LOCAL"));
 
   async function checkBackend() {
+    const statusEl = $("backendStatus");
 
-  const statusEl = document.getElementById("backendStatus");
+    function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
-  function sleep(ms){
-    return new Promise(r => setTimeout(r, ms));
-  }
-
-  async function fetchWithTimeout(url, timeout = 5000){
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
-
-    try {
-      const res = await fetch(url, {
-        cache: "no-store",
-        signal: controller.signal
-      });
-      clearTimeout(id);
-      return res;
-    } catch(e){
-      clearTimeout(id);
-      throw e;
+    async function fetchWithTimeout(url, timeout = 5000){
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      try {
+        const res = await fetch(url, { cache: "no-store", signal: controller.signal });
+        clearTimeout(id);
+        return res;
+      } catch(e){
+        clearTimeout(id);
+        throw e;
+      }
     }
-  }
 
-  statusEl.innerText = "Checking backend...";
+    statusEl.innerText = "Checking backend...";
+    statusEl.style.color = "";
+    const healthURL = `${backendBase}/health`;
 
-  const healthURL = `${backendBase}/health`;
-
-  for(let attempt = 1; attempt <= 2; attempt++){
-    try {
-
-      const r = await fetchWithTimeout(healthURL, 5000);
-
-      if(!r.ok) throw new Error("Health not OK");
-
-      const j = await r.json();
-
-      statusEl.innerText =
-        `✅ ONLINE\nAI: ${j.ai_url || "unknown"}`;
-
-      statusEl.style.color = "#22c55e";
-      return;
-
-    } catch(e){
-
-      if(attempt < 2){
-        statusEl.innerText = "Retrying...";
-        await sleep(1500);
-      } else {
-        statusEl.innerText = "❌ Backend offline";
-        statusEl.style.color = "#ef4444";
+    for (let attempt = 1; attempt <= 2; attempt++){
+      try {
+        const r = await fetchWithTimeout(healthURL, 5000);
+        if (!r.ok) throw new Error("Health not OK");
+        const j = await r.json();
+        statusEl.innerText = `✅ ONLINE\nAI: ${j.ai_url || "unknown"}`;
+        statusEl.style.color = "#22c55e";
+        return;
+      } catch(e){
+        if (attempt < 2){
+          statusEl.innerText = "Retrying...";
+          await sleep(1500);
+        } else {
+          statusEl.innerText = "❌ Backend offline";
+          statusEl.style.color = "#ef4444";
+        }
       }
     }
   }
-}
 
   // Initial
   setMode("PROD");
-  // ======================
-// DEMO MODE
-// ======================
 
-const demoBtn = document.getElementById("demoBtn");
-
-  function setBar(barId, percent) {
-    const el = document.getElementById(barId);
-    if (!el) return;
-    const p = Math.max(0, Math.min(100, Number(percent) || 0));
-    el.style.width = p + "%";
+  // ===========================
+  // DEMO MODE (fixed)
+  // ===========================
+  function renderFlags(flags){
+    flagsWrap.innerHTML = "";
+    (flags || []).forEach(f => {
+      const chip = document.createElement("span");
+      chip.className = "chip px-3 py-1 rounded-full text-xs";
+      chip.textContent = f;
+      flagsWrap.appendChild(chip);
+    });
   }
 
-  function startDemoAnimation(durationMs = 2800) {
+  function demoFillResults(){
+    const demo = {
+      demo: true,
+      scam_score: 78,
+      ai_voice_probability: 64,
+      stress_level: 71,
+      summary: "High risk indicators detected. Urgency + payment pressure.",
+      flags: ["urgency", "payment-pressure", "identity-mismatch"]
+    };
+
+    scamScoreEl.textContent = String(demo.scam_score);
+    aiProbEl.textContent = String(demo.ai_voice_probability);
+    stressLevelEl.textContent = String(demo.stress_level);
+
+    summaryText.textContent = demo.summary;
+    renderFlags(demo.flags);
+    setBars(demo.scam_score, demo.ai_voice_probability, demo.stress_level);
+
+    rawJson.textContent = JSON.stringify(demo, null, 2);
+    rawJson.classList.remove("hidden");
+
+    lastResponse = demo;
+    lastCaseId = null;
+    shareBtn.disabled = true;
+    caseIdEl.textContent = "—";
+    caseSavedHint.textContent = "Demo results (not saved).";
+  }
+
+  function startDemoAnimation(durationMs = 2200){
     const t0 = Date.now();
 
-    // reset UI
-    const sum = document.getElementById("summaryText") || document.getElementById("summary");
-    if (sum) sum.textContent = "Analyzing… (demo)";
+    summaryText.textContent = "Analyzing… (demo)";
+    renderFlags([]);
 
-    const btn = document.getElementById("demoBtn");
-    if (btn) {
-      btn.disabled = true;
-      btn.dataset.oldText = btn.textContent;
-      btn.textContent = "Analyzing…";
-    }
+    demoBtn.disabled = true;
+    const oldText = demoBtn.textContent;
+    demoBtn.textContent = "Analyzing…";
 
-    // simple "loading" numbers + bars
+    // reset bars
+    setBars(0,0,0);
+    scamScoreEl.textContent = "0";
+    aiProbEl.textContent = "0";
+    stressLevelEl.textContent = "0";
+
+    const target = { scam: 78, ai: 64, stress: 71 };
+
     const timer = setInterval(() => {
       const t = Date.now() - t0;
       const k = Math.min(1, t / durationMs);
 
-      const scam = Math.round(10 + k * 78);
-      const ai = Math.round(5 + k * 64);
-      const stress = Math.round(8 + k * 71);
+      const scam = Math.round(target.scam * k);
+      const ai = Math.round(target.ai * k);
+      const stress = Math.round(target.stress * k);
 
-      const elScam = document.getElementById("scamScore");
-      const elAi = document.getElementById("aiProb");
-      const elStress = document.getElementById("stressLevel");
+      scamScoreEl.textContent = String(scam);
+      aiProbEl.textContent = String(ai);
+      stressLevelEl.textContent = String(stress);
 
-      if (elScam) elScam.textContent = scam + "%";
-      if (elAi) elAi.textContent = ai + "%";
-      if (elStress) elStress.textContent = stress + "%";
+      setBars(scam, ai, stress);
 
-      setBar("scamBar", scam);
-      setBar("aiBar", ai);
-      setBar("stressBar", stress);
-
-      if (k >= 1) {
+      if (k >= 1){
         clearInterval(timer);
-        if (btn) {
-          btn.disabled = false;
-          btn.textContent = btn.dataset.oldText || "Try DEMO";
-        }
-        // finálny výsledok doplní demoFillResults() (už máš)
+        demoBtn.disabled = false;
+        demoBtn.textContent = oldText;
         demoFillResults();
       }
     }, 60);
   }
 
-function demoFillResults() {
-
-  const set = (id, val) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-  };
-
-  set("summary", "High risk indicators detected. Urgency + payment pressure.");
-  set("aiProb", "64%");
-  set("stressLevel", "71%");
-  set("scamScore", "78%");
-  set("flags", "urgency, payment-pressure, identity-mismatch");
-  set("voiceMatch", "n/a");
-
-  const raw = document.getElementById("rawJson");
-  if (raw) {
-    raw.textContent = JSON.stringify({
-      demo: true,
-      scam_score: 78,
-      ai_voice_probability: 64,
-      stress_level: 71
-    }, null, 2);
-  }
-}
-
-// DEMO button
-const demoBtn = document.getElementById("demoBtn");
-
-if (demoBtn) {
-  demoBtn.disabled = false;
-
   demoBtn.addEventListener("click", () => {
-
     try {
-
-        // show status
-        if (typeof setStatus === "function") {
-            setStatus("DEMO MODE", "offline simulation");
-        }
-
-        // run animation if exists
-        if (typeof startDemoAnimation === "function") {
-            startDemoAnimation(2800);
-            setTimeout(() => {
-                demoFillResults();
-            }, 1200);
-        } else {
-            demoFillResults();
-        }
-
-    } catch (e) {
-        console.error(e);
-        demoFillResults();
+      setStatus("DEMO MODE (offline simulation)");
+      startDemoAnimation(2200);
+    } catch (e){
+      console.error(e);
+      demoFillResults();
     }
+  });
 
-});
-}
-}
-
+  // ===========================
   // Enable analyze only if file selected
+  // ===========================
   fileInput.addEventListener("change", () => {
     const f = fileInput.files && fileInput.files[0];
     if (f){
       fileHint.textContent = `Selected: ${f.name} (${Math.round(f.size/1024)} KB)`;
       analyzeBtn.disabled = false;
-    }else{
+    } else {
       fileHint.textContent = "No file selected.";
       analyzeBtn.disabled = true;
     }
   });
 
+  // ===========================
   // Record mic
+  // ===========================
   let mediaRecorder = null;
   let recordedChunks = [];
   let recording = false;
@@ -598,6 +543,7 @@ if (demoBtn) {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         recordedChunks = [];
         mediaRecorder = new MediaRecorder(stream);
+
         mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
         mediaRecorder.onstop = () => {
           const blob = new Blob(recordedChunks, { type: "audio/webm" });
@@ -610,44 +556,43 @@ if (demoBtn) {
           fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size/1024)} KB)`;
           analyzeBtn.disabled = false;
         };
+
         mediaRecorder.start();
         recording = true;
         recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
-      }else{
+      } else {
         mediaRecorder.stop();
         recording = false;
         recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
       }
-    }catch(e){
+    } catch(e){
       alert("Microphone permission blocked or unavailable.");
     }
   });
 
+  // ===========================
+  // Results UI
+  // ===========================
   function setResultUI(data){
-    const scam = data?.scam_score ?? data?.scan_score; // tolerate naming
-    const ai = data?.ai_voice_prob ?? data?.ai_probability ?? data?.ai_probability;
+    const scam = data?.scam_score ?? data?.scan_score;
+    const ai = data?.ai_voice_probability ?? data?.ai_voice_prob ?? data?.ai_probability;
     const stress = data?.stress_level;
 
-    scamScoreEl.textContent = Number.isFinite(Number(scam)) ? Number(scam) : 0;
-    aiProbEl.textContent = Number.isFinite(Number(ai)) ? Number(ai) : 0;
-    stressLevelEl.textContent = Number.isFinite(Number(stress)) ? Number(stress) : 0;
+    scamScoreEl.textContent = String(Number.isFinite(Number(scam)) ? Number(scam) : 0);
+    aiProbEl.textContent = String(Number.isFinite(Number(ai)) ? Number(ai) : 0);
+    stressLevelEl.textContent = String(Number.isFinite(Number(stress)) ? Number(stress) : 0);
 
     summaryText.textContent = data?.summary || data?.message || "No summary available.";
+
     setBars(scam, ai, stress);
 
-    flagsWrap.innerHTML = "";
     const flags = Array.isArray(data?.flags) ? data.flags : [];
-    if (flags.length){
-      flags.forEach(f => {
-        const chip = document.createElement("span");
-        chip.className = "chip px-3 py-1 rounded-full text-xs";
-        chip.textContent = f;
-        flagsWrap.appendChild(chip);
-      });
-    }
+    renderFlags(flags);
   }
 
+  // ===========================
   // Analyze -> upload to backend
+  // ===========================
   analyzeBtn.addEventListener("click", async () => {
     const f = fileInput.files && fileInput.files[0];
     if(!f){
@@ -664,7 +609,6 @@ if (demoBtn) {
       const form = new FormData();
       form.append("file", f);
 
-      // send metadata as standard fields expected by backend
       form.append("title", titleEl.value || "");
       form.append("platform", platformEl.value || "");
       form.append("country", countryEl.value || "");
@@ -684,7 +628,6 @@ if (demoBtn) {
 
       lastResponse = data;
 
-      // If backend returns {case_id, case:{data}} handle both
       const payload = data?.case?.data ? data.case.data : data;
       setResultUI(payload);
 
@@ -694,15 +637,15 @@ if (demoBtn) {
         caseIdEl.textContent = lastCaseId;
         caseSavedHint.textContent = "Case saved. You can share it.";
         shareBtn.disabled = false;
-      }else{
+      } else {
         caseIdEl.textContent = "—";
         caseSavedHint.textContent = "No case id returned.";
         shareBtn.disabled = true;
       }
 
       rawJson.textContent = JSON.stringify(data, null, 2);
-
-    }catch(e){
+      rawJson.classList.remove("hidden");
+    } catch(e){
       summaryText.textContent = "Error: Failed to fetch (check backend/AI).";
       setBars(0,0,0);
     } finally {
@@ -711,13 +654,16 @@ if (demoBtn) {
     }
   });
 
+  // ===========================
+  // Copy / Share
+  // ===========================
   copyJsonBtn.addEventListener("click", async () => {
     try{
       if(!lastResponse) return;
       await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
       copyJsonBtn.textContent = "Copied ✓";
       setTimeout(() => copyJsonBtn.innerHTML = `<i class="fa-regular fa-copy mr-2"></i>Copy JSON`, 900);
-    }catch(e){
+    } catch(e){
       alert("Copy failed (clipboard permission).");
     }
   });
@@ -726,15 +672,19 @@ if (demoBtn) {
     if(!lastCaseId) return;
     const url = new URL(window.location.href);
     url.searchParams.set("case", lastCaseId);
+
     try{
       await navigator.clipboard.writeText(url.toString());
       shareBtn.textContent = "Link copied ✓";
       setTimeout(() => shareBtn.innerHTML = `<i class="fa-solid fa-link mr-2"></i>Share`, 1000);
-    }catch(e){
+    } catch(e){
       alert("Could not copy. Share link: " + url.toString());
     }
   });
 
+  // ===========================
+  // Search / Load
+  // ===========================
   function escapeHtml(s){
     return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   }
@@ -745,11 +695,12 @@ if (demoBtn) {
       resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
       return;
     }
+
     items.slice(0, 25).forEach(item => {
       const id = item.id || item.case_id;
       const title = item?.meta?.title || item?.title || "(untitled)";
       const platform = item?.meta?.platform || item?.platform || "";
-      const when = item?.created_at || item?.createdAt || item?.created_at;
+      const when = item?.created_at || item?.createdAt;
       const whenTxt = when ? new Date(when).toLocaleString() : "";
 
       const row = document.createElement("div");
@@ -784,12 +735,13 @@ if (demoBtn) {
       const j = await r.json();
       if(!r.ok) throw new Error(j?.message || "Search failed");
       renderSearchList(j?.cases || j?.items || []);
-    }catch(e){
+    } catch(e){
       resultsList.innerHTML = `<div class="text-xs muted">Search error. Check backend.</div>`;
     }
   }
 
   searchBtn.addEventListener("click", doSearch);
+
   clearBtn.addEventListener("click", () => {
     searchQ.value = "";
     searchTag.value = "";
@@ -798,11 +750,13 @@ if (demoBtn) {
 
   async function loadCase(id){
     if(!id) return;
+
     summaryText.textContent = "Loading case…";
+
     try{
-      // your backend uses /case/:id (singular)
       const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
       const j = await r.json();
+
       if(!r.ok){
         summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
         return;
@@ -820,20 +774,21 @@ if (demoBtn) {
       notesEl.value = meta.notes || c.notes || "";
 
       setResultUI(data);
-      lastResponse = data;
 
+      lastResponse = data;
       lastCaseId = c.id || c._id || id;
+
       caseIdEl.textContent = lastCaseId;
       caseSavedHint.textContent = "Loaded from saved cases.";
       shareBtn.disabled = false;
 
       rawJson.textContent = JSON.stringify(j, null, 2);
+      rawJson.classList.remove("hidden");
 
       const url = new URL(window.location.href);
       url.searchParams.set("case", lastCaseId);
       history.replaceState({}, "", url.toString());
-
-    }catch(e){
+    } catch(e){
       summaryText.textContent = "Could not load case (network error).";
     }
   }
@@ -842,9 +797,7 @@ if (demoBtn) {
   (function boot(){
     const u = new URL(window.location.href);
     const id = u.searchParams.get("case");
-    if(id){
-      loadCase(id);
-    }
+    if(id) loadCase(id);
   })();
 </script>
 </body>
