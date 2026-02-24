@@ -1,299 +1,683 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>VoiceSafe — Anti-Scam Voice Check</title>
+
+  <!-- Tailwind CDN (OK for prototype) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
   <style>
-    body { font-family: system-ui, Arial; background:#0b1220; color:#e5e7eb; margin:0; }
-    .wrap { max-width:1100px; margin:24px auto; padding:0 16px; }
-    .top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
-    h1 { margin:0; font-size:40px; }
-    h1 span { color:#fbbf24; }
-    .sub { opacity:.85; margin-top:6px; }
-    .card { background:#111a2e; border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; }
-    .grid { display:grid; grid-template-columns: 1.15fr .85fr; gap:16px; margin-top:16px; }
-    label { font-size:12px; opacity:.8; display:block; margin-bottom:6px; }
-    input, textarea { width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0b1220; color:#e5e7eb; }
-    textarea { min-height:80px; resize:vertical; }
-    .row { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-    .btns { display:flex; gap:10px; align-items:center; margin-top:12px; flex-wrap:wrap; }
-    button { padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.12); background:#0b1220; color:#e5e7eb; cursor:pointer; }
-    button.primary { background:#fbbf24; color:#111827; border-color:#fbbf24; font-weight:700; }
-    .small { font-size:12px; opacity:.8; }
-    .status { min-width:300px; }
-    .pill { display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12); margin-left:8px; font-size:12px; }
-    .pill.on { background:#1f2937; }
-    .pill.active { background:#fbbf24; color:#111827; border-color:#fbbf24; font-weight:700; }
-    .resultBox { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:12px; }
-    .metric { background:#0b1220; border:1px solid rgba(255,255,255,.10); border-radius:14px; padding:12px; }
-    .metric .v { font-size:22px; font-weight:800; margin-top:6px; }
-    .json { margin-top:12px; }
-    details { background:#0b1220; border:1px solid rgba(255,255,255,.10); border-radius:14px; padding:12px; }
-    pre { white-space:pre-wrap; word-break:break-word; margin:0; }
-    .cases { margin-top:16px; }
-    .caseItem { padding:10px 12px; border:1px solid rgba(255,255,255,.10); border-radius:14px; background:#0b1220; margin-top:10px; }
-    .caseTop { display:flex; justify-content:space-between; gap:10px; }
-    .muted { opacity:.75; font-size:12px; }
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1220;
+      --stroke:rgba(255,255,255,.10);
+      --gold1:#F7D774;
+      --gold2:#C9A24A;
+      --muted:rgba(255,255,255,.70);
+    }
+
+    html, body { height: 100%; }
+    body{
+      background:
+        radial-gradient(1000px 600px at 20% 10%, rgba(247,215,116,.10), transparent 60%),
+        radial-gradient(900px 600px at 80% 0%, rgba(201,162,74,.10), transparent 60%),
+        radial-gradient(900px 700px at 50% 100%, rgba(99,102,241,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color: #fff;
+      overflow-x: hidden; /* MOBILE FIX: no horizontal scroll */
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Keep everything from overflowing on mobile */
+    * { box-sizing: border-box; }
+    img, video, canvas, svg { max-width: 100%; height: auto; }
+    pre { white-space: pre-wrap; word-break: break-word; }
+
+    .glass{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid var(--stroke);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+    }
+    .gold-border{
+      border: 1px solid rgba(247,215,116,.35);
+      box-shadow: 0 0 0 1px rgba(201,162,74,.20) inset;
+    }
+    .gold-text{
+      background: linear-gradient(90deg, var(--gold1), var(--gold2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .muted{ color: var(--muted); }
+
+    .chip{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+
+    .btn-gold{
+      background: linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
+      color: #111827;
+      box-shadow: 0 10px 30px rgba(247,215,116,.15);
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .btn-gold:hover{ filter: brightness(1.02); transform: translateY(-1px); }
+    .btn-gold:active{ transform: translateY(0px); }
+    .btn-gold:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      box-shadow:none;
+      transform:none;
+    }
+
+    .bar{
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .bar > div{
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
+      width: 0%;
+      transition: width .35s ease;
+    }
+
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
+
+    /* MOBILE FIX: safe area padding */
+    .safe-pb{ padding-bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
-<body>
-  <div class="wrap">
-    <div class="top">
-      <div>
-        <h1><span>VoiceSafe</span> Anti-Scam Voice Check</h1>
-        <div class="sub">Upload a voice recording. Do not send money based on a message alone — verify identity.</div>
+
+<body class="min-h-screen safe-pb">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+    <!-- Header (mobile-friendly, stacks) -->
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-6">
+      <div class="min-w-0">
+        <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span class="muted">Prototype • Public Beta</span>
+        </div>
+
+        <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+          <span class="gold-text">VoiceSafe</span>
+          <span class="text-white">Anti-Scam Voice Check</span>
+        </h1>
+
+        <p class="mt-3 muted max-w-2xl text-sm sm:text-base">
+          Upload a voice recording (or a chat-app audio/video file). VoiceSafe returns prototype risk scores and a short summary.
+          Always verify identity before sending money.
+        </p>
       </div>
 
-      <div class="card status">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <b>Backend status</b>
-          <div>
-            <span class="small">Mode</span>
-            <span id="modeLocal" class="pill">LOCAL</span>
-            <span id="modeProd" class="pill">PROD</span>
+      <div class="glass gold-border rounded-2xl p-4 w-full lg:w-[420px]">
+        <div class="flex items-center justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-sm font-semibold">Backend status</div>
+            <div class="text-xs muted truncate" id="backendStatus">Checking…</div>
+          </div>
+          <div class="text-right shrink-0">
+            <div class="text-xs muted">Mode</div>
+            <div class="text-sm font-semibold gold-text" id="modeLabel">PROD</div>
           </div>
         </div>
-        <div class="small" id="statusText" style="margin-top:8px;">Loading...</div>
-        <div class="small" style="margin-top:8px;">URL: <span id="backendUrl"></span></div>
+        <div class="mt-3 text-xs muted break-all">
+          <span class="mono" id="backendUrl"></span>
+        </div>
+
+        <!-- MOBILE FIX: mode toggle -->
+        <div class="mt-4 flex gap-2">
+          <button id="btnProd" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">
+            PROD
+          </button>
+          <button id="btnLocal" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">
+            LOCAL
+          </button>
+        </div>
+        <div class="mt-2 text-[11px] muted">
+          Tip: Use LOCAL only when your backend runs on <span class="mono">127.0.0.1:10000</span>.
+        </div>
       </div>
     </div>
 
-    <div class="grid">
-      <div class="card">
-        <b>Analyze a file</b>
-        <div style="margin-top:12px;">
-          <label>File</label>
-          <input id="file" type="file" accept="audio/*,video/*"/>
-          <div class="small" id="fileInfo" style="margin-top:6px;"></div>
+    <!-- Main grid -->
+    <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+      <!-- Left -->
+      <div class="lg:col-span-1 glass rounded-2xl p-5 sm:p-6">
+        <h2 class="text-lg font-semibold">Analyze a sample</h2>
+        <p class="muted text-sm mt-1">Upload an audio/video file or record a short clip.</p>
+
+        <div class="mt-5">
+          <label class="block text-sm muted mb-2">Upload audio or chat audio/video</label>
+          <input id="fileInput" type="file"
+                 accept="audio/*,video/*"
+                 class="w-full text-sm chip rounded-xl p-3 outline-none" />
+          <div class="mt-2 text-xs muted" id="fileHint">No file selected.</div>
         </div>
 
-        <div class="row" style="margin-top:12px;">
-          <div>
-            <label>Title</label>
-            <input id="title" placeholder="e.g. WhatsApp voice note"/>
+        <div class="mt-5 grid grid-cols-2 gap-3">
+          <button id="recordBtn"
+                  class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
+            <i class="fa-solid fa-microphone mr-2"></i>Record
+          </button>
+          <button id="analyzeBtn"
+                  class="btn-gold rounded-xl px-4 py-3 text-sm font-bold"
+                  disabled>
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
+          </button>
+        </div>
+
+        <div class="mt-5 border-t border-white/10 pt-5">
+          <h3 class="text-sm font-semibold">Case details (optional)</h3>
+          <p class="muted text-xs mt-1">Saved cases can be searched & shared.</p>
+
+          <div class="mt-4 space-y-3">
+            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Title (e.g. 'Telegram investor')" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Platform (Telegram)" />
+              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Country (US)" />
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Language (EN)" />
+              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Tags (comma separated)" />
+            </div>
+            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Notes (what happened)"></textarea>
           </div>
-          <div>
-            <label>Platform</label>
-            <input id="platform" placeholder="WhatsApp / Telegram / Call / ..."/>
-          </div>
-        </div>
 
-        <div class="row" style="margin-top:12px;">
-          <div>
-            <label>Country</label>
-            <input id="country" placeholder="SK / CZ / ..."/>
-          </div>
-          <div>
-            <label>Language</label>
-            <input id="language" placeholder="Slovak / English / ..."/>
-          </div>
-        </div>
-
-        <div style="margin-top:12px;">
-          <label>Tags (comma separated)</label>
-          <input id="tags" placeholder="scam, crypto, urgent, ..."/>
-        </div>
-
-        <div style="margin-top:12px;">
-          <label>Notes</label>
-          <textarea id="notes" placeholder="Any context..."></textarea>
-        </div>
-
-        <div class="btns">
-          <button class="primary" id="btnAnalyze">Analyze</button>
-          <button id="btnRefresh">Refresh status</button>
-          <span class="small" id="err" style="color:#fca5a5;"></span>
-        </div>
-
-        <div style="margin-top:12px;">
-          <label>Share link</label>
-          <div style="display:flex; gap:10px; align-items:center;">
-            <input id="share" placeholder="(upload first)" readonly/>
-            <button id="btnCopy">Copy</button>
+          <div class="mt-4 text-xs muted">
+            Tip: Keep personal data out of notes. This is a prototype.
           </div>
         </div>
 
-        <div class="cases">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b>Saved cases</b>
-            <button id="btnLoadLatest">Load latest</button>
+        <div class="mt-5 chip rounded-xl p-3 text-xs muted">
+          <div class="font-semibold text-white/90">Disclaimer</div>
+          <div class="mt-1">
+            Scores are prototypes and can be wrong. Always verify identity and use official channels.
           </div>
-          <div id="cases"></div>
         </div>
       </div>
 
-      <div class="card">
-        <b>Result</b>
-        <div style="margin-top:12px;">
-          <label>Summary</label>
-          <input id="summary" readonly placeholder="—"/>
-        </div>
-
-        <div class="resultBox">
-          <div class="metric">
-            <div class="small">AI voice probability</div>
-            <div class="v" id="aiProb">—</div>
+      <!-- Right (results) -->
+      <div class="lg:col-span-2 glass rounded-2xl p-5 sm:p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div class="min-w-0">
+            <h2 class="text-lg font-semibold">Results</h2>
+            <p class="muted text-sm mt-1">Prototype risk signals & summary.</p>
           </div>
-          <div class="metric">
-            <div class="small">Stress level</div>
-            <div class="v" id="stress">—</div>
-          </div>
-          <div class="metric">
-            <div class="small">Scam score</div>
-            <div class="v" id="scam">—</div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90">
+              <i class="fa-regular fa-copy mr-2"></i>Copy JSON
+            </button>
+            <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
+              <i class="fa-solid fa-link mr-2"></i>Share
+            </button>
           </div>
         </div>
 
-        <div style="margin-top:12px;">
-          <label>Flags</label>
-          <input id="flags" readonly placeholder="—"/>
+        <!-- MOBILE FIX: cards stack properly -->
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">Scam score</div>
+            <div class="mt-1 text-3xl font-bold">
+              <span id="scamScore">—</span><span class="text-base muted">%</span>
+            </div>
+            <div class="mt-3 bar"><div id="scamBar"></div></div>
+          </div>
+
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">AI voice probability</div>
+            <div class="mt-1 text-3xl font-bold">
+              <span id="aiProb">—</span><span class="text-base muted">%</span>
+            </div>
+            <div class="mt-3 bar"><div id="aiBar"></div></div>
+          </div>
+
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">Stress level</div>
+            <div class="mt-1 text-3xl font-bold">
+              <span id="stressLevel">—</span><span class="text-base muted">%</span>
+            </div>
+            <div class="mt-3 bar"><div id="stressBar"></div></div>
+          </div>
         </div>
 
-        <div style="margin-top:12px;">
-          <label>Voice match</label>
-          <input id="voiceMatch" readonly placeholder="—"/>
+        <div class="mt-5 chip rounded-2xl p-5">
+          <div class="text-xs muted">Summary</div>
+          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText">Upload a sample to see results.</div>
+          <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
         </div>
 
-        <div class="json">
-          <details>
-            <summary>Raw JSON</summary>
-            <pre id="raw">{}</pre>
-          </details>
+        <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="chip rounded-2xl p-5">
+            <div class="text-sm font-semibold">Saved case</div>
+            <div class="mt-2 text-xs muted">Case ID</div>
+            <div class="mt-1 mono text-sm break-all" id="caseId">—</div>
+            <div class="mt-3 text-xs muted" id="caseSavedHint">Analyze a sample to create a case.</div>
+          </div>
+
+          <div class="chip rounded-2xl p-5">
+            <div class="text-sm font-semibold">Search cases</div>
+            <div class="mt-3 flex gap-2">
+              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Search title / notes..." />
+              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold shrink-0">
+                Search
+              </button>
+            </div>
+            <div class="mt-3 text-xs muted">Tip: try tag filter like <span class="mono">crypto</span> (below).</div>
+            <div class="mt-3 flex gap-2">
+              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Tag filter (optional)" />
+              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">
+                Clear
+              </button>
+            </div>
+
+            <!-- MOBILE FIX: list uses viewport height, scrolls nicely -->
+            <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height: min(46vh, 360px);"></div>
+          </div>
         </div>
+
+        <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson" style="max-height: min(40vh, 320px);"></pre>
       </div>
+    </div>
+
+    <div class="mt-8 sm:mt-10 text-center text-xs muted">
+      VoiceSafe • Prototype • Built for global anti-scam awareness
     </div>
   </div>
 
-  <script src="./config.js"></script>
-  <script>
-    const $ = (id) => document.getElementById(id);
+<script>
+  // ===========================
+  // CONFIG
+  // ===========================
+  const URLS = {
+    PROD: "https://voicesafe-backend-1.onrender.com",
+    LOCAL: "http://127.0.0.1:10000",
+  };
 
-    function setModeUI() {
-      const m = getMode();
-      $("modeLocal").className = "pill" + (m === "LOCAL" ? " active" : "");
-      $("modeProd").className = "pill" + (m === "PROD" ? " active" : "");
-      $("backendUrl").textContent = getBackendBase();
+  // Default = PROD
+  let backendBase = URLS.PROD;
+
+  const $ = (id) => document.getElementById(id);
+
+  const fileInput = $("fileInput");
+  const analyzeBtn = $("analyzeBtn");
+  const recordBtn = $("recordBtn");
+  const fileHint = $("fileHint");
+
+  const scamScoreEl = $("scamScore");
+  const aiProbEl = $("aiProb");
+  const stressLevelEl = $("stressLevel");
+  const summaryText = $("summaryText");
+  const flagsWrap = $("flagsWrap");
+  const rawJson = $("rawJson");
+
+  const scamBar = $("scamBar");
+  const aiBar = $("aiBar");
+  const stressBar = $("stressBar");
+
+  const copyJsonBtn = $("copyJsonBtn");
+  const shareBtn = $("shareBtn");
+  const caseIdEl = $("caseId");
+  const caseSavedHint = $("caseSavedHint");
+
+  const searchQ = $("searchQ");
+  const searchTag = $("searchTag");
+  const searchBtn = $("searchBtn");
+  const clearBtn = $("clearBtn");
+  const resultsList = $("resultsList");
+
+  const titleEl = $("title");
+  const platformEl = $("platform");
+  const countryEl = $("country");
+  const languageEl = $("language");
+  const tagsEl = $("tags");
+  const notesEl = $("notes");
+
+  const btnProd = $("btnProd");
+  const btnLocal = $("btnLocal");
+
+  $("backendUrl").textContent = backendBase;
+
+  let lastResponse = null;
+  let lastCaseId = null;
+
+  function clampPct(v){
+    const n = Number(v);
+    if (!Number.isFinite(n)) return 0;
+    return Math.max(0, Math.min(100, n));
+  }
+
+  function setBars(scam, ai, stress){
+    const s = clampPct(scam);
+    const a = clampPct(ai);
+    const st = clampPct(stress);
+    scamBar.style.width = s + "%";
+    aiBar.style.width = a + "%";
+    stressBar.style.width = st + "%";
+  }
+
+  function setStatus(text){
+    $("backendStatus").textContent = text;
+  }
+
+  function setMode(mode){
+    backendBase = URLS[mode];
+    $("backendUrl").textContent = backendBase;
+    $("modeLabel").textContent = mode;
+
+    // Button highlight
+    const active = "border border-yellow-300/40";
+    const inactive = "";
+    btnProd.className = btnProd.className.replace(active, "").trim();
+    btnLocal.className = btnLocal.className.replace(active, "").trim();
+
+    if(mode === "PROD"){
+      btnProd.className += " " + active;
+    } else {
+      btnLocal.className += " " + active;
     }
 
-    $("modeLocal").onclick = () => { setMode("LOCAL"); setModeUI(); refreshStatus(); };
-    $("modeProd").onclick = () => { setMode("PROD"); setModeUI(); refreshStatus(); };
+    checkBackend();
+  }
 
-    $("file").addEventListener("change", () => {
-      const f = $("file").files[0];
-      $("fileInfo").textContent = f ? `Selected: ${f.name} (${Math.round(f.size/1024)} KB)` : "";
+  btnProd.addEventListener("click", () => setMode("PROD"));
+  btnLocal.addEventListener("click", () => setMode("LOCAL"));
+
+  async function checkBackend(){
+    try{
+      const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
+      if(!r.ok) throw new Error("health not ok");
+      const j = await r.json();
+      setStatus(`OK • AI: ${j.ai_url || "unknown"}`);
+    }catch(e){
+      setStatus("Offline / blocked (check URL, CORS, or server)");
+    }
+  }
+
+  // Initial
+  setMode("PROD");
+
+  // Enable analyze only if file selected
+  fileInput.addEventListener("change", () => {
+    const f = fileInput.files && fileInput.files[0];
+    if (f){
+      fileHint.textContent = `Selected: ${f.name} (${Math.round(f.size/1024)} KB)`;
+      analyzeBtn.disabled = false;
+    }else{
+      fileHint.textContent = "No file selected.";
+      analyzeBtn.disabled = true;
+    }
+  });
+
+  // Record mic
+  let mediaRecorder = null;
+  let recordedChunks = [];
+  let recording = false;
+
+  recordBtn.addEventListener("click", async () => {
+    try{
+      if(!recording){
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(recordedChunks, { type: "audio/webm" });
+          const file = new File([blob], "mic.webm", { type: "audio/webm" });
+
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          fileInput.files = dt.files;
+
+          fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size/1024)} KB)`;
+          analyzeBtn.disabled = false;
+        };
+        mediaRecorder.start();
+        recording = true;
+        recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
+      }else{
+        mediaRecorder.stop();
+        recording = false;
+        recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
+      }
+    }catch(e){
+      alert("Microphone permission blocked or unavailable.");
+    }
+  });
+
+  function setResultUI(data){
+    const scam = data?.scam_score ?? data?.scan_score; // tolerate naming
+    const ai = data?.ai_voice_prob ?? data?.ai_probability ?? data?.ai_probability;
+    const stress = data?.stress_level;
+
+    scamScoreEl.textContent = Number.isFinite(Number(scam)) ? Number(scam) : 0;
+    aiProbEl.textContent = Number.isFinite(Number(ai)) ? Number(ai) : 0;
+    stressLevelEl.textContent = Number.isFinite(Number(stress)) ? Number(stress) : 0;
+
+    summaryText.textContent = data?.summary || data?.message || "No summary available.";
+    setBars(scam, ai, stress);
+
+    flagsWrap.innerHTML = "";
+    const flags = Array.isArray(data?.flags) ? data.flags : [];
+    if (flags.length){
+      flags.forEach(f => {
+        const chip = document.createElement("span");
+        chip.className = "chip px-3 py-1 rounded-full text-xs";
+        chip.textContent = f;
+        flagsWrap.appendChild(chip);
+      });
+    }
+  }
+
+  // Analyze -> upload to backend
+  analyzeBtn.addEventListener("click", async () => {
+    const f = fileInput.files && fileInput.files[0];
+    if(!f){
+      analyzeBtn.disabled = true;
+      return;
+    }
+
+    analyzeBtn.disabled = true;
+    analyzeBtn.innerHTML = `<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…`;
+    summaryText.textContent = "Uploading…";
+    rawJson.classList.add("hidden");
+
+    try{
+      const form = new FormData();
+      form.append("file", f);
+
+      // send metadata as standard fields expected by backend
+      form.append("title", titleEl.value || "");
+      form.append("platform", platformEl.value || "");
+      form.append("country", countryEl.value || "");
+      form.append("language", languageEl.value || "");
+      form.append("tags", (tagsEl.value || ""));
+      form.append("notes", notesEl.value || "");
+
+      const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
+      const data = await resp.json().catch(() => null);
+
+      if(!resp.ok){
+        const msg = data?.message || `HTTP ${resp.status}`;
+        summaryText.textContent = `Error: ${msg}`;
+        setBars(0,0,0);
+        return;
+      }
+
+      lastResponse = data;
+
+      // If backend returns {case_id, case:{data}} handle both
+      const payload = data?.case?.data ? data.case.data : data;
+      setResultUI(payload);
+
+      lastCaseId = data?.case_id || data?.case?.id || data?.id || null;
+
+      if (lastCaseId){
+        caseIdEl.textContent = lastCaseId;
+        caseSavedHint.textContent = "Case saved. You can share it.";
+        shareBtn.disabled = false;
+      }else{
+        caseIdEl.textContent = "—";
+        caseSavedHint.textContent = "No case id returned.";
+        shareBtn.disabled = true;
+      }
+
+      rawJson.textContent = JSON.stringify(data, null, 2);
+
+    }catch(e){
+      summaryText.textContent = "Error: Failed to fetch (check backend/AI).";
+      setBars(0,0,0);
+    } finally {
+      analyzeBtn.disabled = !(fileInput.files && fileInput.files[0]);
+      analyzeBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze`;
+    }
+  });
+
+  copyJsonBtn.addEventListener("click", async () => {
+    try{
+      if(!lastResponse) return;
+      await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
+      copyJsonBtn.textContent = "Copied ✓";
+      setTimeout(() => copyJsonBtn.innerHTML = `<i class="fa-regular fa-copy mr-2"></i>Copy JSON`, 900);
+    }catch(e){
+      alert("Copy failed (clipboard permission).");
+    }
+  });
+
+  shareBtn.addEventListener("click", async () => {
+    if(!lastCaseId) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("case", lastCaseId);
+    try{
+      await navigator.clipboard.writeText(url.toString());
+      shareBtn.textContent = "Link copied ✓";
+      setTimeout(() => shareBtn.innerHTML = `<i class="fa-solid fa-link mr-2"></i>Share`, 1000);
+    }catch(e){
+      alert("Could not copy. Share link: " + url.toString());
+    }
+  });
+
+  function escapeHtml(s){
+    return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  function renderSearchList(items){
+    resultsList.innerHTML = "";
+    if(!items || !items.length){
+      resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
+      return;
+    }
+    items.slice(0, 25).forEach(item => {
+      const id = item.id || item.case_id;
+      const title = item?.meta?.title || item?.title || "(untitled)";
+      const platform = item?.meta?.platform || item?.platform || "";
+      const when = item?.created_at || item?.createdAt || item?.created_at;
+      const whenTxt = when ? new Date(when).toLocaleString() : "";
+
+      const row = document.createElement("div");
+      row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
+      row.innerHTML = `
+        <div class="flex items-center justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
+            <div class="text-xs muted truncate">${escapeHtml(platform)} ${whenTxt ? "• " + escapeHtml(whenTxt) : ""}</div>
+            <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
+          </div>
+          <div class="text-sm font-bold gold-text shrink-0">Load</div>
+        </div>
+      `;
+      row.addEventListener("click", () => loadCase(id));
+      resultsList.appendChild(row);
     });
+  }
 
-    function setError(msg) { $("err").textContent = msg || ""; }
+  async function doSearch(){
+    const q = (searchQ.value || "").trim();
+    const tag = (searchTag.value || "").trim();
 
-    async function refreshStatus() {
-      setError("");
-      try {
-        const base = getBackendBase();
-        const r = await fetch(`${base}/health`);
-        const j = await r.json();
+    const url = new URL(`${backendBase}/cases`);
+    if (q) url.searchParams.set("q", q);
+    if (tag) url.searchParams.set("tag", tag);
 
-        // Display
-        $("statusText").textContent =
-          `OK • AI: ${j.ai_ok ? "connected" : "unknown"} • DB: ${j.db_ok ? "connected" : "unknown"} • AI_URL: ${j.ai_url}`;
+    resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
 
-      } catch (e) {
-        $("statusText").textContent = "Backend not reachable";
+    try{
+      const r = await fetch(url.toString(), { cache: "no-store" });
+      const j = await r.json();
+      if(!r.ok) throw new Error(j?.message || "Search failed");
+      renderSearchList(j?.cases || j?.items || []);
+    }catch(e){
+      resultsList.innerHTML = `<div class="text-xs muted">Search error. Check backend.</div>`;
+    }
+  }
+
+  searchBtn.addEventListener("click", doSearch);
+  clearBtn.addEventListener("click", () => {
+    searchQ.value = "";
+    searchTag.value = "";
+    resultsList.innerHTML = "";
+  });
+
+  async function loadCase(id){
+    if(!id) return;
+    summaryText.textContent = "Loading case…";
+    try{
+      // your backend uses /case/:id (singular)
+      const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
+      const j = await r.json();
+      if(!r.ok){
+        summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
+        return;
       }
+
+      const c = j.case || j.item || j;
+      const meta = c.meta || {};
+      const data = c.data || c;
+
+      titleEl.value = meta.title || c.title || "";
+      platformEl.value = meta.platform || c.platform || "";
+      countryEl.value = meta.country || c.country || "";
+      languageEl.value = meta.language || c.language || "";
+      tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
+      notesEl.value = meta.notes || c.notes || "";
+
+      setResultUI(data);
+      lastResponse = data;
+
+      lastCaseId = c.id || c._id || id;
+      caseIdEl.textContent = lastCaseId;
+      caseSavedHint.textContent = "Loaded from saved cases.";
+      shareBtn.disabled = false;
+
+      rawJson.textContent = JSON.stringify(j, null, 2);
+
+      const url = new URL(window.location.href);
+      url.searchParams.set("case", lastCaseId);
+      history.replaceState({}, "", url.toString());
+
+    }catch(e){
+      summaryText.textContent = "Could not load case (network error).";
     }
+  }
 
-    function setResult(obj) {
-      $("summary").value = obj.summary ?? "";
-      $("aiProb").textContent = (obj.ai_probability ?? "—");
-      $("stress").textContent = (obj.stress_level ?? "—");
-      $("scam").textContent = (obj.scam_score ?? "—");
-      $("flags").value = Array.isArray(obj.flags) ? (obj.flags.length ? obj.flags.join(", ") : "(none)") : "—";
-      $("voiceMatch").value = obj.voice_match ?? "Unknown";
-      $("raw").textContent = JSON.stringify(obj, null, 2);
+  // Auto-load from share link ?case=...
+  (function boot(){
+    const u = new URL(window.location.href);
+    const id = u.searchParams.get("case");
+    if(id){
+      loadCase(id);
     }
-
-    async function analyze() {
-      setError("");
-      const base = getBackendBase();
-      const f = $("file").files[0];
-      if (!f) return setError("Please select a file.");
-
-      const fd = new FormData();
-      fd.append("file", f);
-      fd.append("title", $("title").value);
-      fd.append("platform", $("platform").value);
-      fd.append("country", $("country").value);
-      fd.append("language", $("language").value);
-      fd.append("tags", $("tags").value);
-      fd.append("notes", $("notes").value);
-
-      try {
-        const r = await fetch(`${base}/upload`, { method: "POST", body: fd });
-        const j = await r.json();
-
-        if (!j.ok) {
-          setError(`${j.message || "Upload failed"}${j.ai_status ? " (AI status " + j.ai_status + ")" : ""}`);
-          $("raw").textContent = JSON.stringify(j, null, 2);
-          return;
-        }
-
-        setResult(j.aiResult || {});
-        $("share").value = j.caseId ? `${location.origin}/?case=${j.caseId}` : "(DB disabled)";
-      } catch (e) {
-        setError("Analyze failed. Check Backend/AI logs.");
-      }
-    }
-
-    async function loadLatest() {
-      setError("");
-      const base = getBackendBase();
-      const el = $("cases");
-      el.innerHTML = "";
-
-      try {
-        const r = await fetch(`${base}/cases`);
-        const j = await r.json();
-        if (!j.ok) return;
-
-        const items = j.items || [];
-        if (!items.length) {
-          el.innerHTML = `<div class="muted">(no DB / no cases)</div>`;
-          return;
-        }
-
-        for (const c of items) {
-          const div = document.createElement("div");
-          div.className = "caseItem";
-          div.innerHTML = `
-            <div class="caseTop">
-              <div>
-                <b>${(c.title || "(no title)")}</b>
-                <div class="muted">${c.platform || ""} • ${c.country || ""} • ${c.language || ""}</div>
-              </div>
-              <div class="muted">ID: ${c.id}</div>
-            </div>
-            <div class="muted" style="margin-top:8px;">${c.summary || ""}</div>
-          `;
-          el.appendChild(div);
-        }
-      } catch {
-        el.innerHTML = `<div class="muted">(failed to load)</div>`;
-      }
-    }
-
-    $("btnAnalyze").onclick = analyze;
-    $("btnRefresh").onclick = refreshStatus;
-    $("btnLoadLatest").onclick = loadLatest;
-
-    $("btnCopy").onclick = async () => {
-      try {
-        await navigator.clipboard.writeText($("share").value);
-      } catch {}
-    };
-
-    // init
-    setModeUI();
-    refreshStatus();
-  </script>
+  })();
+</script>
 </body>
 </html>
