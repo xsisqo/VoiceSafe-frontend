@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>VoiceSafe — Anti-Scam Voice Check</title>
+  <style>
+    body { font-family: system-ui, Arial; background:#0b1220; color:#e5e7eb; margin:0; }
+    .wrap { max-width:1100px; margin:24px auto; padding:0 16px; }
+    .top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+    h1 { margin:0; font-size:40px; }
+    h1 span { color:#fbbf24; }
+    .sub { opacity:.85; margin-top:6px; }
+    .card { background:#111a2e; border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; }
+    .grid { display:grid; grid-template-columns: 1.15fr .85fr; gap:16px; margin-top:16px; }
+    label { font-size:12px; opacity:.8; display:block; margin-bottom:6px; }
+    input, textarea { width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0b1220; color:#e5e7eb; }
+    textarea { min-height:80px; resize:vertical; }
+    .row { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    .btns { display:flex; gap:10px; align-items:center; margin-top:12px; flex-wrap:wrap; }
+    button { padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.12); background:#0b1220; color:#e5e7eb; cursor:pointer; }
+    button.primary { background:#fbbf24; color:#111827; border-color:#fbbf24; font-weight:700; }
+    .small { font-size:12px; opacity:.8; }
+    .status { min-width:300px; }
+    .pill { display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12); margin-left:8px; font-size:12px; }
+    .pill.on { background:#1f2937; }
+    .pill.active { background:#fbbf24; color:#111827; border-color:#fbbf24; font-weight:700; }
+    .resultBox { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:12px; }
+    .metric { background:#0b1220; border:1px solid rgba(255,255,255,.10); border-radius:14px; padding:12px; }
+    .metric .v { font-size:22px; font-weight:800; margin-top:6px; }
+    .json { margin-top:12px; }
+    details { background:#0b1220; border:1px solid rgba(255,255,255,.10); border-radius:14px; padding:12px; }
+    pre { white-space:pre-wrap; word-break:break-word; margin:0; }
+    .cases { margin-top:16px; }
+    .caseItem { padding:10px 12px; border:1px solid rgba(255,255,255,.10); border-radius:14px; background:#0b1220; margin-top:10px; }
+    .caseTop { display:flex; justify-content:space-between; gap:10px; }
+    .muted { opacity:.75; font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1><span>VoiceSafe</span> Anti-Scam Voice Check</h1>
+        <div class="sub">Upload a voice recording. Do not send money based on a message alone — verify identity.</div>
+      </div>
+
+      <div class="card status">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <b>Backend status</b>
+          <div>
+            <span class="small">Mode</span>
+            <span id="modeLocal" class="pill">LOCAL</span>
+            <span id="modeProd" class="pill">PROD</span>
+          </div>
+        </div>
+        <div class="small" id="statusText" style="margin-top:8px;">Loading...</div>
+        <div class="small" style="margin-top:8px;">URL: <span id="backendUrl"></span></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <b>Analyze a file</b>
+        <div style="margin-top:12px;">
+          <label>File</label>
+          <input id="file" type="file" accept="audio/*,video/*"/>
+          <div class="small" id="fileInfo" style="margin-top:6px;"></div>
+        </div>
+
+        <div class="row" style="margin-top:12px;">
+          <div>
+            <label>Title</label>
+            <input id="title" placeholder="e.g. WhatsApp voice note"/>
+          </div>
+          <div>
+            <label>Platform</label>
+            <input id="platform" placeholder="WhatsApp / Telegram / Call / ..."/>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:12px;">
+          <div>
+            <label>Country</label>
+            <input id="country" placeholder="SK / CZ / ..."/>
+          </div>
+          <div>
+            <label>Language</label>
+            <input id="language" placeholder="Slovak / English / ..."/>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Tags (comma separated)</label>
+          <input id="tags" placeholder="scam, crypto, urgent, ..."/>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Notes</label>
+          <textarea id="notes" placeholder="Any context..."></textarea>
+        </div>
+
+        <div class="btns">
+          <button class="primary" id="btnAnalyze">Analyze</button>
+          <button id="btnRefresh">Refresh status</button>
+          <span class="small" id="err" style="color:#fca5a5;"></span>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Share link</label>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input id="share" placeholder="(upload first)" readonly/>
+            <button id="btnCopy">Copy</button>
+          </div>
+        </div>
+
+        <div class="cases">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <b>Saved cases</b>
+            <button id="btnLoadLatest">Load latest</button>
+          </div>
+          <div id="cases"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <b>Result</b>
+        <div style="margin-top:12px;">
+          <label>Summary</label>
+          <input id="summary" readonly placeholder="—"/>
+        </div>
+
+        <div class="resultBox">
+          <div class="metric">
+            <div class="small">AI voice probability</div>
+            <div class="v" id="aiProb">—</div>
+          </div>
+          <div class="metric">
+            <div class="small">Stress level</div>
+            <div class="v" id="stress">—</div>
+          </div>
+          <div class="metric">
+            <div class="small">Scam score</div>
+            <div class="v" id="scam">—</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Flags</label>
+          <input id="flags" readonly placeholder="—"/>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Voice match</label>
+          <input id="voiceMatch" readonly placeholder="—"/>
+        </div>
+
+        <div class="json">
+          <details>
+            <summary>Raw JSON</summary>
+            <pre id="raw">{}</pre>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./config.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function setModeUI() {
+      const m = getMode();
+      $("modeLocal").className = "pill" + (m === "LOCAL" ? " active" : "");
+      $("modeProd").className = "pill" + (m === "PROD" ? " active" : "");
+      $("backendUrl").textContent = getBackendBase();
+    }
+
+    $("modeLocal").onclick = () => { setMode("LOCAL"); setModeUI(); refreshStatus(); };
+    $("modeProd").onclick = () => { setMode("PROD"); setModeUI(); refreshStatus(); };
+
+    $("file").addEventListener("change", () => {
+      const f = $("file").files[0];
+      $("fileInfo").textContent = f ? `Selected: ${f.name} (${Math.round(f.size/1024)} KB)` : "";
+    });
+
+    function setError(msg) { $("err").textContent = msg || ""; }
+
+    async function refreshStatus() {
+      setError("");
+      try {
+        const base = getBackendBase();
+        const r = await fetch(`${base}/health`);
+        const j = await r.json();
+
+        // Display
+        $("statusText").textContent =
+          `OK • AI: ${j.ai_ok ? "connected" : "unknown"} • DB: ${j.db_ok ? "connected" : "unknown"} • AI_URL: ${j.ai_url}`;
+
+      } catch (e) {
+        $("statusText").textContent = "Backend not reachable";
+      }
+    }
+
+    function setResult(obj) {
+      $("summary").value = obj.summary ?? "";
+      $("aiProb").textContent = (obj.ai_probability ?? "—");
+      $("stress").textContent = (obj.stress_level ?? "—");
+      $("scam").textContent = (obj.scam_score ?? "—");
+      $("flags").value = Array.isArray(obj.flags) ? (obj.flags.length ? obj.flags.join(", ") : "(none)") : "—";
+      $("voiceMatch").value = obj.voice_match ?? "Unknown";
+      $("raw").textContent = JSON.stringify(obj, null, 2);
+    }
+
+    async function analyze() {
+      setError("");
+      const base = getBackendBase();
+      const f = $("file").files[0];
+      if (!f) return setError("Please select a file.");
+
+      const fd = new FormData();
+      fd.append("file", f);
+      fd.append("title", $("title").value);
+      fd.append("platform", $("platform").value);
+      fd.append("country", $("country").value);
+      fd.append("language", $("language").value);
+      fd.append("tags", $("tags").value);
+      fd.append("notes", $("notes").value);
+
+      try {
+        const r = await fetch(`${base}/upload`, { method: "POST", body: fd });
+        const j = await r.json();
+
+        if (!j.ok) {
+          setError(`${j.message || "Upload failed"}${j.ai_status ? " (AI status " + j.ai_status + ")" : ""}`);
+          $("raw").textContent = JSON.stringify(j, null, 2);
+          return;
+        }
+
+        setResult(j.aiResult || {});
+        $("share").value = j.caseId ? `${location.origin}/?case=${j.caseId}` : "(DB disabled)";
+      } catch (e) {
+        setError("Analyze failed. Check Backend/AI logs.");
+      }
+    }
+
+    async function loadLatest() {
+      setError("");
+      const base = getBackendBase();
+      const el = $("cases");
+      el.innerHTML = "";
+
+      try {
+        const r = await fetch(`${base}/cases`);
+        const j = await r.json();
+        if (!j.ok) return;
+
+        const items = j.items || [];
+        if (!items.length) {
+          el.innerHTML = `<div class="muted">(no DB / no cases)</div>`;
+          return;
+        }
+
+        for (const c of items) {
+          const div = document.createElement("div");
+          div.className = "caseItem";
+          div.innerHTML = `
+            <div class="caseTop">
+              <div>
+                <b>${(c.title || "(no title)")}</b>
+                <div class="muted">${c.platform || ""} • ${c.country || ""} • ${c.language || ""}</div>
+              </div>
+              <div class="muted">ID: ${c.id}</div>
+            </div>
+            <div class="muted" style="margin-top:8px;">${c.summary || ""}</div>
+          `;
+          el.appendChild(div);
+        }
+      } catch {
+        el.innerHTML = `<div class="muted">(failed to load)</div>`;
+      }
+    }
+
+    $("btnAnalyze").onclick = analyze;
+    $("btnRefresh").onclick = refreshStatus;
+    $("btnLoadLatest").onclick = loadLatest;
+
+    $("btnCopy").onclick = async () => {
+      try {
+        await navigator.clipboard.writeText($("share").value);
+      } catch {}
+    };
+
+    // init
+    setModeUI();
+    refreshStatus();
+  </script>
+</body>
+</html>
