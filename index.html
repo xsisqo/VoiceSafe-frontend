@@ -542,11 +542,38 @@ function demoFillResults() {
   }
 }
 
-if (demoBtn) {
-  demoBtn.addEventListener("click", () => startDemoAnimation(2800));
+// DEMO button
+const demoBtn = document.getElementById("demoBtn");
 
-    demoBtn.disabled = false;
-  });
+if (demoBtn) {
+  demoBtn.disabled = false;
+
+  demoBtn.addEventListener("click", () => {
+
+    try {
+
+        // show status
+        if (typeof setStatus === "function") {
+            setStatus("DEMO MODE", "offline simulation");
+        }
+
+        // run animation if exists
+        if (typeof startDemoAnimation === "function") {
+            startDemoAnimation(2800);
+            setTimeout(() => {
+                demoFillResults();
+            }, 1200);
+        } else {
+            demoFillResults();
+        }
+
+    } catch (e) {
+        console.error(e);
+        demoFillResults();
+    }
+
+});
+}
 }
 
   // Enable analyze only if file selected
