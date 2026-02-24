@@ -3,25 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+
+  <!-- ====== SEO / PREVIEW ====== -->
   <title>VoiceSafe — Detect AI voice scams before money is lost.</title>
-<meta name="description" content="VoiceSafe analyzes voice recordings using AI to detect scam risk, impersonation and synthetic voices before financial fraud happens.">
+  <meta name="description" content="VoiceSafe analyzes voice recordings using AI to detect scam risk, impersonation and synthetic voices before financial fraud happens." />
 
-<!-- OpenGraph Preview -->
-<meta property="og:title" content="VoiceSafe — Detect AI voice scams before money is lost">
-<meta property="og:description" content="Upload a voice recording and instantly detect scam risk using AI voice analysis.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://voicesafe-frontend.onrender.com">
-<meta property="og:image" content="https://voicesafe-frontend.onrender.com/og-image.png">
+  <!-- IMPORTANT:
+    Replace this domain with your real frontend domain if different:
+    e.g. https://voicesafe-app.onrender.com OR https://voicesafe-frontend.onrender.com
+  -->
+  <link rel="canonical" href="https://voicesafe-frontend.onrender.com/" />
 
-<!-- Twitter Preview -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="VoiceSafe — AI Voice Scam Detection">
-<meta name="twitter:description" content="Analyze voice recordings and detect impersonation or AI scam risk instantly.">
-<meta name="twitter:image" content="https://voicesafe-frontend.onrender.com/og-image.png">
+  <!-- OpenGraph -->
+  <meta property="og:title" content="VoiceSafe — Detect AI voice scams before money is lost." />
+  <meta property="og:description" content="Upload a voice recording and instantly detect scam risk using AI voice analysis." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://voicesafe-frontend.onrender.com/" />
+  <meta property="og:image" content="https://voicesafe-frontend.onrender.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
-  <meta name="description" content="VoiceSafe analyzes voice recordings using AI to detect scam risk, impersonation and synthetic voices before financial fraud happens.">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VoiceSafe — AI Voice Scam Detection" />
+  <meta name="twitter:description" content="Analyze voice recordings and detect impersonation or AI scam risk instantly." />
+  <meta name="twitter:image" content="https://voicesafe-frontend.onrender.com/og-image.png" />
 
-  <!-- Tailwind CDN (OK for prototype) -->
+  <!-- Favicon (quick fix) -->
+  <link rel="icon" href="/og-image.png" type="image/png" />
+
+  <!-- Tailwind CDN (ok for prototype) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Icons -->
@@ -103,25 +114,23 @@
     }
     .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
     .safe-pb{ padding-bottom: env(safe-area-inset-bottom); }
-  /* ...tvoje existujúce štýly... */
 
-  .live-dot{
-    width:8px;height:8px;border-radius:999px;
-    background:#22c55e;
-    box-shadow:0 0 0 0 rgba(34,197,94,.7);
-    animation: livePulse 1.4s infinite;
-  }
-  @keyframes livePulse{
-    0%{ box-shadow:0 0 0 0 rgba(34,197,94,.7); }
-    70%{ box-shadow:0 0 0 12px rgba(34,197,94,0); }
-    100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
-  }
-</style>
+    .live-dot{
+      width:8px;height:8px;border-radius:999px;
+      background:#22c55e;
+      box-shadow:0 0 0 0 rgba(34,197,94,.7);
+      animation: livePulse 1.4s infinite;
+    }
+    @keyframes livePulse{
+      0%{ box-shadow:0 0 0 0 rgba(34,197,94,.7); }
+      70%{ box-shadow:0 0 0 12px rgba(34,197,94,0); }
+      100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
+    }
+  </style>
 </head>
 
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-
     <!-- Header -->
     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-6">
       <div class="min-w-0">
@@ -139,6 +148,12 @@
           Upload a voice recording (or a chat-app audio/video file). VoiceSafe returns prototype risk scores and a short summary.
           Always verify identity before sending money.
         </p>
+
+        <!-- Live badge -->
+        <div class="mt-4 flex items-center gap-2 text-xs muted" id="liveBadge">
+          <span class="live-dot"></span>
+          <span id="liveText">Live global activity loading…</span>
+        </div>
       </div>
 
       <div class="glass gold-border rounded-2xl p-4 w-full lg:w-[420px]">
@@ -170,7 +185,6 @@
 
     <!-- Main grid -->
     <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-
       <!-- Left -->
       <div class="lg:col-span-1 glass rounded-2xl p-5 sm:p-6">
         <h2 class="text-lg font-semibold">Analyze a sample</h2>
@@ -178,9 +192,7 @@
 
         <div class="mt-5">
           <label class="block text-sm muted mb-2">Upload audio or chat audio/video</label>
-          <input id="fileInput" type="file"
-                 accept="audio/*,video/*"
-                 class="w-full text-sm chip rounded-xl p-3 outline-none" />
+          <input id="fileInput" type="file" accept="audio/*,video/*" class="w-full text-sm chip rounded-xl p-3 outline-none" />
           <div class="mt-2 text-xs muted" id="fileHint">No file selected.</div>
         </div>
 
@@ -193,7 +205,7 @@
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
 
-          <button id="demoBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold">
+          <button id="demoBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-flask mr-2"></i>Try DEMO
           </button>
         </div>
@@ -227,7 +239,7 @@
         </div>
       </div>
 
-      <!-- Right (results) -->
+      <!-- Right -->
       <div class="lg:col-span-2 glass rounded-2xl p-5 sm:p-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="min-w-0">
@@ -239,6 +251,7 @@
             <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90">
               <i class="fa-regular fa-copy mr-2"></i>Copy JSON
             </button>
+
             <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
               <i class="fa-solid fa-link mr-2"></i>Share
             </button>
@@ -248,25 +261,19 @@
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Scam score</div>
-            <div class="mt-1 text-3xl font-bold">
-              <span id="scamScore">—</span><span class="text-base muted">%</span>
-            </div>
+            <div class="mt-1 text-3xl font-bold"><span id="scamScore">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="scamBar"></div></div>
           </div>
 
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">AI voice probability</div>
-            <div class="mt-1 text-3xl font-bold">
-              <span id="aiProb">—</span><span class="text-base muted">%</span>
-            </div>
+            <div class="mt-1 text-3xl font-bold"><span id="aiProb">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="aiBar"></div></div>
           </div>
 
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Stress level</div>
-            <div class="mt-1 text-3xl font-bold">
-              <span id="stressLevel">—</span><span class="text-base muted">%</span>
-            </div>
+            <div class="mt-1 text-3xl font-bold"><span id="stressLevel">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="stressBar"></div></div>
           </div>
         </div>
@@ -311,14 +318,10 @@
     <div class="mt-8 sm:mt-10 text-center text-xs muted">
       VoiceSafe • Prototype • Built for global anti-scam awareness
       <div style="margin-top:8px; text-align:center; font-size:12px; opacity:.7">
-  BUILD: 2026-02-24-1749
-</div>
+        BUILD: 2026-02-24-1749
+      </div>
     </div>
   </div>
-  <div class="mt-2 flex items-center gap-2 text-xs muted" id="liveBadge">
-  <span class="live-dot"></span>
-  <span id="liveText">Live global activity loading…</span>
-</div>
 
 <script>
   // ===========================
@@ -329,7 +332,6 @@
     LOCAL: "http://127.0.0.1:10000",
   };
 
-  // Default = PROD
   let backendBase = URLS.PROD;
 
   const $ = (id) => document.getElementById(id);
@@ -435,6 +437,7 @@
 
     statusEl.innerText = "Checking backend...";
     statusEl.style.color = "";
+
     const healthURL = `${backendBase}/health`;
 
     for (let attempt = 1; attempt <= 2; attempt++){
@@ -442,13 +445,14 @@
         const r = await fetchWithTimeout(healthURL, 5000);
         if (!r.ok) throw new Error("Health not OK");
         const j = await r.json();
+
         statusEl.innerText = `✅ ONLINE\nAI: ${j.ai_url || "unknown"}`;
         statusEl.style.color = "#22c55e";
         return;
       } catch(e){
         if (attempt < 2){
           statusEl.innerText = "Retrying...";
-          await sleep(1500);
+          await sleep(1200);
         } else {
           statusEl.innerText = "❌ Backend offline";
           statusEl.style.color = "#ef4444";
@@ -457,40 +461,46 @@
     }
   }
 
-  // Initial
+  // Init mode
   setMode("PROD");
-function initLiveMode(){
-  const liveText = document.getElementById("liveText");
-  if(!liveText) return;
 
-  // pseudo-live numbers (per user session)
-  const key = "vs_live_state_v1";
-  const saved = sessionStorage.getItem(key);
-  let state = saved ? JSON.parse(saved) : {
-    online: Math.floor(3 + Math.random()*9), // 3–11 online
-    hour: Math.floor(40 + Math.random()*180), // 40–220 analyses last hour
-    lastMin: Math.floor(1 + Math.random()*6) // 1–6 last minute
-  };
+  // ===========================
+  // LIVE MODE (pseudo-live)
+  // ===========================
+  function initLiveMode(){
+    const liveText = $("liveText");
+    if(!liveText) return;
 
-  function render(){
-    liveText.textContent =
-      `${state.online} online • ${state.lastMin} analyses in last minute • ${state.hour} in last hour`;
-  }
+    const key = "vs_live_state_v1";
+    const saved = sessionStorage.getItem(key);
 
-  function tick(){
-    // small natural movement
-    const delta = (Math.random() < 0.55) ? 1 : 0;
-    state.lastMin = Math.max(0, Math.min(12, state.lastMin + (Math.random()<0.35 ? 1 : (Math.random()<0.25 ? -1 : 0))));
-    state.online = Math.max(2, Math.min(18, state.online + (Math.random()<0.25 ? 1 : (Math.random()<0.18 ? -1 : 0))));
-    state.hour = Math.max(10, state.hour + delta);
+    let state = saved ? JSON.parse(saved) : {
+      online: Math.floor(3 + Math.random()*9),
+      hour: Math.floor(40 + Math.random()*180),
+      lastMin: Math.floor(1 + Math.random()*6)
+    };
 
-    sessionStorage.setItem(key, JSON.stringify(state));
+    function render(){
+      liveText.textContent =
+        `${state.online} online • ${state.lastMin} analyses in last minute • ${state.hour} in last hour`;
+    }
+
+    function tick(){
+      const delta = (Math.random() < 0.55) ? 1 : 0;
+      state.lastMin = Math.max(0, Math.min(12, state.lastMin + (Math.random()<0.35 ? 1 : (Math.random()<0.25 ? -1 : 0))));
+      state.online = Math.max(2, Math.min(18, state.online + (Math.random()<0.25 ? 1 : (Math.random()<0.18 ? -1 : 0))));
+      state.hour = Math.max(10, state.hour + delta);
+
+      sessionStorage.setItem(key, JSON.stringify(state));
+      render();
+    }
+
     render();
+    setInterval(tick, 2600);
   }
 
-  render();
-  setInterval(tick, 2600);
-}
+  initLiveMode();
+
   // ===========================
   // DEMO MODE (fixed)
   // ===========================
@@ -520,6 +530,7 @@ function initLiveMode(){
 
     summaryText.textContent = demo.summary;
     renderFlags(demo.flags);
+
     setBars(demo.scam_score, demo.ai_voice_probability, demo.stress_level);
 
     rawJson.textContent = JSON.stringify(demo, null, 2);
@@ -539,10 +550,9 @@ function initLiveMode(){
     renderFlags([]);
 
     demoBtn.disabled = true;
-    const oldText = demoBtn.textContent;
-    demoBtn.textContent = "Analyzing…";
+    const oldText = demoBtn.innerHTML;
+    demoBtn.innerHTML = `<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…`;
 
-    // reset bars
     setBars(0,0,0);
     scamScoreEl.textContent = "0";
     aiProbEl.textContent = "0";
@@ -561,13 +571,12 @@ function initLiveMode(){
       scamScoreEl.textContent = String(scam);
       aiProbEl.textContent = String(ai);
       stressLevelEl.textContent = String(stress);
-
       setBars(scam, ai, stress);
 
       if (k >= 1){
         clearInterval(timer);
         demoBtn.disabled = false;
-        demoBtn.textContent = oldText;
+        demoBtn.innerHTML = oldText;
         demoFillResults();
       }
     }, 60);
@@ -612,10 +621,10 @@ function initLiveMode(){
         mediaRecorder = new MediaRecorder(stream);
 
         mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
+
         mediaRecorder.onstop = () => {
           const blob = new Blob(recordedChunks, { type: "audio/webm" });
           const file = new File([blob], "mic.webm", { type: "audio/webm" });
-
           const dt = new DataTransfer();
           dt.items.add(file);
           fileInput.files = dt.files;
@@ -641,9 +650,9 @@ function initLiveMode(){
   // Results UI
   // ===========================
   function setResultUI(data){
-    const scam = data?.scam_score ?? data?.scan_score;
-    const ai = data?.ai_voice_probability ?? data?.ai_voice_prob ?? data?.ai_probability;
-    const stress = data?.stress_level;
+    const scam = data?.scam_score ?? data?.scan_score ?? data?.scamScore ?? 0;
+    const ai = data?.ai_voice_prob ?? data?.ai_voice_probability ?? data?.ai_probability ?? data?.aiProb ?? 0;
+    const stress = data?.stress_level ?? data?.stress ?? 0;
 
     scamScoreEl.textContent = String(Number.isFinite(Number(scam)) ? Number(scam) : 0);
     aiProbEl.textContent = String(Number.isFinite(Number(ai)) ? Number(ai) : 0);
@@ -668,7 +677,9 @@ function initLiveMode(){
     }
 
     analyzeBtn.disabled = true;
+    const oldText = analyzeBtn.innerHTML;
     analyzeBtn.innerHTML = `<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…`;
+
     summaryText.textContent = "Uploading…";
     rawJson.classList.add("hidden");
 
@@ -676,6 +687,7 @@ function initLiveMode(){
       const form = new FormData();
       form.append("file", f);
 
+      // send metadata as standard fields expected by backend
       form.append("title", titleEl.value || "");
       form.append("platform", platformEl.value || "");
       form.append("country", countryEl.value || "");
@@ -695,10 +707,11 @@ function initLiveMode(){
 
       lastResponse = data;
 
+      // support {case:{data}} OR direct payload
       const payload = data?.case?.data ? data.case.data : data;
       setResultUI(payload);
 
-      lastCaseId = data?.case_id || data?.case?.id || data?.id || null;
+      lastCaseId = data?.case_id || data?.case?.id || data?.id || data?._id || null;
 
       if (lastCaseId){
         caseIdEl.textContent = lastCaseId;
@@ -712,12 +725,13 @@ function initLiveMode(){
 
       rawJson.textContent = JSON.stringify(data, null, 2);
       rawJson.classList.remove("hidden");
+
     } catch(e){
       summaryText.textContent = "Error: Failed to fetch (check backend/AI).";
       setBars(0,0,0);
     } finally {
       analyzeBtn.disabled = !(fileInput.files && fileInput.files[0]);
-      analyzeBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze`;
+      analyzeBtn.innerHTML = oldText;
     }
   });
 
@@ -739,7 +753,6 @@ function initLiveMode(){
     if(!lastCaseId) return;
     const url = new URL(window.location.href);
     url.searchParams.set("case", lastCaseId);
-
     try{
       await navigator.clipboard.writeText(url.toString());
       shareBtn.textContent = "Link copied ✓";
@@ -750,7 +763,7 @@ function initLiveMode(){
   });
 
   // ===========================
-  // Search / Load
+  // Search / Load (supports both API shapes)
   // ===========================
   function escapeHtml(s){
     return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -764,7 +777,7 @@ function initLiveMode(){
     }
 
     items.slice(0, 25).forEach(item => {
-      const id = item.id || item.case_id;
+      const id = item.id || item._id || item.case_id;
       const title = item?.meta?.title || item?.title || "(untitled)";
       const platform = item?.meta?.platform || item?.platform || "";
       const when = item?.created_at || item?.createdAt;
@@ -800,8 +813,13 @@ function initLiveMode(){
     try{
       const r = await fetch(url.toString(), { cache: "no-store" });
       const j = await r.json();
+
       if(!r.ok) throw new Error(j?.message || "Search failed");
-      renderSearchList(j?.cases || j?.items || []);
+
+      // supports both: {cases:[...]} OR {items:[...]}
+      const items = j?.cases || j?.items || [];
+      renderSearchList(items);
+
     } catch(e){
       resultsList.innerHTML = `<div class="text-xs muted">Search error. Check backend.</div>`;
     }
@@ -821,10 +839,22 @@ function initLiveMode(){
     summaryText.textContent = "Loading case…";
 
     try{
-      const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
-      const j = await r.json();
+      // supports both endpoints: /case/:id OR /cases/:id
+      const urlsToTry = [
+        `${backendBase}/case/${encodeURIComponent(id)}`,
+        `${backendBase}/cases/${encodeURIComponent(id)}`
+      ];
 
-      if(!r.ok){
+      let j = null;
+      let ok = false;
+
+      for (const u of urlsToTry){
+        const r = await fetch(u, { cache: "no-store" });
+        j = await r.json().catch(() => null);
+        if (r.ok && j) { ok = true; break; }
+      }
+
+      if(!ok){
         summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
         return;
       }
@@ -837,7 +867,7 @@ function initLiveMode(){
       platformEl.value = meta.platform || c.platform || "";
       countryEl.value = meta.country || c.country || "";
       languageEl.value = meta.language || c.language || "";
-      tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
+      tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || c.tags || "");
       notesEl.value = meta.notes || c.notes || "";
 
       setResultUI(data);
@@ -855,6 +885,7 @@ function initLiveMode(){
       const url = new URL(window.location.href);
       url.searchParams.set("case", lastCaseId);
       history.replaceState({}, "", url.toString());
+
     } catch(e){
       summaryText.textContent = "Could not load case (network error).";
     }
@@ -866,7 +897,7 @@ function initLiveMode(){
     const id = u.searchParams.get("case");
     if(id) loadCase(id);
   })();
-  initLiveMode();
+
 </script>
 </body>
 </html>
