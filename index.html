@@ -462,6 +462,61 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
 
 const demoBtn = document.getElementById("demoBtn");
 
+  <script>
+  function setBar(barId, percent) {
+    const el = document.getElementById(barId);
+    if (!el) return;
+    const p = Math.max(0, Math.min(100, Number(percent) || 0));
+    el.style.width = p + "%";
+  }
+
+  function startDemoAnimation(durationMs = 2800) {
+    const t0 = Date.now();
+
+    // reset UI
+    const sum = document.getElementById("summaryText") || document.getElementById("summary");
+    if (sum) sum.textContent = "Analyzing… (demo)";
+
+    const btn = document.getElementById("demoBtn");
+    if (btn) {
+      btn.disabled = true;
+      btn.dataset.oldText = btn.textContent;
+      btn.textContent = "Analyzing…";
+    }
+
+    // simple "loading" numbers + bars
+    const timer = setInterval(() => {
+      const t = Date.now() - t0;
+      const k = Math.min(1, t / durationMs);
+
+      const scam = Math.round(10 + k * 78);
+      const ai = Math.round(5 + k * 64);
+      const stress = Math.round(8 + k * 71);
+
+      const elScam = document.getElementById("scamScore");
+      const elAi = document.getElementById("aiProb");
+      const elStress = document.getElementById("stressLevel");
+
+      if (elScam) elScam.textContent = scam + "%";
+      if (elAi) elAi.textContent = ai + "%";
+      if (elStress) elStress.textContent = stress + "%";
+
+      setBar("scamBar", scam);
+      setBar("aiBar", ai);
+      setBar("stressBar", stress);
+
+      if (k >= 1) {
+        clearInterval(timer);
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = btn.dataset.oldText || "Try DEMO";
+        }
+        // finálny výsledok doplní demoFillResults() (už máš)
+        demoFillResults();
+      }
+    }, 60);
+  }
+</script>
 function demoFillResults() {
 
   const set = (id, val) => {
@@ -488,15 +543,7 @@ function demoFillResults() {
 }
 
 if (demoBtn) {
-  demoBtn.addEventListener("click", async () => {
-
-    setStatus("DEMO MODE", "offline simulation");
-
-    demoBtn.disabled = true;
-
-    await new Promise(r => setTimeout(r, 1200));
-
-    demoFillResults();
+  demoBtn.addEventListener("click", () => startDemoAnimation(2800));
 
     demoBtn.disabled = false;
   });
