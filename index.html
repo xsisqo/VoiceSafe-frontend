@@ -440,7 +440,38 @@
 
   // Initial
   setMode("PROD");
+function initLiveMode(){
+  const liveText = document.getElementById("liveText");
+  if(!liveText) return;
 
+  // pseudo-live numbers (per user session)
+  const key = "vs_live_state_v1";
+  const saved = sessionStorage.getItem(key);
+  let state = saved ? JSON.parse(saved) : {
+    online: Math.floor(3 + Math.random()*9), // 3–11 online
+    hour: Math.floor(40 + Math.random()*180), // 40–220 analyses last hour
+    lastMin: Math.floor(1 + Math.random()*6) // 1–6 last minute
+  };
+
+  function render(){
+    liveText.textContent =
+      `${state.online} online • ${state.lastMin} analyses in last minute • ${state.hour} in last hour`;
+  }
+
+  function tick(){
+    // small natural movement
+    const delta = (Math.random() < 0.55) ? 1 : 0;
+    state.lastMin = Math.max(0, Math.min(12, state.lastMin + (Math.random()<0.35 ? 1 : (Math.random()<0.25 ? -1 : 0))));
+    state.online = Math.max(2, Math.min(18, state.online + (Math.random()<0.25 ? 1 : (Math.random()<0.18 ? -1 : 0))));
+    state.hour = Math.max(10, state.hour + delta);
+
+    sessionStorage.setItem(key, JSON.stringify(state));
+    render();
+  }
+
+  render();
+  setInterval(tick, 2600);
+}
   // ===========================
   // DEMO MODE (fixed)
   // ===========================
@@ -816,6 +847,7 @@
     const id = u.searchParams.get("case");
     if(id) loadCase(id);
   })();
+  initLiveMode();
 </script>
 </body>
 </html>
