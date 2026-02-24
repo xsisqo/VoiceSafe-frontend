@@ -456,6 +456,51 @@ class="chip rounded-xl px-4 py-3 text-sm font-semibold">
 
   // Initial
   setMode("PROD");
+  // ======================
+// DEMO MODE
+// ======================
+
+const demoBtn = document.getElementById("demoBtn");
+
+function demoFillResults() {
+
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+
+  set("summary", "High risk indicators detected. Urgency + payment pressure.");
+  set("aiProb", "64%");
+  set("stress", "71%");
+  set("scamScore", "78%");
+  set("flags", "urgency, payment-pressure, identity-mismatch");
+  set("voiceMatch", "n/a");
+
+  const raw = document.getElementById("rawJson");
+  if (raw) {
+    raw.textContent = JSON.stringify({
+      demo: true,
+      scam_score: 78,
+      ai_voice_probability: 64,
+      stress_level: 71
+    }, null, 2);
+  }
+}
+
+if (demoBtn) {
+  demoBtn.addEventListener("click", async () => {
+
+    setStatus("DEMO MODE", "offline simulation");
+
+    demoBtn.disabled = true;
+
+    await new Promise(r => setTimeout(r, 1200));
+
+    demoFillResults();
+
+    demoBtn.disabled = false;
+  });
+}
 
   // Enable analyze only if file selected
   fileInput.addEventListener("change", () => {
