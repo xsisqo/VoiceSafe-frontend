@@ -495,17 +495,70 @@
   }
 
   // Analyze -> upload to backend
-  analyzeBtn.addEventListener("click", async () => {
-    
-    // ===== FREE LIMIT SYSTEM =====
-const FREE_LIMIT = 3;
+analyzeBtn.addEventListener("click", async () => {
 
-let usage = Number(localStorage.getItem("vs_usage") || 0);
+  // ===== FREE LIMIT SYSTEM =====
+  const FREE_LIMIT = 3;
 
-if (usage >= FREE_LIMIT) {
+  let usage = Number(localStorage.getItem("vs_usage") || 0);
+
+  if (usage >= FREE_LIMIT) {
     alert("Free limit reached. Upgrade to continue using VoiceSafe.");
     return;
-}
+  }
+
+  // increase usage counter
+  localStorage.setItem("vs_usage", usage + 1);
+  // =============================
+
+  const f = fileInput.files && fileInput.files[0];
+  if (!f) {
+    analyzeBtn.disabled = true;
+    return;
+  }
+
+  analyzeBtn.disabled = true;
+  analyzeBtn.innerHTML =
+    '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
+
+  summaryText.textContent = "Uploading...";
+  rawJson.classList.add("hidden");
+
+  try {
+    const form = new FormData();
+    form.append("file", f);
+
+    form.append("title", titleEl.value || "");
+    form.append("platform", platformEl.value || "");
+    form.append("country", countryEl.value || "");
+    form.append("language", languageEl.value || "");
+    form.append("tags", tagsEl.value || "");
+    form.append("notes", notesEl.value || "");
+
+    const resp = await fetch(`${backendBase}/upload`, {
+      method: "POST",
+      body: form,
+    });
+
+    const data = await resp.json().catch(() => null);
+
+    if (!resp.ok) {
+      const msg = data?.message || `HTTP ${resp.status}`;
+      summaryText.textContent = `Error: ${msg}`;
+      setBars(0, 0, 0);
+      return;
+    }
+
+    setResultUI(data);
+
+  } catch (e) {
+    summaryText.textContent = "Network error.";
+    setBars(0, 0, 0);
+  }
+
+  analyzeBtn.disabled = false;
+  analyzeBtn.innerHTML = "Analyze";
+});
 // =============================
     
     const f = fileInput.files && fileInput.files[0];
