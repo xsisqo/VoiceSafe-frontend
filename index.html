@@ -522,7 +522,9 @@ analyzeBtn.addEventListener("click", async () => {
         '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
 
     summaryText.textContent = "Uploading...";
-    rawJson.classList.add("hidden");
+    if (rawJson) {
+      rawJson.classList.add("hidden");
+    }
 
     try {
         const form = new FormData();
