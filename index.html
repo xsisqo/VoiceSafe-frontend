@@ -379,6 +379,8 @@ function closePaywall() {
   const recordBtn = $("recordBtn");
   const fileHint = $("fileHint");
 
+  const upgradeBtn = $("upgradeBtn");
+
   const scamScoreEl = $("scamScore");
   const aiProbEl = $("aiProb");
   const stressLevelEl = $("stressLevel");
@@ -775,30 +777,31 @@ analyzeBtn.addEventListener("click", async () => {
 <script>
 
 // ===== STRIPE CHECKOUT =====
-document.getElementById("upgradeBtn")
-?.addEventListener("click", async () => {
+const upgradeBtn = document.getElementById("upgradeBtn");
 
-  try {
+if (upgradeBtn) {
+  upgradeBtn.addEventListener("click", async () => {
+    try {
+      const res = await fetch(`${API_BASE}/create-checkout-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({})
+      });
 
-    const res = await fetch(
-      "https://voicesafe-backend-1.onrender.com/create-checkout-session",
-      {
-        method: "POST"
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
       }
-    );
 
-    const data = await res.json();
-
-    if (data.url) {
-      window.location.href = data.url;
+    } catch (err) {
+      alert("Payment error");
+      console.error(err);
     }
-
-  } catch (err) {
-    alert("Payment error");
-    console.error(err);
-  }
-
-});
+  });
+}
 
 </script>
 </body>
