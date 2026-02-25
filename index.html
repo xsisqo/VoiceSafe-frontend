@@ -780,15 +780,21 @@ analyzeBtn.addEventListener("click", async () => {
 const upgradeBtn = document.getElementById("upgradeBtn");
 
 if (upgradeBtn) {
+
   upgradeBtn.addEventListener("click", async () => {
+
     try {
-      const res = await fetch(`${API_BASE}/create-checkout-session`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({})
-      });
+
+      const res = await fetch(
+        "https://voicesafe-backend-1.onrender.com/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({})
+        }
+      );
 
       const data = await res.json();
 
@@ -800,8 +806,8 @@ if (upgradeBtn) {
       alert("Payment error");
       console.error(err);
     }
+
   });
-}
 
 </script>
 </body>
