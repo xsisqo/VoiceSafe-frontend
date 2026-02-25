@@ -299,7 +299,7 @@
             <!-- MOBILE FIX: list uses viewport height, scrolls nicely -->
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height: min(46vh, 360px);"></div>
           </div>
-        </div>
+        </div
 
         <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson" style="max-height: min(40vh, 320px);"></pre>
       </div>
@@ -496,6 +496,18 @@
 
   // Analyze -> upload to backend
   analyzeBtn.addEventListener("click", async () => {
+    
+    // ===== FREE LIMIT SYSTEM =====
+const FREE_LIMIT = 3;
+
+let usage = Number(localStorage.getItem("vs_usage") || 0);
+
+if (usage >= FREE_LIMIT) {
+    alert("Free limit reached. Upgrade to continue using VoiceSafe.");
+    return;
+}
+// =============================
+    
     const f = fileInput.files && fileInput.files[0];
     if(!f){
       analyzeBtn.disabled = true;
@@ -521,6 +533,10 @@
 
       const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
       const data = await resp.json().catch(() => null);
+
+// increase usage counter
+usage++;
+localStorage.setItem("vs_usage", usage);
 
       if(!resp.ok){
         const msg = data?.message || `HTTP ${resp.status}`;
