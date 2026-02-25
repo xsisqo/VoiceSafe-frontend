@@ -322,6 +322,53 @@
   // Default = PROD
   let backendBase = URLS.PROD;
 
+  // ==============================
+// PAYWALL (PRO modal)
+// ==============================
+function openPaywall() {
+  const m = document.getElementById("paywallModal");
+  if (!m) return;
+  m.classList.remove("hidden");
+  m.classList.add("flex");
+}
+
+function closePaywall() {
+  const m = document.getElementById("paywallModal");
+  if (!m) return;
+  m.classList.add("hidden");
+  m.classList.remove("flex");
+}
+
+(function wirePaywall(){
+  const backdrop = document.getElementById("paywallBackdrop");
+  const closeBtn = document.getElementById("paywallClose");
+  const cta = document.getElementById("paywallCta");
+  const wait = document.getElementById("paywallWaitlist");
+
+  if (backdrop) backdrop.addEventListener("click", closePaywall);
+  if (closeBtn) closeBtn.addEventListener("click", closePaywall);
+
+  // Track "intent to pay" clicks (simple analytics via localStorage)
+  function trackProClick(type) {
+    const key = "vs_pro_clicks";
+    const prev = Number(localStorage.getItem(key) || 0);
+    localStorage.setItem(key, prev + 1);
+    localStorage.setItem("vs_pro_last", type + ":" + new Date().toISOString());
+  }
+
+  if (cta) cta.addEventListener("click", () => {
+    trackProClick("cta");
+    alert("Pro payments coming soon. You’re on early access.");
+    closePaywall();
+  });
+
+  if (wait) wait.addEventListener("click", () => {
+    trackProClick("waitlist");
+    alert("Thanks! Early access noted.");
+    closePaywall();
+  });
+})();
+
   const $ = (id) => document.getElementById(id);
 
   const fileInput = $("fileInput");
@@ -503,9 +550,8 @@ analyzeBtn.addEventListener("click", async () => {
     let usage = Number(localStorage.getItem("vs_usage") || 0);
 
     if (usage >= FREE_LIMIT) {
-        alert("Free limit reached. Upgrade to continue using VoiceSafe.");
-        return;
-    }
+      return;
+   }
 
     // increase usage counter
     localStorage.setItem("vs_usage", usage + 1);
@@ -691,5 +737,35 @@ analyzeBtn.addEventListener("click", async () => {
     }
   })();
 </script>
+<!-- PAYWALL MODAL -->
+<div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50">
+  <div id="paywallBackdrop" class="absolute inset-0 bg-black/60"></div>
+
+  <div class="relative w-[92%] max-w-lg rounded-2xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-semibold">Free limit reached</h3>
+        <p class="mt-1 text-sm opacity-80">
+          Upgrade to VoiceSafe Pro to continue analyzing.
+        </p>
+      </div>
+      <button id="paywallClose" class="rounded-lg px-3 py-1 text-sm chip">✕</button>
+    </div>
+
+    <div class="mt-4 grid gap-2 text-sm opacity-90">
+      <div>✓ Unlimited analyses</div>
+      <div>✓ Priority AI detection</div>
+      <div>✓ Case history & sharing</div>
+    </div>
+
+    <div class="mt-6 flex flex-col gap-2">
+      <button id="paywallCta" class="btn btn-primary w-full">Start Pro – $9/month</button>
+      <button id="paywallWaitlist" class="btn w-full">Join early access</button>
+      <p class="mt-2 text-xs opacity-60">
+        Payment coming soon. This button measures demand (clicks).
+      </p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
