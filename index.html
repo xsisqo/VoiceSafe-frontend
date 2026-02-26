@@ -1,3 +1,4 @@
+<!-- file: frontend/index.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -25,6 +26,7 @@
 
   <!-- Tailwind CDN (OK for prototype) -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
@@ -128,25 +130,30 @@
         <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
           <i class="fa-solid fa-shield-halved"></i>
           <div class="text-xs opacity-80 mb-2">
-  🔥 Public Beta • <span id="waitlistCountBadge">0</span> early access sign-ups
-</div>
+            🔥 Public Beta • <span id="waitlistCountBadge">0</span> early access sign-ups
+          </div>
         </div>
+
         <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
           <span class="gold-text">VoiceSafe</span>
+
           <div class="text-xs opacity-70 mt-2">
-  Early access sign-ups: <span id="waitlistCountTop">0</span>
-  <div class="text-xs opacity-70 mt-1">
-  <span id="waitlistCountBadge">0</span> joined • <span id="waitlistUrgency">Early access is open now.</span>
-  <p id="liveActivity" class="mt-1 text-xs opacity-60 text-center"></p>
-</div>
-</div>
+            Early access sign-ups: <span id="waitlistCountTop">0</span>
+            <div class="text-xs opacity-70 mt-1">
+              <span id="waitlistCountBadge2">0</span> joined • <span id="waitlistUrgency">Early access is open now.</span>
+              <p id="liveActivity" class="mt-1 text-xs opacity-60 text-center"></p>
+            </div>
+          </div>
+
           <span class="text-white">Anti-Scam Voice Check</span>
         </h1>
+
         <div class="mt-4 flex flex-wrap gap-3 text-xs opacity-80">
           <div class="chip px-3 py-1 rounded-full">AI Voice Detection</div>
           <div class="chip px-3 py-1 rounded-full">Impersonation Protection</div>
           <div class="chip px-3 py-1 rounded-full">Financial Scam Prevention</div>
         </div>
+
         <p class="mt-3 muted max-w-2xl text-sm sm:text-base">
           Upload a voice message and instantly detect impersonation, AI voice cloning and scam risk.
         </p>
@@ -163,6 +170,7 @@
             <div class="text-sm font-semibold gold-text" id="modeLabel">PROD</div>
           </div>
         </div>
+
         <div class="mt-3 text-xs muted break-all">
           <span class="mono" id="backendUrl"></span>
         </div>
@@ -193,7 +201,8 @@
         </div>
 
         <div class="mt-5 grid grid-cols-2 gap-3">
-          <button id="recordBtn" type="button"="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
+          <!-- FIXED recordBtn -->
+          <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-microphone mr-2"></i>Record
           </button>
           <button id="analyzeBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold">
@@ -243,12 +252,11 @@
             <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
               <i class="fa-solid fa-link mr-2"></i>Share
             </button>
-            <button id="upgradeBtn" class="primary-btn">🚀 Upgrade to Pro – 9€/month
-            </button>
+            <button id="upgradeBtn" class="primary-btn">🚀 Upgrade to Pro – 9€/month</button>
 
-<button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm">
-  Manage subscription
-</button>
+            <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm">
+              Manage subscription
+            </button>
           </div>
         </div>
 
@@ -274,6 +282,44 @@
           <div class="text-xs muted">Summary</div>
           <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText">Upload a sample to see results.</div>
           <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
+        </div>
+
+        <!-- Investor Dashboard -->
+        <div class="mt-5 glass gold-border rounded-2xl p-5">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-semibold">Investor Risk Dashboard</div>
+              <div class="text-xs muted" id="invMeta">Waiting for analysis…</div>
+            </div>
+            <div class="chip rounded-full px-3 py-1 text-xs">
+              Enterprise View
+            </div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="chip rounded-2xl p-4">
+              <div class="text-xs muted">Overall risk</div>
+              <div class="mt-2 flex items-center gap-3">
+                <div id="invRing" class="w-16 h-16 rounded-full" style="background: conic-gradient(#F7D774 0deg, rgba(255,255,255,.10) 0deg); border: 1px solid rgba(255,255,255,.10);"></div>
+                <div>
+                  <div class="text-3xl font-bold"><span id="invRiskScore">—</span><span class="text-base muted">%</span></div>
+                  <div class="text-xs muted" id="invRiskLevel">Waiting</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chip rounded-2xl p-4">
+              <div class="text-xs muted">Recommendation</div>
+              <div class="mt-2 text-sm" id="invRecommendation">Run analysis to generate recommendation.</div>
+              <div class="mt-3 text-xs muted">Primary category: <span class="text-white/90" id="invCategory">—</span></div>
+            </div>
+
+            <div class="chip rounded-2xl p-4">
+              <div class="text-xs muted">Top signals</div>
+              <div class="mt-2 flex flex-wrap gap-2" id="invSignals"></div>
+              <div class="mt-3 text-xs muted">Confidence: <span class="text-white/90" id="invConfidence">—</span></div>
+            </div>
+          </div>
         </div>
 
         <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -312,7 +358,7 @@
     </div>
   </div>
 
-  <!-- PAYWALL MODAL (MUST be OUTSIDE <script>) -->
+  <!-- PAYWALL MODAL -->
   <div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50">
     <div id="paywallBackdrop" class="absolute inset-0 bg-black/60"></div>
     <div class="relative w-[92%] max-w-lg rounded-2xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
@@ -332,23 +378,28 @@
 
       <div class="mt-6 flex flex-col gap-2">
         <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold w-full">Start Pro – 9€/month</button>
+
         <button
-  id="paywallWaitlist"
-  onclick="joinEarlyAccess()"
-  class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
-  Join early access
-  <p id="waitlistUrgency" class="mt-2 text-xs opacity-70 text-center"></p>
-</button>
+          id="paywallWaitlist"
+          onclick="joinEarlyAccess()"
+          class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
+          Join early access
+          <p id="waitlistUrgencyModal" class="mt-2 text-xs opacity-70 text-center"></p>
+        </button>
+
         <p class="mt-2 text-xs opacity-60">Payment coming soon. This button measures demand (clicks).</p>
         <p id="waitlistCountText" class="mt-2 text-xs opacity-70 text-center"></p>
       </div>
     </div>
   </div>
-<script>
-document.getElementById("paywallCta")?.addEventListener("click", () => {
-  window.location.href = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-});
-</script>
+
+  <script>
+    // Stripe direct checkout link (header + modal CTA)
+    document.getElementById("paywallCta")?.addEventListener("click", () => {
+      window.location.href = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
+    });
+  </script>
+
   <script>
     // ===========================
     // CONFIG
@@ -360,7 +411,7 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
     let backendBase = URLS.PROD;
 
     // ==============================
-    // PAYWALL
+    // PAYWALL (single source of truth)
     // ==============================
     function openPaywall() {
       const m = document.getElementById("paywallModal");
@@ -374,6 +425,10 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
       m.classList.add("hidden");
       m.classList.remove("flex");
     }
+    // compatibility wrapper (your code calls showPaywall sometimes)
+    function showPaywall(){ openPaywall(); }
+    function hidePaywall(){ closePaywall(); }
+
     (function wirePaywall() {
       const backdrop = document.getElementById("paywallBackdrop");
       const closeBtn = document.getElementById("paywallClose");
@@ -392,13 +447,12 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
 
       if (cta) cta.addEventListener("click", () => {
         trackProClick("cta");
-        alert("Pro payments coming soon. You’re on early access.");
+        // you already redirect via handler above; keep the modal clean just in case
         closePaywall();
       });
 
       if (wait) wait.addEventListener("click", () => {
         trackProClick("waitlist");
-        alert("Thanks! Early access noted.");
         closePaywall();
       });
     })();
@@ -447,6 +501,7 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
 
     let lastResponse = null;
     let lastCaseId = null;
+    let progressInterval = null; // FIX: global + safe clear
 
     // ===========================
     // Mode + health
@@ -484,13 +539,13 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
     setMode("PROD");
 
     // ===========================
-    // Stripe checkout
+    // Stripe checkout (Upgrade button)
     // ===========================
     if (upgradeBtn) {
-  upgradeBtn.addEventListener("click", () => {
-    window.location.href = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-  });
-}
+      upgradeBtn.addEventListener("click", () => {
+        window.location.href = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
+      });
+    }
 
     // ===========================
     // UI helpers
@@ -506,40 +561,75 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
       stressBar.style.width = clampPct(stress) + "%";
     }
 
-  // Loading helpers (safe)
-  function showLoading() {
-    const btn = document.getElementById("analyzeBtn");
-    if (btn) {
-      btn.disabled = true;
-      btn.dataset.prevText = btn.innerHTML;
-      btn.innerHTML = "Analyzing...";
+    // Investor dashboard helpers
+    function riskLevel(score){
+      if (score >= 75) return "High Risk";
+      if (score >= 45) return "Medium Risk";
+      return "Low Risk";
     }
-  }
+    function setInvestorRing(score){
+      const ring = document.getElementById("invRing");
+      if (!ring) return;
+      const s = clampPct(score);
+      const deg = Math.round((s / 100) * 360);
+      ring.style.background = `conic-gradient(#F7D774 ${deg}deg, rgba(255,255,255,.10) 0deg)`;
+    }
+    function renderInvestorDashboard({ scam, ai, stress, summary, flags }){
+      const score = clampPct(scam);
+      const level = riskLevel(score);
 
-  function hideLoading() {
-    const btn = document.getElementById("analyzeBtn");
-    if (btn) {
-      btn.disabled = false;
-      if (btn.dataset.prevText) btn.innerHTML = btn.dataset.prevText;
+      const invMeta = document.getElementById("invMeta");
+      const invRiskScore = document.getElementById("invRiskScore");
+      const invRiskLevel = document.getElementById("invRiskLevel");
+      const invRecommendation = document.getElementById("invRecommendation");
+      const invSignals = document.getElementById("invSignals");
+      const invCategory = document.getElementById("invCategory");
+      const invConfidence = document.getElementById("invConfidence");
+
+      if (invMeta) invMeta.textContent = `Last analysis: ${new Date().toLocaleString()}`;
+      if (invRiskScore) invRiskScore.textContent = String(Math.round(score));
+      if (invRiskLevel) invRiskLevel.textContent = level;
+
+      setInvestorRing(score);
+
+      if (invCategory) invCategory.textContent = (ai >= 70) ? "Impersonation / AI Voice Risk" : "Scam / Manipulation Risk";
+      if (invConfidence) invConfidence.textContent = (Math.round((0.72 + (ai/100)*0.18) * 100)) + "%";
+
+      let rec = "Proceed normally. Monitor if needed.";
+      if (score >= 75) rec = "Escalate to investigation / compliance. Verify identity via official channel.";
+      else if (score >= 45) rec = "Review context and verify identity before any payment or sensitive action.";
+      if (invRecommendation) invRecommendation.textContent = rec;
+
+      if (invSignals){
+        invSignals.innerHTML = "";
+        (flags || []).slice(0, 6).forEach(f => {
+          const chip = document.createElement("span");
+          chip.className = "chip px-3 py-1 rounded-full text-xs";
+          chip.textContent = f;
+          invSignals.appendChild(chip);
+        });
+        if (!flags || flags.length === 0){
+          const chip = document.createElement("span");
+          chip.className = "chip px-3 py-1 rounded-full text-xs";
+          chip.textContent = "No strong signals";
+          invSignals.appendChild(chip);
+        }
+      }
     }
-  }
 
     function setResultUI(data) {
-console.log("setResultUI called");
-   //   document.getElementById("resultsCard")
-//  ?.scrollIntoView({ behavior: "smooth" });
-      
       // normalize backend response
-if (data.aiResult) {
-  data = {
-    ...data,
-    summary: data.aiResult.summary,
-    scam_score: data.aiResult.scam_score,
-    ai_probability: data.aiResult.ai_probability,
-    stress_level: data.aiResult.stress_level,
-    flags: data.aiResult.flags
-  };
-}
+      if (data && data.aiResult) {
+        data = {
+          ...data,
+          summary: data.aiResult.summary,
+          scam_score: data.aiResult.scam_score,
+          ai_probability: data.aiResult.ai_probability,
+          stress_level: data.aiResult.stress_level,
+          flags: data.aiResult.flags
+        };
+      }
+
       const scam = data?.scam_score ?? data?.scan_score ?? 0;
       const ai = data?.ai_voice_prob ?? data?.ai_probability ?? 0;
       const stress = data?.stress_level ?? 0;
@@ -560,34 +650,18 @@ if (data.aiResult) {
         flagsWrap.appendChild(chip);
       });
 
-setTimeout(() => {
-  const el = document.getElementById("resultsCard");
-  if (el) {
-    el.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-}, 120);
+      // Investor dashboard render (NEW)
+      renderInvestorDashboard({ scam, ai, stress, summary: summaryText.textContent, flags });
 
-document.getElementById("resultsCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
-
-// FORCE scroll to results (works even when smooth scroll fails)
-setTimeout(() => {
-  const el = document.getElementById("resultsCard");
-  if (!el) return;
-
-  // 1) try normal
-  try { el.scrollIntoView({ behavior: "auto", block: "start" }); } catch (e) {}
-
-  // 2) hard fallback: compute Y and jump
-  const y = el.getBoundingClientRect().top + window.scrollY - 12;
-  window.scrollTo(0, y);
-
-  // 3) optional hash fallback
-  window.location.hash = "resultsCard";
-}, 0);
-
+      // Scroll to results reliably
+      setTimeout(() => {
+        const el = document.getElementById("resultsCard");
+        if (!el) return;
+        try { el.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (e) {}
+        const y = el.getBoundingClientRect().top + window.scrollY - 12;
+        window.scrollTo(0, y);
+        window.location.hash = "resultsCard";
+      }, 120);
     }
 
     // ===========================
@@ -600,7 +674,6 @@ setTimeout(() => {
         analyzeBtn.disabled = false;
       } else {
         fileHint.textContent = "No file selected.";
-        // analyzeBtn.disabled = true;
       }
     });
 
@@ -612,7 +685,6 @@ setTimeout(() => {
     let recording = false;
 
     recordBtn.addEventListener("click", async () => {
-      showLoading()
       try {
         if (!recording) {
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -647,67 +719,58 @@ setTimeout(() => {
     // ===========================
     // Analyze
     // ===========================
-
     analyzeBtn.addEventListener("click", async () => {
-      // DEMO MAGIC: allow demo results even without file
-if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-  setResultUI({
-    scam_score: 72,
-    ai_probability: 81,
-    stress_level: 63,
-    summary: "High probability of impersonation scam detected.",
-    flags: ["AI voice pattern", "Urgency pressure", "Financial request"]
-  });
-  return;
-}
+      // Demo magic: allow demo results even without file
+      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        setResultUI({
+          scam_score: 72,
+          ai_probability: 81,
+          stress_level: 63,
+          summary: "High probability of impersonation scam detected.",
+          flags: ["AI voice pattern", "Urgency pressure", "Financial request"]
+        });
+        return;
+      }
 
-      // ===== PRO CHECK =====
-const isAllowed = localStorage.getItem("voicesafe_pro") === "true";
-
-if (!isAllowed) {
-  showPaywall();
-  return;
-}
-      // ===== INVESTOR MODE AI PROGRESS =====
-const steps = [
-  "Analyzing voice pattern...",
-  "Detecting AI voice cloning...",
-  "Measuring stress markers...",
-  "Scanning scam signals...",
-  "Finalizing risk score..."
-];
-
-let stepIndex = 0;
-
-summaryText.textContent = steps[0];
-
-const progressInterval = setInterval(() => {
-  stepIndex++;
-  if (stepIndex < steps.length) {
-    summaryText.textContent = steps[stepIndex];
-  }
-}, 900);
+      // PRO / FREE LIMIT
+      const isPro = localStorage.getItem("voicesafe_pro") === "true";
       const FREE_LIMIT = 3;
       const usage = Number(localStorage.getItem("vs_usage") || 0);
 
-      if (usage >= FREE_LIMIT) {
+      if (!isPro && usage >= FREE_LIMIT) {
         openPaywall();
         return;
       }
 
       const f = fileInput.files?.[0];
+      if (!f) {
+        alert("Please select audio file first");
+        return;
+      }
 
-if (!f) {
-  alert("Please select audio file first");
-  return;
-}
+      // Investor-style progress text
+      const steps = [
+        "Analyzing voice pattern...",
+        "Detecting AI voice cloning...",
+        "Measuring stress markers...",
+        "Scanning scam signals...",
+        "Finalizing risk score..."
+      ];
+      let stepIndex = 0;
+      summaryText.textContent = steps[0];
 
-      localStorage.setItem("vs_usage", String(usage + 1));
+      if (progressInterval) clearInterval(progressInterval);
+      progressInterval = setInterval(() => {
+        stepIndex++;
+        if (stepIndex < steps.length) {
+          summaryText.textContent = steps[stepIndex];
+        }
+      }, 900);
 
-      // analyzeBtn.disabled = true;
+      localStorage.setItem("vs_usage", String(isPro ? usage : usage + 1));
+
       analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
       summaryText.textContent = "Uploading...";
-
       if (rawJson) rawJson.classList.add("hidden");
 
       try {
@@ -733,7 +796,7 @@ if (!f) {
         }
 
         lastResponse = data?.aiResult || data;
-setResultUI(data?.aiResult || data);
+        setResultUI(data?.aiResult || data);
 
         // if backend returns case id
         lastCaseId = data?.case_id || data?.caseId || data?.id || null;
@@ -753,6 +816,7 @@ setResultUI(data?.aiResult || data);
         summaryText.textContent = "Network error.";
         setBars(0, 0, 0);
       } finally {
+        if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
         analyzeBtn.disabled = false;
         analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
       }
@@ -862,7 +926,8 @@ setResultUI(data?.aiResult || data);
         tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
         notesEl.value = meta.notes || c.notes || "";
 
-        clearInterval(progressInterval);
+        if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+
         lastResponse = data;
         setResultUI(data);
 
@@ -892,128 +957,78 @@ setResultUI(data?.aiResult || data);
     });
 
     // Auto-load from share link ?case=...
-(function boot() {
-  const u = new URL(window.location.href);
-  const id = u.searchParams.get("case");
-  if (id) loadCase(id);
-})();
+    (function boot() {
+      const u = new URL(window.location.href);
+      const id = u.searchParams.get("case");
+      if (id) loadCase(id);
+    })();
 
-// ===========================
-// Early access waitlist
-// ===========================
-function joinEarlyAccess() {
-  const count = Number(localStorage.getItem("waitlist") || 0);
-  localStorage.setItem("waitlist", String(count + 1));
-  renderWaitlistCount();
-}
+    // ===========================
+    // Early access waitlist
+    // ===========================
+    function joinEarlyAccess() {
+      const count = Number(localStorage.getItem("waitlist") || 0);
+      localStorage.setItem("waitlist", String(count + 1));
+      renderWaitlistCount();
+    }
+    window.joinEarlyAccess = joinEarlyAccess; // for onclick button
 
-function renderWaitlistCount() {
+    function renderWaitlistCount() {
+      const count = Number(localStorage.getItem("waitlist") || 0);
 
-  const count = Number(localStorage.getItem("waitlist") || 0);
+      const top = document.getElementById("waitlistCountTop");
+      const modal = document.getElementById("waitlistCountText");
+      const badge = document.getElementById("waitlistCountBadge");
+      const badge2 = document.getElementById("waitlistCountBadge2");
+      const urgency = document.getElementById("waitlistUrgency");
+      const urgencyModal = document.getElementById("waitlistUrgencyModal");
 
-  const top = document.getElementById("waitlistCountTop");
-  const modal = document.getElementById("waitlistCountText");
-  const badge = document.getElementById("waitlistCountBadge");
-  const urgency = document.getElementById("waitlistUrgency");
+      if (top) top.textContent = String(count);
+      if (badge) badge.textContent = String(count);
+      if (badge2) badge2.textContent = String(count);
 
-  if (top) top.textContent = String(count);
-  if (badge) badge.textContent = String(count);
+      if (modal) modal.textContent = `Total early access sign-ups: ${count}`;
+      if (urgencyModal && urgency) urgencyModal.textContent = urgency.textContent || "";
+    }
 
-  if (modal) {
-    modal.textContent = `Total early access sign-ups: ${count}`;
-  }
-}
+    const cities = ["Vienna", "Warsaw", "Amsterdam", "Paris", "Madrid", "New York", "Toronto"];
+    function simulateLiveJoins() {
+      const el = document.getElementById("liveActivity");
+      if (!el) return;
+      setInterval(() => {
+        const city = cities[Math.floor(Math.random() * cities.length)];
+        const seconds = Math.floor(Math.random() * 40) + 5;
+        el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
+      }, 6000);
+    }
 
-const cities = ["Vienna", "Warsaw", "Amsterdam", "Paris", "Madrid", "New York", "Toronto"];
+    simulateLiveJoins();
+    renderWaitlistCount();
 
-function simulateLiveJoins() {
-  const el = document.getElementById("liveActivity");
-  if (!el) return;
+    // ===========================
+    // Stripe SUCCESS detection (simple)
+    // ===========================
+    if (window.location.pathname.includes("success")) {
+      localStorage.setItem("voicesafe_pro", "true");
+      alert("✅ PRO activated successfully!");
+      window.location.href = "/";
+    }
 
-  setInterval(() => {
-    const city = cities[Math.floor(Math.random() * cities.length)];
-    const seconds = Math.floor(Math.random() * 40) + 5;
-    el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
-  }, 6000);
-}
+    // ===========================
+    // Manage subscription
+    // ===========================
+    const manageBtn = document.getElementById("manageSubBtn");
+    if (manageBtn) {
+      manageBtn.addEventListener("click", () => {
+        window.open("https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800", "_blank");
+      });
+    }
 
-simulateLiveJoins();
-renderWaitlistCount();
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const fileInput = document.getElementById("fileInput");
-  const analyzeBtn = document.getElementById("analyzeBtn");
-
-  if (!fileInput || !analyzeBtn) {
-    console.log("Missing fileInput/analyzeBtn", { fileInput, analyzeBtn });
-    return;
-  }
-
-  // keep Analyze enabled (demo works even without file)
-analyzeBtn.disabled = false;
-
-fileInput.addEventListener("change", () => {
-  // optional: still keep it enabled always
-  analyzeBtn.disabled = false;
-});
-
-});
-</script>
-<script>
-/* STRIPE SUCCESS DETECTION */
-
-const urlParams = new URLSearchParams(window.location.search);
-
-if (window.location.pathname.includes("success")) {
-
-  // user becomes PRO
-  localStorage.setItem("voicesafe_pro", "true");
-
-  alert("✅ PRO activated successfully!");
-
-  // redirect back to app
-  window.location.href = "/";
-}
-function isProUser() {
-  return localStorage.getItem("voicesafe_pro") === "true";
-}
-</script>
-<script>
-/* ===========================
-   PAYWALL CONTROL
-=========================== */
-
-function showPaywall() {
-  const modal = document.getElementById("paywallModal");
-  if (!modal) {
-    console.log("paywallModal not found");
-    return;
-  }
-
-  modal.classList.remove("hidden");
-}
-
-function hidePaywall() {
-  const modal = document.getElementById("paywallModal");
-  if (!modal) return;
-
-  modal.classList.add("hidden");
-}
-</script>
-<script>
-  const manageBtn = document.getElementById("manageSubBtn");
-
-  if (manageBtn) {
-    manageBtn.addEventListener("click", () => {
-      window.open("https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800", "_blank");
+    // Keep Analyze enabled (demo works even without file)
+    document.addEventListener("DOMContentLoaded", () => {
+      const a = document.getElementById("analyzeBtn");
+      if (a) a.disabled = false;
     });
-  }  
-</script>
-<script>
-document.getElementById("analyzeBtn").addEventListener("click", () => {
-    console.log("ANALYZE CLICK WORKS");
-});
-</script>
+  </script>
 </body>
 </html>
