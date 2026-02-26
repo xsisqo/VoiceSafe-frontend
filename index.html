@@ -127,12 +127,17 @@
       <div class="min-w-0">
         <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
           <i class="fa-solid fa-shield-halved"></i>
-          <span class="muted">Prototype • Public Beta</span>
+          <div class="text-xs opacity-80 mb-2">
+  🔥 Public Beta • <span id="waitlistCountBadge">0</span> early access sign-ups
+</div>
         </div>
         <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
           <span class="gold-text">VoiceSafe</span>
           <div class="text-xs opacity-70 mt-2">
   Early access sign-ups: <span id="waitlistCountTop">0</span>
+  <div class="text-xs opacity-70 mt-1">
+  <span id="waitlistCountBadge">0</span> joined • <span id="waitlistUrgency">Early access is open now.</span>
+</div>
 </div>
           <span class="text-white">Anti-Scam Voice Check</span>
         </h1>
@@ -323,17 +328,10 @@
         <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold w-full">Start Pro – 9€/month</button>
         <button
   id="paywallWaitlist"
-  function renderWaitlistCount() {
-  const count = Number(localStorage.getItem("waitlist") || 0);
-  const top = document.getElementById("waitlistCountTop");
-  const modal = document.getElementById("waitlistCountText");
-
-  if (top) top.textContent = String(count);
-  if (modal) modal.textContent = `Total early access sign-ups on this device: ${count}`;
-}
   onclick="joinEarlyAccess()"
   class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
   Join early access
+  <p id="waitlistUrgency" class="mt-2 text-xs opacity-70 text-center"></p>
 </button>
         <p class="mt-2 text-xs opacity-60">Payment coming soon. This button measures demand (clicks).</p>
         <p id="waitlistCountText" class="mt-2 text-xs opacity-70 text-center"></p>
@@ -837,26 +835,33 @@ setResultUI(data?.aiResult || data);
 // EXISTUJÚCI KÓD JE TU ...
 
 function renderWaitlistCount() {
+
   const count = Number(localStorage.getItem("waitlist") || 0);
 
   const top = document.getElementById("waitlistCountTop");
   const modal = document.getElementById("waitlistCountText");
+  const badge = document.getElementById("waitlistCountBadge");
+  const urgency = document.getElementById("waitlistUrgency");
 
-  if (top) top.textContent = count;
-  if (modal) modal.textContent =
-    "Total early access sign-ups: " + count;
+  if (top) top.textContent = String(count);
+  if (badge) badge.textContent = String(count);
+
+  if (modal) {
+    modal.textContent = `Total early access sign-ups: ${count}`;
+  }
+
+  // 🔥 FOMO LOGIC
+  if (urgency) {
+    if (count < 10)
+      urgency.textContent = "Early access is open now.";
+    else if (count < 50)
+      urgency.textContent = "Spots are starting to fill. Join now.";
+    else if (count < 200)
+      urgency.textContent = "High demand today. Secure access now.";
+    else
+      urgency.textContent = "Limited early access wave. Join before next waitlist.";
+  }
 }
-function joinEarlyAccess() {
-  const count = Number(localStorage.getItem("waitlist") || 0) + 1;
-  localStorage.setItem("waitlist", count);
-
-  alert("You're on the early access list 🚀");
-  console.log("WAITLIST COUNT:", count);
-
-  renderWaitlistCount(); // UPDATE UI
-}
-
-renderWaitlistCount(); // ✅ LOAD COUNT AFTER REFRESH
 </script>
 </body>
 </html>
