@@ -1,29 +1,30 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Detect AI Voice Scams Before You Send Money</title>
+
   <!-- SEO + SHARE META -->
   <meta name="description"
     content="VoiceSafe analyzes voice recordings using AI to detect scam risk, impersonation and synthetic voices before financial fraud happens.">
-
   <meta property="og:title" content="VoiceSafe — AI Voice Scam Detection">
-  <meta property="og:description"
-    content="Upload a voice recording and instantly detect scam risk using AI voice analysis.">
+  <meta property="og:description" content="Upload a voice recording and instantly detect scam risk using AI voice analysis.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://voicesafe-frontend.onrender.com">
+  <meta property="og:url" content="https://voicesafe-frontend.onrender.com/">
   <meta property="og:image" content="https://voicesafe-frontend.onrender.com/og-image.png">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="VoiceSafe — AI Voice Scam Detection">
-  <meta name="twitter:description"
-    content="Analyze voice recordings and detect impersonation or AI scam risk instantly.">
+  <meta name="twitter:description" content="Analyze voice recordings and detect impersonation or AI scam risk instantly.">
   <meta name="twitter:image" content="https://voicesafe-frontend.onrender.com/og-image.png">
+
+  <!-- Favicons / PWA -->
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+
   <!-- Tailwind CDN (OK for prototype) -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
@@ -36,12 +37,7 @@
       --gold2: #C9A24A;
       --muted: rgba(255, 255, 255, .70);
     }
-
-    html,
-    body {
-      height: 100%;
-    }
-
+    html, body { height: 100%; }
     body {
       background:
         radial-gradient(1000px 600px at 20% 10%, rgba(247, 215, 116, .10), transparent 60%),
@@ -50,28 +46,12 @@
         linear-gradient(180deg, var(--bg0), var(--bg1));
       color: #fff;
       overflow-x: hidden;
-      /* MOBILE FIX: no horizontal scroll */
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
-
-    /* Keep everything from overflowing on mobile */
-    * {
-      box-sizing: border-box;
-    }
-
-    img,
-    video,
-    canvas,
-    svg {
-      max-width: 100%;
-      height: auto;
-    }
-
-    pre {
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
+    * { box-sizing: border-box; }
+    img, video, canvas, svg { max-width: 100%; height: auto; }
+    pre { white-space: pre-wrap; word-break: break-word; }
 
     .glass {
       background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .03));
@@ -79,50 +59,44 @@
       box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
       backdrop-filter: blur(10px);
     }
-
     .gold-border {
       border: 1px solid rgba(247, 215, 116, .35);
       box-shadow: 0 0 0 1px rgba(201, 162, 74, .20) inset;
     }
-
     .gold-text {
       background: linear-gradient(90deg, var(--gold1), var(--gold2));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
-
-    .muted {
-      color: var(--muted);
-    }
-
+    .muted { color: var(--muted); }
     .chip {
       border: 1px solid rgba(255, 255, 255, .10);
       background: rgba(255, 255, 255, .05);
     }
-
     .btn-gold {
       background: linear-gradient(90deg, rgba(247, 215, 116, 1), rgba(201, 162, 74, 1));
       color: #111827;
       box-shadow: 0 10px 30px rgba(247, 215, 116, .15);
       transition: transform .12s ease, filter .12s ease;
     }
+    .btn-gold:hover { filter: brightness(1.02); transform: translateY(-1px); }
+    .btn-gold:active { transform: translateY(0px); }
+    .btn-gold:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
 
-    .btn-gold:hover {
-      filter: brightness(1.02);
-      transform: translateY(-1px);
+    .primary-btn {
+      border-radius: 0.75rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, rgba(247, 215, 116, 1), rgba(201, 162, 74, 1));
+      color: #111827;
+      box-shadow: 0 10px 30px rgba(247, 215, 116, .15);
+      transition: transform .12s ease, filter .12s ease;
+      white-space: nowrap;
     }
-
-    .btn-gold:active {
-      transform: translateY(0px);
-    }
-
-    .btn-gold:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
-    }
+    .primary-btn:hover { filter: brightness(1.02); transform: translateY(-1px); }
+    .primary-btn:active { transform: translateY(0px); }
 
     .bar {
       height: 10px;
@@ -131,47 +105,39 @@
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, .10);
     }
-
-    .bar>div {
+    .bar > div {
       height: 100%;
       border-radius: 999px;
       background: linear-gradient(90deg, rgba(247, 215, 116, 1), rgba(201, 162, 74, 1));
       width: 0%;
       transition: width .35s ease;
     }
-
     .mono {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
-
-    /* MOBILE FIX: safe area padding */
-    .safe-pb {
-      padding-bottom: env(safe-area-inset-bottom);
-    }
+    .safe-pb { padding-bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
 
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-    <!-- Header (mobile-friendly, stacks) -->
+
+    <!-- Header -->
     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-6">
       <div class="min-w-0">
         <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
           <i class="fa-solid fa-shield-halved"></i>
           <span class="muted">Prototype • Public Beta</span>
         </div>
-
         <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
           <span class="gold-text">VoiceSafe</span>
           <span class="text-white">Anti-Scam Voice Check</span>
         </h1>
-
         <div class="mt-4 flex flex-wrap gap-3 text-xs opacity-80">
           <div class="chip px-3 py-1 rounded-full">AI Voice Detection</div>
           <div class="chip px-3 py-1 rounded-full">Impersonation Protection</div>
           <div class="chip px-3 py-1 rounded-full">Financial Scam Prevention</div>
         </div>
-
         <p class="mt-3 muted max-w-2xl text-sm sm:text-base">
           Upload a voice message and instantly detect impersonation, AI voice cloning and scam risk.
         </p>
@@ -192,32 +158,28 @@
           <span class="mono" id="backendUrl"></span>
         </div>
 
-        <!-- MOBILE FIX: mode toggle -->
         <div class="mt-4 flex gap-2">
-          <button id="btnProd" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">
-            PROD
-          </button>
-          <button id="btnLocal" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">
-            LOCAL
-          </button>
+          <button id="btnProd" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">PROD</button>
+          <button id="btnLocal" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">LOCAL</button>
         </div>
+
         <div class="mt-2 text-[11px] muted">
-          Tip: Use LOCAL only when your backend runs on <span class="mono">127.0.0.1:10000</span>.
+          Tip: Use LOCAL only when your backend runs on <span class="mono">http://127.0.0.1:10000</span>.
         </div>
       </div>
     </div>
 
     <!-- Main grid -->
     <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+
       <!-- Left -->
       <div class="lg:col-span-1 glass rounded-2xl p-5 sm:p-6">
         <h2 class="text-lg font-semibold">Analyze a sample</h2>
         <p class="muted text-sm mt-1">Upload an audio/video file or record a short clip.</p>
 
         <div class="mt-5">
-          <label class="block text-sm muted mb-2">Upload audio or chat audio/video</label>
-          <input id="fileInput" type="file" accept="audio/*,video/*"
-            class="w-full text-sm chip rounded-xl p-3 outline-none" />
+          <label class="block text-sm muted mb-2" for="fileInput">Upload audio or chat audio/video</label>
+          <input id="fileInput" type="file" accept="audio/*,video/*" class="w-full text-sm chip rounded-xl p-3 outline-none" />
           <div class="mt-2 text-xs muted" id="fileHint">No file selected.</div>
         </div>
 
@@ -232,42 +194,33 @@
 
         <div class="mt-5 border-t border-white/10 pt-5">
           <h3 class="text-sm font-semibold">Case details (optional)</h3>
-          <p class="muted text-xs mt-1">Saved cases can be searched & shared.</p>
+          <p class="muted text-xs mt-1">Saved cases can be searched & shared (if backend supports it).</p>
 
           <div class="mt-4 space-y-3">
-            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none"
-              placeholder="Title (e.g. 'Telegram investor')" />
+            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Title (e.g. 'Telegram investor')" />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none"
-                placeholder="Platform (Telegram)" />
+              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Platform (Telegram)" />
               <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Country (US)" />
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none"
-                placeholder="Language (EN)" />
-              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none"
-                placeholder="Tags (comma separated)" />
+              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Language (EN)" />
+              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Tags (comma separated)" />
             </div>
-            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none"
-              placeholder="Notes (what happened)"></textarea>
+            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Notes (what happened)"></textarea>
           </div>
 
           <div class="mt-4 text-xs muted">
             Tip: Keep personal data out of notes. This is a prototype.
           </div>
-
-          <div class="mt-4 text-xs muted">Tip: Keep personal data out of notes. This is a prototype.</div>
         </div>
 
         <div class="mt-5 chip rounded-xl p-3 text-xs muted">
           <div class="font-semibold text-white/90">Disclaimer</div>
-          <div class="mt-1">
-            Scores are prototypes and can be wrong. Always verify identity and use official channels.
-          </div>
+          <div class="mt-1">Scores are prototypes and can be wrong. Always verify identity and use official channels.</div>
         </div>
       </div>
 
-      <!-- Right (results) -->
+      <!-- Right -->
       <div class="lg:col-span-2 glass rounded-2xl p-5 sm:p-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="min-w-0">
@@ -281,42 +234,25 @@
             <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
               <i class="fa-solid fa-link mr-2"></i>Share
             </button>
-            <button id="upgradeBtn" class="primary-btn">
-              🚀 Upgrade to Pro – 9€/month
-            </button>
+            <button id="upgradeBtn" class="primary-btn">🚀 Upgrade to Pro – 9€/month</button>
           </div>
         </div>
 
-        <!-- MOBILE FIX: cards stack properly -->
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Scam score</div>
-            <div class="mt-1 text-3xl font-bold">
-              <span id="scamScore">—</span><span class="text-base muted">%</span>
-            </div>
-            <div class="mt-3 bar">
-              <div id="scamBar"></div>
-            </div>
+            <div class="mt-1 text-3xl font-bold"><span id="scamScore">—</span><span class="text-base muted">%</span></div>
+            <div class="mt-3 bar"><div id="scamBar"></div></div>
           </div>
-
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">AI voice probability</div>
-            <div class="mt-1 text-3xl font-bold">
-              <span id="aiProb">—</span><span class="text-base muted">%</span>
-            </div>
-            <div class="mt-3 bar">
-              <div id="aiBar"></div>
-            </div>
+            <div class="mt-1 text-3xl font-bold"><span id="aiProb">—</span><span class="text-base muted">%</span></div>
+            <div class="mt-3 bar"><div id="aiBar"></div></div>
           </div>
-
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Stress level</div>
-            <div class="mt-1 text-3xl font-bold">
-              <span id="stressLevel">—</span><span class="text-base muted">%</span>
-            </div>
-            <div class="mt-3 bar">
-              <div id="stressBar"></div>
-            </div>
+            <div class="mt-1 text-3xl font-bold"><span id="stressLevel">—</span><span class="text-base muted">%</span></div>
+            <div class="mt-3 bar"><div id="stressBar"></div></div>
           </div>
         </div>
 
@@ -336,33 +272,55 @@
 
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold">Search cases</div>
+
             <div class="mt-3 flex gap-2">
               <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0"
-                placeholder="Search title / notes..." />
-              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold shrink-0">
-                Search
-              </button>
-            </div>
-            <div class="mt-3 text-xs muted">Tip: try tag filter like <span class="mono">crypto</span> (below).</div>
-            <div class="mt-3 flex gap-2">
-              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0"
-                placeholder="Tag filter (optional)" />
-              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">
-                Clear
-              </button>
+                     placeholder="Search title / notes..." />
+              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold shrink-0">Search</button>
             </div>
 
-            <!-- MOBILE FIX: list uses viewport height, scrolls nicely -->
+            <div class="mt-3 flex gap-2">
+              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0"
+                     placeholder="Tag filter (optional)" />
+              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">Clear</button>
+            </div>
+
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height: min(46vh, 360px);"></div>
           </div>
-        </div <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson"
-          style="max-height: min(40vh, 320px);">
-        </pre>
+        </div>
+
+        <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson" style="max-height: min(40vh, 320px);"></pre>
       </div>
     </div>
 
     <div class="mt-8 sm:mt-10 text-center text-xs muted">
       VoiceSafe • Prototype • Built for global anti-scam awareness
+    </div>
+  </div>
+
+  <!-- PAYWALL MODAL (MUST be OUTSIDE <script>) -->
+  <div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50">
+    <div id="paywallBackdrop" class="absolute inset-0 bg-black/60"></div>
+    <div class="relative w-[92%] max-w-lg rounded-2xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h3 class="text-xl font-semibold">Free limit reached</h3>
+          <p class="mt-1 text-sm opacity-80">Upgrade to VoiceSafe Pro to continue analyzing.</p>
+        </div>
+        <button id="paywallClose" class="rounded-lg px-3 py-1 text-sm chip">✕</button>
+      </div>
+
+      <div class="mt-4 grid gap-2 text-sm opacity-90">
+        <div>✓ Unlimited analyses</div>
+        <div>✓ Priority AI detection</div>
+        <div>✓ Case history & sharing</div>
+      </div>
+
+      <div class="mt-6 flex flex-col gap-2">
+        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold w-full">Start Pro – 9€/month</button>
+        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">Join early access</button>
+        <p class="mt-2 text-xs opacity-60">Payment coming soon. This button measures demand (clicks).</p>
+      </div>
     </div>
   </div>
 
@@ -374,12 +332,10 @@
       PROD: "https://voicesafe-backend-1.onrender.com",
       LOCAL: "http://127.0.0.1:10000",
     };
-
-    // Default = PROD
     let backendBase = URLS.PROD;
 
     // ==============================
-    // PAYWALL (PRO modal)
+    // PAYWALL
     // ==============================
     function openPaywall() {
       const m = document.getElementById("paywallModal");
@@ -387,14 +343,12 @@
       m.classList.remove("hidden");
       m.classList.add("flex");
     }
-
     function closePaywall() {
       const m = document.getElementById("paywallModal");
       if (!m) return;
       m.classList.add("hidden");
       m.classList.remove("flex");
     }
-
     (function wirePaywall() {
       const backdrop = document.getElementById("paywallBackdrop");
       const closeBtn = document.getElementById("paywallClose");
@@ -404,11 +358,10 @@
       if (backdrop) backdrop.addEventListener("click", closePaywall);
       if (closeBtn) closeBtn.addEventListener("click", closePaywall);
 
-      // Track "intent to pay" clicks (simple analytics via localStorage)
       function trackProClick(type) {
         const key = "vs_pro_clicks";
         const prev = Number(localStorage.getItem(key) || 0);
-        localStorage.setItem(key, prev + 1);
+        localStorage.setItem(key, String(prev + 1));
         localStorage.setItem("vs_pro_last", type + ":" + new Date().toISOString());
       }
 
@@ -425,6 +378,9 @@
       });
     })();
 
+    // ===========================
+    // DOM helpers
+    // ===========================
     const $ = (id) => document.getElementById(id);
 
     const fileInput = $("fileInput");
@@ -432,15 +388,12 @@
     const recordBtn = $("recordBtn");
     const fileHint = $("fileHint");
 
-    const upgradeBtn = $("upgradeBtn");
-
     const scamScoreEl = $("scamScore");
     const aiProbEl = $("aiProb");
     const stressLevelEl = $("stressLevel");
     const summaryText = $("summaryText");
     const flagsWrap = $("flagsWrap");
     const rawJson = $("rawJson");
-
     const scamBar = $("scamBar");
     const aiBar = $("aiBar");
     const stressBar = $("stressBar");
@@ -465,29 +418,25 @@
 
     const btnProd = $("btnProd");
     const btnLocal = $("btnLocal");
-
-    $("backendUrl").textContent = backendBase;
+    const upgradeBtn = $("upgradeBtn");
 
     let lastResponse = null;
     let lastCaseId = null;
 
-    function clampPct(v) {
-      const n = Number(v);
-      if (!Number.isFinite(n)) return 0;
-      return Math.max(0, Math.min(100, n));
-    }
+    // ===========================
+    // Mode + health
+    // ===========================
+    function setStatus(text) { $("backendStatus").textContent = text; }
 
-    function setBars(scam, ai, stress) {
-      const s = clampPct(scam);
-      const a = clampPct(ai);
-      const st = clampPct(stress);
-      scamBar.style.width = s + "%";
-      aiBar.style.width = a + "%";
-      stressBar.style.width = st + "%";
-    }
-
-    function setStatus(text) {
-      $("backendStatus").textContent = text;
+    async function checkBackend() {
+      try {
+        const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
+        if (!r.ok) throw new Error("health not ok");
+        const j = await r.json().catch(() => ({}));
+        setStatus(`OK • AI: ${j.ai_url || "unknown"}`);
+      } catch {
+        setStatus("Offline / blocked (check URL, CORS, or server)");
+      }
     }
 
     function setMode(mode) {
@@ -495,39 +444,94 @@
       $("backendUrl").textContent = backendBase;
       $("modeLabel").textContent = mode;
 
-      // Button highlight
-      const active = "border border-yellow-300/40";
-      const inactive = "";
-      btnProd.className = btnProd.className.replace(active, "").trim();
-      btnLocal.className = btnLocal.className.replace(active, "").trim();
+      const active = " border border-yellow-300/40";
+      btnProd.className = btnProd.className.replace(active, "");
+      btnLocal.className = btnLocal.className.replace(active, "");
 
-      if (mode === "PROD") {
-        btnProd.className += " " + active;
-      } else {
-        btnLocal.className += " " + active;
-      }
+      if (mode === "PROD") btnProd.className += active;
+      else btnLocal.className += active;
 
       checkBackend();
     }
 
     btnProd.addEventListener("click", () => setMode("PROD"));
     btnLocal.addEventListener("click", () => setMode("LOCAL"));
-
-    async function checkBackend() {
-      try {
-        const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
-        if (!r.ok) throw new Error("health not ok");
-        const j = await r.json();
-        setStatus(`OK • AI: ${j.ai_url || "unknown"}`);
-      } catch (e) {
-        setStatus("Offline / blocked (check URL, CORS, or server)");
-      }
-    }
-
-    // Initial
     setMode("PROD");
 
-    // Enable analyze only if file selected
+    // ===========================
+    // Stripe checkout
+    // ===========================
+    if (upgradeBtn) {
+      upgradeBtn.addEventListener("click", async () => {
+        try {
+          const res = await fetch(`${URLS.PROD}/create-checkout-session`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({}),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (data.url) window.location.href = data.url;
+          else {
+            alert("No checkout URL returned");
+            console.log("Stripe response:", data);
+          }
+        } catch (err) {
+          alert("Payment error");
+          console.error(err);
+        }
+      });
+    }
+
+    // ===========================
+    // UI helpers
+    // ===========================
+    function clampPct(v) {
+      const n = Number(v);
+      if (!Number.isFinite(n)) return 0;
+      return Math.max(0, Math.min(100, n));
+    }
+    function setBars(scam, ai, stress) {
+      scamBar.style.width = clampPct(scam) + "%";
+      aiBar.style.width = clampPct(ai) + "%";
+      stressBar.style.width = clampPct(stress) + "%";
+    }
+    function setResultUI(data) {
+
+      // normalize backend response
+if (data.aiResult) {
+  data = {
+    ...data,
+    summary: data.aiResult.summary,
+    scam_score: data.aiResult.scam_score,
+    ai_probability: data.aiResult.ai_probability,
+    stress_level: data.aiResult.stress_level,
+    flags: data.aiResult.flags
+  };
+}
+      const scam = data?.scam_score ?? data?.scan_score ?? 0;
+      const ai = data?.ai_voice_prob ?? data?.ai_probability ?? 0;
+      const stress = data?.stress_level ?? 0;
+
+      scamScoreEl.textContent = Number.isFinite(Number(scam)) ? String(Number(scam)) : "0";
+      aiProbEl.textContent = Number.isFinite(Number(ai)) ? String(Number(ai)) : "0";
+      stressLevelEl.textContent = Number.isFinite(Number(stress)) ? String(Number(stress)) : "0";
+
+      summaryText.textContent = data?.summary || data?.message || "No summary available.";
+      setBars(scam, ai, stress);
+
+      flagsWrap.innerHTML = "";
+      const flags = Array.isArray(data?.flags) ? data.flags : [];
+      flags.forEach(f => {
+        const chip = document.createElement("span");
+        chip.className = "chip px-3 py-1 rounded-full text-xs";
+        chip.textContent = f;
+        flagsWrap.appendChild(chip);
+      });
+    }
+
+    // ===========================
+    // File selection
+    // ===========================
     fileInput.addEventListener("change", () => {
       const f = fileInput.files && fileInput.files[0];
       if (f) {
@@ -539,7 +543,9 @@
       }
     });
 
-    // Record mic
+    // ===========================
+    // Record microphone
+    // ===========================
     let mediaRecorder = null;
     let recordedChunks = [];
     let recording = false;
@@ -550,11 +556,11 @@
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
           recordedChunks = [];
           mediaRecorder = new MediaRecorder(stream);
+
           mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
           mediaRecorder.onstop = () => {
             const blob = new Blob(recordedChunks, { type: "audio/webm" });
             const file = new File([blob], "mic.webm", { type: "audio/webm" });
-
             const dt = new DataTransfer();
             dt.items.add(file);
             fileInput.files = dt.files;
@@ -562,6 +568,7 @@
             fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
             analyzeBtn.disabled = false;
           };
+
           mediaRecorder.start();
           recording = true;
           recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
@@ -570,75 +577,51 @@
           recording = false;
           recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
         }
-      } catch (e) {
+      } catch {
         alert("Microphone permission blocked or unavailable.");
       }
     });
 
-    function setResultUI(data) {
-      const scam = data?.scam_score ?? data?.scan_score; // tolerate naming
-      const ai = data?.ai_voice_prob ?? data?.ai_probability ?? data?.ai_probability;
-      const stress = data?.stress_level;
-
-      scamScoreEl.textContent = Number.isFinite(Number(scam)) ? Number(scam) : 0;
-      aiProbEl.textContent = Number.isFinite(Number(ai)) ? Number(ai) : 0;
-      stressLevelEl.textContent = Number.isFinite(Number(stress)) ? Number(stress) : 0;
-
-      summaryText.textContent = data?.summary || data?.message || "No summary available.";
-      setBars(scam, ai, stress);
-
-      flagsWrap.innerHTML = "";
-      const flags = Array.isArray(data?.flags) ? data.flags : [];
-      if (flags.length) {
-        flags.forEach(f => {
-          const chip = document.createElement("span");
-          chip.className = "chip px-3 py-1 rounded-full text-xs";
-          chip.textContent = f;
-          flagsWrap.appendChild(chip);
-        });
-      }
-    }
-
-    // Analyze -> upload to backend
+    // ===========================
+    // Analyze
+    // ===========================
     analyzeBtn.addEventListener("click", async () => {
-
-      // ===== FREE LIMIT SYSTEM =====
       const FREE_LIMIT = 3;
-
-      let usage = Number(localStorage.getItem("vs_usage") || 0);
+      const usage = Number(localStorage.getItem("vs_usage") || 0);
 
       if (usage >= FREE_LIMIT) {
+        openPaywall();
         return;
       }
 
-      // increase usage counter
-      localStorage.setItem("vs_usage", usage + 1);
-      // ==============================
+      const f = fileInput.files?.[0];
 
-      const f = fileInput.files && fileInput.files[0];
-      if (!f) {
-        analyzeBtn.disabled = true;
-        return;
-      }
+if (!f) {
+  alert("Please select audio file first");
+  return;
+}
+
+      localStorage.setItem("vs_usage", String(usage + 1));
 
       analyzeBtn.disabled = true;
-      analyzeBtn.innerHTML =
-        '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
-
+      analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
       summaryText.textContent = "Uploading...";
-      if (rawJson) {
-        rawJson.classList.add("hidden");
-      }
+
+      if (rawJson) rawJson.classList.add("hidden");
 
       try {
         const form = new FormData();
         form.append("file", f);
 
-        const resp = await fetch(`${backendBase}/upload`, {
-          method: "POST",
-          body: form,
-        });
+        // optional meta (backend may ignore safely)
+        form.append("title", titleEl.value || "");
+        form.append("platform", platformEl.value || "");
+        form.append("country", countryEl.value || "");
+        form.append("language", languageEl.value || "");
+        form.append("tags", tagsEl.value || "");
+        form.append("notes", notesEl.value || "");
 
+        const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
         const data = await resp.json().catch(() => null);
 
         if (!resp.ok) {
@@ -648,24 +631,42 @@
           return;
         }
 
-        setResultUI(data);
+        lastResponse = data?.aiResult || data;
+setResultUI(data?.aiResult || data);
 
-      } catch (e) {
+        // if backend returns case id
+        lastCaseId = data?.case_id || data?.caseId || data?.id || null;
+        if (lastCaseId) {
+          caseIdEl.textContent = lastCaseId;
+          caseSavedHint.textContent = "Case saved.";
+          shareBtn.disabled = false;
+        } else {
+          caseSavedHint.textContent = "No case id returned by backend.";
+        }
+
+        if (rawJson) {
+          rawJson.textContent = JSON.stringify(data, null, 2);
+          rawJson.classList.remove("hidden");
+        }
+      } catch {
         summaryText.textContent = "Network error.";
         setBars(0, 0, 0);
+      } finally {
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
       }
-
-      analyzeBtn.disabled = false;
-      analyzeBtn.innerHTML = "Analyze";
     });
 
+    // ===========================
+    // Copy / Share
+    // ===========================
     copyJsonBtn.addEventListener("click", async () => {
       try {
         if (!lastResponse) return;
         await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
         copyJsonBtn.textContent = "Copied ✓";
         setTimeout(() => copyJsonBtn.innerHTML = `<i class="fa-regular fa-copy mr-2"></i>Copy JSON`, 900);
-      } catch (e) {
+      } catch {
         alert("Copy failed (clipboard permission).");
       }
     });
@@ -678,11 +679,14 @@
         await navigator.clipboard.writeText(url.toString());
         shareBtn.textContent = "Link copied ✓";
         setTimeout(() => shareBtn.innerHTML = `<i class="fa-solid fa-link mr-2"></i>Share`, 1000);
-      } catch (e) {
+      } catch {
         alert("Could not copy. Share link: " + url.toString());
       }
     });
 
+    // ===========================
+    // Search / Load cases (optional)
+    // ===========================
     function escapeHtml(s) {
       return (s || "").replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
     }
@@ -694,24 +698,24 @@
         return;
       }
       items.slice(0, 25).forEach(item => {
-        const id = item.id || item.case_id;
+        const id = item.id || item.case_id || item._id;
         const title = item?.meta?.title || item?.title || "(untitled)";
         const platform = item?.meta?.platform || item?.platform || "";
-        const when = item?.created_at || item?.createdAt || item?.created_at;
+        const when = item?.created_at || item?.createdAt;
         const whenTxt = when ? new Date(when).toLocaleString() : "";
 
         const row = document.createElement("div");
         row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
         row.innerHTML = `
-        <div class="flex items-center justify-between gap-3">
-          <div class="min-w-0">
-            <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
-            <div class="text-xs muted truncate">${escapeHtml(platform)} ${whenTxt ? "• " + escapeHtml(whenTxt) : ""}</div>
-            <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
+          <div class="flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
+              <div class="text-xs muted truncate">${escapeHtml(platform)} ${whenTxt ? "• " + escapeHtml(whenTxt) : ""}</div>
+              <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
+            </div>
+            <div class="text-sm font-bold gold-text shrink-0">Load</div>
           </div>
-          <div class="text-sm font-bold gold-text shrink-0">Load</div>
-        </div>
-      `;
+        `;
         row.addEventListener("click", () => loadCase(id));
         resultsList.appendChild(row);
       });
@@ -720,37 +724,27 @@
     async function doSearch() {
       const q = (searchQ.value || "").trim();
       const tag = (searchTag.value || "").trim();
-
       const url = new URL(`${backendBase}/cases`);
       if (q) url.searchParams.set("q", q);
       if (tag) url.searchParams.set("tag", tag);
 
       resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
-
       try {
         const r = await fetch(url.toString(), { cache: "no-store" });
-        const j = await r.json();
+        const j = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(j?.message || "Search failed");
         renderSearchList(j?.cases || j?.items || []);
-      } catch (e) {
-        resultsList.innerHTML = `<div class="text-xs muted">Search error. Check backend.</div>`;
+      } catch {
+        resultsList.innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`;
       }
     }
-
-    searchBtn.addEventListener("click", doSearch);
-    clearBtn.addEventListener("click", () => {
-      searchQ.value = "";
-      searchTag.value = "";
-      resultsList.innerHTML = "";
-    });
 
     async function loadCase(id) {
       if (!id) return;
       summaryText.textContent = "Loading case…";
       try {
-        // your backend uses /case/:id (singular)
         const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
-        const j = await r.json();
+        const j = await r.json().catch(() => ({}));
         if (!r.ok) {
           summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
           return;
@@ -767,93 +761,40 @@
         tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
         notesEl.value = meta.notes || c.notes || "";
 
-        setResultUI(data);
         lastResponse = data;
+        setResultUI(data);
 
         lastCaseId = c.id || c._id || id;
         caseIdEl.textContent = lastCaseId;
         caseSavedHint.textContent = "Loaded from saved cases.";
         shareBtn.disabled = false;
 
-        rawJson.textContent = JSON.stringify(j, null, 2);
+        if (rawJson) {
+          rawJson.textContent = JSON.stringify(j, null, 2);
+          rawJson.classList.remove("hidden");
+        }
 
         const url = new URL(window.location.href);
         url.searchParams.set("case", lastCaseId);
         history.replaceState({}, "", url.toString());
-
-      } catch (e) {
+      } catch {
         summaryText.textContent = "Could not load case (network error).";
       }
     }
+
+    searchBtn.addEventListener("click", doSearch);
+    clearBtn.addEventListener("click", () => {
+      searchQ.value = "";
+      searchTag.value = "";
+      resultsList.innerHTML = "";
+    });
 
     // Auto-load from share link ?case=...
     (function boot() {
       const u = new URL(window.location.href);
       const id = u.searchParams.get("case");
-      if (id) {
-        loadCase(id);
-      }
+      if (id) loadCase(id);
     })();
   </script>
-  <!-- PAYWALL MODAL -->
-  <div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50">
-    <div id="paywallBackdrop" class="absolute inset-0 bg-black/60"></div>
-
-    <div class="relative w-[92%] max-w-lg rounded-2xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <h3 class="text-xl font-semibold">Free limit reached</h3>
-          <p class="mt-1 text-sm opacity-80">
-            Upgrade to VoiceSafe Pro to continue analyzing.
-          </p>
-        </div>
-        <button id="paywallClose" class="rounded-lg px-3 py-1 text-sm chip">✕</button>
-      </div>
-
-      <div class="mt-4 grid gap-2 text-sm opacity-90">
-        <div>✓ Unlimited analyses</div>
-        <div>✓ Priority AI detection</div>
-        <div>✓ Case history & sharing</div>
-      </div>
-
-      <div class="mt-6 flex flex-col gap-2">
-        <button id="paywallBtn" class="btn btn-primary w-full">Start Pro – $9/month</button>
-        <button id="paywallWaitlist" class="btn w-full">Join early access</button>
-        <p class="mt-2 text-xs opacity-60">
-          Payment coming soon. This button measures demand (clicks).
-        </p>
-
-
-      </div>
-    </div>
-  </div>
-  <script>
-
-    // ===== STRIPE CHECKOUT =====
-    
-
-if (upgradeBtn) {
-  upgradeBtn.addEventListener("click", async () => {
-    try {
-      const res = await fetch(
-        "https://voicesafe-backend-1.onrender.com/create-checkout-session",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({})
-        }
-      );
-
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else alert("No checkout URL returned");
-    } catch (err) {
-      alert("Payment error");
-      console.error(err);
-    }
-  });
-}
-
-      </script>
-      </body>
-      </html>
+</body>
+</html>
