@@ -851,18 +851,20 @@ function renderWaitlistCount() {
     modal.textContent = `Total early access sign-ups: ${count}`;
   }
 
-  // 🔥 FOMO LOGIC
-  if (urgency) {
-    if (count < 10)
-      urgency.textContent = "Early access is open now.";
-    else if (count < 50)
-      urgency.textContent = "Spots are starting to fill. Join now.";
-    else if (count < 200)
-      urgency.textContent = "High demand today. Secure access now.";
-    else
-      urgency.textContent = "Limited early access wave. Join before next waitlist.";
-  }
+const cities = ["Vienna", "Warsaw", "Amsterdam", "Paris", "Madrid", "New York", "Toronto"];
+
+function simulateLiveJoins() {
+  const el = document.getElementById("liveActivity");
+  if (!el) return;
+
+  setInterval(() => {
+    const city = cities[Math.floor(Math.random() * cities.length)];
+    const seconds = Math.floor(Math.random() * 40) + 5;
+    el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
+  }, 6000);
 }
+
+simulateLiveJoins();
 </script>
 </body>
 </html>
