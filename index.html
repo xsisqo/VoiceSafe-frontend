@@ -318,7 +318,12 @@
 
       <div class="mt-6 flex flex-col gap-2">
         <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold w-full">Start Pro – 9€/month</button>
-        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">Join early access</button>
+        <button
+  id="paywallWaitlist"
+  onclick="joinEarlyAccess()"
+  class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
+  Join early access
+</button>
         <p class="mt-2 text-xs opacity-60">Payment coming soon. This button measures demand (clicks).</p>
       </div>
     </div>
@@ -815,6 +820,18 @@ setResultUI(data?.aiResult || data);
       const id = u.searchParams.get("case");
       if (id) loadCase(id);
     })();
+    
+
+// EXISTUJÚCI KÓD JE TU ...
+
+
+function joinEarlyAccess() {
+  const count = Number(localStorage.getItem("waitlist") || 0) + 1;
+  localStorage.setItem("waitlist", count);
+
+  alert("You're on the early access list 🚀");
+  console.log("WAITLIST COUNT:", count);
+}
   </script>
 </body>
 </html>
