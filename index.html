@@ -131,6 +131,9 @@
         </div>
         <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
           <span class="gold-text">VoiceSafe</span>
+          <div class="text-xs opacity-70 mt-2">
+  Early access sign-ups: <span id="waitlistCountTop">0</span>
+</div>
           <span class="text-white">Anti-Scam Voice Check</span>
         </h1>
         <div class="mt-4 flex flex-wrap gap-3 text-xs opacity-80">
@@ -320,11 +323,20 @@
         <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold w-full">Start Pro – 9€/month</button>
         <button
   id="paywallWaitlist"
+  function renderWaitlistCount() {
+  const count = Number(localStorage.getItem("waitlist") || 0);
+  const top = document.getElementById("waitlistCountTop");
+  const modal = document.getElementById("waitlistCountText");
+
+  if (top) top.textContent = String(count);
+  if (modal) modal.textContent = `Total early access sign-ups on this device: ${count}`;
+}
   onclick="joinEarlyAccess()"
   class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
   Join early access
 </button>
         <p class="mt-2 text-xs opacity-60">Payment coming soon. This button measures demand (clicks).</p>
+        <p id="waitlistCountText" class="mt-2 text-xs opacity-70 text-center"></p>
       </div>
     </div>
   </div>
@@ -824,14 +836,27 @@ setResultUI(data?.aiResult || data);
 
 // EXISTUJÚCI KÓD JE TU ...
 
+function renderWaitlistCount() {
+  const count = Number(localStorage.getItem("waitlist") || 0);
 
+  const top = document.getElementById("waitlistCountTop");
+  const modal = document.getElementById("waitlistCountText");
+
+  if (top) top.textContent = count;
+  if (modal) modal.textContent =
+    "Total early access sign-ups: " + count;
+}
 function joinEarlyAccess() {
   const count = Number(localStorage.getItem("waitlist") || 0) + 1;
   localStorage.setItem("waitlist", count);
 
   alert("You're on the early access list 🚀");
   console.log("WAITLIST COUNT:", count);
+
+  renderWaitlistCount(); // UPDATE UI
 }
-  </script>
+
+renderWaitlistCount(); // ✅ LOAD COUNT AFTER REFRESH
+</script>
 </body>
 </html>
