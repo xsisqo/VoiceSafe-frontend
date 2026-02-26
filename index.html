@@ -193,10 +193,10 @@
         </div>
 
         <div class="mt-5 grid grid-cols-2 gap-3">
-          <button id="recordBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
+          <button id="recordBtn" type="button"="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-microphone mr-2"></i>Record
           </button>
-          <button id="analyzeBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold" disabled>
+          <button id="analyzeBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold">
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
         </div>
@@ -967,7 +967,7 @@ function hidePaywall() {
 </script>
 <script>
   const manageBtn = document.getElementById("manageSubBtn");
-  
+
   if (manageBtn) {
     manageBtn.addEventListener("click", () => {
       window.open("https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800", "_blank");
