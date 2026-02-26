@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VoiceSafe PRO Activated</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white flex items-center justify-center h-screen">
+
+  <div class="text-center">
+    <h1 class="text-4xl font-bold text-green-400 mb-4">
+      ✅ VoiceSafe PRO Activated
+    </h1>
+
+    <p class="opacity-70 mb-6">
+      Payment successful. Unlimited analysis unlocked.
+    </p>
+
+    <button onclick="goBack()"
+      class="bg-yellow-500 text-black px-6 py-3 rounded-xl font-semibold">
+      Return to VoiceSafe
+    </button>
+  </div>
+
+<script>
+  // MVP PRO unlock (temporary)
+  localStorage.setItem("voicesafe_pro", "true");
+
+  function goBack() {
+    window.location.href = "/";
+  }
+</script>
+
+</body>
+</html>
