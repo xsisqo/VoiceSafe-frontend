@@ -826,14 +826,20 @@ setResultUI(data?.aiResult || data);
     });
 
     // Auto-load from share link ?case=...
-    (function boot() {
-      const u = new URL(window.location.href);
-      const id = u.searchParams.get("case");
-      if (id) loadCase(id);
-    })();
-    
+(function boot() {
+  const u = new URL(window.location.href);
+  const id = u.searchParams.get("case");
+  if (id) loadCase(id);
+})();
 
-// EXISTUJÚCI KÓD JE TU ...
+// ===========================
+// Early access waitlist
+// ===========================
+function joinEarlyAccess() {
+  const count = Number(localStorage.getItem("waitlist") || 0);
+  localStorage.setItem("waitlist", String(count + 1));
+  renderWaitlistCount();
+}
 
 function renderWaitlistCount() {
 
@@ -850,6 +856,7 @@ function renderWaitlistCount() {
   if (modal) {
     modal.textContent = `Total early access sign-ups: ${count}`;
   }
+}
 
 const cities = ["Vienna", "Warsaw", "Amsterdam", "Paris", "Madrid", "New York", "Toronto"];
 
@@ -865,6 +872,27 @@ function simulateLiveJoins() {
 }
 
 simulateLiveJoins();
+renderWaitlistCount();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const fileInput = document.getElementById("fileInput");
+  const analyzeBtn = document.getElementById("analyzeBtn");
+
+  if (!fileInput || !analyzeBtn) {
+    console.log("Missing fileInput/analyzeBtn", { fileInput, analyzeBtn });
+    return;
+  }
+
+  // keep Analyze disabled until a file is selected
+  analyzeBtn.disabled = true;
+
+  fileInput.addEventListener("change", () => {
+    const hasFile = fileInput.files && fileInput.files.length > 0;
+    analyzeBtn.disabled = !hasFile;
+    console.log("File selected:", hasFile);
+  });
+});
 </script>
 </body>
 </html>
