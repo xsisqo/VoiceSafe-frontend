@@ -230,7 +230,7 @@
       </div>
 
       <!-- Right -->
-      <div class="lg:col-span-2 glass rounded-2xl p-5 sm:p-6">
+      <div id="resultsCard" class="lg:col-span-2 glass rounded-2xl p-5 sm:p-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="min-w-0">
             <h2 class="text-lg font-semibold">Results</h2>
@@ -505,8 +505,24 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
       aiBar.style.width = clampPct(ai) + "%";
       stressBar.style.width = clampPct(stress) + "%";
     }
+    showLoading();
+
+setTimeout(() => {
+   setResultUI({
+      scam_score: 72,
+      ai_probability: 81,
+      stress_level: 63,
+      summary: "High probability of impersonation scam detected.",
+      flags: ["AI voice pattern","Urgency pressure","Financial request"]
+   });
+
+   hideLoading();
+}, 1800);
     function setResultUI(data) {
 
+      document.getElementById("resultsCard")
+  ?.scrollIntoView({ behavior: "smooth" });
+      
       // normalize backend response
 if (data.aiResult) {
   data = {
@@ -549,7 +565,7 @@ if (data.aiResult) {
         analyzeBtn.disabled = false;
       } else {
         fileHint.textContent = "No file selected.";
-        analyzeBtn.disabled = true;
+        // analyzeBtn.disabled = true;
       }
     });
 
@@ -652,7 +668,7 @@ if (!f) {
 
       localStorage.setItem("vs_usage", String(usage + 1));
 
-      analyzeBtn.disabled = true;
+      // analyzeBtn.disabled = true;
       analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
       summaryText.textContent = "Uploading...";
 
@@ -906,6 +922,7 @@ fileInput.addEventListener("change", () => {
   analyzeBtn.disabled = false;
 });
 
+});
 </script>
 <script>
 /* STRIPE SUCCESS DETECTION */
@@ -950,26 +967,13 @@ function hidePaywall() {
 </script>
 <script>
   const manageBtn = document.getElementById("manageSubBtn");
+  
   if (manageBtn) {
     manageBtn.addEventListener("click", () => {
       window.open("https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800", "_blank");
     });
   }  
 </script>
-<script>
-// ===== DEMO FORCE ENABLE =====
-document.addEventListener("DOMContentLoaded", () => {
-  const analyzeBtn = document.getElementById("analyzeBtn");
 
-  if (analyzeBtn) {
-    analyzeBtn.disabled = false;
-
-    // každých 500ms ho znova zapneme (override všetkých scriptov)
-    setInterval(() => {
-      analyzeBtn.disabled = false;
-    }, 500);
-  }
-});
-</script>
 </body>
 </html>
