@@ -339,7 +339,11 @@
       </div>
     </div>
   </div>
-
+<script>
+document.getElementById("paywallCta")?.addEventListener("click", () => {
+  window.location.href = "https://buy.stripe.com/test_5kQ6ozcEogiI2WY2mGaVa00";
+});
+</script>
   <script>
     // ===========================
     // CONFIG
@@ -602,6 +606,14 @@ if (data.aiResult) {
     // Analyze
     // ===========================
     analyzeBtn.addEventListener("click", async () => {
+
+      // ===== PRO CHECK =====
+const isAllowed = localStorage.getItem("voicesafe_pro") === "true";
+
+if (!isAllowed) {
+  showPaywall();
+  return;
+}
       // ===== INVESTOR MODE AI PROGRESS =====
 const steps = [
   "Analyzing voice pattern...",
@@ -893,6 +905,26 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("File selected:", hasFile);
   });
 });
+
+</script>
+<script>
+/* STRIPE SUCCESS DETECTION */
+
+const urlParams = new URLSearchParams(window.location.search);
+
+if (window.location.pathname.includes("success")) {
+
+  // user becomes PRO
+  localStorage.setItem("voicesafe_pro", "true");
+
+  alert("✅ PRO activated successfully!");
+
+  // redirect back to app
+  window.location.href = "/";
+}
+function isProUser() {
+  return localStorage.getItem("voicesafe_pro") === "true";
+}
 </script>
 </body>
 </html>
