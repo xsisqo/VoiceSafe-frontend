@@ -586,6 +586,25 @@ if (data.aiResult) {
     // Analyze
     // ===========================
     analyzeBtn.addEventListener("click", async () => {
+      // ===== INVESTOR MODE AI PROGRESS =====
+const steps = [
+  "Analyzing voice pattern...",
+  "Detecting AI voice cloning...",
+  "Measuring stress markers...",
+  "Scanning scam signals...",
+  "Finalizing risk score..."
+];
+
+let stepIndex = 0;
+
+summaryText.textContent = steps[0];
+
+const progressInterval = setInterval(() => {
+  stepIndex++;
+  if (stepIndex < steps.length) {
+    summaryText.textContent = steps[stepIndex];
+  }
+}, 900);
       const FREE_LIMIT = 3;
       const usage = Number(localStorage.getItem("vs_usage") || 0);
 
@@ -761,6 +780,7 @@ setResultUI(data?.aiResult || data);
         tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
         notesEl.value = meta.notes || c.notes || "";
 
+        clearInterval(progressInterval);
         lastResponse = data;
         setResultUI(data);
 
