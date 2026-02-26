@@ -570,6 +570,8 @@ setTimeout(() => {
   }
 }, 120);
 
+document.getElementById("resultsCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
 // FORCE scroll to results (works even when smooth scroll fails)
 setTimeout(() => {
   const el = document.getElementById("resultsCard");
