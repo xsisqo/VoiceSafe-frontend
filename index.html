@@ -523,22 +523,11 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
       if (btn.dataset.prevText) btn.innerHTML = btn.dataset.prevText;
     }
   }
-
-setTimeout(() => {
-   setResultUI({
-      scam_score: 72,
-      ai_probability: 81,
-      stress_level: 63,
-      summary: "High probability of impersonation scam detected.",
-      flags: ["AI voice pattern","Urgency pressure","Financial request"]
-   });
-
-   hideLoading();
-}, 1800);
+  
     function setResultUI(data) {
 
-      document.getElementById("resultsCard")
-  ?.scrollIntoView({ behavior: "smooth" });
+   //   document.getElementById("resultsCard")
+//  ?.scrollIntoView({ behavior: "smooth" });
       
       // normalize backend response
 if (data.aiResult) {
