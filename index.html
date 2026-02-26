@@ -926,5 +926,27 @@ function isProUser() {
   return localStorage.getItem("voicesafe_pro") === "true";
 }
 </script>
+<script>
+/* ===========================
+   PAYWALL CONTROL
+=========================== */
+
+function showPaywall() {
+  const modal = document.getElementById("paywallModal");
+  if (!modal) {
+    console.log("paywallModal not found");
+    return;
+  }
+
+  modal.classList.remove("hidden");
+}
+
+function hidePaywall() {
+  const modal = document.getElementById("paywallModal");
+  if (!modal) return;
+
+  modal.classList.add("hidden");
+}
+</script>
 </body>
 </html>
