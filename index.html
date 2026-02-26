@@ -243,7 +243,12 @@
             <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
               <i class="fa-solid fa-link mr-2"></i>Share
             </button>
-            <button id="upgradeBtn" class="primary-btn">🚀 Upgrade to Pro – 9€/month</button>
+            <button id="upgradeBtn" class="primary-btn">🚀 Upgrade to Pro – 9€/month
+            </button>
+
+<button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm">
+  Manage subscription
+</button>
           </div>
         </div>
 
@@ -590,7 +595,19 @@ if (data.aiResult) {
     // ===========================
     // Analyze
     // ===========================
+
     analyzeBtn.addEventListener("click", async () => {
+      // DEMO MAGIC: allow demo results even without file
+if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+  setResultUI({
+    scam_score: 72,
+    ai_probability: 81,
+    stress_level: 63,
+    summary: "High probability of impersonation scam detected.",
+    flags: ["AI voice pattern", "Urgency pressure", "Financial request"]
+  });
+  return;
+}
 
       // ===== PRO CHECK =====
 const isAllowed = localStorage.getItem("voicesafe_pro") === "true";
@@ -881,14 +898,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // keep Analyze disabled until a file is selected
-  analyzeBtn.disabled = true;
+  // keep Analyze enabled (demo works even without file)
+analyzeBtn.disabled = false;
 
-  fileInput.addEventListener("change", () => {
-    const hasFile = fileInput.files && fileInput.files.length > 0;
-    analyzeBtn.disabled = !hasFile;
-    console.log("File selected:", hasFile);
-  });
+fileInput.addEventListener("change", () => {
+  // optional: still keep it enabled always
+  analyzeBtn.disabled = false;
 });
 
 </script>
@@ -932,6 +947,29 @@ function hidePaywall() {
 
   modal.classList.add("hidden");
 }
+</script>
+<script>
+  const manageBtn = document.getElementById("manageSubBtn");
+  if (manageBtn) {
+    manageBtn.addEventListener("click", () => {
+      window.open("https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800", "_blank");
+    });
+  }  
+</script>
+<script>
+// ===== DEMO FORCE ENABLE =====
+document.addEventListener("DOMContentLoaded", () => {
+  const analyzeBtn = document.getElementById("analyzeBtn");
+
+  if (analyzeBtn) {
+    analyzeBtn.disabled = false;
+
+    // každých 500ms ho znova zapneme (override všetkých scriptov)
+    setInterval(() => {
+      analyzeBtn.disabled = false;
+    }, 500);
+  }
+});
 </script>
 </body>
 </html>
