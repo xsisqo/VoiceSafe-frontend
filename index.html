@@ -482,25 +482,10 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
     // Stripe checkout
     // ===========================
     if (upgradeBtn) {
-      upgradeBtn.addEventListener("click", async () => {
-        try {
-          const res = await fetch(`${URLS.PROD}/create-checkout-session`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({}),
-          });
-          const data = await res.json().catch(() => ({}));
-          if (data.url) window.location.href = data.url;
-          else {
-            alert("No checkout URL returned");
-            console.log("Stripe response:", data);
-          }
-        } catch (err) {
-          alert("Payment error");
-          console.error(err);
-        }
-      });
-    }
+  upgradeBtn.addEventListener("click", () => {
+    window.location.href = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
+  });
+}
 
     // ===========================
     // UI helpers
