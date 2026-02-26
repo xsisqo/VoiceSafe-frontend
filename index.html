@@ -505,7 +505,24 @@ document.getElementById("paywallCta")?.addEventListener("click", () => {
       aiBar.style.width = clampPct(ai) + "%";
       stressBar.style.width = clampPct(stress) + "%";
     }
-    showLoading();
+
+  // Loading helpers (safe)
+  function showLoading() {
+    const btn = document.getElementById("analyzeBtn");
+    if (btn) {
+      btn.disabled = true;
+      btn.dataset.prevText = btn.innerHTML;
+      btn.innerHTML = "Analyzing...";
+    }
+  }
+
+  function hideLoading() {
+    const btn = document.getElementById("analyzeBtn");
+    if (btn) {
+      btn.disabled = false;
+      if (btn.dataset.prevText) btn.innerHTML = btn.dataset.prevText;
+    }
+  }
 
 setTimeout(() => {
    setResultUI({
@@ -577,6 +594,7 @@ if (data.aiResult) {
     let recording = false;
 
     recordBtn.addEventListener("click", async () => {
+      showLoading()
       try {
         if (!recording) {
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
