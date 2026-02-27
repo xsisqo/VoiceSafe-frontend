@@ -669,7 +669,10 @@ const fileHint = $("fileHint");
     }
     function runInvestorDemo() {
 
+  localStorage.setItem("vs_demo", "true");
+
   const demoData = {
+    
     scam_score: 82,
     ai_probability: 91,
     stress_level: 67,
