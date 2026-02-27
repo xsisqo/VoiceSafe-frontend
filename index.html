@@ -5,30 +5,31 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 
-  <title>VoiceSafe – AI Voice Scam Detection</title>
+  <title>VoiceSafe.ai — Detect AI Voice Scams Before You Send Money</title>
+  <meta name="description" content="VoiceSafe detects impersonation, AI voice cloning and scam risk in seconds. Upload a voice message and get an AI risk assessment report before sending money." />
 
-  <!-- SEO -->
-  <meta name="description" content="Detect AI voice cloning and impersonation scams instantly. Upload a voice message and analyze scam risk in seconds.">
+  <!-- Canonical -->
+  <link rel="canonical" href="https://voicesafe.ai" />
 
   <!-- OpenGraph -->
-  <meta property="og:title" content="VoiceSafe – AI Voice Scam Detection">
-  <meta property="og:description" content="Upload a voice message and detect impersonation, AI cloning and scam risk instantly.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://voicesafe.ai">
-  <meta property="og:image" content="https://voicesafe.ai/og-image.png">
+  <meta property="og:title" content="VoiceSafe.ai — AI Voice Scam Detection" />
+  <meta property="og:description" content="Upload a voice message and detect impersonation, AI cloning and scam risk instantly." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://voicesafe.ai" />
+  <meta property="og:image" content="https://voicesafe.ai/og-image.png" />
 
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VoiceSafe – AI Voice Scam Detection">
-  <meta name="twitter:description" content="Analyze voice recordings and detect impersonation or AI scam risk instantly.">
-  <meta name="twitter:image" content="https://voicesafe.ai/og-image.png">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VoiceSafe.ai — AI Voice Scam Detection" />
+  <meta name="twitter:description" content="Analyze voice recordings and detect impersonation or AI scam risk instantly." />
+  <meta name="twitter:image" content="https://voicesafe.ai/og-image.png" />
 
   <!-- Favicons / PWA -->
-  <link rel="icon" href="/favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="/icon-192.png">
-  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind (prototype ok) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Icons -->
@@ -41,8 +42,11 @@
       --stroke:rgba(255,255,255,.10);
       --gold1:#F7D774;
       --gold2:#C9A24A;
-      --muted:rgba(255,255,255,.70);
+      --muted:rgba(255,255,255,.72);
+      --ok:#22c55e;
+      --bad:#ef4444;
     }
+
     html,body{height:100%;}
     body{
       background:
@@ -60,7 +64,7 @@
     pre{white-space:pre-wrap;word-break:break-word;}
 
     .glass{
-      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border:1px solid var(--stroke);
       box-shadow:0 20px 60px rgba(0,0,0,.45);
       backdrop-filter:blur(10px);
@@ -76,33 +80,34 @@
       color:transparent;
     }
     .muted{color:var(--muted);}
+
     .chip{
       border:1px solid rgba(255,255,255,.10);
       background:rgba(255,255,255,.05);
     }
     .btn-gold{
-      background:linear-gradient(90deg,rgba(247,215,116,1),rgba(201,162,74,1));
+      background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
       color:#111827;
       box-shadow:0 10px 30px rgba(247,215,116,.15);
       transition:transform .12s ease, filter .12s ease;
     }
-    .btn-gold:hover{filter:brightness(1.02);transform:translateY(-1px);}
-    .btn-gold:active{transform:translateY(0px);}
+    .btn-gold:hover{filter:brightness(1.03); transform:translateY(-1px);}
+    .btn-gold:active{transform:translateY(0);}
     .btn-gold:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none;}
 
     .primary-btn{
-      border-radius:.75rem;
-      padding:.5rem 1rem;
-      font-size:.875rem;
-      font-weight:800;
-      background:linear-gradient(90deg,rgba(247,215,116,1),rgba(201,162,74,1));
+      border-radius:0.9rem;
+      padding:.65rem 1rem;
+      font-size:.9rem;
+      font-weight:900;
+      background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
       color:#111827;
       box-shadow:0 10px 30px rgba(247,215,116,.15);
       transition:transform .12s ease, filter .12s ease;
       white-space:nowrap;
     }
-    .primary-btn:hover{filter:brightness(1.02);transform:translateY(-1px);}
-    .primary-btn:active{transform:translateY(0px);}
+    .primary-btn:hover{filter:brightness(1.03); transform:translateY(-1px);}
+    .primary-btn:active{transform:translateY(0);}
 
     .bar{
       height:10px;
@@ -114,7 +119,7 @@
     .bar>div{
       height:100%;
       border-radius:999px;
-      background:linear-gradient(90deg,rgba(247,215,116,1),rgba(201,162,74,1));
+      background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
       width:0%;
       transition:width .35s ease;
     }
@@ -122,41 +127,67 @@
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
     }
     .safe-pb{padding-bottom:env(safe-area-inset-bottom);}
+
+    .live-dot{
+      width:8px;height:8px;border-radius:999px;
+      background:var(--ok);
+      box-shadow:0 0 0 0 rgba(34,197,94,.7);
+      animation:livePulse 1.4s infinite;
+    }
+    @keyframes livePulse{
+      0%{ box-shadow:0 0 0 0 rgba(34,197,94,.7); }
+      70%{ box-shadow:0 0 0 12px rgba(34,197,94,0); }
+      100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
+    }
+
+    .soft-line{border-top:1px solid rgba(255,255,255,.10);}
   </style>
 </head>
 
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
-    <!-- TOP BAR -->
-    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 sm:gap-6">
+    <!-- TOP BADGE -->
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span class="muted">Public Beta • Privacy-first • Global</span>
+      </div>
 
-      <!-- LEFT: Brand + hero -->
-      <div class="min-w-0">
-        <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
-          <i class="fa-solid fa-shield-halved"></i>
-          <span class="opacity-80">Public Beta •</span>
-          <span><span id="waitlistCountBadge">0</span> early access sign-ups</span>
-        </div>
+      <div class="inline-flex items-center gap-2 text-xs muted">
+        <span class="live-dot"></span>
+        <span id="liveActivity">Live activity loading…</span>
+      </div>
+    </div>
 
-        <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-          <span class="gold-text">VoiceSafe</span>
+    <!-- HERO -->
+    <div class="mt-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      <div class="min-w-0 max-w-3xl">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+          <span class="gold-text">VoiceSafe.ai</span>
+          <span class="text-white">Detect AI Voice Scams</span>
+          <span class="text-white/85">before you send money.</span>
         </h1>
 
-        <p class="mt-3 muted text-sm sm:text-base max-w-2xl">
-          Detect AI voice cloning, impersonation and scam signals before you send money.
-          Upload a recording and get an instant risk assessment.
+        <p class="mt-3 muted text-sm sm:text-base">
+          Upload a voice message (WhatsApp/Telegram/Viber audio) and get an <span class="text-white/90 font-semibold">AI Risk Assessment Report</span>
+          in seconds — impersonation, cloning, pressure tactics, and scam patterns.
         </p>
 
-        <div class="mt-4 text-xs opacity-70">
-          Early access sign-ups: <span id="waitlistCountTop">0</span>
-          <span class="mx-2">•</span>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+          <span class="chip px-3 py-1 rounded-full">AI Voice Detection</span>
+          <span class="chip px-3 py-1 rounded-full">Impersonation Protection</span>
+          <span class="chip px-3 py-1 rounded-full">Financial Scam Prevention</span>
+          <span class="chip px-3 py-1 rounded-full">Built for global scale</span>
+        </div>
+
+        <div class="mt-4 text-xs opacity-80">
+          🔥 <span id="waitlistCountBadge">0</span> early access sign-ups •
           <span id="waitlistUrgency">Early access is open now.</span>
-          <p id="liveActivity" class="mt-1 text-xs opacity-60"></p>
         </div>
       </div>
 
-      <!-- RIGHT: Backend card -->
+      <!-- STATUS CARD -->
       <div class="glass gold-border rounded-2xl p-4 w-full lg:w-[420px]">
         <div class="flex items-center justify-between gap-3">
           <div class="min-w-0">
@@ -179,17 +210,17 @@
         </div>
 
         <div class="mt-2 text-[11px] muted">
-          Tip: Use LOCAL only when your backend runs on <span class="mono">http://127.0.0.1:10000</span>.
+          Tip: Use LOCAL only when backend runs on <span class="mono">http://127.0.0.1:10000</span>
         </div>
       </div>
     </div>
 
     <!-- MAIN GRID -->
-    <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 items-start">
+    <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
 
-      <!-- LEFT: Analyze -->
-      <div class="glass rounded-2xl p-5 sm:p-6">
-        <h2 class="text-lg font-semibold">Analyze a sample</h2>
+      <!-- LEFT: UPLOAD / RECORD -->
+      <div class="lg:col-span-1 glass rounded-2xl p-5 sm:p-6">
+        <h2 class="text-lg font-semibold">Analyze a recording</h2>
         <p class="muted text-sm mt-1">Upload an audio/video file or record a short clip.</p>
 
         <div class="mt-5">
@@ -202,23 +233,28 @@
           <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-microphone mr-2"></i>Record
           </button>
-          <button id="analyzeBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold">
+
+          <button id="analyzeBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold" disabled>
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
         </div>
 
-        <div class="mt-3 text-xs opacity-70">
+        <div class="mt-3 text-xs muted">
           Free 3 analyses • No signup required • Privacy-first
         </div>
 
-        <div class="mt-3 text-xs opacity-75 leading-6">
-          🔒 Privacy-first • No voice data stored<br>
-          🛡 AI scam detection engine<br>
-          ⚡ Instant risk assessment<br>
-          🇪🇺 GDPR-ready infrastructure
+        <div class="mt-4 chip rounded-xl p-3 text-xs muted">
+          <div class="font-semibold text-white/90">Trust & privacy</div>
+          <div class="mt-1 leading-relaxed">
+            🔒 Privacy-first • avoid personal data in notes<br/>
+            ⚡ Instant AI risk assessment<br/>
+            🛡 Detect pressure + impersonation patterns<br/>
+            🌍 Built for global safety
+          </div>
         </div>
 
-        <div class="mt-5 border-t border-white/10 pt-5">
+        <!-- OPTIONAL CASE META -->
+        <div class="mt-5 soft-line pt-5">
           <h3 class="text-sm font-semibold">Case details (optional)</h3>
           <p class="muted text-xs mt-1">Saved cases can be searched & shared (if backend supports it).</p>
 
@@ -242,29 +278,38 @@
 
         <div class="mt-5 chip rounded-xl p-3 text-xs muted">
           <div class="font-semibold text-white/90">Disclaimer</div>
-          <div class="mt-1">Scores are prototypes and can be wrong. Always verify identity and use official channels.</div>
+          <div class="mt-1">
+            Scores are prototypes and can be wrong. Always verify identity using official channels.
+          </div>
         </div>
       </div>
 
-      <!-- RIGHT: Results -->
-      <div id="resultsCard" class="glass rounded-2xl p-5 sm:p-6">
-        <div class="text-[12px] opacity-60 mb-2">AI Risk Assessment Report</div>
+      <!-- RIGHT: RESULTS -->
+      <div id="resultsCard" class="lg:col-span-2 glass rounded-2xl p-5 sm:p-6">
+        <div style="font-size:12px;opacity:.65;margin-bottom:8px;letter-spacing:.08em;text-transform:uppercase;">
+          AI Risk Assessment Report
+        </div>
 
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="min-w-0">
             <h2 class="text-lg font-semibold">Results</h2>
-            <p class="muted text-sm mt-1">Prototype risk signals & summary.</p>
+            <p class="muted text-sm mt-1">Risk signals, explanation and summary.</p>
           </div>
 
           <div class="flex items-center gap-2 flex-wrap">
             <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90">
               <i class="fa-regular fa-copy mr-2"></i>Copy JSON
             </button>
+
             <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
               <i class="fa-solid fa-link mr-2"></i>Share
             </button>
-            <button id="upgradeBtn" class="primary-btn">🚀 Unlock Unlimited – €9/month</button>
-            <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm">
+
+            <button id="upgradeBtn" class="primary-btn">
+              🚀 Unlock Unlimited Voice Checks & AI Reports – €9/month
+            </button>
+
+            <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm hover:opacity-90">
               Manage subscription
             </button>
           </div>
@@ -273,24 +318,34 @@
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Scam score</div>
-            <div class="mt-1 text-3xl font-bold"><span id="scamScore">—</span><span class="text-base muted">%</span></div>
+            <div class="mt-1 text-3xl font-extrabold">
+              <span id="scamScore">—</span><span class="text-base muted">%</span>
+            </div>
             <div class="mt-3 bar"><div id="scamBar"></div></div>
           </div>
+
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">AI voice probability</div>
-            <div class="mt-1 text-3xl font-bold"><span id="aiProb">—</span><span class="text-base muted">%</span></div>
+            <div class="mt-1 text-3xl font-extrabold">
+              <span id="aiProb">—</span><span class="text-base muted">%</span>
+            </div>
             <div class="mt-3 bar"><div id="aiBar"></div></div>
           </div>
+
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Stress level</div>
-            <div class="mt-1 text-3xl font-bold"><span id="stressLevel">—</span><span class="text-base muted">%</span></div>
+            <div class="mt-1 text-3xl font-extrabold">
+              <span id="stressLevel">—</span><span class="text-base muted">%</span>
+            </div>
             <div class="mt-3 bar"><div id="stressBar"></div></div>
           </div>
         </div>
 
         <div class="mt-5 chip rounded-2xl p-5">
           <div class="text-xs muted">Summary</div>
-          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText">Upload a sample to see results.</div>
+          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText">
+            Upload a sample to see results.
+          </div>
           <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
         </div>
 
@@ -304,31 +359,34 @@
 
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold">Search cases</div>
+
             <div class="mt-3 flex gap-2">
               <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Search title / notes..." />
-              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold shrink-0">Search</button>
+              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0">Search</button>
             </div>
+
             <div class="mt-3 flex gap-2">
               <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Tag filter (optional)" />
               <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">Clear</button>
             </div>
+
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height:min(46vh,360px);"></div>
           </div>
         </div>
 
         <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson" style="max-height:min(40vh,320px);"></pre>
-
-        <div class="mt-8 sm:mt-10 text-center text-xs muted">
-          VoiceSafe • Prototype • Built for global anti-scam awareness
-        </div>
       </div>
     </div>
 
+    <div class="mt-10 text-center text-xs muted">
+      VoiceSafe.ai • AI Fraud Prevention Tool • Built 2026
+    </div>
   </div>
 
   <!-- PAYWALL MODAL -->
   <div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50">
     <div id="paywallBackdrop" class="absolute inset-0 bg-black/60"></div>
+
     <div class="relative w-[92%] max-w-lg rounded-2xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
       <div class="flex items-start justify-between gap-4">
         <div>
@@ -337,19 +395,28 @@
         </div>
         <button id="paywallClose" class="rounded-lg px-3 py-1 text-sm chip">✕</button>
       </div>
+
       <div class="mt-4 grid gap-2 text-sm opacity-90">
         <div>✓ Unlimited analyses</div>
         <div>✓ Priority AI detection</div>
+        <div>✓ Full AI Risk Report</div>
         <div>✓ Case history & sharing</div>
       </div>
+
       <div class="mt-6 flex flex-col gap-2">
-        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold w-full">Start Pro – 9€/month</button>
-        <button id="paywallWaitlist" onclick="joinEarlyAccess()"
-          class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
-          Join early access
-          <p id="waitlistUrgencyModal" class="mt-2 text-xs opacity-70 text-center"></p>
+        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full">
+          Start Pro – €9/month
         </button>
-        <p class="mt-2 text-xs opacity-60">Payment coming soon. This button measures demand (clicks).</p>
+
+        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
+          Join early access
+          <div id="waitlistUrgencyModal" class="mt-2 text-xs opacity-70 text-center"></div>
+        </button>
+
+        <p class="mt-2 text-xs opacity-60">
+          (If payments are not available for your region yet, join early access and we’ll prioritize your rollout.)
+        </p>
+
         <p id="waitlistCountText" class="mt-2 text-xs opacity-70 text-center"></p>
       </div>
     </div>
@@ -359,49 +426,15 @@
     // ===========================
     // CONFIG
     // ===========================
-    const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-    const STRIPE_BILLING_PORTAL_URL = "https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800";
-
     const URLS = {
       PROD: "https://voicesafe-backend-1.onrender.com",
-      LOCAL: "http://127.0.0.1:10000"
+      LOCAL: "http://127.0.0.1:10000",
     };
     let backendBase = URLS.PROD;
 
-    // ===========================
-    // PAYWALL
-    // ===========================
-    function openPaywall() {
-      const m = document.getElementById("paywallModal");
-      if (!m) return;
-      m.classList.remove("hidden");
-      m.classList.add("flex");
-    }
-    function closePaywall() {
-      const m = document.getElementById("paywallModal");
-      if (!m) return;
-      m.classList.add("hidden");
-      m.classList.remove("flex");
-    }
-    function showPaywall(){ openPaywall(); }
-    function hidePaywall(){ closePaywall(); }
-
-    (function wirePaywall(){
-      const backdrop = document.getElementById("paywallBackdrop");
-      const closeBtn = document.getElementById("paywallClose");
-      const cta = document.getElementById("paywallCta");
-      const wait = document.getElementById("paywallWaitlist");
-
-      if (backdrop) backdrop.addEventListener("click", closePaywall);
-      if (closeBtn) closeBtn.addEventListener("click", closePaywall);
-
-      if (cta) cta.addEventListener("click", () => {
-        closePaywall();
-        window.location.href = STRIPE_CHECKOUT_URL;
-      });
-
-      if (wait) wait.addEventListener("click", () => closePaywall());
-    })();
+    // Stripe links (your current)
+    const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
+    const STRIPE_PORTAL_URL = "https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800";
 
     // ===========================
     // DOM helpers
@@ -416,6 +449,7 @@
     const scamScoreEl = $("scamScore");
     const aiProbEl = $("aiProb");
     const stressLevelEl = $("stressLevel");
+
     const summaryText = $("summaryText");
     const flagsWrap = $("flagsWrap");
     const rawJson = $("rawJson");
@@ -426,9 +460,6 @@
 
     const copyJsonBtn = $("copyJsonBtn");
     const shareBtn = $("shareBtn");
-    const upgradeBtn = $("upgradeBtn");
-    const manageBtn = $("manageSubBtn");
-
     const caseIdEl = $("caseId");
     const caseSavedHint = $("caseSavedHint");
 
@@ -447,49 +478,17 @@
 
     const btnProd = $("btnProd");
     const btnLocal = $("btnLocal");
+    const upgradeBtn = $("upgradeBtn");
+    const manageSubBtn = $("manageSubBtn");
+
+    const resultsCard = $("resultsCard");
 
     let lastResponse = null;
     let lastCaseId = null;
     let progressInterval = null;
 
     // ===========================
-    // MODE + health
-    // ===========================
-    function setStatus(text){ $("backendStatus").textContent = text; }
-
-    async function checkBackend(){
-      try{
-        const r = await fetch(`${backendBase}/health`, { cache:"no-store" });
-        if (!r.ok) throw new Error("health not ok");
-        const j = await r.json().catch(() => ({}));
-        setStatus(`OK • AI: ${j.ai_url || "unknown"}`);
-      } catch {
-        setStatus("Offline / blocked (check URL, CORS, or server)");
-      }
-    }
-
-    function setMode(mode){
-      backendBase = URLS[mode];
-      $("backendUrl").textContent = backendBase;
-      $("modeLabel").textContent = mode;
-
-      btnProd.classList.remove("border","border-yellow-300/40");
-      btnLocal.classList.remove("border","border-yellow-300/40");
-      (mode === "PROD" ? btnProd : btnLocal).classList.add("border","border-yellow-300/40");
-
-      checkBackend();
-    }
-
-    btnProd.addEventListener("click", () => setMode("PROD"));
-    btnLocal.addEventListener("click", () => setMode("LOCAL"));
-    setMode("PROD");
-
-    // Stripe buttons
-    if (upgradeBtn) upgradeBtn.addEventListener("click", () => window.location.href = STRIPE_CHECKOUT_URL);
-    if (manageBtn) manageBtn.addEventListener("click", () => window.open(STRIPE_BILLING_PORTAL_URL, "_blank"));
-
-    // ===========================
-    // UI helpers
+    // Utilities
     // ===========================
     function clampPct(v){
       const n = Number(v);
@@ -501,40 +500,187 @@
       aiBar.style.width = clampPct(ai) + "%";
       stressBar.style.width = clampPct(stress) + "%";
     }
-
-    function setResultUI(data){
-      const scam = clampPct(data?.scam_score ?? data?.scamScore ?? 0);
-      const ai = clampPct(data?.ai_probability ?? data?.aiProb ?? 0);
-      const stress = clampPct(data?.stress_level ?? data?.stressLevel ?? 0);
-
-      scamScoreEl.textContent = String(Math.round(scam));
-      aiProbEl.textContent = String(Math.round(ai));
-      stressLevelEl.textContent = String(Math.round(stress));
-
-      summaryText.textContent = data?.summary || "No summary returned.";
+    function renderFlags(flags){
       flagsWrap.innerHTML = "";
-
-      const flags = Array.isArray(data?.flags) ? data.flags : [];
-      flags.slice(0, 8).forEach(f => {
+      (Array.isArray(flags) ? flags : []).forEach(f => {
         const chip = document.createElement("span");
         chip.className = "chip px-3 py-1 rounded-full text-xs";
-        chip.textContent = f;
+        chip.textContent = String(f);
         flagsWrap.appendChild(chip);
       });
+    }
+
+    function scrollToResults(){
+      if (!resultsCard) return;
+      resultsCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // Robust mapping (fix 0%)
+    function pickAIProbability(data){
+      return (
+        data?.ai_voice_probability ??
+        data?.ai_voice_prob ??
+        data?.ai_probability ??
+        data?.aiProb ??
+        data?.ai ??
+        0
+      );
+    }
+    function pickScamScore(data){
+      return (data?.scam_score ?? data?.scamScore ?? data?.scan_score ?? 0);
+    }
+    function pickStress(data){
+      return (data?.stress_level ?? data?.stress ?? 0);
+    }
+
+    function setResultUI(data){
+      const scam = pickScamScore(data);
+      const ai = pickAIProbability(data);
+      const stress = pickStress(data);
+
+      scamScoreEl.textContent = String(clampPct(scam));
+      aiProbEl.textContent = String(clampPct(ai));
+      stressLevelEl.textContent = String(clampPct(stress));
 
       setBars(scam, ai, stress);
+
+      summaryText.textContent =
+        data?.summary ||
+        data?.message ||
+        "Analysis completed.";
+
+      renderFlags(data?.flags || data?.signals || []);
     }
 
     // ===========================
-    // File selection
+    // Paywall
+    // ===========================
+    function openPaywall(){
+      const m = $("paywallModal");
+      if (!m) return;
+      m.classList.remove("hidden");
+      m.classList.add("flex");
+      renderWaitlistCount();
+    }
+    function closePaywall(){
+      const m = $("paywallModal");
+      if (!m) return;
+      m.classList.add("hidden");
+      m.classList.remove("flex");
+    }
+
+    $("paywallBackdrop")?.addEventListener("click", closePaywall);
+    $("paywallClose")?.addEventListener("click", closePaywall);
+
+    // ===========================
+    // Backend status + mode
+    // ===========================
+    function setStatus(text){ $("backendStatus").textContent = text; }
+
+    async function checkBackend(){
+      try{
+        const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
+        if (!r.ok) throw new Error("health not ok");
+        const j = await r.json().catch(() => ({}));
+        setStatus(`✅ ONLINE • AI: ${j.ai_url || "unknown"}`);
+      }catch{
+        setStatus("❌ Offline / blocked (check URL, CORS, or server)");
+      }
+    }
+
+    function setMode(mode){
+      backendBase = URLS[mode];
+      $("backendUrl").textContent = backendBase;
+      $("modeLabel").textContent = mode;
+
+      const active = " border border-yellow-300/40";
+      btnProd.className = btnProd.className.replace(active, "");
+      btnLocal.className = btnLocal.className.replace(active, "");
+      if (mode === "PROD") btnProd.className += active;
+      else btnLocal.className += active;
+
+      checkBackend();
+    }
+
+    btnProd.addEventListener("click", () => setMode("PROD"));
+    btnLocal.addEventListener("click", () => setMode("LOCAL"));
+    setMode("PROD");
+
+    // ===========================
+    // Stripe
+    // ===========================
+    upgradeBtn?.addEventListener("click", () => {
+      window.location.href = STRIPE_CHECKOUT_URL;
+    });
+
+    manageSubBtn?.addEventListener("click", () => {
+      window.open(STRIPE_PORTAL_URL, "_blank");
+    });
+
+    // If you later implement real success page, this keeps "pro" flag.
+    if (window.location.pathname.includes("success")) {
+      localStorage.setItem("voicesafe_pro", "true");
+      alert("✅ PRO activated successfully!");
+      window.location.href = "/";
+    }
+
+    // ===========================
+    // Waitlist / FOMO
+    // ===========================
+    function joinEarlyAccess(){
+      const count = Number(localStorage.getItem("waitlist") || 0) + 1;
+      localStorage.setItem("waitlist", String(count));
+
+      const btn = $("paywallWaitlist");
+      if (btn){
+        btn.classList.add("opacity-70");
+        btn.innerHTML = "Joined ✅";
+        btn.disabled = true;
+      }
+
+      renderWaitlistCount();
+      alert("You're on the early access list 🚀");
+    }
+    $("paywallWaitlist")?.addEventListener("click", joinEarlyAccess);
+
+    function renderWaitlistCount(){
+      const count = Number(localStorage.getItem("waitlist") || 0);
+
+      $("waitlistCountBadge") && ($("waitlistCountBadge").textContent = String(count));
+      $("waitlistCountText") && ($("waitlistCountText").textContent = `Total early access sign-ups: ${count}`);
+
+      const urgency = $("waitlistUrgency")?.textContent || "Early access is open now.";
+      $("waitlistUrgencyModal") && ($("waitlistUrgencyModal").textContent = urgency);
+    }
+
+    const cities = ["Vienna","Warsaw","Amsterdam","Paris","Madrid","London","New York","Toronto","Singapore","Dubai"];
+    function simulateLiveActivity(){
+      const el = $("liveActivity");
+      if (!el) return;
+
+      setInterval(() => {
+        const city = cities[Math.floor(Math.random()*cities.length)];
+        const sec = Math.floor(Math.random()*45) + 8;
+        el.textContent = `🔥 ${city} • new scan started ${sec}s ago`;
+      }, 5500);
+
+      el.textContent = "🔥 Global scans running now…";
+    }
+
+    simulateLiveActivity();
+    renderWaitlistCount();
+
+    // ===========================
+    // File selection -> enable analyze
     // ===========================
     fileInput.addEventListener("change", () => {
       const f = fileInput.files && fileInput.files[0];
       if (f){
-        fileHint.textContent = `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)`;
+        fileHint.textContent = `Selected: ${f.name} (${Math.round(f.size/1024)} KB)`;
         analyzeBtn.disabled = false;
-      } else {
+      }else{
         fileHint.textContent = "No file selected.";
+        analyzeBtn.disabled = true;
       }
     });
 
@@ -548,28 +694,34 @@
     recordBtn.addEventListener("click", async () => {
       try{
         if (!recording){
-          const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
           recordedChunks = [];
           mediaRecorder = new MediaRecorder(stream);
-          mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
+
+          mediaRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) recordedChunks.push(e.data);
+          };
+
           mediaRecorder.onstop = () => {
-            const blob = new Blob(recordedChunks, { type:"audio/webm" });
-            const file = new File([blob], "mic.webm", { type:"audio/webm" });
+            const blob = new Blob(recordedChunks, { type: "audio/webm" });
+            const file = new File([blob], "mic.webm", { type: "audio/webm" });
             const dt = new DataTransfer();
             dt.items.add(file);
             fileInput.files = dt.files;
-            fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+
+            fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size/1024)} KB)`;
             analyzeBtn.disabled = false;
           };
+
           mediaRecorder.start();
           recording = true;
           recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
-        } else {
+        }else{
           mediaRecorder.stop();
           recording = false;
           recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
         }
-      } catch {
+      }catch{
         alert("Microphone permission blocked or unavailable.");
       }
     });
@@ -577,43 +729,52 @@
     // ===========================
     // Analyze
     // ===========================
+    function startInvestorProgress(){
+      const steps = [
+        "Analyzing voice biometrics…",
+        "Detecting AI voice cloning artifacts…",
+        "Measuring urgency / stress markers…",
+        "Scanning scam patterns & intent…",
+        "Generating AI Risk Report…"
+      ];
+      let i = 0;
+      summaryText.textContent = steps[0];
+
+      if (progressInterval) clearInterval(progressInterval);
+      progressInterval = setInterval(() => {
+        i++;
+        if (i < steps.length) summaryText.textContent = steps[i];
+      }, 850);
+    }
+
     analyzeBtn.addEventListener("click", async () => {
+      const f = fileInput.files && fileInput.files[0];
+
+      if (!f){
+        alert("Please select a file first.");
+        return;
+      }
+
       // FREE LIMIT
       const isPro = localStorage.getItem("voicesafe_pro") === "true";
       const FREE_LIMIT = 3;
       const usage = Number(localStorage.getItem("vs_usage") || 0);
+
       if (!isPro && usage >= FREE_LIMIT){
         openPaywall();
         return;
       }
 
-      const f = fileInput.files?.[0];
-      if (!f){
-        alert("Please select audio file first");
-        return;
-      }
-
-      const steps = [
-        "Analyzing voice pattern...",
-        "Detecting AI voice cloning...",
-        "Measuring stress markers...",
-        "Scanning scam signals...",
-        "Finalizing risk score..."
-      ];
-      let stepIndex = 0;
-
-      summaryText.textContent = steps[0];
-      if (progressInterval) clearInterval(progressInterval);
-      progressInterval = setInterval(() => {
-        stepIndex++;
-        if (stepIndex < steps.length) summaryText.textContent = steps[stepIndex];
-      }, 900);
-
+      // increment usage
       localStorage.setItem("vs_usage", String(isPro ? usage : usage + 1));
 
+      // UI state
       analyzeBtn.disabled = true;
-      analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
+      analyzeBtn.innerHTML = `<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…`;
       if (rawJson) rawJson.classList.add("hidden");
+      renderFlags([]);
+
+      startInvestorProgress();
 
       try{
         const form = new FormData();
@@ -627,7 +788,7 @@
         form.append("tags", tagsEl.value || "");
         form.append("notes", notesEl.value || "");
 
-        const resp = await fetch(`${backendBase}/upload`, { method:"POST", body:form });
+        const resp = await fetch(`${backendBase}/upload`, { method:"POST", body: form });
         const data = await resp.json().catch(() => null);
 
         if (!resp.ok){
@@ -637,29 +798,38 @@
           return;
         }
 
-        lastResponse = data?.aiResult || data;
-        setResultUI(lastResponse);
+        const payload = data?.aiResult || data?.case?.data || data;
 
-        lastCaseId = data?.case_id || data?.caseId || data?.id || null;
+        lastResponse = data;
+        setResultUI(payload);
+        scrollToResults();
+
+        lastCaseId = data?.case_id || data?.case?.id || data?.id || null;
         if (lastCaseId){
-          caseIdEl.textContent = lastCaseId;
-          caseSavedHint.textContent = "Case saved.";
+          caseIdEl.textContent = String(lastCaseId);
+          caseSavedHint.textContent = "Case saved. You can share it.";
           shareBtn.disabled = false;
-        } else {
-          caseSavedHint.textContent = "No case id returned by backend.";
+        }else{
+          caseIdEl.textContent = "—";
+          caseSavedHint.textContent = "No case id returned (backend may not save cases).";
+          shareBtn.disabled = true;
         }
 
         if (rawJson){
           rawJson.textContent = JSON.stringify(data, null, 2);
           rawJson.classList.remove("hidden");
         }
-      } catch {
-        summaryText.textContent = "Network error.";
+
+      }catch(e){
+        summaryText.textContent = "Network error. Please retry.";
         setBars(0,0,0);
-      } finally {
-        if (progressInterval){ clearInterval(progressInterval); progressInterval = null; }
+      }finally{
+        if (progressInterval){
+          clearInterval(progressInterval);
+          progressInterval = null;
+        }
         analyzeBtn.disabled = false;
-        analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+        analyzeBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze`;
       }
     });
 
@@ -671,8 +841,10 @@
         if (!lastResponse) return;
         await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
         copyJsonBtn.textContent = "Copied ✓";
-        setTimeout(() => copyJsonBtn.innerHTML = `<i class="fa-regular fa-copy mr-2"></i>Copy JSON`, 900);
-      } catch {
+        setTimeout(() => {
+          copyJsonBtn.innerHTML = `<i class="fa-regular fa-copy mr-2"></i>Copy JSON`;
+        }, 900);
+      }catch{
         alert("Copy failed (clipboard permission).");
       }
     });
@@ -680,12 +852,14 @@
     shareBtn.addEventListener("click", async () => {
       if (!lastCaseId) return;
       const url = new URL(window.location.href);
-      url.searchParams.set("case", lastCaseId);
+      url.searchParams.set("case", String(lastCaseId));
       try{
         await navigator.clipboard.writeText(url.toString());
         shareBtn.textContent = "Link copied ✓";
-        setTimeout(() => shareBtn.innerHTML = `<i class="fa-solid fa-link mr-2"></i>Share`, 1000);
-      } catch {
+        setTimeout(() => {
+          shareBtn.innerHTML = `<i class="fa-solid fa-link mr-2"></i>Share`;
+        }, 1000);
+      }catch{
         alert("Could not copy. Share link: " + url.toString());
       }
     });
@@ -694,7 +868,7 @@
     // Search / Load cases (optional)
     // ===========================
     function escapeHtml(s){
-      return (s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
     }
 
     function renderSearchList(items){
@@ -703,7 +877,6 @@
         resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
         return;
       }
-
       items.slice(0,25).forEach(item => {
         const id = item.id || item.case_id || item._id;
         const title = item?.meta?.title || item?.title || "(untitled)";
@@ -720,7 +893,7 @@
               <div class="text-xs muted truncate">${escapeHtml(platform)} ${whenTxt ? "• " + escapeHtml(whenTxt) : ""}</div>
               <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
             </div>
-            <div class="text-sm font-bold gold-text shrink-0">Load</div>
+            <div class="text-sm font-extrabold gold-text shrink-0">Load</div>
           </div>
         `;
         row.addEventListener("click", () => loadCase(id));
@@ -741,7 +914,7 @@
         const j = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(j?.message || "Search failed");
         renderSearchList(j?.cases || j?.items || []);
-      } catch {
+      }catch{
         resultsList.innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`;
       }
     }
@@ -756,7 +929,6 @@
           summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
           return;
         }
-
         const c = j.case || j.item || j;
         const meta = c.meta || {};
         const data = c.data || c;
@@ -770,9 +942,10 @@
 
         lastResponse = data;
         setResultUI(data);
+        scrollToResults();
 
         lastCaseId = c.id || c._id || id;
-        caseIdEl.textContent = lastCaseId;
+        caseIdEl.textContent = String(lastCaseId);
         caseSavedHint.textContent = "Loaded from saved cases.";
         shareBtn.disabled = false;
 
@@ -782,9 +955,9 @@
         }
 
         const url = new URL(window.location.href);
-        url.searchParams.set("case", lastCaseId);
+        url.searchParams.set("case", String(lastCaseId));
         history.replaceState({}, "", url.toString());
-      } catch {
+      }catch{
         summaryText.textContent = "Could not load case (network error).";
       }
     }
@@ -801,59 +974,6 @@
       const id = u.searchParams.get("case");
       if (id) loadCase(id);
     })();
-
-    // ===========================
-    // Early access waitlist
-    // ===========================
-    function joinEarlyAccess(){
-      const count = Number(localStorage.getItem("waitlist") || 0);
-      localStorage.setItem("waitlist", String(count + 1));
-      renderWaitlistCount();
-    }
-    window.joinEarlyAccess = joinEarlyAccess;
-
-    function renderWaitlistCount(){
-      const count = Number(localStorage.getItem("waitlist") || 0);
-      const top = document.getElementById("waitlistCountTop");
-      const badge = document.getElementById("waitlistCountBadge");
-      const modal = document.getElementById("waitlistCountText");
-      const urgency = document.getElementById("waitlistUrgency");
-      const urgencyModal = document.getElementById("waitlistUrgencyModal");
-
-      if (top) top.textContent = String(count);
-      if (badge) badge.textContent = String(count);
-      if (modal) modal.textContent = `Total early access sign-ups: ${count}`;
-      if (urgencyModal && urgency) urgencyModal.textContent = urgency.textContent || "";
-    }
-
-    const cities = ["Vienna","Warsaw","Amsterdam","Paris","Madrid","New York","Toronto"];
-    function simulateLiveJoins(){
-      const el = document.getElementById("liveActivity");
-      if (!el) return;
-      setInterval(() => {
-        const city = cities[Math.floor(Math.random() * cities.length)];
-        const seconds = Math.floor(Math.random() * 40) + 5;
-        el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
-      }, 6000);
-    }
-    simulateLiveJoins();
-    renderWaitlistCount();
-
-    // Stripe success page quick check
-    if (window.location.pathname.includes("success")){
-      localStorage.setItem("voicesafe_pro", "true");
-      alert("✅ PRO activated successfully!");
-      window.location.href = "/";
-    }
-
-    // Keep Analyze disabled until file is present
-    document.addEventListener("DOMContentLoaded", () => {
-      if (analyzeBtn) analyzeBtn.disabled = true;
-    });
   </script>
-
-  <div style="text-align:center;opacity:.5;font-size:12px;margin-top:60px;margin-bottom:20px">
-    VoiceSafe.ai • AI Fraud Prevention Tool • Built 2026
-  </div>
 </body>
 </html>
