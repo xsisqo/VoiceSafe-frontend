@@ -974,20 +974,17 @@ document.getElementById("resultsCard")
     // =========================
     // FREE LIMIT
     // =========================
-    const isPro = localStorage.getItem("voicesafe_pro") === "true";
-    const FREE_LIMIT = 3;
-    const usage = Number(localStorage.getItem("vs_usage") || 0);
+   const isPro = localStorage.getItem("voicesafe_pro") === "true";
+const FREE_LIMIT = 3;
+let usage = Number(localStorage.getItem("vs_usage") || 0);
 
-    if (!isPro && usage >= FREE_LIMIT) {
-      openPaywall();
-      return;
-    }
+// demo mode never counts
+const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
 
-    const f = fileInput.files && fileInput.files[0];
-    if (!f) {
-      toast("Select a file or record audio first.");
-      loadDemoResult();
-      return;
+if (!isPro && !DEMO_MODE && usage >= FREE_LIMIT) {
+  openPaywall();
+  return;
+
     }
 
     // =========================
