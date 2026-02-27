@@ -970,36 +970,38 @@ document.getElementById("resultsCard")
     });
 }
 
-     if (analyzeBtn) {
-
+// ===========================
+// Analyze
+// ===========================
+if (analyzeBtn) {
   analyzeBtn.addEventListener("click", async () => {
+    // ---------- FREE LIMIT (demo never counts) ----------
+    const isPro = localStorage.getItem("voicesafe_pro") === "true";
+    const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
+    const FREE_LIMIT = 3;
+    const usage = Number(localStorage.getItem("vs_usage") || 0);
 
-    // =========================
-    // FREE LIMIT
-    // =========================
-   const isPro = localStorage.getItem("voicesafe_pro") === "true";
-const FREE_LIMIT = 3;
-let usage = Number(localStorage.getItem("vs_usage") || 0);
-
-// demo mode never counts
-const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
-
-if (!isPro && !DEMO_MODE && usage >= FREE_LIMIT) {
-  openPaywall();
-  return;
-
+    if (!isPro && !DEMO_MODE && usage >= FREE_LIMIT) {
+      openPaywall();
+      return;
     }
 
-    // =========================
-    // Progress text
-    // =========================
+    // ---------- File check ----------
+    const f = fileInput?.files && fileInput.files[0];
+    if (!f) {
+      toast("Select a file or record audio first.");
+      loadDemoResult(); // optional: keep if you want investor demo fallback
+      return;
+    }
+
+    // ---------- Progress text ----------
     const steps = [
-      "Uploading sample...",
-      "Analyzing voice pattern...",
-      "Detecting AI voice cloning...",
-      "Measuring stress markers...",
-      "Scanning scam signals...",
-      "Finalizing risk report..."
+      "Uploading sample…",
+      "Analyzing voice pattern…",
+      "Detecting AI voice cloning…",
+      "Measuring stress markers…",
+      "Scanning scam signals…",
+      "Finalizing risk report…",
     ];
 
     let stepIndex = 0;
@@ -1011,19 +1013,20 @@ if (!isPro && !DEMO_MODE && usage >= FREE_LIMIT) {
       summaryText.textContent = steps[stepIndex];
     }, 850);
 
-    // count usage
-    localStorage.setItem("vs_usage", String(isPro ? usage : usage + 1));
-
+    // ---------- UI start (spinner) ----------
     analyzeBtn.disabled = true;
-    analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
+    analyzeBtn.innerHTML =
+      '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…';
     flagsWrap.innerHTML = "";
-    setBars(0,0,0);
+    setBars(0, 0, 0);
     if (rawJson) rawJson.classList.add("hidden");
 
-const startTime = Date.now();
+    // ensure spinner is visible at least a bit
+    const startTime = Date.now();
+    const MIN_TIME = 800;
 
     try {
-
+      // ---------- Build form ----------
       const form = new FormData();
       form.append("file", f);
 
@@ -1035,31 +1038,39 @@ const startTime = Date.now();
       form.append("tags", tagsEl?.value || "");
       form.append("notes", notesEl?.value || "");
 
-      const resp = await fetch(`${backendBase}/upload`, {
-        method: "POST",
-        body: form
-      });
+      // ---------- CALL BACKEND (NOT AI DIRECTLY) ----------
+      console.log("backendBase =", backendBase);
+
+const resp = await fetch(`${backendBase}/upload`, {
+  method: "POST",
+  body: form,
+});
 
       const data = await resp.json().catch(() => null);
 
       if (!resp.ok) {
-        const msg = (data && (data.message || data.error)) || "Server error";
+        const msg =
+          (data && (data.message || data.error)) ||
+          `HTTP ${resp.status} from backend`;
         summaryText.textContent = `Error: ${msg}`;
         toast("Analyze failed.");
+        console.error("UPLOAD FAILED:", resp.status, data);
         return;
       }
 
+      // ---------- SUCCESS: count usage ONLY on success ----------
+      if (!isPro && !DEMO_MODE) {
+        const current = Number(localStorage.getItem("vs_usage") || 0);
+        localStorage.setItem("vs_usage", String(current + 1));
+      }
+
+      // backend may return { aiResult, case_id } OR direct result
       const aiResult = (data && (data.aiResult || data.result || data)) || {};
       lastResponse = aiResult;
 
-      setResultUI(aiResult);
-
+      // case id (optional)
       lastCaseId =
-        data?.case_id ||
-        data?.caseId ||
-        data?.id ||
-        aiResult?.case_id ||
-        null;
+        data?.case_id || data?.caseId || data?.id || aiResult?.case_id || null;
 
       if (lastCaseId) {
         caseIdEl.textContent = String(lastCaseId);
@@ -1071,108 +1082,36 @@ const startTime = Date.now();
         shareBtn.disabled = true;
       }
 
+      setResultUI(aiResult);
+
       if (rawJson) {
         rawJson.textContent = JSON.stringify(data, null, 2);
         rawJson.classList.remove("hidden");
       }
 
       toast("Analysis complete ✓");
-
     } catch (e) {
-
-      summaryText.textContent = "Network error (check backend URL / CORS).";
+      console.error("ANALYZE ERROR:", e);
+      summaryText.textContent = `Network error: ${e?.message || e}`;
       toast("Network error.");
-
     } finally {
+      // keep spinner visible minimum time
+      const elapsed = Date.now() - startTime;
+      if (elapsed < MIN_TIME) {
+        await new Promise((r) => setTimeout(r, MIN_TIME - elapsed));
+      }
 
-  const elapsed = Date.now() - startTime;
-  const MIN_TIME = 800;
+      if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+      }
 
-  if (elapsed < MIN_TIME) {
-    await new Promise(r => setTimeout(r, MIN_TIME - elapsed));
-  }
-
-  if (progressInterval) {
-    clearInterval(progressInterval);
-    progressInterval = null;
-  }
-
-  analyzeBtn.disabled = false;
-  analyzeBtn.innerHTML =
-    '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
-
-}
-
+      analyzeBtn.disabled = false;
+      analyzeBtn.innerHTML =
+        '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+    }
   });
-
-  if (demoBtn) {
-  demoBtn.addEventListener("click", runInvestorDemo);
 }
-
-}
-    
-
-    // ===========================
-    // Copy / Share
-    // ===========================
-    copyJsonBtn.addEventListener("click", async () => {
-      try {
-        if (!lastResponse) { toast("No result to copy."); return; }
-        await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
-        toast("Copied JSON ✓");
-      } catch {
-        alert("Copy failed (clipboard permission).");
-      }
-    });
-
-    shareBtn.addEventListener("click", async () => {
-      if (!lastCaseId) { toast("No case id to share."); return; }
-      const url = new URL(window.location.href);
-      url.searchParams.set("case", String(lastCaseId));
-      try {
-        await navigator.clipboard.writeText(url.toString());
-        toast("Share link copied ✓");
-      } catch {
-        alert("Could not copy. Share link: " + url.toString());
-      }
-    });
-
-    // ===========================
-    // Search / Load cases (optional)
-    // ===========================
-    function escapeHtml(s) {
-      return (s || "").replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
-    }
-
-    function renderSearchList(items) {
-      resultsList.innerHTML = "";
-      if (!items || !items.length) {
-        resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
-        return;
-      }
-      items.slice(0, 25).forEach(item => {
-        const id = item.id || item.case_id || item._id;
-        const title = item?.meta?.title || item?.title || "(untitled)";
-        const platform = item?.meta?.platform || item?.platform || "";
-        const when = item?.created_at || item?.createdAt;
-        const whenTxt = when ? new Date(when).toLocaleString() : "";
-
-        const row = document.createElement("div");
-        row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
-        row.innerHTML = `
-          <div class="flex items-center justify-between gap-3">
-            <div class="min-w-0">
-              <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
-              <div class="text-xs muted truncate">${escapeHtml(platform)} ${whenTxt ? "• " + escapeHtml(whenTxt) : ""}</div>
-              <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
-            </div>
-            <div class="text-sm font-extrabold gold-text shrink-0">Load</div>
-          </div>
-        `;
-        row.addEventListener("click", () => loadCase(id));
-        resultsList.appendChild(row);
-      });
-    }
 
     async function doSearch() {
       const q = (searchQ.value || "").trim();
