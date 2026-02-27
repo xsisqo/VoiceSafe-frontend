@@ -501,25 +501,18 @@
 
     let backendBase = URLS.PROD;
 
+// DOM helper GLOBAL
+const $ = (id) => document.getElementById(id);
+
+const fileInput = $("fileInput");
+const analyzeBtn = $("analyzeBtn");
+const recordBtn = $("recordBtn");
+const fileHint = $("fileHint");
+
     // ===========================
     // DOM helpers
     // ===========================
-    document.addEventListener("DOMContentLoaded", () => {
-
-const $ = (id) => document.getElementById(id);
-
-const analyzeBtn = $("analyzeBtn");
-
-analyzeBtn.addEventListener("click", async () => {
-
-});
-
-});
-
-    const fileInput = $("fileInput");
-    const analyzeBtn = $("analyzeBtn");
-    const recordBtn = $("recordBtn");
-    const fileHint = $("fileHint");
+    
 
     const scamScoreEl = $("scamScore");
     const aiProbEl = $("aiProb");
@@ -940,7 +933,13 @@ document.getElementById("resultsCard")
     });
 }
 
-    analyzeBtn.addEventListener("click", async () => {
+    if (analyzeBtn) {
+  analyzeBtn.addEventListener("click", async () => {
+
+    // celý existujúci analyze kód necháš TU
+
+  });
+}
       // FREE LIMIT
       const isPro = localStorage.getItem("voicesafe_pro") === "true";
       const FREE_LIMIT = 3;
@@ -1040,7 +1039,6 @@ document.getElementById("resultsCard")
         analyzeBtn.disabled = false;
         analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
       }
-    });
 
     // ===========================
     // Copy / Share
@@ -1194,17 +1192,6 @@ document.getElementById("resultsCard")
       alert("✅ PRO activated successfully!");
       window.location.href = "/";
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-
-  const analyzeBtn = document.getElementById("analyzeBtn");
-
-  if (analyzeBtn) {
-    analyzeBtn.disabled = false;
-    console.log("✅ Analyze button initialized");
-  }
-
-});
 
   </script>
 </body>
