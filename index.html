@@ -2,205 +2,161 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>VoiceSafe – AI Voice Scam Detection</title>
-
-<meta name="description" content="Detect AI voice cloning and impersonation scams instantly. Upload an audio message and analyze scam risk in seconds.">
-
-<meta property="og:title" content="VoiceSafe – AI Voice Scam Detection">
-<meta property="og:description" content="Upload a voice message and detect impersonation, AI cloning and scam risk instantly.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://voicesafe.ai">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Detect AI Voice Scams Before You Send Money</title>
 
-  <!-- SEO + SHARE META -->
-  <meta name="description"
-    content="VoiceSafe analyzes voice recordings using AI to detect scam risk, impersonation and synthetic voices before financial fraud happens.">
-  <meta property="og:title" content="VoiceSafe — AI Voice Scam Detection">
-  <meta property="og:description" content="Upload a voice recording and instantly detect scam risk using AI voice analysis.">
+  <title>VoiceSafe – AI Voice Scam Detection</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Detect AI voice cloning and impersonation scams instantly. Upload a voice message and analyze scam risk in seconds.">
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="VoiceSafe – AI Voice Scam Detection">
+  <meta property="og:description" content="Upload a voice message and detect impersonation, AI cloning and scam risk instantly.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://voicesafe-frontend.onrender.com/">
-  <meta property="og:image" content="https://voicesafe-frontend.onrender.com/og-image.png">
+  <meta property="og:url" content="https://voicesafe.ai">
+  <meta property="og:image" content="https://voicesafe.ai/og-image.png">
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VoiceSafe — AI Voice Scam Detection">
+  <meta name="twitter:title" content="VoiceSafe – AI Voice Scam Detection">
   <meta name="twitter:description" content="Analyze voice recordings and detect impersonation or AI scam risk instantly.">
-  <meta name="twitter:image" content="https://voicesafe-frontend.onrender.com/og-image.png">
+  <meta name="twitter:image" content="https://voicesafe.ai/og-image.png">
 
   <!-- Favicons / PWA -->
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="/icon-192.png">
   <link rel="manifest" href="/manifest.webmanifest">
 
-  <!-- Tailwind CDN (OK for prototype) -->
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    :root {
-      --bg0: #070A12;
-      --bg1: #0B1220;
-      --stroke: rgba(255, 255, 255, .10);
-      --gold1: #F7D774;
-      --gold2: #C9A24A;
-      --muted: rgba(255, 255, 255, .70);
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1220;
+      --stroke:rgba(255,255,255,.10);
+      --gold1:#F7D774;
+      --gold2:#C9A24A;
+      --muted:rgba(255,255,255,.70);
     }
-    html, body { height: 100%; }
-    body {
+    html,body{height:100%;}
+    body{
       background:
-        radial-gradient(1000px 600px at 20% 10%, rgba(247, 215, 116, .10), transparent 60%),
-        radial-gradient(900px 600px at 80% 0%, rgba(201, 162, 74, .10), transparent 60%),
-        radial-gradient(900px 700px at 50% 100%, rgba(99, 102, 241, .10), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      color: #fff;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+        radial-gradient(1000px 600px at 20% 10%, rgba(247,215,116,.10), transparent 60%),
+        radial-gradient(900px 600px at 80% 0%, rgba(201,162,74,.10), transparent 60%),
+        radial-gradient(900px 700px at 50% 100%, rgba(99,102,241,.10), transparent 60%),
+        linear-gradient(180deg,var(--bg0),var(--bg1));
+      color:#fff;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
     }
-    * { box-sizing: border-box; }
-    img, video, canvas, svg { max-width: 100%; height: auto; }
-    pre { white-space: pre-wrap; word-break: break-word; }
+    *{box-sizing:border-box;}
+    img,video,canvas,svg{max-width:100%;height:auto;}
+    pre{white-space:pre-wrap;word-break:break-word;}
 
-    .glass {
-      background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .03));
-      border: 1px solid var(--stroke);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
-      backdrop-filter: blur(10px);
+    .glass{
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+      border:1px solid var(--stroke);
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
+      backdrop-filter:blur(10px);
     }
-    .gold-border {
-      border: 1px solid rgba(247, 215, 116, .35);
-      box-shadow: 0 0 0 1px rgba(201, 162, 74, .20) inset;
+    .gold-border{
+      border:1px solid rgba(247,215,116,.35);
+      box-shadow:0 0 0 1px rgba(201,162,74,.20) inset;
     }
-    .gold-text {
-      background: linear-gradient(90deg, var(--gold1), var(--gold2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .gold-text{
+      background:linear-gradient(90deg,var(--gold1),var(--gold2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
     }
-    .muted { color: var(--muted); }
-    .chip {
-      border: 1px solid rgba(255, 255, 255, .10);
-      background: rgba(255, 255, 255, .05);
+    .muted{color:var(--muted);}
+    .chip{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
     }
-    .btn-gold {
-      background: linear-gradient(90deg, rgba(247, 215, 116, 1), rgba(201, 162, 74, 1));
-      color: #111827;
-      box-shadow: 0 10px 30px rgba(247, 215, 116, .15);
-      transition: transform .12s ease, filter .12s ease;
+    .btn-gold{
+      background:linear-gradient(90deg,rgba(247,215,116,1),rgba(201,162,74,1));
+      color:#111827;
+      box-shadow:0 10px 30px rgba(247,215,116,.15);
+      transition:transform .12s ease, filter .12s ease;
     }
-    .btn-gold:hover { filter: brightness(1.02); transform: translateY(-1px); }
-    .btn-gold:active { transform: translateY(0px); }
-    .btn-gold:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
+    .btn-gold:hover{filter:brightness(1.02);transform:translateY(-1px);}
+    .btn-gold:active{transform:translateY(0px);}
+    .btn-gold:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none;}
 
-    .primary-btn {
-      border-radius: 0.75rem;
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, rgba(247, 215, 116, 1), rgba(201, 162, 74, 1));
-      color: #111827;
-      box-shadow: 0 10px 30px rgba(247, 215, 116, .15);
-      transition: transform .12s ease, filter .12s ease;
-      white-space: nowrap;
+    .primary-btn{
+      border-radius:.75rem;
+      padding:.5rem 1rem;
+      font-size:.875rem;
+      font-weight:800;
+      background:linear-gradient(90deg,rgba(247,215,116,1),rgba(201,162,74,1));
+      color:#111827;
+      box-shadow:0 10px 30px rgba(247,215,116,.15);
+      transition:transform .12s ease, filter .12s ease;
+      white-space:nowrap;
     }
-    .primary-btn:hover { filter: brightness(1.02); transform: translateY(-1px); }
-    .primary-btn:active { transform: translateY(0px); }
+    .primary-btn:hover{filter:brightness(1.02);transform:translateY(-1px);}
+    .primary-btn:active{transform:translateY(0px);}
 
-    .bar {
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .08);
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, .10);
+    .bar{
+      height:10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
     }
-    .bar > div {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(247, 215, 116, 1), rgba(201, 162, 74, 1));
-      width: 0%;
-      transition: width .35s ease;
+    .bar>div{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,rgba(247,215,116,1),rgba(201,162,74,1));
+      width:0%;
+      transition:width .35s ease;
     }
-    .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
     }
-    .safe-pb { padding-bottom: env(safe-area-inset-bottom); }
+    .safe-pb{padding-bottom:env(safe-area-inset-bottom);}
   </style>
 </head>
 
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
-    <!-- Header -->
-    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-6">
+    <!-- TOP BAR -->
+    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 sm:gap-6">
+
+      <!-- LEFT: Brand + hero -->
       <div class="min-w-0">
         <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
           <i class="fa-solid fa-shield-halved"></i>
-          <div class="text-xs opacity-80 mb-2">
-            🔥 Public Beta • <span id="waitlistCountBadge">0</span> early access sign-ups
-          </div>
+          <span class="opacity-80">Public Beta •</span>
+          <span><span id="waitlistCountBadge">0</span> early access sign-ups</span>
         </div>
 
         <h1 class="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
           <span class="gold-text">VoiceSafe</span>
+        </h1>
 
-          <div class="text-xs opacity-70 mt-2">
-            Early access sign-ups: <span id="waitlistCountTop">0</span>
-            <div class="text-xs opacity-70 mt-1">
-              <span id="waitlistCountBadge2">0</span> joined • <span id="waitlistUrgency">Early access is open now.</span>
-              <p id="liveActivity" class="mt-1 text-xs opacity-60 text-center"></p>
-            </div>
-          </div>
+        <p class="mt-3 muted text-sm sm:text-base max-w-2xl">
+          Detect AI voice cloning, impersonation and scam signals before you send money.
+          Upload a recording and get an instant risk assessment.
+        </p>
 
-          <section style="padding:80px 20px; text-align:center; max-width:900px; margin:0 auto;">
+        <div class="mt-4 text-xs opacity-70">
+          Early access sign-ups: <span id="waitlistCountTop">0</span>
+          <span class="mx-2">•</span>
+          <span id="waitlistUrgency">Early access is open now.</span>
+          <p id="liveActivity" class="mt-1 text-xs opacity-60"></p>
+        </div>
+      </div>
 
-  <div style="margin-bottom:20px; font-size:14px; letter-spacing:1px; opacity:0.7;">
-    🔥 Public Beta • AI Security Platform
-  </div>
-
-  <h1 style="font-size:48px; line-height:1.2; margin-bottom:20px;">
-    Detect AI Voice Scams <br>
-    <span style="color:#FFD166;">Before You Send Money</span>
-  </h1>
-
-  <p style="font-size:18px; opacity:0.8; max-width:600px; margin:0 auto 40px;">
-    VoiceSafe uses advanced AI analysis to detect impersonation,
-    voice cloning and financial scam risk in seconds.
-  </p>
-
-  <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
-    <button style="
-      padding:15px 30px;
-      background:#FFD166;
-      border:none;
-      border-radius:8px;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-    ">
-      Analyze a Recording
-    </button>
-
-    <button style="
-      padding:15px 30px;
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.3);
-      border-radius:8px;
-      font-size:16px;
-      cursor:pointer;
-      color:white;
-    ">
-      How It Works
-    </button>
-  </div>
-
-  <div style="margin-top:50px; opacity:0.6; font-size:14px;">
-    AI-powered impersonation detection • Voice cloning risk analysis • Scam prevention
-  </div>
-
-</section>
-
+      <!-- RIGHT: Backend card -->
       <div class="glass gold-border rounded-2xl p-4 w-full lg:w-[420px]">
         <div class="flex items-center justify-between gap-3">
           <div class="min-w-0">
@@ -228,11 +184,11 @@
       </div>
     </div>
 
-    <!-- Main grid -->
-    <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+    <!-- MAIN GRID -->
+    <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 items-start">
 
-      <!-- Left -->  
-      <div class="lg:col-span-1 glass rounded-2xl p-5 sm:p-6">
+      <!-- LEFT: Analyze -->
+      <div class="glass rounded-2xl p-5 sm:p-6">
         <h2 class="text-lg font-semibold">Analyze a sample</h2>
         <p class="muted text-sm mt-1">Upload an audio/video file or record a short clip.</p>
 
@@ -243,24 +199,23 @@
         </div>
 
         <div class="mt-5 grid grid-cols-2 gap-3">
-          <!-- FIXED recordBtn -->
           <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-microphone mr-2"></i>Record
           </button>
           <button id="analyzeBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold">
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
-          <div style="font-size:12px;opacity:.7;margin-top:6px">
-Free 3 analyses • No signup required • Privacy-first
+        </div>
 
-<div style="margin-top:12px;font-size:12px;opacity:.75;line-height:1.6">
-  🔒 Privacy-first • No voice data stored<br>
-  🛡 AI scam detection engine<br>
-  ⚡ Instant risk assessment<br>
-  🇪🇺 GDPR-ready infrastructure
-</div>
+        <div class="mt-3 text-xs opacity-70">
+          Free 3 analyses • No signup required • Privacy-first
+        </div>
 
-</div>
+        <div class="mt-3 text-xs opacity-75 leading-6">
+          🔒 Privacy-first • No voice data stored<br>
+          🛡 AI scam detection engine<br>
+          ⚡ Instant risk assessment<br>
+          🇪🇺 GDPR-ready infrastructure
         </div>
 
         <div class="mt-5 border-t border-white/10 pt-5">
@@ -291,20 +246,16 @@ Free 3 analyses • No signup required • Privacy-first
         </div>
       </div>
 
-      <!-- Right -->
-      <div id="resultsCard" class="lg:col-span-2 glass rounded-2xl p-5 sm:p-6">
-  <div style="font-size:12px;opacity:.6;margin-bottom:8px">
-    AI Risk Assessment Report
-  </div>
-
-  <div class="min-w-0">
-    <h2 class="text-lg font-semibold">Results</h2>
+      <!-- RIGHT: Results -->
+      <div id="resultsCard" class="glass rounded-2xl p-5 sm:p-6">
+        <div class="text-[12px] opacity-60 mb-2">AI Risk Assessment Report</div>
 
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="min-w-0">
             <h2 class="text-lg font-semibold">Results</h2>
             <p class="muted text-sm mt-1">Prototype risk signals & summary.</p>
           </div>
+
           <div class="flex items-center gap-2 flex-wrap">
             <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90">
               <i class="fa-regular fa-copy mr-2"></i>Copy JSON
@@ -312,8 +263,7 @@ Free 3 analyses • No signup required • Privacy-first
             <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
               <i class="fa-solid fa-link mr-2"></i>Share
             </button>
-            <button id="upgradeBtn" class="primary-btn">🚀 Unlock Unlimited Voice Checks & AI Reports – €9/month</button>
-
+            <button id="upgradeBtn" class="primary-btn">🚀 Unlock Unlimited – €9/month</button>
             <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm">
               Manage subscription
             </button>
@@ -344,44 +294,6 @@ Free 3 analyses • No signup required • Privacy-first
           <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
         </div>
 
-        <!-- Investor Dashboard -->
-        <div class="mt-5 glass gold-border rounded-2xl p-5">
-          <div class="flex items-center justify-between gap-3">
-            <div>
-              <div class="text-sm font-semibold">Investor Risk Dashboard</div>
-              <div class="text-xs muted" id="invMeta">Waiting for analysis…</div>
-            </div>
-            <div class="chip rounded-full px-3 py-1 text-xs">
-              Enterprise View
-            </div>
-          </div>
-
-          <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted">Overall risk</div>
-              <div class="mt-2 flex items-center gap-3">
-                <div id="invRing" class="w-16 h-16 rounded-full" style="background: conic-gradient(#F7D774 0deg, rgba(255,255,255,.10) 0deg); border: 1px solid rgba(255,255,255,.10);"></div>
-                <div>
-                  <div class="text-3xl font-bold"><span id="invRiskScore">—</span><span class="text-base muted">%</span></div>
-                  <div class="text-xs muted" id="invRiskLevel">Waiting</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted">Recommendation</div>
-              <div class="mt-2 text-sm" id="invRecommendation">Run analysis to generate recommendation.</div>
-              <div class="mt-3 text-xs muted">Primary category: <span class="text-white/90" id="invCategory">—</span></div>
-            </div>
-
-            <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted">Top signals</div>
-              <div class="mt-2 flex flex-wrap gap-2" id="invSignals"></div>
-              <div class="mt-3 text-xs muted">Confidence: <span class="text-white/90" id="invConfidence">—</span></div>
-            </div>
-          </div>
-        </div>
-
         <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold">Saved case</div>
@@ -392,30 +304,26 @@ Free 3 analyses • No signup required • Privacy-first
 
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold">Search cases</div>
-
             <div class="mt-3 flex gap-2">
-              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0"
-                     placeholder="Search title / notes..." />
+              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Search title / notes..." />
               <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold shrink-0">Search</button>
             </div>
-
             <div class="mt-3 flex gap-2">
-              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0"
-                     placeholder="Tag filter (optional)" />
+              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Tag filter (optional)" />
               <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">Clear</button>
             </div>
-
-            <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height: min(46vh, 360px);"></div>
+            <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height:min(46vh,360px);"></div>
           </div>
         </div>
 
-        <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson" style="max-height: min(40vh, 320px);"></pre>
+        <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson" style="max-height:min(40vh,320px);"></pre>
+
+        <div class="mt-8 sm:mt-10 text-center text-xs muted">
+          VoiceSafe • Prototype • Built for global anti-scam awareness
+        </div>
       </div>
     </div>
 
-    <div class="mt-8 sm:mt-10 text-center text-xs muted">
-      VoiceSafe • Prototype • Built for global anti-scam awareness
-    </div>
   </div>
 
   <!-- PAYWALL MODAL -->
@@ -429,24 +337,18 @@ Free 3 analyses • No signup required • Privacy-first
         </div>
         <button id="paywallClose" class="rounded-lg px-3 py-1 text-sm chip">✕</button>
       </div>
-
       <div class="mt-4 grid gap-2 text-sm opacity-90">
         <div>✓ Unlimited analyses</div>
         <div>✓ Priority AI detection</div>
         <div>✓ Case history & sharing</div>
       </div>
-
       <div class="mt-6 flex flex-col gap-2">
         <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-bold w-full">Start Pro – 9€/month</button>
-
-        <button
-          id="paywallWaitlist"
-          onclick="joinEarlyAccess()"
+        <button id="paywallWaitlist" onclick="joinEarlyAccess()"
           class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
           Join early access
           <p id="waitlistUrgencyModal" class="mt-2 text-xs opacity-70 text-center"></p>
         </button>
-
         <p class="mt-2 text-xs opacity-60">Payment coming soon. This button measures demand (clicks).</p>
         <p id="waitlistCountText" class="mt-2 text-xs opacity-70 text-center"></p>
       </div>
@@ -454,25 +356,21 @@ Free 3 analyses • No signup required • Privacy-first
   </div>
 
   <script>
-    // Stripe direct checkout link (header + modal CTA)
-    document.getElementById("paywallCta")?.addEventListener("click", () => {
-      window.location.href = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-    });
-  </script>
-
-  <script>
     // ===========================
     // CONFIG
     // ===========================
+    const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
+    const STRIPE_BILLING_PORTAL_URL = "https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800";
+
     const URLS = {
       PROD: "https://voicesafe-backend-1.onrender.com",
-      LOCAL: "http://127.0.0.1:10000",
+      LOCAL: "http://127.0.0.1:10000"
     };
     let backendBase = URLS.PROD;
 
-    // ==============================
-    // PAYWALL (single source of truth)
-    // ==============================
+    // ===========================
+    // PAYWALL
+    // ===========================
     function openPaywall() {
       const m = document.getElementById("paywallModal");
       if (!m) return;
@@ -485,11 +383,10 @@ Free 3 analyses • No signup required • Privacy-first
       m.classList.add("hidden");
       m.classList.remove("flex");
     }
-    // compatibility wrapper (your code calls showPaywall sometimes)
     function showPaywall(){ openPaywall(); }
     function hidePaywall(){ closePaywall(); }
 
-    (function wirePaywall() {
+    (function wirePaywall(){
       const backdrop = document.getElementById("paywallBackdrop");
       const closeBtn = document.getElementById("paywallClose");
       const cta = document.getElementById("paywallCta");
@@ -498,23 +395,12 @@ Free 3 analyses • No signup required • Privacy-first
       if (backdrop) backdrop.addEventListener("click", closePaywall);
       if (closeBtn) closeBtn.addEventListener("click", closePaywall);
 
-      function trackProClick(type) {
-        const key = "vs_pro_clicks";
-        const prev = Number(localStorage.getItem(key) || 0);
-        localStorage.setItem(key, String(prev + 1));
-        localStorage.setItem("vs_pro_last", type + ":" + new Date().toISOString());
-      }
-
       if (cta) cta.addEventListener("click", () => {
-        trackProClick("cta");
-        // you already redirect via handler above; keep the modal clean just in case
         closePaywall();
+        window.location.href = STRIPE_CHECKOUT_URL;
       });
 
-      if (wait) wait.addEventListener("click", () => {
-        trackProClick("waitlist");
-        closePaywall();
-      });
+      if (wait) wait.addEventListener("click", () => closePaywall());
     })();
 
     // ===========================
@@ -533,12 +419,16 @@ Free 3 analyses • No signup required • Privacy-first
     const summaryText = $("summaryText");
     const flagsWrap = $("flagsWrap");
     const rawJson = $("rawJson");
+
     const scamBar = $("scamBar");
     const aiBar = $("aiBar");
     const stressBar = $("stressBar");
 
     const copyJsonBtn = $("copyJsonBtn");
     const shareBtn = $("shareBtn");
+    const upgradeBtn = $("upgradeBtn");
+    const manageBtn = $("manageSubBtn");
+
     const caseIdEl = $("caseId");
     const caseSavedHint = $("caseSavedHint");
 
@@ -557,20 +447,19 @@ Free 3 analyses • No signup required • Privacy-first
 
     const btnProd = $("btnProd");
     const btnLocal = $("btnLocal");
-    const upgradeBtn = $("upgradeBtn");
 
     let lastResponse = null;
     let lastCaseId = null;
-    let progressInterval = null; // FIX: global + safe clear
+    let progressInterval = null;
 
     // ===========================
-    // Mode + health
+    // MODE + health
     // ===========================
-    function setStatus(text) { $("backendStatus").textContent = text; }
+    function setStatus(text){ $("backendStatus").textContent = text; }
 
-    async function checkBackend() {
-      try {
-        const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
+    async function checkBackend(){
+      try{
+        const r = await fetch(`${backendBase}/health`, { cache:"no-store" });
         if (!r.ok) throw new Error("health not ok");
         const j = await r.json().catch(() => ({}));
         setStatus(`OK • AI: ${j.ai_url || "unknown"}`);
@@ -579,17 +468,14 @@ Free 3 analyses • No signup required • Privacy-first
       }
     }
 
-    function setMode(mode) {
+    function setMode(mode){
       backendBase = URLS[mode];
       $("backendUrl").textContent = backendBase;
       $("modeLabel").textContent = mode;
 
-      const active = " border border-yellow-300/40";
-      btnProd.className = btnProd.className.replace(active, "");
-      btnLocal.className = btnLocal.className.replace(active, "");
-
-      if (mode === "PROD") btnProd.className += active;
-      else btnLocal.className += active;
+      btnProd.classList.remove("border","border-yellow-300/40");
+      btnLocal.classList.remove("border","border-yellow-300/40");
+      (mode === "PROD" ? btnProd : btnLocal).classList.add("border","border-yellow-300/40");
 
       checkBackend();
     }
@@ -598,130 +484,45 @@ Free 3 analyses • No signup required • Privacy-first
     btnLocal.addEventListener("click", () => setMode("LOCAL"));
     setMode("PROD");
 
-    // ===========================
-    // Stripe checkout (Upgrade button)
-    // ===========================
-    if (upgradeBtn) {
-      upgradeBtn.addEventListener("click", () => {
-        window.location.href = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-      });
-    }
+    // Stripe buttons
+    if (upgradeBtn) upgradeBtn.addEventListener("click", () => window.location.href = STRIPE_CHECKOUT_URL);
+    if (manageBtn) manageBtn.addEventListener("click", () => window.open(STRIPE_BILLING_PORTAL_URL, "_blank"));
 
     // ===========================
     // UI helpers
     // ===========================
-    function clampPct(v) {
+    function clampPct(v){
       const n = Number(v);
       if (!Number.isFinite(n)) return 0;
       return Math.max(0, Math.min(100, n));
     }
-    function setBars(scam, ai, stress) {
+    function setBars(scam, ai, stress){
       scamBar.style.width = clampPct(scam) + "%";
       aiBar.style.width = clampPct(ai) + "%";
       stressBar.style.width = clampPct(stress) + "%";
     }
 
-    // Investor dashboard helpers
-    function riskLevel(score){
-      if (score >= 75) return "High Risk";
-      if (score >= 45) return "Medium Risk";
-      return "Low Risk";
-    }
-    function setInvestorRing(score){
-      const ring = document.getElementById("invRing");
-      if (!ring) return;
-      const s = clampPct(score);
-      const deg = Math.round((s / 100) * 360);
-      ring.style.background = `conic-gradient(#F7D774 ${deg}deg, rgba(255,255,255,.10) 0deg)`;
-    }
-    function renderInvestorDashboard({ scam, ai, stress, summary, flags }){
-      const score = clampPct(scam);
-      const level = riskLevel(score);
+    function setResultUI(data){
+      const scam = clampPct(data?.scam_score ?? data?.scamScore ?? 0);
+      const ai = clampPct(data?.ai_probability ?? data?.aiProb ?? 0);
+      const stress = clampPct(data?.stress_level ?? data?.stressLevel ?? 0);
 
-      const invMeta = document.getElementById("invMeta");
-      const invRiskScore = document.getElementById("invRiskScore");
-      const invRiskLevel = document.getElementById("invRiskLevel");
-      const invRecommendation = document.getElementById("invRecommendation");
-      const invSignals = document.getElementById("invSignals");
-      const invCategory = document.getElementById("invCategory");
-      const invConfidence = document.getElementById("invConfidence");
+      scamScoreEl.textContent = String(Math.round(scam));
+      aiProbEl.textContent = String(Math.round(ai));
+      stressLevelEl.textContent = String(Math.round(stress));
 
-      if (invMeta) invMeta.textContent = `Last analysis: ${new Date().toLocaleString()}`;
-      if (invRiskScore) invRiskScore.textContent = String(Math.round(score));
-      if (invRiskLevel) invRiskLevel.textContent = level;
-
-      setInvestorRing(score);
-
-      if (invCategory) invCategory.textContent = (ai >= 70) ? "Impersonation / AI Voice Risk" : "Scam / Manipulation Risk";
-      if (invConfidence) invConfidence.textContent = (Math.round((0.72 + (ai/100)*0.18) * 100)) + "%";
-
-      let rec = "Proceed normally. Monitor if needed.";
-      if (score >= 75) rec = "Escalate to investigation / compliance. Verify identity via official channel.";
-      else if (score >= 45) rec = "Review context and verify identity before any payment or sensitive action.";
-      if (invRecommendation) invRecommendation.textContent = rec;
-
-      if (invSignals){
-        invSignals.innerHTML = "";
-        (flags || []).slice(0, 6).forEach(f => {
-          const chip = document.createElement("span");
-          chip.className = "chip px-3 py-1 rounded-full text-xs";
-          chip.textContent = f;
-          invSignals.appendChild(chip);
-        });
-        if (!flags || flags.length === 0){
-          const chip = document.createElement("span");
-          chip.className = "chip px-3 py-1 rounded-full text-xs";
-          chip.textContent = "No strong signals";
-          invSignals.appendChild(chip);
-        }
-      }
-    }
-
-    function setResultUI(data) {
-      // normalize backend response
-      if (data && data.aiResult) {
-        data = {
-          ...data,
-          summary: data.aiResult.summary,
-          scam_score: data.aiResult.scam_score,
-          ai_probability: data.aiResult.ai_probability,
-          stress_level: data.aiResult.stress_level,
-          flags: data.aiResult.flags
-        };
-      }
-
-      const scam = data?.scam_score ?? data?.scan_score ?? 0;
-      const ai = data?.ai_voice_prob ?? data?.ai_probability ?? 0;
-      const stress = data?.stress_level ?? 0;
-
-      scamScoreEl.textContent = Number.isFinite(Number(scam)) ? String(Number(scam)) : "0";
-      aiProbEl.textContent = Number.isFinite(Number(ai)) ? String(Number(ai)) : "0";
-      stressLevelEl.textContent = Number.isFinite(Number(stress)) ? String(Number(stress)) : "0";
-
-      summaryText.textContent = data?.summary || data?.message || "No summary available.";
-      setBars(scam, ai, stress);
-
+      summaryText.textContent = data?.summary || "No summary returned.";
       flagsWrap.innerHTML = "";
+
       const flags = Array.isArray(data?.flags) ? data.flags : [];
-      flags.forEach(f => {
+      flags.slice(0, 8).forEach(f => {
         const chip = document.createElement("span");
         chip.className = "chip px-3 py-1 rounded-full text-xs";
         chip.textContent = f;
         flagsWrap.appendChild(chip);
       });
 
-      // Investor dashboard render (NEW)
-      renderInvestorDashboard({ scam, ai, stress, summary: summaryText.textContent, flags });
-
-      // Scroll to results reliably
-      setTimeout(() => {
-        const el = document.getElementById("resultsCard");
-        if (!el) return;
-        try { el.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (e) {}
-        const y = el.getBoundingClientRect().top + window.scrollY - 12;
-        window.scrollTo(0, y);
-        window.location.hash = "resultsCard";
-      }, 120);
+      setBars(scam, ai, stress);
     }
 
     // ===========================
@@ -729,7 +530,7 @@ Free 3 analyses • No signup required • Privacy-first
     // ===========================
     fileInput.addEventListener("change", () => {
       const f = fileInput.files && fileInput.files[0];
-      if (f) {
+      if (f){
         fileHint.textContent = `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)`;
         analyzeBtn.disabled = false;
       } else {
@@ -745,24 +546,21 @@ Free 3 analyses • No signup required • Privacy-first
     let recording = false;
 
     recordBtn.addEventListener("click", async () => {
-      try {
-        if (!recording) {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      try{
+        if (!recording){
+          const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
           recordedChunks = [];
           mediaRecorder = new MediaRecorder(stream);
-
           mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
           mediaRecorder.onstop = () => {
-            const blob = new Blob(recordedChunks, { type: "audio/webm" });
-            const file = new File([blob], "mic.webm", { type: "audio/webm" });
+            const blob = new Blob(recordedChunks, { type:"audio/webm" });
+            const file = new File([blob], "mic.webm", { type:"audio/webm" });
             const dt = new DataTransfer();
             dt.items.add(file);
             fileInput.files = dt.files;
-
             fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
             analyzeBtn.disabled = false;
           };
-
           mediaRecorder.start();
           recording = true;
           recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
@@ -780,35 +578,21 @@ Free 3 analyses • No signup required • Privacy-first
     // Analyze
     // ===========================
     analyzeBtn.addEventListener("click", async () => {
-      // Demo magic: allow demo results even without file
-      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-        setResultUI({
-          scam_score: 72,
-          ai_probability: 81,
-          stress_level: 63,
-          summary: "High probability of impersonation scam detected.",
-          flags: ["AI voice pattern", "Urgency pressure", "Financial request"]
-        });
-        return;
-      }
-
-      // PRO / FREE LIMIT
+      // FREE LIMIT
       const isPro = localStorage.getItem("voicesafe_pro") === "true";
       const FREE_LIMIT = 3;
       const usage = Number(localStorage.getItem("vs_usage") || 0);
-
-      if (!isPro && usage >= FREE_LIMIT) {
+      if (!isPro && usage >= FREE_LIMIT){
         openPaywall();
         return;
       }
 
       const f = fileInput.files?.[0];
-      if (!f) {
+      if (!f){
         alert("Please select audio file first");
         return;
       }
 
-      // Investor-style progress text
       const steps = [
         "Analyzing voice pattern...",
         "Detecting AI voice cloning...",
@@ -817,27 +601,25 @@ Free 3 analyses • No signup required • Privacy-first
         "Finalizing risk score..."
       ];
       let stepIndex = 0;
-      summaryText.textContent = steps[0];
 
+      summaryText.textContent = steps[0];
       if (progressInterval) clearInterval(progressInterval);
       progressInterval = setInterval(() => {
         stepIndex++;
-        if (stepIndex < steps.length) {
-          summaryText.textContent = steps[stepIndex];
-        }
+        if (stepIndex < steps.length) summaryText.textContent = steps[stepIndex];
       }, 900);
 
       localStorage.setItem("vs_usage", String(isPro ? usage : usage + 1));
 
+      analyzeBtn.disabled = true;
       analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
-      summaryText.textContent = "Uploading...";
       if (rawJson) rawJson.classList.add("hidden");
 
-      try {
+      try{
         const form = new FormData();
         form.append("file", f);
 
-        // optional meta (backend may ignore safely)
+        // optional meta
         form.append("title", titleEl.value || "");
         form.append("platform", platformEl.value || "");
         form.append("country", countryEl.value || "");
@@ -845,22 +627,21 @@ Free 3 analyses • No signup required • Privacy-first
         form.append("tags", tagsEl.value || "");
         form.append("notes", notesEl.value || "");
 
-        const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
+        const resp = await fetch(`${backendBase}/upload`, { method:"POST", body:form });
         const data = await resp.json().catch(() => null);
 
-        if (!resp.ok) {
+        if (!resp.ok){
           const msg = data?.message || `HTTP ${resp.status}`;
           summaryText.textContent = `Error: ${msg}`;
-          setBars(0, 0, 0);
+          setBars(0,0,0);
           return;
         }
 
         lastResponse = data?.aiResult || data;
-        setResultUI(data?.aiResult || data);
+        setResultUI(lastResponse);
 
-        // if backend returns case id
         lastCaseId = data?.case_id || data?.caseId || data?.id || null;
-        if (lastCaseId) {
+        if (lastCaseId){
           caseIdEl.textContent = lastCaseId;
           caseSavedHint.textContent = "Case saved.";
           shareBtn.disabled = false;
@@ -868,15 +649,15 @@ Free 3 analyses • No signup required • Privacy-first
           caseSavedHint.textContent = "No case id returned by backend.";
         }
 
-        if (rawJson) {
+        if (rawJson){
           rawJson.textContent = JSON.stringify(data, null, 2);
           rawJson.classList.remove("hidden");
         }
       } catch {
         summaryText.textContent = "Network error.";
-        setBars(0, 0, 0);
+        setBars(0,0,0);
       } finally {
-        if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+        if (progressInterval){ clearInterval(progressInterval); progressInterval = null; }
         analyzeBtn.disabled = false;
         analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
       }
@@ -886,7 +667,7 @@ Free 3 analyses • No signup required • Privacy-first
     // Copy / Share
     // ===========================
     copyJsonBtn.addEventListener("click", async () => {
-      try {
+      try{
         if (!lastResponse) return;
         await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
         copyJsonBtn.textContent = "Copied ✓";
@@ -900,7 +681,7 @@ Free 3 analyses • No signup required • Privacy-first
       if (!lastCaseId) return;
       const url = new URL(window.location.href);
       url.searchParams.set("case", lastCaseId);
-      try {
+      try{
         await navigator.clipboard.writeText(url.toString());
         shareBtn.textContent = "Link copied ✓";
         setTimeout(() => shareBtn.innerHTML = `<i class="fa-solid fa-link mr-2"></i>Share`, 1000);
@@ -912,17 +693,18 @@ Free 3 analyses • No signup required • Privacy-first
     // ===========================
     // Search / Load cases (optional)
     // ===========================
-    function escapeHtml(s) {
-      return (s || "").replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    function escapeHtml(s){
+      return (s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
     }
 
-    function renderSearchList(items) {
+    function renderSearchList(items){
       resultsList.innerHTML = "";
-      if (!items || !items.length) {
+      if (!items || !items.length){
         resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
         return;
       }
-      items.slice(0, 25).forEach(item => {
+
+      items.slice(0,25).forEach(item => {
         const id = item.id || item.case_id || item._id;
         const title = item?.meta?.title || item?.title || "(untitled)";
         const platform = item?.meta?.platform || item?.platform || "";
@@ -946,7 +728,7 @@ Free 3 analyses • No signup required • Privacy-first
       });
     }
 
-    async function doSearch() {
+    async function doSearch(){
       const q = (searchQ.value || "").trim();
       const tag = (searchTag.value || "").trim();
       const url = new URL(`${backendBase}/cases`);
@@ -954,8 +736,8 @@ Free 3 analyses • No signup required • Privacy-first
       if (tag) url.searchParams.set("tag", tag);
 
       resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
-      try {
-        const r = await fetch(url.toString(), { cache: "no-store" });
+      try{
+        const r = await fetch(url.toString(), { cache:"no-store" });
         const j = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(j?.message || "Search failed");
         renderSearchList(j?.cases || j?.items || []);
@@ -964,13 +746,13 @@ Free 3 analyses • No signup required • Privacy-first
       }
     }
 
-    async function loadCase(id) {
+    async function loadCase(id){
       if (!id) return;
       summaryText.textContent = "Loading case…";
-      try {
-        const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
+      try{
+        const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache:"no-store" });
         const j = await r.json().catch(() => ({}));
-        if (!r.ok) {
+        if (!r.ok){
           summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
           return;
         }
@@ -986,8 +768,6 @@ Free 3 analyses • No signup required • Privacy-first
         tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
         notesEl.value = meta.notes || c.notes || "";
 
-        if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-
         lastResponse = data;
         setResultUI(data);
 
@@ -996,7 +776,7 @@ Free 3 analyses • No signup required • Privacy-first
         caseSavedHint.textContent = "Loaded from saved cases.";
         shareBtn.disabled = false;
 
-        if (rawJson) {
+        if (rawJson){
           rawJson.textContent = JSON.stringify(j, null, 2);
           rawJson.classList.remove("hidden");
         }
@@ -1016,8 +796,7 @@ Free 3 analyses • No signup required • Privacy-first
       resultsList.innerHTML = "";
     });
 
-    // Auto-load from share link ?case=...
-    (function boot() {
+    (function boot(){
       const u = new URL(window.location.href);
       const id = u.searchParams.get("case");
       if (id) loadCase(id);
@@ -1026,33 +805,29 @@ Free 3 analyses • No signup required • Privacy-first
     // ===========================
     // Early access waitlist
     // ===========================
-    function joinEarlyAccess() {
+    function joinEarlyAccess(){
       const count = Number(localStorage.getItem("waitlist") || 0);
       localStorage.setItem("waitlist", String(count + 1));
       renderWaitlistCount();
     }
-    window.joinEarlyAccess = joinEarlyAccess; // for onclick button
+    window.joinEarlyAccess = joinEarlyAccess;
 
-    function renderWaitlistCount() {
+    function renderWaitlistCount(){
       const count = Number(localStorage.getItem("waitlist") || 0);
-
       const top = document.getElementById("waitlistCountTop");
-      const modal = document.getElementById("waitlistCountText");
       const badge = document.getElementById("waitlistCountBadge");
-      const badge2 = document.getElementById("waitlistCountBadge2");
+      const modal = document.getElementById("waitlistCountText");
       const urgency = document.getElementById("waitlistUrgency");
       const urgencyModal = document.getElementById("waitlistUrgencyModal");
 
       if (top) top.textContent = String(count);
       if (badge) badge.textContent = String(count);
-      if (badge2) badge2.textContent = String(count);
-
       if (modal) modal.textContent = `Total early access sign-ups: ${count}`;
       if (urgencyModal && urgency) urgencyModal.textContent = urgency.textContent || "";
     }
 
-    const cities = ["Vienna", "Warsaw", "Amsterdam", "Paris", "Madrid", "New York", "Toronto"];
-    function simulateLiveJoins() {
+    const cities = ["Vienna","Warsaw","Amsterdam","Paris","Madrid","New York","Toronto"];
+    function simulateLiveJoins(){
       const el = document.getElementById("liveActivity");
       if (!el) return;
       setInterval(() => {
@@ -1061,39 +836,24 @@ Free 3 analyses • No signup required • Privacy-first
         el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
       }, 6000);
     }
-
     simulateLiveJoins();
     renderWaitlistCount();
 
-    // ===========================
-    // Stripe SUCCESS detection (simple)
-    // ===========================
-    if (window.location.pathname.includes("success")) {
+    // Stripe success page quick check
+    if (window.location.pathname.includes("success")){
       localStorage.setItem("voicesafe_pro", "true");
       alert("✅ PRO activated successfully!");
       window.location.href = "/";
     }
 
-    // ===========================
-    // Manage subscription
-    // ===========================
-    const manageBtn = document.getElementById("manageSubBtn");
-    if (manageBtn) {
-      manageBtn.addEventListener("click", () => {
-        window.open("https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800", "_blank");
-      });
-    }
-
-    // Keep Analyze enabled (demo works even without file)
+    // Keep Analyze disabled until file is present
     document.addEventListener("DOMContentLoaded", () => {
-      const a = document.getElementById("analyzeBtn");
-      if (a) a.disabled = false;
+      if (analyzeBtn) analyzeBtn.disabled = true;
     });
   </script>
 
-<div style="text-align:center;opacity:.5;font-size:12px;margin-top:60px;margin-bottom:20px">
-  VoiceSafe.ai • AI Fraud Prevention Tool • Built 2026
-</div>
-
+  <div style="text-align:center;opacity:.5;font-size:12px;margin-top:60px;margin-bottom:20px">
+    VoiceSafe.ai • AI Fraud Prevention Tool • Built 2026
+  </div>
 </body>
 </html>
