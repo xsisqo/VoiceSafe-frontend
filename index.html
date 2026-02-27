@@ -259,6 +259,9 @@
                   class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold">
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
+          <button id="demoBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
+  ⚡ Run Live Demo
+</button>
         </div>
 
         <div class="mt-4 text-xs muted">
@@ -506,6 +509,7 @@ const $ = (id) => document.getElementById(id);
 
 const fileInput = $("fileInput");
 const analyzeBtn = $("analyzeBtn");
+const demoBtn = $("demoBtn");
 const recordBtn = $("recordBtn");
 const fileHint = $("fileHint");
 
@@ -655,6 +659,28 @@ const fileHint = $("fileHint");
       setBars(scam, ai, stress);
       scrollToResults();
     }
+    function runInvestorDemo() {
+
+  const demoData = {
+    scam_score: 82,
+    ai_probability: 91,
+    stress_level: 67,
+    summary: "High likelihood of AI-generated impersonation with financial manipulation intent.",
+    flags: [
+      "AI voice synthesis detected",
+      "Urgency pressure language",
+      "Financial request pattern",
+      "Emotional manipulation markers"
+    ]
+  };
+
+  setResultUI(demoData);
+
+  document.getElementById("resultsCard")
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  toast("Demo AI analysis complete ✓");
+}
 
     // Demo result (for investor impression)
     function loadDemoResult() {
@@ -986,6 +1012,8 @@ document.getElementById("resultsCard")
     setBars(0,0,0);
     if (rawJson) rawJson.classList.add("hidden");
 
+const startTime = Date.now();
+
     try {
 
       const form = new FormData();
@@ -1049,17 +1077,29 @@ document.getElementById("resultsCard")
 
     } finally {
 
-      if (progressInterval) {
-        clearInterval(progressInterval);
-        progressInterval = null;
-      }
+  const elapsed = Date.now() - startTime;
+  const MIN_TIME = 800;
 
-      analyzeBtn.disabled = false;
-      analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+  if (elapsed < MIN_TIME) {
+    await new Promise(r => setTimeout(r, MIN_TIME - elapsed));
+  }
 
-    }
+  if (progressInterval) {
+    clearInterval(progressInterval);
+    progressInterval = null;
+  }
+
+  analyzeBtn.disabled = false;
+  analyzeBtn.innerHTML =
+    '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+
+}
 
   });
+
+  if (demoBtn) {
+  demoBtn.addEventListener("click", runInvestorDemo);
+}
 
 }
     
@@ -1218,5 +1258,10 @@ document.getElementById("resultsCard")
     }
 
   </script>
+
+<div style="text-align:center;opacity:.5;font-size:12px;margin-top:60px;margin-bottom:20px">
+  VoiceSafe.ai • AI Fraud Prevention Tool • BUILD: 2026-02-27-001
+</div>
+
 </body>
 </html>
