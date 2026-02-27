@@ -5,31 +5,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 
-  <title>VoiceSafe.ai — Detect AI Voice Scams Before You Send Money</title>
-  <meta name="description" content="VoiceSafe detects impersonation, AI voice cloning and scam risk in seconds. Upload a voice message and get an AI risk assessment report before sending money." />
+  <title>VoiceSafe – AI Voice Scam Detection</title>
+  <meta name="description" content="Detect AI voice cloning and impersonation scams instantly. Upload or record audio and analyze scam risk in seconds." />
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://voicesafe.ai" />
-
-  <!-- OpenGraph -->
-  <meta property="og:title" content="VoiceSafe.ai — AI Voice Scam Detection" />
-  <meta property="og:description" content="Upload a voice message and detect impersonation, AI cloning and scam risk instantly." />
+  <!-- OpenGraph / Twitter -->
+  <meta property="og:title" content="VoiceSafe – AI Voice Scam Detection" />
+  <meta property="og:description" content="Upload or record a voice message and detect impersonation, AI cloning and scam risk instantly." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://voicesafe.ai" />
-  <meta property="og:image" content="https://voicesafe.ai/og-image.png" />
-
-  <!-- Twitter -->
+  <meta property="og:image" content="/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="VoiceSafe.ai — AI Voice Scam Detection" />
+  <meta name="twitter:title" content="VoiceSafe – AI Voice Scam Detection" />
   <meta name="twitter:description" content="Analyze voice recordings and detect impersonation or AI scam risk instantly." />
-  <meta name="twitter:image" content="https://voicesafe.ai/og-image.png" />
+  <meta name="twitter:image" content="/og-image.png" />
 
   <!-- Favicons / PWA -->
   <link rel="icon" href="/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
 
-  <!-- Tailwind (prototype ok) -->
+  <!-- Tailwind (prototype OK) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Icons -->
@@ -43,44 +38,38 @@
       --gold1:#F7D774;
       --gold2:#C9A24A;
       --muted:rgba(255,255,255,.72);
-      --ok:#22c55e;
-      --bad:#ef4444;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
     }
-
-    html,body{height:100%;}
+    html,body{height:100%}
     body{
       background:
-        radial-gradient(1000px 600px at 20% 10%, rgba(247,215,116,.10), transparent 60%),
-        radial-gradient(900px 600px at 80% 0%, rgba(201,162,74,.10), transparent 60%),
+        radial-gradient(1000px 600px at 15% 10%, rgba(247,215,116,.12), transparent 60%),
+        radial-gradient(900px 600px at 85% 0%, rgba(201,162,74,.10), transparent 60%),
         radial-gradient(900px 700px at 50% 100%, rgba(99,102,241,.10), transparent 60%),
-        linear-gradient(180deg,var(--bg0),var(--bg1));
+        linear-gradient(180deg, var(--bg0), var(--bg1));
       color:#fff;
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
       text-rendering:optimizeLegibility;
     }
-    *{box-sizing:border-box;}
-    img,video,canvas,svg{max-width:100%;height:auto;}
-    pre{white-space:pre-wrap;word-break:break-word;}
-
+    *{box-sizing:border-box}
     .glass{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
       border:1px solid var(--stroke);
-      box-shadow:0 20px 60px rgba(0,0,0,.45);
+      box-shadow:var(--shadow);
       backdrop-filter:blur(10px);
     }
     .gold-border{
-      border:1px solid rgba(247,215,116,.35);
-      box-shadow:0 0 0 1px rgba(201,162,74,.20) inset;
+      border:1px solid rgba(247,215,116,.32);
+      box-shadow:0 0 0 1px rgba(201,162,74,.18) inset;
     }
     .gold-text{
-      background:linear-gradient(90deg,var(--gold1),var(--gold2));
+      background:linear-gradient(90deg, var(--gold1), var(--gold2));
       -webkit-background-clip:text;
       background-clip:text;
       color:transparent;
     }
-    .muted{color:var(--muted);}
-
+    .muted{color:var(--muted)}
     .chip{
       border:1px solid rgba(255,255,255,.10);
       background:rgba(255,255,255,.05);
@@ -88,27 +77,12 @@
     .btn-gold{
       background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
       color:#111827;
-      box-shadow:0 10px 30px rgba(247,215,116,.15);
+      box-shadow:0 10px 30px rgba(247,215,116,.16);
       transition:transform .12s ease, filter .12s ease;
     }
-    .btn-gold:hover{filter:brightness(1.03); transform:translateY(-1px);}
-    .btn-gold:active{transform:translateY(0);}
-    .btn-gold:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none;}
-
-    .primary-btn{
-      border-radius:0.9rem;
-      padding:.65rem 1rem;
-      font-size:.9rem;
-      font-weight:900;
-      background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
-      color:#111827;
-      box-shadow:0 10px 30px rgba(247,215,116,.15);
-      transition:transform .12s ease, filter .12s ease;
-      white-space:nowrap;
-    }
-    .primary-btn:hover{filter:brightness(1.03); transform:translateY(-1px);}
-    .primary-btn:active{transform:translateY(0);}
-
+    .btn-gold:hover{filter:brightness(1.03); transform:translateY(-1px)}
+    .btn-gold:active{transform:translateY(0)}
+    .btn-gold:disabled{opacity:.45; cursor:not-allowed; box-shadow:none; transform:none}
     .bar{
       height:10px;
       border-radius:999px;
@@ -126,73 +100,98 @@
     .mono{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
     }
-    .safe-pb{padding-bottom:env(safe-area-inset-bottom);}
-
-    .live-dot{
-      width:8px;height:8px;border-radius:999px;
-      background:var(--ok);
-      box-shadow:0 0 0 0 rgba(34,197,94,.7);
-      animation:livePulse 1.4s infinite;
-    }
-    @keyframes livePulse{
-      0%{ box-shadow:0 0 0 0 rgba(34,197,94,.7); }
-      70%{ box-shadow:0 0 0 12px rgba(34,197,94,0); }
-      100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
-    }
-
-    .soft-line{border-top:1px solid rgba(255,255,255,.10);}
+    .safe-pb{padding-bottom:env(safe-area-inset-bottom)}
+    .focus-ring:focus{outline:none; box-shadow:0 0 0 3px rgba(247,215,116,.25)}
   </style>
 </head>
 
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
-    <!-- TOP BADGE -->
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      <div class="inline-flex items-center gap-2 chip px-3 py-1 rounded-full text-xs">
+    <!-- Top strip -->
+    <div class="flex items-center justify-between gap-3 mb-6">
+      <div class="inline-flex items-center gap-2 chip px-3 py-1.5 rounded-full text-xs">
         <i class="fa-solid fa-shield-halved"></i>
-        <span class="muted">Public Beta • Privacy-first • Global</span>
+        <span class="opacity-90">Public Beta</span>
+        <span class="opacity-40">•</span>
+        <span class="opacity-80"><span id="waitlistCountBadge">0</span> early access sign-ups</span>
       </div>
 
-      <div class="inline-flex items-center gap-2 text-xs muted">
-        <span class="live-dot"></span>
-        <span id="liveActivity">Live activity loading…</span>
+      <div class="hidden sm:flex items-center gap-2 text-xs muted">
+        <span id="liveActivity"></span>
       </div>
     </div>
 
     <!-- HERO -->
-    <div class="mt-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-      <div class="min-w-0 max-w-3xl">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-          <span class="gold-text">VoiceSafe.ai</span>
-          <span class="text-white">Detect AI Voice Scams</span>
-          <span class="text-white/85">before you send money.</span>
-        </h1>
-
-        <p class="mt-3 muted text-sm sm:text-base">
-          Upload a voice message (WhatsApp/Telegram/Viber audio) and get an <span class="text-white/90 font-semibold">AI Risk Assessment Report</span>
-          in seconds — impersonation, cloning, pressure tactics, and scam patterns.
-        </p>
-
-        <div class="mt-4 flex flex-wrap gap-2 text-xs">
-          <span class="chip px-3 py-1 rounded-full">AI Voice Detection</span>
-          <span class="chip px-3 py-1 rounded-full">Impersonation Protection</span>
-          <span class="chip px-3 py-1 rounded-full">Financial Scam Prevention</span>
-          <span class="chip px-3 py-1 rounded-full">Built for global scale</span>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
+      <div class="lg:col-span-7 glass gold-border rounded-3xl p-6 sm:p-8">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="chip rounded-full px-3 py-1 text-xs">
+            <i class="fa-solid fa-bolt mr-1"></i> Instant risk report
+          </span>
+          <span class="chip rounded-full px-3 py-1 text-xs">
+            <i class="fa-solid fa-lock mr-1"></i> Privacy-first
+          </span>
+          <span class="chip rounded-full px-3 py-1 text-xs">
+            <i class="fa-solid fa-globe mr-1"></i> Built for global anti-scam
+          </span>
         </div>
 
-        <div class="mt-4 text-xs opacity-80">
-          🔥 <span id="waitlistCountBadge">0</span> early access sign-ups •
+        <h1 class="mt-5 text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+          <span class="gold-text">VoiceSafe</span>
+          <span class="block mt-2">
+            Detect AI voice scams <span class="gold-text">before you send money</span>
+          </span>
+        </h1>
+
+        <p class="mt-4 text-base sm:text-lg muted max-w-2xl">
+          Upload or record a short clip. VoiceSafe returns a clear, investor-grade risk report
+          (scam score, AI voice probability, stress signals, and key red flags).
+        </p>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button id="ctaAnalyze" class="btn-gold rounded-xl px-5 py-3 text-sm font-extrabold">
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze now
+          </button>
+          <button id="ctaDemo" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90">
+            <i class="fa-solid fa-play mr-2"></i>Try demo result
+          </button>
+          <button id="ctaHow" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90">
+            <i class="fa-solid fa-circle-info mr-2"></i>How it works
+          </button>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">Free analyses</div>
+            <div class="mt-1 text-xl font-bold">3</div>
+            <div class="mt-1 text-xs muted">No signup required</div>
+          </div>
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">Privacy</div>
+            <div class="mt-1 text-xl font-bold">No voice storage</div>
+            <div class="mt-1 text-xs muted">Prototype mode</div>
+          </div>
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">Compliance-ready</div>
+            <div class="mt-1 text-xl font-bold">GDPR</div>
+            <div class="mt-1 text-xs muted">EU-first posture</div>
+          </div>
+        </div>
+
+        <div class="mt-6 text-xs muted">
+          Early access sign-ups: <span id="waitlistCountTop" class="text-white/90 font-semibold">0</span>
+          <span class="opacity-40">•</span>
           <span id="waitlistUrgency">Early access is open now.</span>
         </div>
       </div>
 
-      <!-- STATUS CARD -->
-      <div class="glass gold-border rounded-2xl p-4 w-full lg:w-[420px]">
-        <div class="flex items-center justify-between gap-3">
+      <!-- Backend status -->
+      <div class="lg:col-span-5 glass gold-border rounded-3xl p-6 sm:p-7">
+        <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
             <div class="text-sm font-semibold">Backend status</div>
-            <div class="text-xs muted truncate" id="backendStatus">Checking…</div>
+            <div class="text-xs muted truncate mt-1" id="backendStatus">Checking…</div>
           </div>
           <div class="text-right shrink-0">
             <div class="text-xs muted">Mode</div>
@@ -210,73 +209,95 @@
         </div>
 
         <div class="mt-2 text-[11px] muted">
-          Tip: Use LOCAL only when backend runs on <span class="mono">http://127.0.0.1:10000</span>
+          Tip: Use LOCAL only when your backend runs on <span class="mono">http://127.0.0.1:10000</span>.
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 gap-3">
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">What VoiceSafe looks for</div>
+            <div class="mt-2 flex flex-wrap gap-2 text-xs">
+              <span class="chip rounded-full px-3 py-1">AI voice patterns</span>
+              <span class="chip rounded-full px-3 py-1">Impersonation markers</span>
+              <span class="chip rounded-full px-3 py-1">Urgency / pressure</span>
+              <span class="chip rounded-full px-3 py-1">Financial request signals</span>
+            </div>
+          </div>
+
+          <button id="joinWaitlistBtn" class="chip rounded-2xl p-4 text-left hover:opacity-90">
+            <div class="text-sm font-semibold">
+              <i class="fa-solid fa-fire mr-2"></i>Join early access
+            </div>
+            <div class="mt-1 text-xs muted">
+              Helps prioritize features and shows demand to investors.
+            </div>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- MAIN GRID -->
-    <div class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
-
-      <!-- LEFT: UPLOAD / RECORD -->
-      <div class="lg:col-span-1 glass rounded-2xl p-5 sm:p-6">
-        <h2 class="text-lg font-semibold">Analyze a recording</h2>
-        <p class="muted text-sm mt-1">Upload an audio/video file or record a short clip.</p>
+    <!-- MAIN -->
+    <div id="analyzer" class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
+      <!-- LEFT: Analyzer -->
+      <div class="lg:col-span-5 glass rounded-3xl p-5 sm:p-6">
+        <h2 class="text-lg font-semibold">Analyze a sample</h2>
+        <p class="muted text-sm mt-1">Upload audio/video or record a short clip.</p>
 
         <div class="mt-5">
-          <label class="block text-sm muted mb-2" for="fileInput">Upload audio or chat audio/video</label>
-          <input id="fileInput" type="file" accept="audio/*,video/*" class="w-full text-sm chip rounded-xl p-3 outline-none" />
+          <label class="block text-sm muted mb-2" for="fileInput">Upload file</label>
+          <input id="fileInput" type="file" accept="audio/*,video/*"
+                 class="w-full text-sm chip rounded-xl p-3 outline-none focus-ring" />
           <div class="mt-2 text-xs muted" id="fileHint">No file selected.</div>
         </div>
 
         <div class="mt-5 grid grid-cols-2 gap-3">
-          <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
+          <button id="recordBtn" type="button"
+                  class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-microphone mr-2"></i>Record
           </button>
 
-          <button id="analyzeBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold" disabled>
+          <button id="analyzeBtn"
+                  class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold">
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
         </div>
 
-        <div class="mt-3 text-xs muted">
+        <div class="mt-4 text-xs muted">
           Free 3 analyses • No signup required • Privacy-first
-        </div>
-
-        <div class="mt-4 chip rounded-xl p-3 text-xs muted">
-          <div class="font-semibold text-white/90">Trust & privacy</div>
-          <div class="mt-1 leading-relaxed">
-            🔒 Privacy-first • avoid personal data in notes<br/>
-            ⚡ Instant AI risk assessment<br/>
-            🛡 Detect pressure + impersonation patterns<br/>
-            🌍 Built for global safety
+          <div class="mt-2 leading-6">
+            🔒 No voice data stored (prototype)<br/>
+            ⚡ Instant risk assessment<br/>
+            🇪🇺 GDPR-ready posture
           </div>
         </div>
 
-        <!-- OPTIONAL CASE META -->
-        <div class="mt-5 soft-line pt-5">
+        <div class="mt-6 border-t border-white/10 pt-5">
           <h3 class="text-sm font-semibold">Case details (optional)</h3>
           <p class="muted text-xs mt-1">Saved cases can be searched & shared (if backend supports it).</p>
-
           <div class="mt-4 space-y-3">
-            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Title (e.g. 'Telegram investor')" />
+            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                   placeholder="Title (e.g. Telegram investor)" />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Platform (Telegram)" />
-              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Country (US)" />
+              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                     placeholder="Platform (Telegram)" />
+              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                     placeholder="Country (US)" />
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Language (EN)" />
-              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Tags (comma separated)" />
+              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                     placeholder="Language (EN)" />
+              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                     placeholder="Tags (comma separated)" />
             </div>
-            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none" placeholder="Notes (what happened)"></textarea>
+            <textarea id="notes" rows="3"
+                      class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                      placeholder="Notes (what happened)"></textarea>
           </div>
-
           <div class="mt-4 text-xs muted">
-            Tip: Keep personal data out of notes. This is a prototype.
+            Tip: Keep personal data out of notes.
           </div>
         </div>
 
-        <div class="mt-5 chip rounded-xl p-3 text-xs muted">
+        <div class="mt-5 chip rounded-2xl p-4 text-xs muted">
           <div class="font-semibold text-white/90">Disclaimer</div>
           <div class="mt-1">
             Scores are prototypes and can be wrong. Always verify identity using official channels.
@@ -284,15 +305,13 @@
         </div>
       </div>
 
-      <!-- RIGHT: RESULTS -->
-      <div id="resultsCard" class="lg:col-span-2 glass rounded-2xl p-5 sm:p-6">
-        <div style="font-size:12px;opacity:.65;margin-bottom:8px;letter-spacing:.08em;text-transform:uppercase;">
-          AI Risk Assessment Report
-        </div>
+      <!-- RIGHT: Results -->
+      <div id="resultsCard" class="lg:col-span-7 glass rounded-3xl p-5 sm:p-6">
+        <div class="text-xs muted tracking-widest uppercase">AI Risk Assessment Report</div>
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="mt-2 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div class="min-w-0">
-            <h2 class="text-lg font-semibold">Results</h2>
+            <h2 class="text-2xl font-extrabold">Results</h2>
             <p class="muted text-sm mt-1">Risk signals, explanation and summary.</p>
           </div>
 
@@ -305,8 +324,8 @@
               <i class="fa-solid fa-link mr-2"></i>Share
             </button>
 
-            <button id="upgradeBtn" class="primary-btn">
-              🚀 Unlock Unlimited Voice Checks & AI Reports – €9/month
+            <button id="upgradeBtn" class="btn-gold rounded-xl px-4 py-2 text-sm font-extrabold">
+              🚀 Unlock Pro – €9/month
             </button>
 
             <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm hover:opacity-90">
@@ -318,25 +337,19 @@
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Scam score</div>
-            <div class="mt-1 text-3xl font-extrabold">
-              <span id="scamScore">—</span><span class="text-base muted">%</span>
-            </div>
+            <div class="mt-1 text-3xl font-extrabold"><span id="scamScore">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="scamBar"></div></div>
           </div>
 
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">AI voice probability</div>
-            <div class="mt-1 text-3xl font-extrabold">
-              <span id="aiProb">—</span><span class="text-base muted">%</span>
-            </div>
+            <div class="mt-1 text-3xl font-extrabold"><span id="aiProb">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="aiBar"></div></div>
           </div>
 
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Stress level</div>
-            <div class="mt-1 text-3xl font-extrabold">
-              <span id="stressLevel">—</span><span class="text-base muted">%</span>
-            </div>
+            <div class="mt-1 text-3xl font-extrabold"><span id="stressLevel">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="stressBar"></div></div>
           </div>
         </div>
@@ -344,7 +357,7 @@
         <div class="mt-5 chip rounded-2xl p-5">
           <div class="text-xs muted">Summary</div>
           <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText">
-            Upload a sample to see results.
+            Upload or record a sample to see results.
           </div>
           <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
         </div>
@@ -359,17 +372,20 @@
 
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold">Search cases</div>
-
             <div class="mt-3 flex gap-2">
-              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Search title / notes..." />
-              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0">Search</button>
+              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0"
+                     placeholder="Search title / notes..." />
+              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0">
+                Search
+              </button>
             </div>
-
             <div class="mt-3 flex gap-2">
-              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none min-w-0" placeholder="Tag filter (optional)" />
-              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">Clear</button>
+              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0"
+                     placeholder="Tag filter (optional)" />
+              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">
+                Clear
+              </button>
             </div>
-
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height:min(46vh,360px);"></div>
           </div>
         </div>
@@ -379,27 +395,71 @@
     </div>
 
     <div class="mt-10 text-center text-xs muted">
-      VoiceSafe.ai • AI Fraud Prevention Tool • Built 2026
+      VoiceSafe • Prototype • Built for global anti-scam awareness • <span class="mono">voicesafe.ai</span>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS MODAL -->
+  <div id="howModal" class="fixed inset-0 hidden items-center justify-center z-50">
+    <div id="howBackdrop" class="absolute inset-0 bg-black/60"></div>
+    <div class="relative w-[92%] max-w-2xl rounded-3xl border border-white/10 bg-[#0b0f14] p-6 sm:p-7 shadow-xl">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h3 class="text-xl font-extrabold">How VoiceSafe works</h3>
+          <p class="mt-1 text-sm muted">Clear output, fast workflow, minimal friction.</p>
+        </div>
+        <button id="howClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90">✕</button>
+      </div>
+
+      <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+        <div class="chip rounded-2xl p-4">
+          <div class="text-xs muted">1) Input</div>
+          <div class="mt-1 font-semibold">Upload or record</div>
+          <div class="mt-1 text-xs muted">Audio/video supported</div>
+        </div>
+        <div class="chip rounded-2xl p-4">
+          <div class="text-xs muted">2) Analysis</div>
+          <div class="mt-1 font-semibold">AI risk scoring</div>
+          <div class="mt-1 text-xs muted">Signals + probabilities</div>
+        </div>
+        <div class="chip rounded-2xl p-4">
+          <div class="text-xs muted">3) Action</div>
+          <div class="mt-1 font-semibold">Share & investigate</div>
+          <div class="mt-1 text-xs muted">Use official channels</div>
+        </div>
+      </div>
+
+      <div class="mt-5 text-sm muted leading-6">
+        VoiceSafe is a prototype. Scores can be wrong — treat the report as an early warning system.
+        When money is involved, always verify the caller via trusted, official contact methods.
+      </div>
+
+      <div class="mt-6 flex flex-col sm:flex-row gap-2">
+        <button id="howTryDemo" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full sm:w-auto">
+          <i class="fa-solid fa-play mr-2"></i>Load demo result
+        </button>
+        <button id="howGoAnalyze" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full sm:w-auto">
+          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Go to analyzer
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- PAYWALL MODAL -->
   <div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50">
     <div id="paywallBackdrop" class="absolute inset-0 bg-black/60"></div>
-
-    <div class="relative w-[92%] max-w-lg rounded-2xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
+    <div class="relative w-[92%] max-w-lg rounded-3xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h3 class="text-xl font-semibold">Free limit reached</h3>
-          <p class="mt-1 text-sm opacity-80">Upgrade to VoiceSafe Pro to continue analyzing.</p>
+          <h3 class="text-xl font-extrabold">Free limit reached</h3>
+          <p class="mt-1 text-sm muted">Upgrade to Pro to continue analyzing.</p>
         </div>
-        <button id="paywallClose" class="rounded-lg px-3 py-1 text-sm chip">✕</button>
+        <button id="paywallClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90">✕</button>
       </div>
 
       <div class="mt-4 grid gap-2 text-sm opacity-90">
         <div>✓ Unlimited analyses</div>
-        <div>✓ Priority AI detection</div>
-        <div>✓ Full AI Risk Report</div>
+        <div>✓ Priority processing</div>
         <div>✓ Case history & sharing</div>
       </div>
 
@@ -410,15 +470,18 @@
 
         <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
           Join early access
-          <div id="waitlistUrgencyModal" class="mt-2 text-xs opacity-70 text-center"></div>
         </button>
 
-        <p class="mt-2 text-xs opacity-60">
-          (If payments are not available for your region yet, join early access and we’ll prioritize your rollout.)
-        </p>
-
-        <p id="waitlistCountText" class="mt-2 text-xs opacity-70 text-center"></p>
+        <p class="mt-2 text-xs muted">Payment coming soon (prototype). Button can be used to measure demand.</p>
+        <p id="waitlistCountText" class="mt-1 text-xs muted text-center"></p>
       </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 hidden z-[60]">
+    <div class="chip gold-border rounded-2xl px-4 py-3 text-sm shadow-xl">
+      <span id="toastMsg"></span>
     </div>
   </div>
 
@@ -430,16 +493,28 @@
       PROD: "https://voicesafe-backend-1.onrender.com",
       LOCAL: "http://127.0.0.1:10000",
     };
-    let backendBase = URLS.PROD;
 
-    // Stripe links (your current)
+    // Stripe links (KEEP CLEAN: no markdown []())
     const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-    const STRIPE_PORTAL_URL = "https://billing.stripe.com/p/login/aFa3cn42A8Iq1cC8m2gA800";
+    // Optional: If you have a real Stripe Billing Portal URL, put it here. Otherwise it will just show a message.
+    const STRIPE_BILLING_PORTAL_URL = ""; // e.g. "https://billing.stripe.com/p/login/..."
+
+    let backendBase = URLS.PROD;
 
     // ===========================
     // DOM helpers
     // ===========================
-    const $ = (id) => document.getElementById(id);
+    document.addEventListener("DOMContentLoaded", () => {
+
+const $ = (id) => document.getElementById(id);
+
+const analyzeBtn = $("analyzeBtn");
+
+analyzeBtn.addEventListener("click", async () => {
+
+});
+
+});
 
     const fileInput = $("fileInput");
     const analyzeBtn = $("analyzeBtn");
@@ -460,6 +535,9 @@
 
     const copyJsonBtn = $("copyJsonBtn");
     const shareBtn = $("shareBtn");
+    const upgradeBtn = $("upgradeBtn");
+    const manageSubBtn = $("manageSubBtn");
+
     const caseIdEl = $("caseId");
     const caseSavedHint = $("caseSavedHint");
 
@@ -478,82 +556,234 @@
 
     const btnProd = $("btnProd");
     const btnLocal = $("btnLocal");
-    const upgradeBtn = $("upgradeBtn");
-    const manageSubBtn = $("manageSubBtn");
 
-    const resultsCard = $("resultsCard");
+    const ctaAnalyze = $("ctaAnalyze");
+    const ctaDemo = $("ctaDemo");
+    const ctaHow = $("ctaHow");
+    const joinWaitlistBtn = $("joinWaitlistBtn");
 
+    // State
     let lastResponse = null;
     let lastCaseId = null;
     let progressInterval = null;
 
     // ===========================
-    // Utilities
+    // Small UX helpers
     // ===========================
-    function clampPct(v){
+    function toast(msg) {
+      const t = $("toast");
+      const m = $("toastMsg");
+      if (!t || !m) return;
+      m.textContent = msg;
+      t.classList.remove("hidden");
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => t.classList.add("hidden"), 2200);
+    }
+
+    function clampPct(v) {
       const n = Number(v);
       if (!Number.isFinite(n)) return 0;
       return Math.max(0, Math.min(100, n));
     }
-    function setBars(scam, ai, stress){
+
+    function setBars(scam, ai, stress) {
       scamBar.style.width = clampPct(scam) + "%";
       aiBar.style.width = clampPct(ai) + "%";
       stressBar.style.width = clampPct(stress) + "%";
     }
-    function renderFlags(flags){
-      flagsWrap.innerHTML = "";
-      (Array.isArray(flags) ? flags : []).forEach(f => {
-        const chip = document.createElement("span");
-        chip.className = "chip px-3 py-1 rounded-full text-xs";
-        chip.textContent = String(f);
-        flagsWrap.appendChild(chip);
-      });
+
+    function normalizeFlags(flags) {
+      if (!flags) return [];
+      if (Array.isArray(flags)) return flags.filter(Boolean).slice(0, 10);
+      if (typeof flags === "string") {
+        return flags.split(",").map(s => s.trim()).filter(Boolean).slice(0, 10);
+      }
+      return [];
     }
 
-    function scrollToResults(){
-      if (!resultsCard) return;
-      resultsCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    function pickNumber(obj, keys, fallback = null) {
+      for (const k of keys) {
+        if (obj && obj[k] !== undefined && obj[k] !== null && obj[k] !== "") {
+          const n = Number(obj[k]);
+          if (Number.isFinite(n)) return n;
+        }
+      }
+      return fallback;
     }
 
-    // Robust mapping (fix 0%)
-    function pickAIProbability(data){
-      return (
-        data?.ai_voice_probability ??
-        data?.ai_voice_prob ??
-        data?.ai_probability ??
-        data?.aiProb ??
-        data?.ai ??
-        0
-      );
-    }
-    function pickScamScore(data){
-      return (data?.scam_score ?? data?.scamScore ?? data?.scan_score ?? 0);
-    }
-    function pickStress(data){
-      return (data?.stress_level ?? data?.stress ?? 0);
+    function pickText(obj, keys, fallback = "") {
+      for (const k of keys) {
+        if (obj && typeof obj[k] === "string" && obj[k].trim()) return obj[k].trim();
+      }
+      return fallback;
     }
 
-    function setResultUI(data){
-      const scam = pickScamScore(data);
-      const ai = pickAIProbability(data);
-      const stress = pickStress(data);
-
-      scamScoreEl.textContent = String(clampPct(scam));
-      aiProbEl.textContent = String(clampPct(ai));
-      stressLevelEl.textContent = String(clampPct(stress));
-
-      setBars(scam, ai, stress);
-
-      summaryText.textContent =
-        data?.summary ||
-        data?.message ||
-        "Analysis completed.";
-
-      renderFlags(data?.flags || data?.signals || []);
+    function scrollToResults() {
+      const el = $("resultsCard");
+      if (!el) return;
+      try {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        // small offset for sticky-ish feel
+        setTimeout(() => {
+          const y = el.getBoundingClientRect().top + window.scrollY - 16;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }, 120);
+      } catch {}
     }
 
     // ===========================
-    // Paywall
+    // Results rendering (FIXED)
+    // ===========================
+    function setResultUI(payload) {
+      const data = payload || {};
+
+      // accept multiple backend naming styles
+      const scam = pickNumber(data, ["scam_score", "scamScore", "scam", "risk", "risk_score"], 0);
+      const ai = pickNumber(data, ["ai_probability", "aiProb", "ai_probability_pct", "ai_voice_probability", "aiVoiceProbability"], 0);
+      const stress = pickNumber(data, ["stress_level", "stressLevel", "stress", "stress_score"], 0);
+
+      const summary = pickText(data, ["summary", "explanation", "message"], "Analysis complete.");
+      const flags = normalizeFlags(data.flags || data.signals || data.red_flags || data.redFlags);
+
+      scamScoreEl.textContent = String(Math.round(clampPct(scam)));
+      aiProbEl.textContent = String(Math.round(clampPct(ai)));
+      stressLevelEl.textContent = String(Math.round(clampPct(stress)));
+
+      summaryText.textContent = summary;
+
+      flagsWrap.innerHTML = "";
+      flags.forEach(f => {
+        const chip = document.createElement("span");
+        chip.className = "chip rounded-full px-3 py-1 text-xs";
+        chip.textContent = f;
+        flagsWrap.appendChild(chip);
+      });
+
+      setBars(scam, ai, stress);
+      scrollToResults();
+    }
+
+    // Demo result (for investor impression)
+    function loadDemoResult() {
+      setResultUI({
+        scam_score: 78,
+        ai_probability: 86,
+        stress_level: 64,
+        summary:
+          "High-risk pattern detected. Voice characteristics suggest synthetic generation and urgency-driven coercion typical in financial fraud calls. Verify identity via official channels before taking action.",
+        flags: [
+          "Synthetic timbre signature",
+          "Urgency / pressure language",
+          "Financial request marker",
+          "Impersonation phrasing",
+          "Call-flow inconsistency"
+        ]
+      });
+      lastResponse = { demo: true };
+      if (rawJson) {
+        rawJson.textContent = JSON.stringify({ demo: true }, null, 2);
+        rawJson.classList.remove("hidden");
+      }
+      toast("Demo result loaded.");
+    }
+
+    // ===========================
+    // Mode + health
+    // ===========================
+    function setStatus(text) { $("backendStatus").textContent = text; }
+
+    async function checkBackend() {
+      try {
+        const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
+        if (!r.ok) throw new Error("health not ok");
+        const j = await r.json().catch(() => ({}));
+        setStatus(`OK • AI: ${j.ai_url || "unknown"}`);
+      } catch {
+        setStatus("Offline / blocked (check URL, CORS, or server)");
+      }
+    }
+
+    function setMode(mode) {
+      backendBase = URLS[mode];
+      $("backendUrl").textContent = backendBase;
+      $("modeLabel").textContent = mode;
+
+      const activeCls = " ring-2 ring-yellow-300/30";
+      btnProd.className = btnProd.className.replace(activeCls, "");
+      btnLocal.className = btnLocal.className.replace(activeCls, "");
+      if (mode === "PROD") btnProd.className += activeCls;
+      else btnLocal.className += activeCls;
+
+      checkBackend();
+      toast(`Mode: ${mode}`);
+    }
+
+    btnProd.addEventListener("click", () => setMode("PROD"));
+    btnLocal.addEventListener("click", () => setMode("LOCAL"));
+    setMode("PROD");
+
+    // ===========================
+    // Waitlist (local prototype)
+    // ===========================
+    function joinEarlyAccess() {
+      const count = Number(localStorage.getItem("waitlist") || 0);
+      localStorage.setItem("waitlist", String(count + 1));
+      renderWaitlistCount();
+      toast("Joined early access ✓");
+    }
+
+    function renderWaitlistCount() {
+      const count = Number(localStorage.getItem("waitlist") || 0);
+      const top = $("waitlistCountTop");
+      const badge = $("waitlistCountBadge");
+      const text = $("waitlistCountText");
+      if (top) top.textContent = String(count);
+      if (badge) badge.textContent = String(count);
+      if (text) text.textContent = `Total early access sign-ups: ${count}`;
+    }
+
+    const cities = ["Vienna", "Warsaw", "Amsterdam", "Paris", "Madrid", "New York", "Toronto"];
+    (function simulateLiveJoins(){
+      const el = $("liveActivity");
+      if (!el) return;
+      setInterval(() => {
+        const city = cities[Math.floor(Math.random() * cities.length)];
+        const seconds = Math.floor(Math.random() * 40) + 5;
+        el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
+      }, 6500);
+    })();
+
+    renderWaitlistCount();
+
+    joinWaitlistBtn.addEventListener("click", joinEarlyAccess);
+
+    // ===========================
+    // HOW modal
+    // ===========================
+    const howModal = $("howModal");
+    const howBackdrop = $("howBackdrop");
+    const howClose = $("howClose");
+    const howTryDemo = $("howTryDemo");
+    const howGoAnalyze = $("howGoAnalyze");
+
+    function openHow() { howModal.classList.remove("hidden"); howModal.classList.add("flex"); }
+    function closeHow(){ howModal.classList.add("hidden"); howModal.classList.remove("flex"); }
+
+    ctaHow.addEventListener("click", openHow);
+    if (howBackdrop) howBackdrop.addEventListener("click", closeHow);
+    if (howClose) howClose.addEventListener("click", closeHow);
+    if (howTryDemo) howTryDemo.addEventListener("click", () => { closeHow(); loadDemoResult(); });
+    if (howGoAnalyze) howGoAnalyze.addEventListener("click", () => {
+      closeHow();
+      $("analyzer")?.scrollIntoView({ behavior:"smooth", block:"start" });
+    });
+
+    // Hero CTAs
+    ctaAnalyze.addEventListener("click", () => $("analyzer")?.scrollIntoView({ behavior:"smooth", block:"start" }));
+    ctaDemo.addEventListener("click", loadDemoResult);
+
+    // ===========================
+    // PAYWALL
     // ===========================
     function openPaywall(){
       const m = $("paywallModal");
@@ -571,116 +801,31 @@
 
     $("paywallBackdrop")?.addEventListener("click", closePaywall);
     $("paywallClose")?.addEventListener("click", closePaywall);
+    $("paywallWaitlist")?.addEventListener("click", () => { joinEarlyAccess(); closePaywall(); });
 
     // ===========================
-    // Backend status + mode
+    // Stripe buttons
     // ===========================
-    function setStatus(text){ $("backendStatus").textContent = text; }
+    upgradeBtn.addEventListener("click", () => window.location.href = STRIPE_CHECKOUT_URL);
+    $("paywallCta")?.addEventListener("click", () => window.location.href = STRIPE_CHECKOUT_URL);
 
-    async function checkBackend(){
-      try{
-        const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
-        if (!r.ok) throw new Error("health not ok");
-        const j = await r.json().catch(() => ({}));
-        setStatus(`✅ ONLINE • AI: ${j.ai_url || "unknown"}`);
-      }catch{
-        setStatus("❌ Offline / blocked (check URL, CORS, or server)");
+    manageSubBtn.addEventListener("click", () => {
+      if (!STRIPE_BILLING_PORTAL_URL) {
+        toast("Add your Stripe Billing Portal URL in code.");
+        return;
       }
-    }
-
-    function setMode(mode){
-      backendBase = URLS[mode];
-      $("backendUrl").textContent = backendBase;
-      $("modeLabel").textContent = mode;
-
-      const active = " border border-yellow-300/40";
-      btnProd.className = btnProd.className.replace(active, "");
-      btnLocal.className = btnLocal.className.replace(active, "");
-      if (mode === "PROD") btnProd.className += active;
-      else btnLocal.className += active;
-
-      checkBackend();
-    }
-
-    btnProd.addEventListener("click", () => setMode("PROD"));
-    btnLocal.addEventListener("click", () => setMode("LOCAL"));
-    setMode("PROD");
-
-    // ===========================
-    // Stripe
-    // ===========================
-    upgradeBtn?.addEventListener("click", () => {
-      window.location.href = STRIPE_CHECKOUT_URL;
+      window.open(STRIPE_BILLING_PORTAL_URL, "_blank", "noopener,noreferrer");
     });
 
-    manageSubBtn?.addEventListener("click", () => {
-      window.open(STRIPE_PORTAL_URL, "_blank");
-    });
-
-    // If you later implement real success page, this keeps "pro" flag.
-    if (window.location.pathname.includes("success")) {
-      localStorage.setItem("voicesafe_pro", "true");
-      alert("✅ PRO activated successfully!");
-      window.location.href = "/";
-    }
-
     // ===========================
-    // Waitlist / FOMO
-    // ===========================
-    function joinEarlyAccess(){
-      const count = Number(localStorage.getItem("waitlist") || 0) + 1;
-      localStorage.setItem("waitlist", String(count));
-
-      const btn = $("paywallWaitlist");
-      if (btn){
-        btn.classList.add("opacity-70");
-        btn.innerHTML = "Joined ✅";
-        btn.disabled = true;
-      }
-
-      renderWaitlistCount();
-      alert("You're on the early access list 🚀");
-    }
-    $("paywallWaitlist")?.addEventListener("click", joinEarlyAccess);
-
-    function renderWaitlistCount(){
-      const count = Number(localStorage.getItem("waitlist") || 0);
-
-      $("waitlistCountBadge") && ($("waitlistCountBadge").textContent = String(count));
-      $("waitlistCountText") && ($("waitlistCountText").textContent = `Total early access sign-ups: ${count}`);
-
-      const urgency = $("waitlistUrgency")?.textContent || "Early access is open now.";
-      $("waitlistUrgencyModal") && ($("waitlistUrgencyModal").textContent = urgency);
-    }
-
-    const cities = ["Vienna","Warsaw","Amsterdam","Paris","Madrid","London","New York","Toronto","Singapore","Dubai"];
-    function simulateLiveActivity(){
-      const el = $("liveActivity");
-      if (!el) return;
-
-      setInterval(() => {
-        const city = cities[Math.floor(Math.random()*cities.length)];
-        const sec = Math.floor(Math.random()*45) + 8;
-        el.textContent = `🔥 ${city} • new scan started ${sec}s ago`;
-      }, 5500);
-
-      el.textContent = "🔥 Global scans running now…";
-    }
-
-    simulateLiveActivity();
-    renderWaitlistCount();
-
-    // ===========================
-    // File selection -> enable analyze
+    // File selection
     // ===========================
     fileInput.addEventListener("change", () => {
       const f = fileInput.files && fileInput.files[0];
-      if (f){
-        fileHint.textContent = `Selected: ${f.name} (${Math.round(f.size/1024)} KB)`;
-        analyzeBtn.disabled = false;
-      }else{
+      if (f) {
+        fileHint.textContent = `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)`;
+      } else {
         fileHint.textContent = "No file selected.";
-        analyzeBtn.disabled = true;
       }
     });
 
@@ -692,36 +837,40 @@
     let recording = false;
 
     recordBtn.addEventListener("click", async () => {
-      try{
-        if (!recording){
+      try {
+        if (!recording) {
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
           recordedChunks = [];
           mediaRecorder = new MediaRecorder(stream);
 
           mediaRecorder.ondataavailable = (e) => {
-            if (e.data.size > 0) recordedChunks.push(e.data);
+            if (e.data && e.data.size > 0) recordedChunks.push(e.data);
           };
 
           mediaRecorder.onstop = () => {
-            const blob = new Blob(recordedChunks, { type: "audio/webm" });
-            const file = new File([blob], "mic.webm", { type: "audio/webm" });
-            const dt = new DataTransfer();
-            dt.items.add(file);
-            fileInput.files = dt.files;
-
-            fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size/1024)} KB)`;
-            analyzeBtn.disabled = false;
+            try {
+              const blob = new Blob(recordedChunks, { type: "audio/webm" });
+              const file = new File([blob], "mic.webm", { type: "audio/webm" });
+              const dt = new DataTransfer();
+              dt.items.add(file);
+              fileInput.files = dt.files;
+              fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+              toast("Recording saved ✓");
+            } catch {
+              toast("Could not finalize recording.");
+            }
           };
 
           mediaRecorder.start();
           recording = true;
           recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
-        }else{
+          toast("Recording…");
+        } else {
           mediaRecorder.stop();
           recording = false;
           recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
         }
-      }catch{
+      } catch {
         alert("Microphone permission blocked or unavailable.");
       }
     });
@@ -729,58 +878,119 @@
     // ===========================
     // Analyze
     // ===========================
-    function startInvestorProgress(){
-      const steps = [
-        "Analyzing voice biometrics…",
-        "Detecting AI voice cloning artifacts…",
-        "Measuring urgency / stress markers…",
-        "Scanning scam patterns & intent…",
-        "Generating AI Risk Report…"
-      ];
-      let i = 0;
-      summaryText.textContent = steps[0];
+function setResultUI(data) {
 
-      if (progressInterval) clearInterval(progressInterval);
-      progressInterval = setInterval(() => {
-        i++;
-        if (i < steps.length) summaryText.textContent = steps[i];
-      }, 850);
-    }
+  if (!data) return;
+
+  const scam = Number(
+    data.scam_score ??
+    data.scamScore ??
+    0
+  );
+
+  const ai = Number(
+    data.ai_probability ??
+    data.aiProb ??
+    0
+  );
+
+  const stress = Number(
+    data.stress_level ??
+    data.stressLevel ??
+    0
+  );
+
+  // TEXT VALUES
+  document.getElementById("scamScore").textContent = scam;
+  document.getElementById("aiProb").textContent = ai;
+  document.getElementById("stressLevel").textContent = stress;
+
+  // BARS
+  document.getElementById("scamBar").style.width = scam + "%";
+  document.getElementById("aiBar").style.width = ai + "%";
+  document.getElementById("stressBar").style.width = stress + "%";
+
+  // SUMMARY
+  document.getElementById("summaryText").textContent =
+    data.summary || "Analysis completed.";
+
+  // FLAGS
+  const wrap = document.getElementById("flagsWrap");
+  wrap.innerHTML = "";
+
+  (data.flags || []).forEach(f => {
+    const el = document.createElement("div");
+    el.className =
+      "chip px-3 py-1 rounded-full text-xs";
+    el.textContent = f;
+    wrap.appendChild(el);
+  });
+
+  // AUTO SCROLL TO RESULTS
+document.getElementById("resultsCard")
+  ?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+
+  // 🔥 AUTO SCROLL (INVESTOR UX)
+  document
+    .getElementById("resultsCard")
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+}
 
     analyzeBtn.addEventListener("click", async () => {
-      const f = fileInput.files && fileInput.files[0];
-
-      if (!f){
-        alert("Please select a file first.");
-        return;
-      }
-
       // FREE LIMIT
       const isPro = localStorage.getItem("voicesafe_pro") === "true";
       const FREE_LIMIT = 3;
       const usage = Number(localStorage.getItem("vs_usage") || 0);
 
-      if (!isPro && usage >= FREE_LIMIT){
+      if (!isPro && usage >= FREE_LIMIT) {
         openPaywall();
         return;
       }
 
-      // increment usage
+      const f = fileInput.files && fileInput.files[0];
+      if (!f) {
+        toast("Select a file or record audio first.");
+        // still allow investors to see it:
+        loadDemoResult();
+        return;
+      }
+
+      // progress text (clean + stable)
+      const steps = [
+        "Uploading sample…",
+        "Analyzing voice pattern…",
+        "Detecting AI voice cloning…",
+        "Measuring stress markers…",
+        "Scanning scam signals…",
+        "Finalizing risk report…"
+      ];
+      let stepIndex = 0;
+      summaryText.textContent = steps[0];
+
+      if (progressInterval) clearInterval(progressInterval);
+      progressInterval = setInterval(() => {
+        stepIndex = Math.min(stepIndex + 1, steps.length - 1);
+        summaryText.textContent = steps[stepIndex];
+      }, 850);
+
+      // count usage
       localStorage.setItem("vs_usage", String(isPro ? usage : usage + 1));
 
-      // UI state
       analyzeBtn.disabled = true;
-      analyzeBtn.innerHTML = `<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…`;
+      analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…';
+      flagsWrap.innerHTML = "";
+      setBars(0,0,0);
       if (rawJson) rawJson.classList.add("hidden");
-      renderFlags([]);
 
-      startInvestorProgress();
-
-      try{
+      try {
         const form = new FormData();
         form.append("file", f);
 
-        // optional meta
+        // optional meta (backend may ignore)
         form.append("title", titleEl.value || "");
         form.append("platform", platformEl.value || "");
         form.append("country", countryEl.value || "");
@@ -788,48 +998,47 @@
         form.append("tags", tagsEl.value || "");
         form.append("notes", notesEl.value || "");
 
-        const resp = await fetch(`${backendBase}/upload`, { method:"POST", body: form });
+        const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
         const data = await resp.json().catch(() => null);
 
-        if (!resp.ok){
-          const msg = data?.message || `HTTP ${resp.status}`;
+        if (!resp.ok) {
+          const msg = (data && (data.message || data.error)) ? (data.message || data.error) : `HTTP ${resp.status}`;
           summaryText.textContent = `Error: ${msg}`;
-          setBars(0,0,0);
+          toast("Analyze failed.");
           return;
         }
 
-        const payload = data?.aiResult || data?.case?.data || data;
+        // Backend may return { aiResult, case_id } OR direct ai result
+        const aiResult = (data && (data.aiResult || data.result || data)) || {};
+        lastResponse = aiResult;
 
-        lastResponse = data;
-        setResultUI(payload);
-        scrollToResults();
+        setResultUI(aiResult);
 
-        lastCaseId = data?.case_id || data?.case?.id || data?.id || null;
-        if (lastCaseId){
+        // case id (optional)
+        lastCaseId = data?.case_id || data?.caseId || data?.id || aiResult?.case_id || null;
+        if (lastCaseId) {
           caseIdEl.textContent = String(lastCaseId);
-          caseSavedHint.textContent = "Case saved. You can share it.";
+          caseSavedHint.textContent = "Case saved.";
           shareBtn.disabled = false;
-        }else{
+        } else {
           caseIdEl.textContent = "—";
-          caseSavedHint.textContent = "No case id returned (backend may not save cases).";
+          caseSavedHint.textContent = "No case id returned by backend.";
           shareBtn.disabled = true;
         }
 
-        if (rawJson){
+        if (rawJson) {
           rawJson.textContent = JSON.stringify(data, null, 2);
           rawJson.classList.remove("hidden");
         }
 
-      }catch(e){
-        summaryText.textContent = "Network error. Please retry.";
-        setBars(0,0,0);
-      }finally{
-        if (progressInterval){
-          clearInterval(progressInterval);
-          progressInterval = null;
-        }
+        toast("Analysis complete ✓");
+      } catch (e) {
+        summaryText.textContent = "Network error (check backend URL / CORS).";
+        toast("Network error.");
+      } finally {
+        if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
         analyzeBtn.disabled = false;
-        analyzeBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze`;
+        analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
       }
     });
 
@@ -837,29 +1046,23 @@
     // Copy / Share
     // ===========================
     copyJsonBtn.addEventListener("click", async () => {
-      try{
-        if (!lastResponse) return;
+      try {
+        if (!lastResponse) { toast("No result to copy."); return; }
         await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
-        copyJsonBtn.textContent = "Copied ✓";
-        setTimeout(() => {
-          copyJsonBtn.innerHTML = `<i class="fa-regular fa-copy mr-2"></i>Copy JSON`;
-        }, 900);
-      }catch{
+        toast("Copied JSON ✓");
+      } catch {
         alert("Copy failed (clipboard permission).");
       }
     });
 
     shareBtn.addEventListener("click", async () => {
-      if (!lastCaseId) return;
+      if (!lastCaseId) { toast("No case id to share."); return; }
       const url = new URL(window.location.href);
       url.searchParams.set("case", String(lastCaseId));
-      try{
+      try {
         await navigator.clipboard.writeText(url.toString());
-        shareBtn.textContent = "Link copied ✓";
-        setTimeout(() => {
-          shareBtn.innerHTML = `<i class="fa-solid fa-link mr-2"></i>Share`;
-        }, 1000);
-      }catch{
+        toast("Share link copied ✓");
+      } catch {
         alert("Could not copy. Share link: " + url.toString());
       }
     });
@@ -867,17 +1070,17 @@
     // ===========================
     // Search / Load cases (optional)
     // ===========================
-    function escapeHtml(s){
-      return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    function escapeHtml(s) {
+      return (s || "").replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
     }
 
-    function renderSearchList(items){
+    function renderSearchList(items) {
       resultsList.innerHTML = "";
-      if (!items || !items.length){
+      if (!items || !items.length) {
         resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
         return;
       }
-      items.slice(0,25).forEach(item => {
+      items.slice(0, 25).forEach(item => {
         const id = item.id || item.case_id || item._id;
         const title = item?.meta?.title || item?.title || "(untitled)";
         const platform = item?.meta?.platform || item?.platform || "";
@@ -901,7 +1104,7 @@
       });
     }
 
-    async function doSearch(){
+    async function doSearch() {
       const q = (searchQ.value || "").trim();
       const tag = (searchTag.value || "").trim();
       const url = new URL(`${backendBase}/cases`);
@@ -909,26 +1112,30 @@
       if (tag) url.searchParams.set("tag", tag);
 
       resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
-      try{
-        const r = await fetch(url.toString(), { cache:"no-store" });
+      try {
+        const r = await fetch(url.toString(), { cache: "no-store" });
         const j = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(j?.message || "Search failed");
         renderSearchList(j?.cases || j?.items || []);
-      }catch{
+      } catch {
         resultsList.innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`;
       }
     }
 
-    async function loadCase(id){
+    async function loadCase(id) {
       if (!id) return;
       summaryText.textContent = "Loading case…";
-      try{
-        const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache:"no-store" });
+      scrollToResults();
+
+      try {
+        const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
         const j = await r.json().catch(() => ({}));
-        if (!r.ok){
+        if (!r.ok) {
           summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
+          toast("Load failed.");
           return;
         }
+
         const c = j.case || j.item || j;
         const meta = c.meta || {};
         const data = c.data || c;
@@ -942,14 +1149,13 @@
 
         lastResponse = data;
         setResultUI(data);
-        scrollToResults();
 
         lastCaseId = c.id || c._id || id;
         caseIdEl.textContent = String(lastCaseId);
         caseSavedHint.textContent = "Loaded from saved cases.";
         shareBtn.disabled = false;
 
-        if (rawJson){
+        if (rawJson) {
           rawJson.textContent = JSON.stringify(j, null, 2);
           rawJson.classList.remove("hidden");
         }
@@ -957,8 +1163,11 @@
         const url = new URL(window.location.href);
         url.searchParams.set("case", String(lastCaseId));
         history.replaceState({}, "", url.toString());
-      }catch{
+
+        toast("Case loaded ✓");
+      } catch {
         summaryText.textContent = "Could not load case (network error).";
+        toast("Network error.");
       }
     }
 
@@ -967,13 +1176,36 @@
       searchQ.value = "";
       searchTag.value = "";
       resultsList.innerHTML = "";
+      toast("Cleared.");
     });
 
+    // Auto-load from share link ?case=...
     (function boot(){
       const u = new URL(window.location.href);
       const id = u.searchParams.get("case");
       if (id) loadCase(id);
     })();
+
+    // ===========================
+    // Stripe SUCCESS detection (simple)
+    // ===========================
+    if (window.location.pathname.includes("success")) {
+      localStorage.setItem("voicesafe_pro", "true");
+      alert("✅ PRO activated successfully!");
+      window.location.href = "/";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+  const analyzeBtn = document.getElementById("analyzeBtn");
+
+  if (analyzeBtn) {
+    analyzeBtn.disabled = false;
+    console.log("✅ Analyze button initialized");
+  }
+
+});
+
   </script>
 </body>
 </html>
