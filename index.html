@@ -933,112 +933,136 @@ document.getElementById("resultsCard")
     });
 }
 
-    if (analyzeBtn) {
+     if (analyzeBtn) {
+
   analyzeBtn.addEventListener("click", async () => {
 
-    // celý existujúci analyze kód necháš TU
+    // =========================
+    // FREE LIMIT
+    // =========================
+    const isPro = localStorage.getItem("voicesafe_pro") === "true";
+    const FREE_LIMIT = 3;
+    const usage = Number(localStorage.getItem("vs_usage") || 0);
+
+    if (!isPro && usage >= FREE_LIMIT) {
+      openPaywall();
+      return;
+    }
+
+    const f = fileInput.files && fileInput.files[0];
+    if (!f) {
+      toast("Select a file or record audio first.");
+      loadDemoResult();
+      return;
+    }
+
+    // =========================
+    // Progress text
+    // =========================
+    const steps = [
+      "Uploading sample...",
+      "Analyzing voice pattern...",
+      "Detecting AI voice cloning...",
+      "Measuring stress markers...",
+      "Scanning scam signals...",
+      "Finalizing risk report..."
+    ];
+
+    let stepIndex = 0;
+    summaryText.textContent = steps[0];
+
+    if (progressInterval) clearInterval(progressInterval);
+    progressInterval = setInterval(() => {
+      stepIndex = Math.min(stepIndex + 1, steps.length - 1);
+      summaryText.textContent = steps[stepIndex];
+    }, 850);
+
+    // count usage
+    localStorage.setItem("vs_usage", String(isPro ? usage : usage + 1));
+
+    analyzeBtn.disabled = true;
+    analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing...';
+    flagsWrap.innerHTML = "";
+    setBars(0,0,0);
+    if (rawJson) rawJson.classList.add("hidden");
+
+    try {
+
+      const form = new FormData();
+      form.append("file", f);
+
+      // optional metadata
+      form.append("title", titleEl?.value || "");
+      form.append("platform", platformEl?.value || "");
+      form.append("country", countryEl?.value || "");
+      form.append("language", languageEl?.value || "");
+      form.append("tags", tagsEl?.value || "");
+      form.append("notes", notesEl?.value || "");
+
+      const resp = await fetch(`${backendBase}/upload`, {
+        method: "POST",
+        body: form
+      });
+
+      const data = await resp.json().catch(() => null);
+
+      if (!resp.ok) {
+        const msg = (data && (data.message || data.error)) || "Server error";
+        summaryText.textContent = `Error: ${msg}`;
+        toast("Analyze failed.");
+        return;
+      }
+
+      const aiResult = (data && (data.aiResult || data.result || data)) || {};
+      lastResponse = aiResult;
+
+      setResultUI(aiResult);
+
+      lastCaseId =
+        data?.case_id ||
+        data?.caseId ||
+        data?.id ||
+        aiResult?.case_id ||
+        null;
+
+      if (lastCaseId) {
+        caseIdEl.textContent = String(lastCaseId);
+        caseSavedHint.textContent = "Case saved.";
+        shareBtn.disabled = false;
+      } else {
+        caseIdEl.textContent = "—";
+        caseSavedHint.textContent = "No case id returned by backend.";
+        shareBtn.disabled = true;
+      }
+
+      if (rawJson) {
+        rawJson.textContent = JSON.stringify(data, null, 2);
+        rawJson.classList.remove("hidden");
+      }
+
+      toast("Analysis complete ✓");
+
+    } catch (e) {
+
+      summaryText.textContent = "Network error (check backend URL / CORS).";
+      toast("Network error.");
+
+    } finally {
+
+      if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+      }
+
+      analyzeBtn.disabled = false;
+      analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+
+    }
 
   });
+
 }
-      // FREE LIMIT
-      const isPro = localStorage.getItem("voicesafe_pro") === "true";
-      const FREE_LIMIT = 3;
-      const usage = Number(localStorage.getItem("vs_usage") || 0);
-
-      if (!isPro && usage >= FREE_LIMIT) {
-        openPaywall();
-        return;
-      }
-
-      const f = fileInput.files && fileInput.files[0];
-      if (!f) {
-        toast("Select a file or record audio first.");
-        // still allow investors to see it:
-        loadDemoResult();
-        return;
-      }
-
-      // progress text (clean + stable)
-      const steps = [
-        "Uploading sample…",
-        "Analyzing voice pattern…",
-        "Detecting AI voice cloning…",
-        "Measuring stress markers…",
-        "Scanning scam signals…",
-        "Finalizing risk report…"
-      ];
-      let stepIndex = 0;
-      summaryText.textContent = steps[0];
-
-      if (progressInterval) clearInterval(progressInterval);
-      progressInterval = setInterval(() => {
-        stepIndex = Math.min(stepIndex + 1, steps.length - 1);
-        summaryText.textContent = steps[stepIndex];
-      }, 850);
-
-      // count usage
-      localStorage.setItem("vs_usage", String(isPro ? usage : usage + 1));
-
-      analyzeBtn.disabled = true;
-      analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…';
-      flagsWrap.innerHTML = "";
-      setBars(0,0,0);
-      if (rawJson) rawJson.classList.add("hidden");
-
-      try {
-        const form = new FormData();
-        form.append("file", f);
-
-        // optional meta (backend may ignore)
-        form.append("title", titleEl.value || "");
-        form.append("platform", platformEl.value || "");
-        form.append("country", countryEl.value || "");
-        form.append("language", languageEl.value || "");
-        form.append("tags", tagsEl.value || "");
-        form.append("notes", notesEl.value || "");
-
-        const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
-        const data = await resp.json().catch(() => null);
-
-        if (!resp.ok) {
-          const msg = (data && (data.message || data.error)) ? (data.message || data.error) : `HTTP ${resp.status}`;
-          summaryText.textContent = `Error: ${msg}`;
-          toast("Analyze failed.");
-          return;
-        }
-
-        // Backend may return { aiResult, case_id } OR direct ai result
-        const aiResult = (data && (data.aiResult || data.result || data)) || {};
-        lastResponse = aiResult;
-
-        setResultUI(aiResult);
-
-        // case id (optional)
-        lastCaseId = data?.case_id || data?.caseId || data?.id || aiResult?.case_id || null;
-        if (lastCaseId) {
-          caseIdEl.textContent = String(lastCaseId);
-          caseSavedHint.textContent = "Case saved.";
-          shareBtn.disabled = false;
-        } else {
-          caseIdEl.textContent = "—";
-          caseSavedHint.textContent = "No case id returned by backend.";
-          shareBtn.disabled = true;
-        }
-
-        if (rawJson) {
-          rawJson.textContent = JSON.stringify(data, null, 2);
-          rawJson.classList.remove("hidden");
-        }
-
-        toast("Analysis complete ✓");
-      } catch (e) {
-        summaryText.textContent = "Network error (check backend URL / CORS).";
-        toast("Network error.");
-      } finally {
-        if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-        analyzeBtn.disabled = false;
-        analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
-      }
+    
 
     // ===========================
     // Copy / Share
