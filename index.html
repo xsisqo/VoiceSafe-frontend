@@ -4,51 +4,44 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>VoiceSafe — AI Voice Scam Detection</title>
-  <meta name="description" content="Enterprise-grade AI voice scam detection. Upload or record audio and get a clear risk report in seconds." />
+  <title>VoiceSafe — Your AI Guardian Against Voice Scams</title>
+  <meta name="description" content="Upload a voice message. Know in seconds if it’s trying to scam you — before you send money." />
 
-  <!-- OG / Twitter -->
-  <meta property="og:title" content="VoiceSafe — AI Voice Scam Detection" />
-  <meta property="og:description" content="Upload or record a voice message and detect impersonation, AI cloning and scam risk instantly." />
+  <!-- OpenGraph / Twitter -->
+  <meta property="og:title" content="VoiceSafe — Your AI Guardian Against Voice Scams" />
+  <meta property="og:description" content="Upload a voice message. Know in seconds if it’s trying to scam you — before you send money." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://voicesafe.ai/" />
+  <meta property="og:url" content="https://voicesafe.ai" />
   <meta property="og:image" content="/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VoiceSafe — Your AI Guardian Against Voice Scams" />
+  <meta name="twitter:description" content="Upload a voice message. Know in seconds if it’s trying to scam you — before you send money." />
+  <meta name="twitter:image" content="/og-image.png" />
 
-  <!-- PWA -->
+  <!-- Favicons / PWA -->
   <link rel="icon" href="/favicon.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta name="theme-color" content="#070A12" />
 
-  <!-- Tailwind + Icons -->
+  <!-- Tailwind (OK for prototype/early access) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "VoiceSafe",
-    "applicationCategory": "SecurityApplication",
-    "operatingSystem": "Web",
-    "description": "AI voice scam detection and impersonation risk analysis.",
-    "offers": { "@type": "Offer", "price": "9", "priceCurrency": "EUR" }
-  }
-  </script>
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
     :root{
-      --bg0:#070A12; --bg1:#0B1220;
+      --bg0:#070A12;
+      --bg1:#0B1220;
       --stroke:rgba(255,255,255,.10);
-      --gold1:#F7D774; --gold2:#C9A24A;
+      --gold1:#F7D774;
+      --gold2:#C9A24A;
       --muted:rgba(255,255,255,.74);
       --shadow:0 22px 70px rgba(0,0,0,.55);
       --shadow2:0 14px 50px rgba(0,0,0,.45);
       --glassA:rgba(255,255,255,.07);
       --glassB:rgba(255,255,255,.03);
-      --good:#22c55e; --warn:#f59e0b; --bad:#ef4444;
     }
     html,body{height:100%}
     body{
@@ -57,44 +50,87 @@
         radial-gradient(900px 600px at 88% 0%, rgba(201,162,74,.12), transparent 60%),
         radial-gradient(1000px 760px at 50% 105%, rgba(99,102,241,.12), transparent 62%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
-      color:#fff; overflow-x:hidden;
-      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+      color:#fff;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
     }
     *{box-sizing:border-box}
     .muted{color:var(--muted)}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
-    .glass{background:linear-gradient(180deg, var(--glassA), var(--glassB)); border:1px solid var(--stroke); box-shadow:var(--shadow); backdrop-filter:blur(10px);}
-    .glass-soft{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025)); border:1px solid rgba(255,255,255,.09); box-shadow:var(--shadow2); backdrop-filter:blur(10px);}
-    .gold-border{border:1px solid rgba(247,215,116,.34); box-shadow:0 0 0 1px rgba(201,162,74,.18) inset;}
-    .gold-text{background:linear-gradient(90deg, var(--gold1), var(--gold2)); -webkit-background-clip:text; background-clip:text; color:transparent;}
-    .chip{border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.05);}
-    .btn-gold{background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1)); color:#111827; box-shadow:0 12px 34px rgba(247,215,116,.18); transition:transform .12s ease, filter .12s ease, box-shadow .12s ease;}
+    .glass{
+      background:linear-gradient(180deg, var(--glassA), var(--glassB));
+      border:1px solid var(--stroke);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(10px);
+    }
+    .glass-soft{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+      border:1px solid rgba(255,255,255,.09);
+      box-shadow:var(--shadow2);
+      backdrop-filter:blur(10px);
+    }
+    .gold-border{
+      border:1px solid rgba(247,215,116,.34);
+      box-shadow:0 0 0 1px rgba(201,162,74,.18) inset;
+    }
+    .gold-text{
+      background:linear-gradient(90deg, var(--gold1), var(--gold2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .chip{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+    }
+    .btn-gold{
+      background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
+      color:#111827;
+      box-shadow:0 12px 34px rgba(247,215,116,.18);
+      transition:transform .12s ease, filter .12s ease, box-shadow .12s ease;
+    }
     .btn-gold:hover{filter:brightness(1.03); transform:translateY(-1px)}
     .btn-gold:active{transform:translateY(0)}
-    .btn-gold:disabled,.chip:disabled{opacity:.45; cursor:not-allowed; box-shadow:none; transform:none}
+    .btn-gold:disabled{opacity:.45; cursor:not-allowed; box-shadow:none; transform:none}
     .focus-ring:focus{outline:none; box-shadow:0 0 0 3px rgba(247,215,116,.25)}
-    .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid rgba(255,255,255,.10);}
-    .bar>div{height:100%;border-radius:999px;background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));width:0%;transition:width .35s ease;}
+    .bar{
+      height:10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .bar>div{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
+      width:0%;
+      transition:width .35s ease;
+    }
     .safe-pb{padding-bottom:env(safe-area-inset-bottom)}
-    .kbd{border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); padding:.15rem .45rem; border-radius:.5rem; font-size:.72rem;}
-    .dot{width:.55rem;height:.55rem;border-radius:999px;display:inline-block}
-    .dot.good{background:var(--good); box-shadow:0 0 0 3px rgba(34,197,94,.14)}
-    .dot.warn{background:var(--warn); box-shadow:0 0 0 3px rgba(245,158,11,.14)}
-    .dot.bad{background:var(--bad); box-shadow:0 0 0 3px rgba(239,68,68,.14)}
+    .kbd{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      padding:.15rem .45rem;
+      border-radius:.5rem;
+      font-size:.72rem;
+    }
+    .divider{border-top:1px solid rgba(255,255,255,.10)}
   </style>
 </head>
 
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-
     <!-- Top strip -->
     <div class="flex items-center justify-between gap-3 mb-6">
       <div class="inline-flex items-center gap-2 chip px-3 py-1.5 rounded-full text-xs">
         <i class="fa-solid fa-shield-halved"></i>
-        <span class="opacity-90">Public Beta</span>
+        <span class="opacity-90">Early Access</span>
         <span class="opacity-40">•</span>
-        <span class="opacity-80"><span id="waitlistCountBadge">0</span> early access sign-ups</span>
+        <span class="opacity-80"><span id="waitlistCountBadge">0</span> people joined</span>
       </div>
+
       <div class="hidden sm:flex items-center gap-2 text-xs muted">
         <span id="liveActivity"></span>
       </div>
@@ -104,115 +140,68 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
       <div class="lg:col-span-7 glass gold-border rounded-3xl p-6 sm:p-8">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-bolt mr-1"></i>Instant report</span>
-          <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-lock mr-1"></i>Privacy-first</span>
-          <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-globe mr-1"></i>Global anti-scam</span>
+          <span class="chip rounded-full px-3 py-1 text-xs">
+            <i class="fa-solid fa-bolt mr-1"></i> Seconds, not minutes
+          </span>
+          <span class="chip rounded-full px-3 py-1 text-xs">
+            <i class="fa-solid fa-lock mr-1"></i> Privacy-first by design
+          </span>
+          <span class="chip rounded-full px-3 py-1 text-xs">
+            <i class="fa-solid fa-globe mr-1"></i> Global scam protection
+          </span>
         </div>
 
-        <h1 class="mt-5 text-3xl sm:text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-
-  <span class="gold-text">VoiceSafe</span>
-
-  <span class="block mt-3">
-    Detect AI Voice Fraud
-    <span class="gold-text">Before It Costs You Everything</span>
-  </span>
-
-  <span class="block mt-4 text-lg sm:text-xl font-medium text-white/70 max-w-2xl">
-    Enterprise-grade AI analysis that exposes voice cloning,
-    impersonation scams and social-engineering attacks in seconds.
-  </span>
-
-</h1>
-
-<!-- TRUST BAR (viral + investor proof) -->
-<div class="mt-5 flex flex-col gap-3">
-
-  <!-- Proof chips -->
-  <div class="flex flex-wrap gap-2 text-xs">
-    <span class="chip rounded-full px-3 py-1">
-      <i class="fa-solid fa-shield-halved mr-1"></i> Enterprise-grade risk scoring
-    </span>
-    <span class="chip rounded-full px-3 py-1">
-      <i class="fa-solid fa-lock mr-1"></i> Privacy-first (no permanent storage)
-    </span>
-    <span class="chip rounded-full px-3 py-1">
-      <i class="fa-solid fa-scale-balanced mr-1"></i> GDPR-ready posture (EU-first)
-    </span>
-    <span class="chip rounded-full px-3 py-1">
-      <i class="fa-solid fa-bolt mr-1"></i> Results in seconds
-    </span>
-  </div>
-
-  <!-- Mini metrics -->
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-    <div class="chip rounded-2xl p-3">
-      <div class="text-[11px] muted">Avg. report time</div>
-      <div class="mt-1 text-lg font-extrabold"><span class="gold-text">~8s</span></div>
-    </div>
-    <div class="chip rounded-2xl p-3">
-      <div class="text-[11px] muted">Signals analyzed</div>
-      <div class="mt-1 text-lg font-extrabold"><span class="gold-text">40+</span></div>
-    </div>
-    <div class="chip rounded-2xl p-3">
-      <div class="text-[11px] muted">Built for</div>
-      <div class="mt-1 text-lg font-extrabold"><span class="gold-text">Banks</span></div>
-    </div>
-    <div class="chip rounded-2xl p-3">
-      <div class="text-[11px] muted">And for</div>
-      <div class="mt-1 text-lg font-extrabold"><span class="gold-text">Everyone</span></div>
-    </div>
-  </div>
-
-</div>
+        <h1 class="mt-5 text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+          <span class="gold-text">VoiceSafe</span>
+          <span class="block mt-2">
+            Your AI Guardian <span class="gold-text">Against Voice Scams</span>
+          </span>
+        </h1>
 
         <p class="mt-4 text-base sm:text-lg muted max-w-2xl">
-          Upload or record a short clip. VoiceSafe returns a risk report:
-          <span class="text-white/90 font-semibold">scam score</span>,
-          <span class="text-white/90 font-semibold">AI probability</span>,
-          <span class="text-white/90 font-semibold">stress signals</span>, and
-          <span class="text-white/90 font-semibold">red flags</span>.
+          Upload a voice message. Know in seconds if it’s trying to scam you — <span class="text-white/90 font-semibold">before you send money</span>.
+          Get a clear report: scam score, AI voice probability, stress signals, and red flags.
         </p>
 
         <div class="mt-6 flex flex-wrap gap-3">
           <button id="ctaAnalyze" class="btn-gold rounded-xl px-5 py-3 text-sm font-extrabold">
-            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze now
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze a voice
           </button>
+
           <button id="ctaDemo" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90">
-            <i class="fa-solid fa-play mr-2"></i>Investor demo
+            <i class="fa-solid fa-play mr-2"></i>See a demo
           </button>
+
           <button id="ctaHow" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-circle-info mr-2"></i>How it works
           </button>
-          <button id="installBtn" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90 hidden">
-            <i class="fa-solid fa-download mr-2"></i>Install app
-          </button>
         </div>
 
+        <!-- Trust layer -->
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">Free analyses</div>
-            <div class="mt-1 text-xl font-bold" id="freeLimitLabel">3</div>
-            <div class="mt-1 text-xs muted" id="usageLabel">Used: 0/3</div>
+            <div class="text-xs muted">Storage posture</div>
+            <div class="mt-1 text-xl font-bold">No permanent storage</div>
+            <div class="mt-1 text-xs muted">Designed for privacy</div>
           </div>
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">Privacy posture</div>
-            <div class="mt-1 text-xl font-bold">No voice storage</div>
-            <div class="mt-1 text-xs muted">Prototype mode</div>
+            <div class="text-xs muted">Output</div>
+            <div class="mt-1 text-xl font-bold">Clear risk signals</div>
+            <div class="mt-1 text-xs muted">Human-readable summary</div>
           </div>
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">Compliance-ready</div>
-            <div class="mt-1 text-xl font-bold">GDPR posture</div>
-            <div class="mt-1 text-xs muted">EU-first approach</div>
+            <div class="text-xs muted">Use case</div>
+            <div class="mt-1 text-xl font-bold">Before paying</div>
+            <div class="mt-1 text-xs muted">Verify with official channels</div>
           </div>
         </div>
 
         <div class="mt-6 text-xs muted">
-          Early access sign-ups: <span id="waitlistCountTop" class="text-white/90 font-semibold">0</span>
+          Joined early access: <span id="waitlistCountTop" class="text-white/90 font-semibold">0</span>
+          <span class="opacity-40">•</span>
+          <span id="waitlistUrgency">Early Access is open now.</span>
           <span class="opacity-40">•</span>
           <span class="kbd">Tip:</span> Press <span class="kbd">D</span> for demo
-          <span class="opacity-40">•</span>
-          <span class="kbd">Tip:</span> Press <span class="kbd">?</span> for diagnostics
         </div>
       </div>
 
@@ -233,32 +222,39 @@
           <span class="mono" id="backendUrl"></span>
         </div>
 
-        <div class="mt-4 grid grid-cols-2 gap-2">
-          <button id="btnProd" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90">PROD</button>
-          <button id="btnLocal" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90">LOCAL</button>
+        <div class="mt-4 flex gap-2">
+          <button id="btnProd" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">PROD</button>
+          <button id="btnLocal" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90">LOCAL</button>
+        </div>
+
+        <div class="mt-2 text-[11px] muted">
+          Tip: Use LOCAL only when backend runs on <span class="mono">http://127.0.0.1:10000</span>.
         </div>
 
         <div class="mt-6 grid grid-cols-1 gap-3">
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">What VoiceSafe checks</div>
+            <div class="text-xs muted">What VoiceSafe looks for</div>
             <div class="mt-2 flex flex-wrap gap-2 text-xs">
               <span class="chip rounded-full px-3 py-1">AI voice patterns</span>
               <span class="chip rounded-full px-3 py-1">Impersonation markers</span>
               <span class="chip rounded-full px-3 py-1">Urgency / pressure</span>
-              <span class="chip rounded-full px-3 py-1">Financial request signals</span>
+              <span class="chip rounded-full px-3 py-1">Financial manipulation</span>
             </div>
           </div>
 
           <button id="joinWaitlistBtn" class="chip rounded-2xl p-4 text-left hover:opacity-90">
-            <div class="text-sm font-semibold"><i class="fa-solid fa-fire mr-2"></i>Join early access</div>
-            <div class="mt-1 text-xs muted">Shows demand to investors + prioritizes roadmap.</div>
+            <div class="text-sm font-semibold">
+              <i class="fa-solid fa-fire mr-2"></i>Join Early Access
+            </div>
+            <div class="mt-1 text-xs muted">
+              Helps prioritize features and builds credibility with investors.
+            </div>
           </button>
 
           <div class="glass-soft rounded-2xl p-4">
-            <div class="text-sm font-semibold">Trust posture</div>
+            <div class="text-sm font-semibold">Safety note</div>
             <div class="mt-2 text-xs muted leading-6">
-              VoiceSafe is an <span class="text-white/90 font-semibold">early warning system</span>.
-              Always verify identity via an <span class="text-white/90 font-semibold">official contact</span> before sending money.
+              VoiceSafe provides advisory signals. If money is involved, always verify via an official number (bank, company website, known contact).
             </div>
           </div>
         </div>
@@ -267,61 +263,84 @@
 
     <!-- MAIN -->
     <div id="analyzer" class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
-      <!-- LEFT -->
+      <!-- LEFT: Analyzer -->
       <div class="lg:col-span-5 glass rounded-3xl p-5 sm:p-6">
         <div class="flex items-start justify-between gap-3">
           <div>
             <h2 class="text-lg font-semibold">Analyze a sample</h2>
             <p class="muted text-sm mt-1">Upload audio/video or record a short clip.</p>
           </div>
-          <button id="demoBtn" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90">⚡ Demo</button>
+          <button id="demoBtn" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90">
+            ⚡ Demo
+          </button>
         </div>
 
         <div class="mt-5">
           <label class="block text-sm muted mb-2" for="fileInput">Upload file</label>
-          <input id="fileInput" type="file" accept="audio/*,video/*" class="w-full text-sm chip rounded-xl p-3 outline-none focus-ring" />
+          <input id="fileInput" type="file" accept="audio/*,video/*"
+                 class="w-full text-sm chip rounded-xl p-3 outline-none focus-ring" />
           <div class="mt-2 text-xs muted" id="fileHint">No file selected.</div>
-          <div class="mt-2 text-[11px] muted" id="sizeHint"></div>
         </div>
 
         <div class="mt-5 grid grid-cols-2 gap-3">
-          <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
+          <button id="recordBtn" type="button"
+                  class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-microphone mr-2"></i>Record
           </button>
-          <button id="analyzeBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold" disabled>
+          <button id="analyzeBtn"
+                  class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold">
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
         </div>
 
-        <div class="mt-6 border-t border-white/10 pt-5">
+        <div class="mt-4 text-xs muted">
+          Built for quick decisions — not forensic certainty.
+          <div class="mt-2 leading-6">
+            🔒 Privacy-first posture<br/>
+            ⚡ Fast risk report<br/>
+            ✅ Verify before you pay
+          </div>
+        </div>
+
+        <div class="mt-6 divider pt-5">
           <h3 class="text-sm font-semibold">Case details (optional)</h3>
           <p class="muted text-xs mt-1">Saved cases can be searched & shared (if backend supports it).</p>
 
           <div class="mt-4 space-y-3">
-            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Title (e.g. Telegram investor)" />
+            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                   placeholder="Title (e.g. WhatsApp ‘Boss’ call)" />
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Platform (Telegram)" />
-              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Country (US)" />
+              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                     placeholder="Platform (WhatsApp / Telegram)" />
+              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                     placeholder="Country (US / SK)" />
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Language (EN)" />
-              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Tags (comma separated)" />
+              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                     placeholder="Language (EN)" />
+              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                     placeholder="Tags (comma separated)" />
             </div>
-            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Notes (what happened)"></textarea>
+
+            <textarea id="notes" rows="3"
+                      class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
+                      placeholder="Notes (keep personal data out)"></textarea>
           </div>
 
-          <div class="mt-4 text-xs muted">Tip: Keep personal data out of notes.</div>
-        </div>
-
-        <div class="mt-5 chip rounded-2xl p-4 text-xs muted">
-          <div class="font-semibold text-white/90">Disclaimer</div>
-          <div class="mt-1">Scores are prototypes and can be wrong. Always verify identity using official channels.</div>
+          <div class="mt-5 chip rounded-2xl p-4 text-xs muted">
+            <div class="font-semibold text-white/90">Disclaimer</div>
+            <div class="mt-1">
+              Results are advisory signals. Always verify identity using official channels when money is involved.
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- RIGHT -->
+      <!-- RIGHT: Results -->
       <div id="resultsCard" class="lg:col-span-7 glass rounded-3xl p-5 sm:p-6">
-        <div class="text-xs muted tracking-widest uppercase">AI Risk Assessment Report</div>
+        <div class="text-xs muted tracking-widest uppercase">AI Risk Assessment</div>
 
         <div class="mt-2 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div class="min-w-0">
@@ -330,30 +349,25 @@
           </div>
 
           <div class="flex items-center gap-2 flex-wrap">
-            <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
+            <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90">
               <i class="fa-regular fa-copy mr-2"></i>Copy JSON
             </button>
-            <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
-              <i class="fa-solid fa-link mr-2"></i>Share
-            </button>
-            <button id="upgradeBtn" class="btn-gold rounded-xl px-4 py-2 text-sm font-extrabold">🚀 Unlock Pro – €9/month</button>
-            <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm hover:opacity-90">Manage subscription</button>
-          </div>
-        </div>
 
-        <!-- Request status -->
-        <div class="mt-4 chip rounded-2xl p-4 text-xs flex items-center justify-between gap-3">
-          <div class="min-w-0">
-            <div class="text-[11px] muted">Request status</div>
-            <div class="mt-1 flex items-center gap-2">
-              <span id="reqDot" class="dot warn"></span>
-              <span id="reqStatus" class="text-white/90">Idle</span>
-            </div>
-            <div class="mt-1 text-[11px] muted mono break-all" id="reqId">req_—</div>
-          </div>
-          <div class="text-right">
-            <div class="text-[11px] muted">Latency</div>
-            <div class="mt-1 mono text-white/90" id="latencyMs">—</div>
+            <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
+              <i class="fa-solid fa-link mr-2"></i>Copy share link
+            </button>
+
+            <button id="shareSocialBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled>
+              <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i>Share
+            </button>
+
+            <button id="upgradeBtn" class="btn-gold rounded-xl px-4 py-2 text-sm font-extrabold">
+              🚀 Unlock Pro – €9/month
+            </button>
+
+            <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm hover:opacity-90">
+              Manage subscription
+            </button>
           </div>
         </div>
 
@@ -363,11 +377,13 @@
             <div class="mt-1 text-3xl font-extrabold"><span id="scamScore">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="scamBar"></div></div>
           </div>
+
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">AI voice probability</div>
             <div class="mt-1 text-3xl font-extrabold"><span id="aiProb">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="aiBar"></div></div>
           </div>
+
           <div class="chip rounded-2xl p-4">
             <div class="text-xs muted">Stress level</div>
             <div class="mt-1 text-3xl font-extrabold"><span id="stressLevel">—</span><span class="text-base muted">%</span></div>
@@ -375,9 +391,20 @@
           </div>
         </div>
 
+        <div class="mt-6 glass-soft rounded-2xl p-5 text-sm opacity-90">
+          <div class="font-semibold mb-2">What to do if risk is high</div>
+          <div class="space-y-1 text-xs opacity-80">
+            <div>1) Stop the conversation. Don’t send money.</div>
+            <div>2) Verify via an official channel (website number / known contact).</div>
+            <div>3) Save and share the report if needed.</div>
+          </div>
+        </div>
+
         <div class="mt-5 chip rounded-2xl p-5">
           <div class="text-xs muted">Summary</div>
-          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText">Upload or record a sample to see results.</div>
+          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText">
+            Upload or record a sample to see results.
+          </div>
           <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
         </div>
 
@@ -392,49 +419,89 @@
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold">Search cases</div>
             <div class="mt-3 flex gap-2">
-              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" placeholder="Search title / notes..." />
-              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0">Search</button>
+              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0"
+                     placeholder="Search title / notes..." />
+              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0">
+                Search
+              </button>
             </div>
             <div class="mt-3 flex gap-2">
-              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" placeholder="Tag filter (optional)" />
-              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">Clear</button>
+              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0"
+                     placeholder="Tag filter (optional)" />
+              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">
+                Clear
+              </button>
             </div>
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height:min(46vh,360px);"></div>
           </div>
         </div>
 
         <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson" style="max-height:min(40vh,320px);"></pre>
+
+        <!-- FAQ -->
+        <div class="mt-6 divider pt-6">
+          <div class="text-sm font-semibold">FAQ</div>
+          <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div class="chip rounded-2xl p-4">
+              <div class="font-semibold">Is it 100% accurate?</div>
+              <div class="mt-1 text-xs muted leading-5">No tool is perfect. Use this as an early warning system and verify via official channels.</div>
+            </div>
+            <div class="chip rounded-2xl p-4">
+              <div class="font-semibold">Will my voice be stored?</div>
+              <div class="mt-1 text-xs muted leading-5">The product is designed with privacy-first posture. Avoid uploading highly sensitive personal data.</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
     <div class="mt-10 text-center text-xs muted">
-      VoiceSafe • Prototype • Built for global anti-scam awareness • <span class="mono">voicesafe.ai</span>
+      VoiceSafe • AI Guardian Against Voice Scams • <span class="mono">voicesafe.ai</span>
     </div>
   </div>
 
-  <!-- HOW MODAL -->
+  <!-- HOW IT WORKS MODAL -->
   <div id="howModal" class="fixed inset-0 hidden items-center justify-center z-50">
     <div id="howBackdrop" class="absolute inset-0 bg-black/60"></div>
     <div class="relative w-[92%] max-w-2xl rounded-3xl border border-white/10 bg-[#0b0f14] p-6 sm:p-7 shadow-xl">
       <div class="flex items-start justify-between gap-4">
         <div>
           <h3 class="text-xl font-extrabold">How VoiceSafe works</h3>
-          <p class="mt-1 text-sm muted">Clear output, fast workflow, minimal friction.</p>
+          <p class="mt-1 text-sm muted">Fast workflow. Clear output. Designed for real decisions.</p>
         </div>
         <button id="howClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90">✕</button>
       </div>
+
       <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-        <div class="chip rounded-2xl p-4"><div class="text-xs muted">1) Input</div><div class="mt-1 font-semibold">Upload or record</div><div class="mt-1 text-xs muted">Audio/video supported</div></div>
-        <div class="chip rounded-2xl p-4"><div class="text-xs muted">2) Analysis</div><div class="mt-1 font-semibold">Risk scoring</div><div class="mt-1 text-xs muted">Signals + probabilities</div></div>
-        <div class="chip rounded-2xl p-4"><div class="text-xs muted">3) Action</div><div class="mt-1 font-semibold">Verify + report</div><div class="mt-1 text-xs muted">Use official channels</div></div>
+        <div class="chip rounded-2xl p-4">
+          <div class="text-xs muted">1) Input</div>
+          <div class="mt-1 font-semibold">Upload or record</div>
+          <div class="mt-1 text-xs muted">Audio/video supported</div>
+        </div>
+        <div class="chip rounded-2xl p-4">
+          <div class="text-xs muted">2) Analysis</div>
+          <div class="mt-1 font-semibold">Risk scoring</div>
+          <div class="mt-1 text-xs muted">Signals + probabilities</div>
+        </div>
+        <div class="chip rounded-2xl p-4">
+          <div class="text-xs muted">3) Action</div>
+          <div class="mt-1 font-semibold">Verify & stop scams</div>
+          <div class="mt-1 text-xs muted">Use official channels</div>
+        </div>
       </div>
+
       <div class="mt-5 text-sm muted leading-6">
-        VoiceSafe is a prototype. Scores can be wrong — treat the report as an early warning system.
-        When money is involved, always verify the caller via trusted, official contact methods.
+        VoiceSafe provides advisory signals. When money is involved, treat high-risk results as a stop sign and verify identity using official contact methods.
       </div>
+
       <div class="mt-6 flex flex-col sm:flex-row gap-2">
-        <button id="howTryDemo" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full sm:w-auto"><i class="fa-solid fa-play mr-2"></i>Load investor demo</button>
-        <button id="howGoAnalyze" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full sm:w-auto"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Go to analyzer</button>
+        <button id="howTryDemo" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full sm:w-auto">
+          <i class="fa-solid fa-play mr-2"></i>Load demo
+        </button>
+        <button id="howGoAnalyze" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full sm:w-auto">
+          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Go to analyzer
+        </button>
       </div>
     </div>
   </div>
@@ -446,64 +513,26 @@
       <div class="flex items-start justify-between gap-4">
         <div>
           <h3 class="text-xl font-extrabold">Free limit reached</h3>
-          <p class="mt-1 text-sm muted">Upgrade to Pro to continue analyzing.</p>
+          <p class="mt-1 text-sm muted">Upgrade to Pro to keep analyzing and share reports.</p>
         </div>
         <button id="paywallClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90">✕</button>
       </div>
+
       <div class="mt-4 grid gap-2 text-sm opacity-90">
         <div>✓ Unlimited analyses</div>
         <div>✓ Priority processing</div>
         <div>✓ Case history & sharing</div>
       </div>
+
       <div class="mt-6 flex flex-col gap-2">
-        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full">Start Pro – €9/month</button>
-        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">Join early access</button>
-        <p class="mt-2 text-xs muted">This flow is optimized for conversion + investor demo.</p>
+        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full">
+          Start Pro – €9/month
+        </button>
+        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full">
+          Join Early Access
+        </button>
+        <p class="mt-2 text-xs muted">Optimized for simple onboarding + conversion.</p>
         <p id="waitlistCountText" class="mt-1 text-xs muted text-center"></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- DIAGNOSTICS MODAL -->
-  <div id="diagModal" class="fixed inset-0 hidden items-center justify-center z-50">
-    <div id="diagBackdrop" class="absolute inset-0 bg-black/60"></div>
-    <div class="relative w-[92%] max-w-2xl rounded-3xl border border-white/10 bg-[#0b0f14] p-6 sm:p-7 shadow-xl">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <h3 class="text-xl font-extrabold">Diagnostics</h3>
-          <p class="mt-1 text-sm muted">Use this when “Analyze failed”.</p>
-        </div>
-        <button id="diagClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90">✕</button>
-      </div>
-
-      <div class="mt-5 grid gap-3 text-sm">
-        <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted">Backend</div>
-          <div class="mt-1 mono break-all" id="diagBackend">—</div>
-          <div class="mt-2 text-xs muted" id="diagBackendHealth">—</div>
-        </div>
-
-        <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted">Most recent error</div>
-          <pre class="mt-2 text-xs overflow-auto" style="max-height:220px" id="diagLastError">—</pre>
-        </div>
-
-        <div class="flex flex-wrap gap-2">
-          <button id="diagRecheck" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold">
-            <i class="fa-solid fa-stethoscope mr-2"></i>Re-check health
-          </button>
-          <button id="diagCopy" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
-            <i class="fa-regular fa-copy mr-2"></i>Copy diagnostics
-          </button>
-          <button id="diagReset" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
-            <i class="fa-solid fa-rotate mr-2"></i>Reset local state
-          </button>
-        </div>
-
-        <div class="text-xs muted leading-6">
-          If health is OK but analyze fails: likely CORS, backend route mismatch (<span class="mono">/upload</span>),
-          or backend isn’t forwarding to AI.
-        </div>
       </div>
     </div>
   </div>
@@ -516,857 +545,730 @@
   </div>
 
   <script>
-  (function(){
-    "use strict";
-    if (window.__VS_BOOTED__) return;
-    window.__VS_BOOTED__ = true;
-
-    // ==========================
-    // CONFIG (clean URLs only)
-    // ==========================
-    const CFG = {
-      URLS: Object.freeze({
-        PROD: { BACKEND: "https://voicesafe-backend-1.onrender.com", AI: "https://voicesafe-ai.onrender.com" },
-        LOCAL: { BACKEND: "http://127.0.0.1:10000", AI: "http://127.0.0.1:8000" }
-      }),
-      STRIPE: Object.freeze({
-        CHECKOUT_URL: "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800",
-        BILLING_PORTAL_URL: ""
-      }),
-      POLICY: Object.freeze({
-        FREE_LIMIT: 3,
-        MAX_UPLOAD_MB: 25,
-        TIMEOUT_MS: 120000,
-        HEALTH_TIMEOUT_MS: 12000,
-        UI_MIN_SPINNER_MS: 700,
-        RETRY_ON_NETWORK: 1
-      })
+    // ===========================
+    // CONFIG (CLEAN URLs ONLY)
+    // ===========================
+    window.URLS = {
+      PROD: "https://voicesafe-backend-1.onrender.com",
+      LOCAL: "http://127.0.0.1:10000"
     };
 
-    // ==========================
-    // Helpers
-    // ==========================
-    const $ = (id) => document.getElementById(id);
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-    const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
-    const clampPct = (v) => clamp(Number(v)||0, 0, 100);
-    const nowMs = () => (performance && performance.now) ? performance.now() : Date.now();
+    // Stripe links (KEEP CLEAN: no markdown)
+    window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
+    window.STRIPE_BILLING_PORTAL_URL = ""; // optional, backend can create portal session
 
-    function toast(msg){
-      const t = $("toast"), m = $("toastMsg");
-      if (!t || !m) return;
-      m.textContent = msg;
-      t.classList.remove("hidden");
-      clearTimeout(toast._t);
-      toast._t = setTimeout(() => t.classList.add("hidden"), 2200);
-    }
-    function setBars(scam, ai, stress){
-      $("scamBar") && ($("scamBar").style.width = clampPct(scam) + "%");
-      $("aiBar") && ($("aiBar").style.width = clampPct(ai) + "%");
-      $("stressBar") && ($("stressBar").style.width = clampPct(stress) + "%");
-    }
-    function setReqState(text, kind){
-      $("reqStatus") && ($("reqStatus").textContent = text || "Idle");
-      const dot = $("reqDot");
-      if (dot) dot.className = "dot " + (kind || "warn");
-    }
-    function setLatency(ms){
-      $("latencyMs") && ($("latencyMs").textContent = Number.isFinite(ms) ? `${Math.round(ms)}ms` : "—");
-    }
-    function genReqId(){
-      return "req_" + Math.random().toString(16).slice(2) + "_" + Date.now().toString(16);
-    }
-    function escapeHtml(s){
-      return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-    }
-    function pickNumber(obj, keys, fallback=0){
-      for (const k of keys){
-        const val = obj?.[k];
-        if (val === undefined || val === null || val === "") continue;
-        const n = Number(val);
-        if (Number.isFinite(n)) return n;
+    // ===========================
+    // BOOT (single source of truth)
+    // ===========================
+    (function bootWiring() {
+      if (window.__VS_BOOTED__) return;
+      window.__VS_BOOTED__ = true;
+
+      const $ = (id) => document.getElementById(id);
+
+      // DOM
+      const fileInput = $("fileInput");
+      const analyzeBtn = $("analyzeBtn");
+      const demoBtn = $("demoBtn");
+      const recordBtn = $("recordBtn");
+      const fileHint = $("fileHint");
+      const scamScoreEl = $("scamScore");
+      const aiProbEl = $("aiProb");
+      const stressLevelEl = $("stressLevel");
+      const summaryText = $("summaryText");
+      const flagsWrap = $("flagsWrap");
+      const rawJson = $("rawJson");
+      const scamBar = $("scamBar");
+      const aiBar = $("aiBar");
+      const stressBar = $("stressBar");
+      const copyJsonBtn = $("copyJsonBtn");
+      const shareBtn = $("shareBtn");
+      const shareSocialBtn = $("shareSocialBtn");
+      const upgradeBtn = $("upgradeBtn");
+      const manageSubBtn = $("manageSubBtn");
+      const caseIdEl = $("caseId");
+      const caseSavedHint = $("caseSavedHint");
+      const searchQ = $("searchQ");
+      const searchTag = $("searchTag");
+      const searchBtn = $("searchBtn");
+      const clearBtn = $("clearBtn");
+      const resultsList = $("resultsList");
+      const titleEl = $("title");
+      const platformEl = $("platform");
+      const countryEl = $("country");
+      const languageEl = $("language");
+      const tagsEl = $("tags");
+      const notesEl = $("notes");
+      const btnProd = $("btnProd");
+      const btnLocal = $("btnLocal");
+      const ctaAnalyze = $("ctaAnalyze");
+      const ctaDemo = $("ctaDemo");
+      const ctaHow = $("ctaHow");
+      const joinWaitlistBtn = $("joinWaitlistBtn");
+      const howModal = $("howModal");
+      const paywallModal = $("paywallModal");
+      const resultsCard = $("resultsCard");
+
+      let backendBase = window.URLS.PROD;
+
+      // State
+      let lastResponse = null;
+      let lastCaseId = null;
+      let progressInterval = null;
+
+      // ===========================
+      // UX helpers
+      // ===========================
+      function toast(msg) {
+        const t = $("toast");
+        const m = $("toastMsg");
+        if (!t || !m) return;
+        m.textContent = msg;
+        t.classList.remove("hidden");
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => t.classList.add("hidden"), 2200);
       }
-      return fallback;
-    }
-    function pickText(obj, keys, fallback=""){
-      for (const k of keys){
-        const val = obj?.[k];
-        if (typeof val === "string" && val.trim()) return val.trim();
+
+      function clampPct(v) {
+        const n = Number(v);
+        if (!Number.isFinite(n)) return 0;
+        return Math.max(0, Math.min(100, n));
       }
-      return fallback;
-    }
-    function normalizeFlags(flags){
-      if (!flags) return [];
-      if (Array.isArray(flags)) return flags.filter(Boolean).slice(0, 12);
-      if (typeof flags === "string") return flags.split(",").map(s => s.trim()).filter(Boolean).slice(0, 12);
-      return [];
-    }
-    function showRaw(obj){
-      const raw = $("rawJson");
-      if (!raw) return;
-      raw.textContent = JSON.stringify(obj, null, 2);
-      raw.classList.remove("hidden");
-    }
-    function hideRaw(){
-      const raw = $("rawJson");
-      if (!raw) return;
-      raw.textContent = "";
-      raw.classList.add("hidden");
-    }
 
-    // ==========================
-    // Local state
-    // ==========================
-    const LS = {
-      getMode(){
-        const urlMode = (new URL(location.href).searchParams.get("mode") || "").toUpperCase();
-        if (urlMode === "LOCAL" || urlMode === "PROD") { localStorage.setItem("vs_mode", urlMode); return urlMode; }
-        const m = (localStorage.getItem("vs_mode") || "").toUpperCase();
-        return (m === "LOCAL") ? "LOCAL" : "PROD";
-      },
-      setMode(m){ localStorage.setItem("vs_mode", m); },
-      isPro(){ return localStorage.getItem("voicesafe_pro") === "true"; },
-      demoMode(){ return localStorage.getItem("vs_demo") === "true"; },
-      usage(){ return Number(localStorage.getItem("vs_usage") || 0); },
-      setUsage(n){ localStorage.setItem("vs_usage", String(Math.max(0, Number(n)||0))); },
-      customerId(){ return localStorage.getItem("voicesafe_customer_id") || ""; },
-      setCustomerId(v){ if (v) localStorage.setItem("voicesafe_customer_id", v); }
-    };
+      function setBars(scam, ai, stress) {
+        if (scamBar) scamBar.style.width = clampPct(scam) + "%";
+        if (aiBar) aiBar.style.width = clampPct(ai) + "%";
+        if (stressBar) stressBar.style.width = clampPct(stress) + "%";
+      }
 
-    // ==========================
-    // Mode + endpoints
-    // ==========================
-    let mode = LS.getMode();
-    let backendBase = CFG.URLS[mode].BACKEND.replace(/\/+$/,"");
-    let lastResponse = null;
-    let lastCaseId = null;
-    let lastErrorObj = null;
-    let progressTimer = null;
+      function normalizeFlags(flags) {
+        if (!flags) return [];
+        if (Array.isArray(flags)) return flags.filter(Boolean).slice(0, 12);
+        if (typeof flags === "string") return flags.split(",").map(s => s.trim()).filter(Boolean).slice(0, 12);
+        return [];
+      }
 
-    function applyModeUI(){
-      $("modeLabel") && ($("modeLabel").textContent = mode);
-      $("backendUrl") && ($("backendUrl").textContent = backendBase);
-    }
-
-    // ==========================
-    // Enterprise fetch (timeout + retries)
-    // ==========================
-    function withTimeout(ms){
-      const c = new AbortController();
-      const t = setTimeout(() => c.abort(), ms);
-      return { signal: c.signal, done: () => clearTimeout(t) };
-    }
-    async function readJsonOrText(resp){
-      const text = await resp.text().catch(() => "");
-      if (!text) return null;
-      try { return JSON.parse(text); } catch { return { raw: text }; }
-    }
-    async function request(url, opts){
-      const reqId = genReqId();
-      $("reqId") && ($("reqId").textContent = reqId);
-
-      const timeout = opts?.timeoutMs ?? CFG.POLICY.TIMEOUT_MS;
-      const retries = opts?.retries ?? 0;
-      let attempt = 0;
-      let lastErr = null;
-
-      while (attempt <= retries){
-        attempt++;
-        const t0 = nowMs();
-        const { signal, done } = withTimeout(timeout);
-
-        try{
-          const headers = Object.assign({}, opts?.headers || {}, { "x-request-id": reqId });
-          const res = await fetch(url, { ...opts, headers, signal });
-          done();
-
-          const body = await readJsonOrText(res);
-          const latency = nowMs() - t0;
-          setLatency(latency);
-
-          if (!res.ok){
-            const msg = body?.message || body?.error || body?.raw || `HTTP ${res.status}`;
-            const err = new Error(msg);
-            err.status = res.status;
-            err.data = body;
-            err.reqId = reqId;
-            err.url = url;
-            throw err;
-          }
-          return { ok:true, reqId, data: body ?? {} };
-        } catch(e){
-          done();
-          lastErr = e;
-          lastErr.reqId = lastErr.reqId || reqId;
-          lastErr.url = lastErr.url || url;
-
-          const isAbort = (e?.name === "AbortError");
-          const isNetwork = (!("status" in e) && !isAbort) || (String(e?.message||"").toLowerCase().includes("failed to fetch"));
-          const shouldRetry = (attempt <= retries) && (isAbort || isNetwork);
-
-          if (shouldRetry){
-            await sleep(250 + attempt * 250);
-            continue;
-          }
-          throw lastErr;
+      function pickNumber(obj, keys, fallback = 0) {
+        for (const k of keys) {
+          const val = obj?.[k];
+          if (val === undefined || val === null || val === "") continue;
+          const n = Number(val);
+          if (Number.isFinite(n)) return n;
         }
+        return fallback;
       }
-      throw lastErr || new Error("unknown_error");
-    }
 
-    async function health(){
-      const r = await request(`${backendBase}/health`, { method:"GET", cache:"no-store", timeoutMs: CFG.POLICY.HEALTH_TIMEOUT_MS, retries:0 });
-      return r.data || {};
-    }
-    async function upload(formData){
-      const r = await request(`${backendBase}/upload`, { method:"POST", body: formData, timeoutMs: CFG.POLICY.TIMEOUT_MS, retries: CFG.POLICY.RETRY_ON_NETWORK });
-      return r.data || {};
-    }
-    async function searchCases(q, tag){
-      const u = new URL(`${backendBase}/cases`);
-      if (q) u.searchParams.set("q", q);
-      if (tag) u.searchParams.set("tag", tag);
-      const r = await request(u.toString(), { method:"GET", cache:"no-store", timeoutMs: CFG.POLICY.HEALTH_TIMEOUT_MS, retries:0 });
-      return r.data || {};
-    }
-    async function loadCase(id){
-      const r = await request(`${backendBase}/case/${encodeURIComponent(id)}`, { method:"GET", cache:"no-store", timeoutMs: CFG.POLICY.HEALTH_TIMEOUT_MS, retries:0 });
-      return r.data || {};
-    }
-    async function createPortal(customerId){
-      const r = await request(`${backendBase}/create-portal-session`, {
-        method:"POST",
-        headers: { "Content-Type":"application/json" },
-        body: JSON.stringify({ customerId }),
-        timeoutMs: CFG.POLICY.HEALTH_TIMEOUT_MS,
-        retries:0
+      function pickText(obj, keys, fallback = "") {
+        for (const k of keys) {
+          const val = obj?.[k];
+          if (typeof val === "string" && val.trim()) return val.trim();
+        }
+        return fallback;
+      }
+
+      function scrollToResults() {
+        if (!resultsCard) return;
+        resultsCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      // ===========================
+      // Results renderer (robust)
+      // ===========================
+      function setResultUI(payload) {
+        const data = payload || {};
+        const src = data.aiResult ? data.aiResult : data;
+
+        const scam = pickNumber(src, ["scam_score", "scamScore", "risk", "risk_score"], 0);
+        const ai = pickNumber(src, ["ai_probability", "aiProb", "ai_voice_probability", "aiVoiceProbability"], 0);
+        const stress = pickNumber(src, ["stress_level", "stressLevel", "stress", "stress_score"], 0);
+        const summary = pickText(src, ["summary", "explanation", "message"], "Analysis complete.");
+        const flags = normalizeFlags(src.flags || src.signals || src.red_flags || src.redFlags);
+
+        if (scamScoreEl) scamScoreEl.textContent = String(Math.round(clampPct(scam)));
+        if (aiProbEl) aiProbEl.textContent = String(Math.round(clampPct(ai)));
+        if (stressLevelEl) stressLevelEl.textContent = String(Math.round(clampPct(stress)));
+        if (summaryText) summaryText.textContent = summary;
+
+        if (flagsWrap) {
+          flagsWrap.innerHTML = "";
+          flags.forEach(f => {
+            const chip = document.createElement("span");
+            chip.className = "chip rounded-full px-3 py-1 text-xs";
+            chip.textContent = f;
+            flagsWrap.appendChild(chip);
+          });
+        }
+
+        setBars(scam, ai, stress);
+        setTimeout(scrollToResults, 120);
+      }
+
+      // ===========================
+      // Demo
+      // ===========================
+      function loadDemoResult() {
+        localStorage.setItem("vs_demo", "true");
+        const demo = {
+          scam_score: 82,
+          ai_probability: 91,
+          stress_level: 67,
+          summary: "High-risk pattern detected. Stop, verify identity via an official number, and do not send money.",
+          flags: [
+            "Synthetic voice characteristics",
+            "Urgency / pressure markers",
+            "Financial manipulation signals",
+            "Call-flow inconsistency"
+          ]
+        };
+        setResultUI(demo);
+        lastResponse = demo;
+        lastCaseId = null;
+        if (caseIdEl) caseIdEl.textContent = "—";
+        if (caseSavedHint) caseSavedHint.textContent = "Demo loaded (no case saved).";
+        if (shareBtn) shareBtn.disabled = true;
+        if (shareSocialBtn) shareSocialBtn.disabled = false; // allow sharing even without case id
+        if (rawJson) {
+          rawJson.textContent = JSON.stringify(demo, null, 2);
+          rawJson.classList.remove("hidden");
+        }
+        toast("Demo loaded ✓");
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key && e.key.toLowerCase() === "d") loadDemoResult();
       });
-      return r.data || {};
-    }
-    async function verifySession(sessionId){
-      const r = await request(`${backendBase}/verify-session?session_id=${encodeURIComponent(sessionId)}`, { method:"GET", cache:"no-store", timeoutMs: CFG.POLICY.HEALTH_TIMEOUT_MS, retries:0 });
-      return r.data || {};
-    }
 
-    // ==========================
-    // UI rendering
-    // ==========================
-    function renderUsage(){
-      const limit = Number(CFG.POLICY.FREE_LIMIT || 3);
-      $("freeLimitLabel") && ($("freeLimitLabel").textContent = String(limit));
-      const u = LS.usage();
-      if (LS.isPro()) $("usageLabel") && ($("usageLabel").textContent = "PRO active • Unlimited");
-      else $("usageLabel") && ($("usageLabel").textContent = `Used: ${u}/${limit}`);
-    }
-    function renderWaitlist(){
-      const count = Number(localStorage.getItem("waitlist") || 0);
-      $("waitlistCountTop") && ($("waitlistCountTop").textContent = String(count));
-      $("waitlistCountBadge") && ($("waitlistCountBadge").textContent = String(count));
-      $("waitlistCountText") && ($("waitlistCountText").textContent = `Total early access sign-ups: ${count}`);
-    }
-    function joinWaitlist(){
-      const count = Number(localStorage.getItem("waitlist") || 0) + 1;
-      localStorage.setItem("waitlist", String(count));
-      renderWaitlist();
-      toast("Joined early access ✓");
-    }
-    function renderResult(payload){
-      const data = payload?.aiResult ? payload.aiResult : payload || {};
-      const scam = pickNumber(data, ["scam_score","scamScore","risk","risk_score"], 0);
-      const ai = pickNumber(data, ["ai_probability","aiProb","ai_voice_prob","ai_voice_probability","aiVoiceProbability"], 0);
-      const stress = pickNumber(data, ["stress_level","stressLevel","stress_score"], 0);
-      const summary = pickText(data, ["summary","message","explanation"], "Analysis complete.");
-      const flags = normalizeFlags(data.flags || data.signals || data.red_flags || data.redFlags);
+      // ===========================
+      // Waitlist (local)
+      // ===========================
+      function renderWaitlistCount() {
+        const count = Number(localStorage.getItem("waitlist") || 0);
+        $("waitlistCountTop") && ($("waitlistCountTop").textContent = String(count));
+        $("waitlistCountBadge") && ($("waitlistCountBadge").textContent = String(count));
+        $("waitlistCountText") && ($("waitlistCountText").textContent = `Total Early Access joins: ${count}`);
+      }
+      function joinEarlyAccess() {
+        const count = Number(localStorage.getItem("waitlist") || 0) + 1;
+        localStorage.setItem("waitlist", String(count));
+        renderWaitlistCount();
+        toast("Joined Early Access ✓");
+      }
+      renderWaitlistCount();
+      if (joinWaitlistBtn) joinWaitlistBtn.addEventListener("click", joinEarlyAccess);
+      $("paywallWaitlist")?.addEventListener("click", () => { joinEarlyAccess(); closePaywall(); });
 
-      $("scamScore") && ($("scamScore").textContent = String(Math.round(clampPct(scam))));
-      $("aiProb") && ($("aiProb").textContent = String(Math.round(clampPct(ai))));
-      $("stressLevel") && ($("stressLevel").textContent = String(Math.round(clampPct(stress))));
-      $("summaryText") && ($("summaryText").textContent = summary);
+      // Live activity ticker (cosmetic)
+      (function simulateLiveJoins(){
+        const el = $("liveActivity");
+        if (!el) return;
+        const cities = ["Vienna", "Warsaw", "Amsterdam", "Paris", "Madrid", "New York", "Toronto", "Bratislava"];
+        setInterval(() => {
+          const city = cities[Math.floor(Math.random() * cities.length)];
+          const seconds = Math.floor(Math.random() * 40) + 5;
+          el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
+        }, 6500);
+      })();
 
-      const wrap = $("flagsWrap");
-      if (wrap){
-        wrap.innerHTML = "";
-        flags.forEach(f => {
-          const chip = document.createElement("span");
-          chip.className = "chip rounded-full px-3 py-1 text-xs";
-          chip.textContent = f;
-          wrap.appendChild(chip);
+      // ===========================
+      // How modal
+      // ===========================
+      function openHow() { if (!howModal) return; howModal.classList.remove("hidden"); howModal.classList.add("flex"); }
+      function closeHow(){ if (!howModal) return; howModal.classList.add("hidden"); howModal.classList.remove("flex"); }
+      if (ctaHow) ctaHow.addEventListener("click", openHow);
+      $("howBackdrop")?.addEventListener("click", closeHow);
+      $("howClose")?.addEventListener("click", closeHow);
+      $("howTryDemo")?.addEventListener("click", () => { closeHow(); loadDemoResult(); });
+      $("howGoAnalyze")?.addEventListener("click", () => {
+        closeHow();
+        $("analyzer")?.scrollIntoView({ behavior:"smooth", block:"start" });
+      });
+
+      // Hero CTAs
+      if (ctaAnalyze) ctaAnalyze.addEventListener("click", () => $("analyzer")?.scrollIntoView({ behavior:"smooth", block:"start" }));
+      if (ctaDemo) ctaDemo.addEventListener("click", loadDemoResult);
+      if (demoBtn) demoBtn.addEventListener("click", loadDemoResult);
+
+      // ===========================
+      // Paywall modal
+      // ===========================
+      function openPaywall(){
+        if (!paywallModal) return;
+        paywallModal.classList.remove("hidden");
+        paywallModal.classList.add("flex");
+        renderWaitlistCount();
+      }
+      function closePaywall(){
+        if (!paywallModal) return;
+        paywallModal.classList.add("hidden");
+        paywallModal.classList.remove("flex");
+      }
+      $("paywallBackdrop")?.addEventListener("click", closePaywall);
+      $("paywallClose")?.addEventListener("click", closePaywall);
+
+      // ===========================
+      // Stripe buttons
+      // ===========================
+      if (upgradeBtn) upgradeBtn.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
+      $("paywallCta")?.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
+
+      if (manageSubBtn) {
+        manageSubBtn.addEventListener("click", async () => {
+          const customerId = localStorage.getItem("voicesafe_customer_id");
+          if (!customerId) {
+            toast("No active subscription found.");
+            return;
+          }
+          try {
+            const r = await fetch(`${backendBase}/create-portal-session`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ customerId }),
+            });
+            const data = await r.json().catch(() => ({}));
+            if (data?.ok && data?.url) window.location.href = data.url;
+            else toast("Could not open billing portal.");
+          } catch (e) {
+            console.error("PORTAL ERROR:", e);
+            toast("Billing portal error.");
+          }
         });
       }
 
-      setBars(scam, ai, stress);
-      $("copyJsonBtn") && ($("copyJsonBtn").disabled = false);
-    }
-    function resetUI(){
-      $("scamScore") && ($("scamScore").textContent = "—");
-      $("aiProb") && ($("aiProb").textContent = "—");
-      $("stressLevel") && ($("stressLevel").textContent = "—");
-      $("summaryText") && ($("summaryText").textContent = "Upload or record a sample to see results.");
-      $("flagsWrap") && ($("flagsWrap").innerHTML = "");
-      setBars(0,0,0);
-      setReqState("Idle","warn");
-      setLatency(NaN);
-      $("copyJsonBtn") && ($("copyJsonBtn").disabled = true);
-      $("shareBtn") && ($("shareBtn").disabled = true);
-      $("caseId") && ($("caseId").textContent = "—");
-      $("caseSavedHint") && ($("caseSavedHint").textContent = "Analyze a sample to create a case.");
-      hideRaw();
-    }
+      // ===========================
+      // Mode + backend health
+      // ===========================
+      function setStatus(text) { $("backendStatus") && ($("backendStatus").textContent = text); }
 
-    // ==========================
-    // Modals
-    // ==========================
-    function openModal(id){ const m = $(id); if (!m) return; m.classList.remove("hidden"); m.classList.add("flex"); }
-    function closeModal(id){ const m = $(id); if (!m) return; m.classList.add("hidden"); m.classList.remove("flex"); }
-
-    // ==========================
-    // Health
-    // ==========================
-    async function checkHealth(){
-      try{
-        const j = await health();
-        const aiOk = (j.ai_ok === true) ? "true" : String(j.ai_ok ?? "n/a");
-        $("backendStatus") && ($("backendStatus").textContent = `OK • AI_OK: ${aiOk} • max_upload_mb: ${String(j.max_upload_mb ?? "n/a")}`);
-      } catch(e){
-        $("backendStatus") && ($("backendStatus").textContent = "Offline / blocked (check URL, CORS, or server)");
-        lastErrorObj = e;
-      }
-    }
-
-    // ==========================
-    // Demo
-    // ==========================
-    function loadDemo(){
-      localStorage.setItem("vs_demo","true");
-      const demo = {
-        scam_score: 82,
-        ai_probability: 91,
-        stress_level: 67,
-        summary: "High likelihood of AI-generated impersonation with financial manipulation intent. Verify identity through an official number before sending money.",
-        flags: [
-          "AI voice synthesis detected (demo)",
-          "Urgency / pressure language (demo)",
-          "Financial request pattern (demo)",
-          "Emotional manipulation markers (demo)",
-          "Call-flow inconsistency (demo)"
-        ]
-      };
-      renderResult(demo);
-      lastResponse = demo;
-      showRaw({ demo:true, sample: demo });
-      toast("Investor demo loaded ✓");
-      $("resultsCard")?.scrollIntoView({ behavior:"smooth", block:"start" });
-    }
-
-    // ==========================
-    // Recording
-    // ==========================
-    let mediaRecorder = null;
-    let recordedChunks = [];
-    let recording = false;
-
-    function stopTracks(stream){ try{ stream?.getTracks?.().forEach(t=>t.stop()); }catch{} }
-
-    async function toggleRecord(){
-      const btn = $("recordBtn");
-      const fileInput = $("fileInput");
-      const fileHint = $("fileHint");
-
-      try{
-        if (!recording){
-          const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
-          recordedChunks = [];
-          mediaRecorder = new MediaRecorder(stream);
-
-          mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
-          mediaRecorder.onstop = () => {
-            try{
-              const blob = new Blob(recordedChunks, { type:"audio/webm" });
-              const file = new File([blob], "mic.webm", { type:"audio/webm" });
-              const dt = new DataTransfer();
-              dt.items.add(file);
-              fileInput.files = dt.files;
-              if (fileHint) fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size/1024)} KB)`;
-              updateAnalyzeEnabled();
-              toast("Recording saved ✓");
-            } catch { toast("Could not finalize recording."); }
-            finally { stopTracks(stream); }
-          };
-
-          mediaRecorder.start();
-          recording = true;
-          if (btn) btn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
-          toast("Recording…");
-        } else {
-          mediaRecorder.stop();
-          recording = false;
-          if (btn) btn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
-        }
-      } catch {
-        alert("Microphone permission blocked or unavailable.");
-      }
-    }
-
-    // ==========================
-    // Analyze
-    // ==========================
-    function updateAnalyzeEnabled(){
-      const f = $("fileInput")?.files?.[0];
-      $("analyzeBtn") && ($("analyzeBtn").disabled = !f);
-    }
-
-    async function analyze(){
-      const f = $("fileInput")?.files?.[0];
-
-      const limit = Number(CFG.POLICY.FREE_LIMIT || 3);
-      if (!LS.isPro() && !LS.demoMode() && LS.usage() >= limit){
-        openModal("paywallModal");
-        renderWaitlist();
-        return;
-      }
-
-      if (!f){
-        toast("Select a file or record audio first.");
-        return;
-      }
-
-      const maxBytes = (Number(CFG.POLICY.MAX_UPLOAD_MB||25) * 1024 * 1024);
-      if (f.size > maxBytes){
-        toast(`File too large for target UX (~${CFG.POLICY.MAX_UPLOAD_MB}MB). Server may reject.`);
-      }
-
-      const steps = [
-        "Uploading sample…","Analyzing voice pattern…","Detecting AI voice cloning…",
-        "Measuring stress markers…","Scanning scam signals…","Finalizing report…"
-      ];
-      let stepIndex = 0;
-
-      $("summaryText") && ($("summaryText").textContent = steps[0]);
-      if (progressTimer) clearInterval(progressTimer);
-      progressTimer = setInterval(() => {
-        stepIndex = Math.min(stepIndex + 1, steps.length - 1);
-        $("summaryText") && ($("summaryText").textContent = steps[stepIndex]);
-      }, 850);
-
-      const analyzeBtn = $("analyzeBtn");
-      const start = nowMs();
-      const minSpin = Number(CFG.POLICY.UI_MIN_SPINNER_MS || 700);
-
-      setReqState("Uploading…","warn");
-      setLatency(NaN);
-      hideRaw();
-      $("copyJsonBtn") && ($("copyJsonBtn").disabled = true);
-      $("shareBtn") && ($("shareBtn").disabled = true);
-      $("caseId") && ($("caseId").textContent = "—");
-      $("caseSavedHint") && ($("caseSavedHint").textContent = "Analyzing…");
-
-      if (analyzeBtn){
-        analyzeBtn.disabled = true;
-        analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…';
-      }
-
-      try{
-        const form = new FormData();
-        form.append("file", f);
-        form.append("title", $("title")?.value || "");
-        form.append("platform", $("platform")?.value || "");
-        form.append("country", $("country")?.value || "");
-        form.append("language", $("language")?.value || "");
-        form.append("tags", $("tags")?.value || "");
-        form.append("notes", $("notes")?.value || "");
-
-        const data = await upload(form);
-
-        const elapsed = nowMs() - start;
-        if (elapsed < minSpin) await sleep(minSpin - elapsed);
-
-        setReqState("OK","good");
-
-        if (!LS.isPro() && !LS.demoMode()){
-          LS.setUsage(LS.usage() + 1);
-          renderUsage();
-        }
-
-        const aiResult = data?.aiResult || data?.result || data || {};
-        lastResponse = aiResult;
-        renderResult(aiResult);
-        showRaw(data);
-
-        lastCaseId = data?.case_id || data?.caseId || data?.id || aiResult?.case_id || null;
-        if (lastCaseId){
-          $("caseId") && ($("caseId").textContent = String(lastCaseId));
-          $("caseSavedHint") && ($("caseSavedHint").textContent = "Case saved.");
-          $("shareBtn") && ($("shareBtn").disabled = false);
-        } else {
-          $("caseSavedHint") && ($("caseSavedHint").textContent = "No case id returned by backend.");
-        }
-
-        toast("Analysis complete ✓");
-        $("resultsCard")?.scrollIntoView({ behavior:"smooth", block:"start" });
-      } catch(e){
-        lastErrorObj = e;
-        setReqState("Failed","bad");
-        $("summaryText") && ($("summaryText").textContent = `Error: ${e?.message || "Analyze failed."}`);
-        toast("Analyze failed.");
-        console.error("ANALYZE ERROR:", e);
-      } finally {
-        clearInterval(progressTimer);
-        progressTimer = null;
-        if (analyzeBtn){
-          analyzeBtn.disabled = false;
-          analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+      async function checkBackend() {
+        try {
+          const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
+          if (!r.ok) throw new Error("health not ok");
+          const j = await r.json().catch(() => ({}));
+          const aiOk = (j.ai_ok === true);
+          setStatus(`${aiOk ? "OK" : "Degraded"} • AI_OK: ${String(j.ai_ok ?? "n/a")} • ${j.ai_status || ""}`.trim());
+        } catch {
+          setStatus("Offline / blocked (check URL, CORS, or server)");
         }
       }
-    }
 
-    // ==========================
-    // Cases
-    // ==========================
-    function renderSearchList(items){
-      const list = $("resultsList");
-      if (!list) return;
-      list.innerHTML = "";
-
-      if (!items || !items.length){
-        list.innerHTML = `<div class="text-xs muted">No results.</div>`;
-        return;
+      function setMode(mode) {
+        backendBase = window.URLS[mode] || backendBase;
+        $("backendUrl") && ($("backendUrl").textContent = backendBase);
+        $("modeLabel") && ($("modeLabel").textContent = mode);
+        toast(`Mode: ${mode}`);
+        checkBackend();
       }
 
-      items.slice(0,25).forEach(item => {
-        const id = item.id || item.case_id || item._id;
-        const title = item?.meta?.title || item?.title || "(untitled)";
-        const row = document.createElement("div");
-        row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
-        row.innerHTML = `
-          <div class="flex items-center justify-between gap-3">
-            <div class="min-w-0">
-              <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
-              <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
+      if (btnProd) btnProd.addEventListener("click", () => setMode("PROD"));
+      if (btnLocal) btnLocal.addEventListener("click", () => setMode("LOCAL"));
+      setMode("PROD");
+
+      // ===========================
+      // File selection
+      // ===========================
+      if (fileInput) {
+        fileInput.addEventListener("change", () => {
+          const f = fileInput.files && fileInput.files[0];
+          if (!fileHint) return;
+          fileHint.textContent = f ? `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)` : "No file selected.";
+        });
+      }
+
+      // ===========================
+      // Record microphone
+      // ===========================
+      let mediaRecorder = null;
+      let recordedChunks = [];
+      let recording = false;
+
+      if (recordBtn) {
+        recordBtn.addEventListener("click", async () => {
+          try {
+            if (!recording) {
+              const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+              recordedChunks = [];
+              mediaRecorder = new MediaRecorder(stream);
+
+              mediaRecorder.ondataavailable = (e) => {
+                if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+              };
+
+              mediaRecorder.onstop = () => {
+                try {
+                  const blob = new Blob(recordedChunks, { type: "audio/webm" });
+                  const file = new File([blob], "mic.webm", { type: "audio/webm" });
+                  const dt = new DataTransfer();
+                  dt.items.add(file);
+                  fileInput.files = dt.files;
+                  if (fileHint) fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+                  toast("Recording saved ✓");
+                } catch {
+                  toast("Could not finalize recording.");
+                }
+              };
+
+              mediaRecorder.start();
+              recording = true;
+              recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
+              toast("Recording…");
+            } else {
+              mediaRecorder.stop();
+              recording = false;
+              recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
+            }
+          } catch {
+            alert("Microphone permission blocked or unavailable.");
+          }
+        });
+      }
+
+      // ===========================
+      // Analyze
+      // ===========================
+      if (analyzeBtn) {
+        analyzeBtn.addEventListener("click", async () => {
+          const isPro = localStorage.getItem("voicesafe_pro") === "true";
+          const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
+          const FREE_LIMIT = 3;
+          const usage = Number(localStorage.getItem("vs_usage") || 0);
+
+          if (!isPro && !DEMO_MODE && usage >= FREE_LIMIT) {
+            openPaywall();
+            return;
+          }
+
+          const f = fileInput?.files?.[0];
+          if (!f) {
+            toast("Select a file or record audio first.");
+            return;
+          }
+
+          const steps = [
+            "Uploading sample…",
+            "Analyzing voice signals…",
+            "Detecting AI impersonation…",
+            "Measuring stress markers…",
+            "Scanning scam patterns…",
+            "Finalizing report…",
+          ];
+
+          let stepIndex = 0;
+          if (summaryText) summaryText.textContent = steps[0];
+
+          if (progressInterval) clearInterval(progressInterval);
+          progressInterval = setInterval(() => {
+            stepIndex = Math.min(stepIndex + 1, steps.length - 1);
+            if (summaryText) summaryText.textContent = steps[stepIndex];
+          }, 850);
+
+          analyzeBtn.disabled = true;
+          analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…';
+
+          if (flagsWrap) flagsWrap.innerHTML = "";
+          setBars(0, 0, 0);
+          if (rawJson) rawJson.classList.add("hidden");
+
+          const startTime = Date.now();
+          const MIN_TIME = 650;
+
+          try {
+            const form = new FormData();
+            form.append("file", f);
+            form.append("title", titleEl?.value || "");
+            form.append("platform", platformEl?.value || "");
+            form.append("country", countryEl?.value || "");
+            form.append("language", languageEl?.value || "");
+            form.append("tags", tagsEl?.value || "");
+            form.append("notes", notesEl?.value || "");
+
+            const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
+            const data = await resp.json().catch(() => null);
+
+            if (!resp.ok) {
+              const msg = data?.message || data?.error || `HTTP ${resp.status}`;
+              if (summaryText) summaryText.textContent = `Error: ${msg}`;
+              toast("Analyze failed.");
+              console.error("UPLOAD ERROR:", data);
+              return;
+            }
+
+            // increment usage on success only
+            if (!isPro && !DEMO_MODE) {
+              const current = Number(localStorage.getItem("vs_usage") || 0);
+              localStorage.setItem("vs_usage", String(current + 1));
+            }
+
+            const aiResult = data?.aiResult || data?.result || data || {};
+            lastResponse = aiResult;
+
+            lastCaseId = data?.case_id || data?.caseId || data?.id || aiResult?.case_id || null;
+
+            if (lastCaseId) {
+              caseIdEl.textContent = String(lastCaseId);
+              caseSavedHint.textContent = "Case saved.";
+              shareBtn.disabled = false;
+            } else {
+              caseIdEl.textContent = "—";
+              caseSavedHint.textContent = "No case id returned by backend.";
+              shareBtn.disabled = true;
+            }
+
+            // enable social share once we have a result
+            if (shareSocialBtn) shareSocialBtn.disabled = false;
+
+            setResultUI(aiResult);
+
+            if (rawJson) {
+              rawJson.textContent = JSON.stringify(data, null, 2);
+              rawJson.classList.remove("hidden");
+            }
+
+            toast("Analysis complete ✓");
+          } catch (e) {
+            console.error("ANALYZE ERROR:", e);
+            if (summaryText) summaryText.textContent = `Network error: ${e?.message || e}`;
+            toast("Network error.");
+          } finally {
+            const elapsed = Date.now() - startTime;
+            if (elapsed < MIN_TIME) await new Promise(r => setTimeout(r, MIN_TIME - elapsed));
+            if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+            analyzeBtn.disabled = false;
+            analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+          }
+        });
+      }
+
+      // ===========================
+      // Copy / Share
+      // ===========================
+      if (copyJsonBtn) {
+        copyJsonBtn.addEventListener("click", async () => {
+          if (!lastResponse) { toast("No JSON yet."); return; }
+          try {
+            await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
+            toast("Copied ✓");
+          } catch {
+            toast("Clipboard blocked.");
+          }
+        });
+      }
+
+      if (shareBtn) {
+        shareBtn.addEventListener("click", async () => {
+          if (!lastCaseId) { toast("No case id."); return; }
+          const url = new URL(window.location.href);
+          url.searchParams.set("case", String(lastCaseId));
+          try {
+            await navigator.clipboard.writeText(url.toString());
+            toast("Link copied ✓");
+          } catch {
+            toast(url.toString());
+          }
+        });
+      }
+
+      if (shareSocialBtn) {
+        shareSocialBtn.addEventListener("click", async () => {
+          if (!lastResponse) { toast("No result to share yet."); return; }
+
+          const scam = clampPct(pickNumber(lastResponse, ["scam_score","scamScore","risk"], 0));
+          const ai = clampPct(pickNumber(lastResponse, ["ai_probability","aiProb","ai_voice_probability"], 0));
+          const stress = clampPct(pickNumber(lastResponse, ["stress_level","stressLevel","stress"], 0));
+
+          const shareUrl = new URL(window.location.href);
+          if (lastCaseId) shareUrl.searchParams.set("case", String(lastCaseId));
+
+          const text =
+            `VoiceSafe report: Scam ${Math.round(scam)}% • AI voice ${Math.round(ai)}% • Stress ${Math.round(stress)}% — verify before paying.`;
+
+          // Try native share (mobile)
+          if (navigator.share) {
+            try {
+              await navigator.share({ title: "VoiceSafe Report", text, url: shareUrl.toString() });
+              toast("Shared ✓");
+              return;
+            } catch {}
+          }
+
+          // Fallback: open share intents
+          const pick = prompt("Share where? Type: twitter / linkedin / copy", "twitter");
+          if (!pick) return;
+
+          if (pick.toLowerCase().includes("copy")) {
+            try { await navigator.clipboard.writeText(`${text} ${shareUrl.toString()}`); toast("Copied ✓"); }
+            catch { toast("Clipboard blocked."); }
+            return;
+          }
+
+          if (pick.toLowerCase().includes("linkedin")) {
+            const u = new URL("https://www.linkedin.com/sharing/share-offsite/");
+            u.searchParams.set("url", shareUrl.toString());
+            window.open(u.toString(), "_blank", "noopener,noreferrer");
+            toast("Opening LinkedIn…");
+            return;
+          }
+
+          // default twitter/x
+          const x = new URL("https://twitter.com/intent/tweet");
+          x.searchParams.set("text", text);
+          x.searchParams.set("url", shareUrl.toString());
+          window.open(x.toString(), "_blank", "noopener,noreferrer");
+          toast("Opening X…");
+        });
+      }
+
+      // ===========================
+      // Search cases (optional)
+      // ===========================
+      function escapeHtml(s) {
+        return (s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      }
+
+      function renderSearchList(items) {
+        resultsList.innerHTML = "";
+        if (!items || !items.length) {
+          resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
+          return;
+        }
+        items.slice(0, 25).forEach(item => {
+          const id = item.id || item.case_id || item._id;
+          const title = item?.meta?.title || item?.title || "(untitled)";
+          const row = document.createElement("div");
+          row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
+          row.innerHTML = `
+            <div class="flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
+                <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
+              </div>
+              <div class="text-sm font-bold gold-text shrink-0">Load</div>
             </div>
-            <div class="text-sm font-bold gold-text shrink-0">Load</div>
-          </div>
-        `;
-        row.addEventListener("click", () => loadCaseById(id));
-        list.appendChild(row);
-      });
-    }
-
-    async function doSearch(){
-      const q = ($("searchQ")?.value || "").trim();
-      const tag = ($("searchTag")?.value || "").trim();
-      $("resultsList") && ($("resultsList").innerHTML = `<div class="text-xs muted">Searching…</div>`);
-
-      try{
-        const j = await searchCases(q, tag);
-        renderSearchList(j?.cases || j?.items || []);
-      } catch(e){
-        lastErrorObj = e;
-        $("resultsList") && ($("resultsList").innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`);
+          `;
+          row.addEventListener("click", () => loadCase(id));
+          resultsList.appendChild(row);
+        });
       }
-    }
 
-    async function loadCaseById(id){
-      if (!id) return;
-      $("summaryText") && ($("summaryText").textContent = "Loading case…");
-      $("resultsCard")?.scrollIntoView({ behavior:"smooth", block:"start" });
+      async function doSearch() {
+        const q = (searchQ.value || "").trim();
+        const tag = (searchTag.value || "").trim();
+        const url = new URL(`${backendBase}/cases`);
+        if (q) url.searchParams.set("q", q);
+        if (tag) url.searchParams.set("tag", tag);
 
-      try{
-        const j = await loadCase(id);
-        const c = j.case || j.item || j;
-        const meta = c.meta || {};
-        const data = c.data || c;
-
-        $("title") && ($("title").value = meta.title || c.title || "");
-        $("platform") && ($("platform").value = meta.platform || c.platform || "");
-        $("country") && ($("country").value = meta.country || c.country || "");
-        $("language") && ($("language").value = meta.language || c.language || "");
-        $("tags") && ($("tags").value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || ""));
-        $("notes") && ($("notes").value = meta.notes || c.notes || "");
-
-        lastResponse = data;
-        renderResult(data);
-        showRaw(j);
-
-        lastCaseId = c.id || c._id || id;
-        $("caseId") && ($("caseId").textContent = String(lastCaseId));
-        $("caseSavedHint") && ($("caseSavedHint").textContent = "Loaded from saved cases.");
-        $("shareBtn") && ($("shareBtn").disabled = false);
-
-        const url = new URL(location.href);
-        url.searchParams.set("case", String(lastCaseId));
-        history.replaceState({}, "", url.toString());
-
-        toast("Case loaded ✓");
-      } catch(e){
-        lastErrorObj = e;
-        $("summaryText") && ($("summaryText").textContent = "Could not load case.");
-        toast("Load failed.");
-      }
-    }
-
-    // ==========================
-    // Copy / Share / Billing
-    // ==========================
-    async function copyJson(){
-      if (!lastResponse) { toast("No JSON yet."); return; }
-      try{ await navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2)); toast("Copied ✓"); }
-      catch{ toast("Clipboard blocked."); }
-    }
-    async function shareLink(){
-      if (!lastCaseId) { toast("No case id."); return; }
-      const url = new URL(location.href);
-      url.searchParams.set("case", String(lastCaseId));
-      try{ await navigator.clipboard.writeText(url.toString()); toast("Link copied ✓"); }
-      catch{ toast(url.toString()); }
-    }
-    async function openBillingPortal(){
-      if (CFG.STRIPE.BILLING_PORTAL_URL){
-        location.href = CFG.STRIPE.BILLING_PORTAL_URL;
-        return;
-      }
-      const customerId = LS.customerId();
-      if (!customerId){ toast("No active subscription found."); return; }
-      try{
-        const r = await createPortal(customerId);
-        if (r?.ok && r?.url) location.href = r.url;
-        else toast("Could not open billing portal.");
-      } catch(e){
-        lastErrorObj = e;
-        toast("Billing portal error.");
-      }
-    }
-
-    // ==========================
-    // Stripe verify ?session_id=
-    // ==========================
-    async function handleStripeVerify(){
-      const url = new URL(location.href);
-      const sessionId = url.searchParams.get("session_id");
-      if (!sessionId) return;
-
-      try{
-        const data = await verifySession(sessionId);
-        if (data?.ok && data?.isPro){
-          localStorage.setItem("voicesafe_pro","true");
-          if (data.customerId) LS.setCustomerId(data.customerId);
-          toast("PRO activated ✓");
-          renderUsage();
-        } else {
-          toast("Payment detected but not active yet.");
+        resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
+        try {
+          const r = await fetch(url.toString(), { cache: "no-store" });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok) throw new Error(j?.message || "Search failed");
+          renderSearchList(j?.cases || j?.items || []);
+        } catch {
+          resultsList.innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`;
         }
-      } catch(e){
-        lastErrorObj = e;
-        toast("Verification failed.");
       }
 
-      url.searchParams.delete("session_id");
-      history.replaceState({}, "", url.toString());
-    }
+      async function loadCase(id) {
+        if (!id) return;
+        if (summaryText) summaryText.textContent = "Loading case…";
+        scrollToResults();
 
-    // ==========================
-    // Diagnostics
-    // ==========================
-    async function diagRecheck(){
-      $("diagBackend") && ($("diagBackend").textContent = backendBase);
-      try{
-        const j = await health();
-        $("diagBackendHealth") && ($("diagBackendHealth").textContent = "Health OK: " + JSON.stringify(j));
-      } catch(e){
-        $("diagBackendHealth") && ($("diagBackendHealth").textContent = "Health FAIL: " + (e?.message || e));
+        try {
+          const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok) {
+            if (summaryText) summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
+            toast("Load failed.");
+            return;
+          }
+
+          const c = j.case || j.item || j;
+          const meta = c.meta || {};
+          const data = c.data || c;
+
+          titleEl.value = meta.title || c.title || "";
+          platformEl.value = meta.platform || c.platform || "";
+          countryEl.value = meta.country || c.country || "";
+          languageEl.value = meta.language || c.language || "";
+          tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
+          notesEl.value = meta.notes || c.notes || "";
+
+          lastResponse = data;
+          setResultUI(data);
+
+          lastCaseId = c.id || c._id || id;
+          caseIdEl.textContent = String(lastCaseId);
+          caseSavedHint.textContent = "Loaded from saved cases.";
+          shareBtn.disabled = false;
+          if (shareSocialBtn) shareSocialBtn.disabled = false;
+
+          if (rawJson) {
+            rawJson.textContent = JSON.stringify(j, null, 2);
+            rawJson.classList.remove("hidden");
+          }
+
+          const url = new URL(window.location.href);
+          url.searchParams.set("case", String(lastCaseId));
+          history.replaceState({}, "", url.toString());
+          toast("Case loaded ✓");
+        } catch {
+          if (summaryText) summaryText.textContent = "Could not load case (network error).";
+          toast("Network error.");
+        }
       }
 
-      $("diagLastError") && ($("diagLastError").textContent = lastErrorObj ? JSON.stringify({
-        message: lastErrorObj.message,
-        status: lastErrorObj.status,
-        url: lastErrorObj.url,
-        reqId: lastErrorObj.reqId,
-        data: lastErrorObj.data
-      }, null, 2) : "—");
-    }
-
-    async function diagCopy(){
-      const payload = {
-        mode, backendBase,
-        ua: navigator.userAgent,
-        time: new Date().toISOString(),
-        pro: LS.isPro(),
-        demo: LS.demoMode(),
-        usage: LS.usage(),
-        lastError: lastErrorObj ? {
-          message: lastErrorObj.message,
-          status: lastErrorObj.status,
-          url: lastErrorObj.url,
-          reqId: lastErrorObj.reqId,
-          data: lastErrorObj.data
-        } : null
-      };
-      try{ await navigator.clipboard.writeText(JSON.stringify(payload, null, 2)); toast("Diagnostics copied ✓"); }
-      catch{ toast("Clipboard blocked."); }
-    }
-
-    function diagReset(){
-      localStorage.removeItem("vs_usage");
-      localStorage.removeItem("vs_demo");
-      localStorage.removeItem("voicesafe_pro");
-      localStorage.removeItem("voicesafe_customer_id");
-      toast("Local state reset ✓");
-      renderUsage();
-      resetUI();
-    }
-
-    // ==========================
-    // PWA Install
-    // ==========================
-    let deferredPrompt = null;
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      $("installBtn")?.classList.remove("hidden");
-    });
-
-    async function doInstall(){
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice.catch(()=>null);
-      deferredPrompt = null;
-      $("installBtn")?.classList.add("hidden");
-    }
-
-    // ==========================
-    // Service worker register
-    // ==========================
-    async function registerSW(){
-      if (!("serviceWorker" in navigator)) return;
-      try{
-        await navigator.serviceWorker.register("/sw.js", { scope:"/" });
-      } catch {
-        // ok if sw.js not present
-      }
-    }
-
-    // ==========================
-    // Mode set
-    // ==========================
-    function setMode(next){
-      mode = (String(next).toUpperCase() === "LOCAL") ? "LOCAL" : "PROD";
-      LS.setMode(mode);
-      backendBase = CFG.URLS[mode].BACKEND.replace(/\/+$/,"");
-      applyModeUI();
-      toast("Mode: " + mode);
-      checkHealth();
-    }
-
-    // ==========================
-    // Live ticker
-    // ==========================
-    (function liveTicker(){
-      const el = $("liveActivity");
-      if (!el) return;
-      const cities = ["Vienna","Warsaw","Amsterdam","Paris","Madrid","New York","Toronto","Berlin","London"];
-      setInterval(() => {
-        const city = cities[Math.floor(Math.random()*cities.length)];
-        const seconds = Math.floor(Math.random()*40)+5;
-        el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
-      }, 6500);
-    })();
-
-    // ==========================
-    // Boot wiring
-    // ==========================
-    function boot(){
-      resetUI();
-      applyModeUI();
-      renderUsage();
-      renderWaitlist();
-
-      $("sizeHint") && ($("sizeHint").textContent = `Max file size target: ~${CFG.POLICY.MAX_UPLOAD_MB}MB (server enforced).`);
-
-      // Buttons
-      $("btnProd")?.addEventListener("click", () => setMode("PROD"));
-      $("btnLocal")?.addEventListener("click", () => setMode("LOCAL"));
-      $("ctaAnalyze")?.addEventListener("click", () => $("analyzer")?.scrollIntoView({ behavior:"smooth", block:"start" }));
-      $("ctaDemo")?.addEventListener("click", loadDemo);
-      $("demoBtn")?.addEventListener("click", loadDemo);
-
-      // How modal
-      $("ctaHow")?.addEventListener("click", () => openModal("howModal"));
-      $("howBackdrop")?.addEventListener("click", () => closeModal("howModal"));
-      $("howClose")?.addEventListener("click", () => closeModal("howModal"));
-      $("howTryDemo")?.addEventListener("click", () => { closeModal("howModal"); loadDemo(); });
-      $("howGoAnalyze")?.addEventListener("click", () => { closeModal("howModal"); $("analyzer")?.scrollIntoView({ behavior:"smooth", block:"start" }); });
-
-      // Waitlist / Paywall
-      $("joinWaitlistBtn")?.addEventListener("click", joinWaitlist);
-      $("paywallWaitlist")?.addEventListener("click", () => { joinWaitlist(); closeModal("paywallModal"); });
-      $("paywallBackdrop")?.addEventListener("click", () => closeModal("paywallModal"));
-      $("paywallClose")?.addEventListener("click", () => closeModal("paywallModal"));
-      $("paywallCta")?.addEventListener("click", () => location.href = CFG.STRIPE.CHECKOUT_URL);
-
-      // Stripe
-      $("upgradeBtn")?.addEventListener("click", () => location.href = CFG.STRIPE.CHECKOUT_URL);
-      $("manageSubBtn")?.addEventListener("click", openBillingPortal);
-
-      // Copy/share
-      $("copyJsonBtn")?.addEventListener("click", copyJson);
-      $("shareBtn")?.addEventListener("click", shareLink);
-
-      // Analyzer
-      $("recordBtn")?.addEventListener("click", toggleRecord);
-      $("analyzeBtn")?.addEventListener("click", analyze);
-
-      $("fileInput")?.addEventListener("change", () => {
-        const f = $("fileInput").files?.[0];
-        $("fileHint") && ($("fileHint").textContent = f ? `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)` : "No file selected.");
-        updateAnalyzeEnabled();
-      });
-
-      // Cases
-      $("searchBtn")?.addEventListener("click", doSearch);
-      $("clearBtn")?.addEventListener("click", () => {
-        $("searchQ") && ($("searchQ").value = "");
-        $("searchTag") && ($("searchTag").value = "");
-        $("resultsList") && ($("resultsList").innerHTML = "");
+      if (searchBtn) searchBtn.addEventListener("click", doSearch);
+      if (clearBtn) clearBtn.addEventListener("click", () => {
+        searchQ.value = "";
+        searchTag.value = "";
+        resultsList.innerHTML = "";
         toast("Cleared.");
       });
 
-      // Diagnostics
-      $("diagBackdrop")?.addEventListener("click", () => closeModal("diagModal"));
-      $("diagClose")?.addEventListener("click", () => closeModal("diagModal"));
-      $("diagRecheck")?.addEventListener("click", diagRecheck);
-      $("diagCopy")?.addEventListener("click", diagCopy);
-      $("diagReset")?.addEventListener("click", diagReset);
-
-      // Install
-      $("installBtn")?.addEventListener("click", doInstall);
-
-      // Keyboard
-      document.addEventListener("keydown", (e) => {
-        const k = (e.key || "").toLowerCase();
-        if (k === "d") loadDemo();
-        if (k === "?") { openModal("diagModal"); diagRecheck(); }
-      });
-
-      // Auto-load share ?case=
+      // Auto-load from share link ?case=...
       (function bootCase(){
-        const u = new URL(location.href);
+        const u = new URL(window.location.href);
         const id = u.searchParams.get("case");
-        if (id) loadCaseById(id);
+        if (id) loadCase(id);
       })();
 
-      // Quick demo via URL ?demo=true
-      (function bootDemo(){
-        const u = new URL(location.href);
-        if (u.searchParams.get("demo") === "true") loadDemo();
+      // ===========================
+      // Stripe SUCCESS VERIFY (SERVER TRUTH)
+      // ===========================
+      (async function handleStripeSuccess() {
+        const url = new URL(window.location.href);
+        const sessionId = url.searchParams.get("session_id");
+        if (!sessionId) return;
+
+        try {
+          const r = await fetch(`${backendBase}/verify-session?session_id=${encodeURIComponent(sessionId)}`, { cache: "no-store" });
+          const data = await r.json().catch(() => ({}));
+
+          if (data?.ok && data?.isPro) {
+            localStorage.setItem("voicesafe_pro", "true");
+            if (data.customerId) localStorage.setItem("voicesafe_customer_id", data.customerId);
+            alert("✅ PRO activated successfully!");
+          } else {
+            alert("⚠️ Payment detected but subscription not active.");
+          }
+        } catch (e) {
+          console.error("VERIFY ERROR:", e);
+          alert("Verification failed. Please contact support.");
+        }
+
+        url.searchParams.delete("session_id");
+        window.history.replaceState({}, "", url.pathname);
       })();
 
-      updateAnalyzeEnabled();
-      checkHealth();
-      handleStripeVerify();
-      registerSW();
-    }
+      // ===========================
+      // Init
+      // ===========================
+      checkBackend();
 
-    boot();
-  })();
+    })();
   </script>
+
+  <div style="text-align:center;opacity:.5;font-size:12px;margin-top:30px;margin-bottom:18px">
+    VoiceSafe.ai • BUILD: 2026-02-28-GALAXY
+  </div>
 </body>
 </html>
