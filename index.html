@@ -1221,6 +1221,10 @@
           lastResponse = data;
           setResultUI(data);
 
+          // enable sharing after analyze
+if (shareBtn) shareBtn.disabled = false;
+if (shareSocialBtn) shareSocialBtn.disabled = false;
+
           lastCaseId = c.id || c._id || id;
           caseIdEl.textContent = String(lastCaseId);
           caseSavedHint.textContent = "Loaded from saved cases.";
