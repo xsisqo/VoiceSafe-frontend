@@ -324,6 +324,128 @@
 </section>
 
 <!-- ===========================
+     PLATFORM LAYER (insert ABOVE Enterprise section)
+     =========================== -->
+<section id="platformLayer" class="mt-6 sm:mt-8 glass gold-border rounded-3xl p-6 sm:p-8">
+  <div class="flex items-start justify-between gap-4 flex-wrap">
+    <div class="min-w-0">
+      <div class="text-xs muted tracking-widest uppercase">Platform layer</div>
+      <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold leading-tight">
+        VoiceSafe as a <span class="gold-text">Risk Intelligence Layer</span>
+      </h2>
+      <p class="mt-3 muted text-sm sm:text-base max-w-3xl">
+        Built to plug into workflows: real-time analysis, explainable outputs, and audit-friendly artifacts (case ID + exportable JSON + shareable link).
+        Designed for high-stakes decisions — not forensic certainty.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2 flex-wrap">
+      <span class="chip rounded-full px-3 py-1 text-xs">
+        <i class="fa-solid fa-layer-group mr-1"></i> API-first
+      </span>
+      <span class="chip rounded-full px-3 py-1 text-xs">
+        <i class="fa-solid fa-shield mr-1"></i> Privacy-first
+      </span>
+      <span class="chip rounded-full px-3 py-1 text-xs">
+        <i class="fa-solid fa-clipboard-check mr-1"></i> Audit-friendly
+      </span>
+    </div>
+  </div>
+
+  <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
+    <!-- LEFT: What you get -->
+    <div class="lg:col-span-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="chip rounded-2xl p-5">
+          <div class="text-xs muted">Real-time decision support</div>
+          <div class="mt-2 text-lg font-bold">Seconds, not minutes</div>
+          <div class="mt-2 text-xs muted">
+            Upload/record → risk signals → summary + flags + scores. Optimized for call centers and fraud desks.
+          </div>
+        </div>
+
+        <div class="chip rounded-2xl p-5">
+          <div class="text-xs muted">Explainable outputs</div>
+          <div class="mt-2 text-lg font-bold">Human-readable + structured</div>
+          <div class="mt-2 text-xs muted">
+            Clear summary for operators + JSON for systems. Built for reviewability and escalation workflows.
+          </div>
+        </div>
+
+        <div class="chip rounded-2xl p-5">
+          <div class="text-xs muted">Case evidence</div>
+          <div class="mt-2 text-lg font-bold">Case ID + share link</div>
+          <div class="mt-2 text-xs muted">
+            Share internally with compliance / investigations. Export JSON for attachments or ticketing systems.
+          </div>
+        </div>
+
+        <div class="chip rounded-2xl p-5">
+          <div class="text-xs muted">Deployment modes</div>
+          <div class="mt-2 text-lg font-bold">Cloud or private</div>
+          <div class="mt-2 text-xs muted">
+            SaaS today. Private deployments & custom policy controls for institutions (by agreement).
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 glass-soft rounded-2xl p-5 text-sm">
+        <div class="font-semibold mb-2">Integration-ready</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs opacity-90">
+          <div class="chip rounded-xl p-3">
+            <div class="font-semibold"><i class="fa-solid fa-plug mr-2"></i>Webhooks</div>
+            <div class="muted mt-1">Push results to your tools</div>
+          </div>
+          <div class="chip rounded-xl p-3">
+            <div class="font-semibold"><i class="fa-solid fa-code mr-2"></i>API endpoints</div>
+            <div class="muted mt-1">Upload/analyze + case retrieval</div>
+          </div>
+          <div class="chip rounded-xl p-3">
+            <div class="font-semibold"><i class="fa-solid fa-file-export mr-2"></i>Export</div>
+            <div class="muted mt-1">JSON outputs for audit trails</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: CTAs -->
+    <div class="lg:col-span-4">
+      <div class="glass-soft rounded-2xl p-5 h-full flex flex-col">
+        <div class="text-xs muted tracking-widest uppercase">Next steps</div>
+        <div class="mt-2 text-lg font-bold">Try it or request a pilot</div>
+        <p class="mt-2 text-xs muted">
+          For institutions: we can support private deployments, rate limits, retention/redaction policies and custom risk rules.
+        </p>
+
+        <div class="mt-4 flex flex-col gap-2">
+          <button class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold"
+                  onclick="document.getElementById('analyzer')?.scrollIntoView({behavior:'smooth',block:'start'})">
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Try live analysis
+          </button>
+
+          <a href="/contact.html" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 text-center">
+            <i class="fa-solid fa-handshake mr-2"></i>Request enterprise demo
+          </a>
+
+          <div class="grid grid-cols-2 gap-2">
+            <a href="/security.html" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90 text-center">
+              <i class="fa-solid fa-shield-halved mr-2"></i>Security
+            </a>
+            <a href="/privacy.html" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90 text-center">
+              <i class="fa-solid fa-user-shield mr-2"></i>Privacy
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-4 text-[11px] muted">
+          Note: VoiceSafe provides advisory signals. For high-stakes actions, always verify identity via official channels.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================
      ENTERPRISE SECTION
      =========================== -->
 <section id="enterprise" class="mt-6 sm:mt-8">
