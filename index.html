@@ -136,6 +136,14 @@
       </div>
     </div>
 
+<!-- Investor / Enterprise toggle -->
+<div class="flex items-center gap-2">
+  <span class="text-xs muted hidden sm:inline">Tone</span>
+  <button id="toneToggle" class="chip rounded-full px-3 py-1.5 text-xs font-semibold hover:opacity-90">
+    <i class="fa-solid fa-building-columns mr-2"></i>Enterprise mode: OFF
+  </button>
+</div>
+
     <!-- HERO (Enterprise) -->
     <section class="glass gold-border rounded-3xl p-6 sm:p-8">
       <div class="flex flex-wrap items-center gap-2">
@@ -1427,6 +1435,60 @@
         url.searchParams.delete("session_id");
         window.history.replaceState({}, "", url.pathname);
       })();
+
+// ===========================
+// ENTERPRISE TONE TOGGLE
+// ===========================
+(function(){
+  const btn = document.getElementById("toneToggle");
+  if (!btn) return;
+
+  const STORAGE_KEY = "voicesafe_enterprise_mode";
+
+  function applyMode(enabled){
+    const heroTitle = document.querySelector("h1");
+    const summaryLabel = document.querySelector("#resultsSub");
+
+    if (enabled){
+      btn.innerHTML = '<i class="fa-solid fa-building-columns mr-2"></i>Enterprise mode: ON';
+      btn.classList.add("gold-border");
+
+      if (heroTitle){
+        heroTitle.innerHTML =
+          '<span class="gold-text">VoiceSafe</span>' +
+          '<span class="block mt-2">Institutional AI Risk Layer for Voice Fraud Detection</span>';
+      }
+
+      if (summaryLabel){
+        summaryLabel.textContent = "Structured risk output for compliance & fraud teams.";
+      }
+
+    } else {
+      btn.innerHTML = '<i class="fa-solid fa-building-columns mr-2"></i>Enterprise mode: OFF';
+      btn.classList.remove("gold-border");
+
+      if (heroTitle){
+        heroTitle.innerHTML =
+          '<span class="gold-text">VoiceSafe</span>' +
+          '<span class="block mt-2">Your AI Guardian <span class="gold-text">Against Voice Scams</span></span>';
+      }
+
+      if (summaryLabel){
+        summaryLabel.textContent = "Upload or record to generate a report.";
+      }
+    }
+  }
+
+  const saved = localStorage.getItem(STORAGE_KEY) === "true";
+  applyMode(saved);
+
+  btn.addEventListener("click", () => {
+    const current = localStorage.getItem(STORAGE_KEY) === "true";
+    const next = !current;
+    localStorage.setItem(STORAGE_KEY, String(next));
+    applyMode(next);
+  });
+})();
 
       // ===========================
       // Init
