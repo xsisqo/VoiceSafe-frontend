@@ -1221,6 +1221,20 @@
           lastResponse = data;
           setResultUI(data);
 
+          // ✅ FORCE ENABLE: Copy JSON + Copy share link + Share
+[
+  copyJsonBtn,
+  copyShareBtn,
+  shareBtn,
+  shareSocialBtn
+].forEach((b) => {
+  if (!b) return;
+  b.disabled = false;
+  b.removeAttribute("disabled");
+  b.style.pointerEvents = "auto";
+  b.style.cursor = "pointer";
+});
+
           // enable sharing after analyze
 if (shareBtn) shareBtn.disabled = false;
 if (shareSocialBtn) shareSocialBtn.disabled = false;
