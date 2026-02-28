@@ -145,7 +145,7 @@
     </div>
 
     <!-- Investor / Enterprise toggle -->
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 mt-3">
       <span class="text-xs muted hidden sm:inline">Tone</span>
       <button id="toneToggle" class="chip rounded-full px-3 py-1.5 text-xs font-semibold hover:opacity-90" type="button">
         <i class="fa-solid fa-building-columns mr-2"></i>Enterprise mode: OFF
@@ -153,7 +153,7 @@
     </div>
 
     <!-- HERO -->
-    <section class="glass gold-border rounded-3xl p-6 sm:p-8">
+    <section class="glass gold-border rounded-3xl p-6 sm:p-8 mt-4">
       <div class="flex flex-wrap items-center gap-2">
         <span class="chip rounded-full px-3 py-1 text-xs">
           <i class="fa-solid fa-bolt mr-2"></i>Seconds, not minutes
@@ -174,7 +174,8 @@
           </h1>
 
           <p class="mt-4 text-base sm:text-lg muted max-w-2xl">
-            Upload a voice message. Know in seconds if it’s trying to scam you — <span class="text-white/90 font-semibold">before you send money</span>.
+            Upload a voice message. Know in seconds if it’s trying to scam you —
+            <span class="text-white/90 font-semibold">before you send money</span>.
             Get a clear report: scam score, AI voice probability, stress signals, and red flags.
           </p>
 
@@ -260,75 +261,6 @@
       </div>
     </section>
 
-    <!-- ENTERPRISE TRUST BAR -->
-    <section class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
-      <div class="lg:col-span-8 glass gold-border rounded-3xl p-5 sm:p-6">
-        <div class="flex items-start justify-between gap-4">
-          <div class="min-w-0">
-            <div class="text-xs muted tracking-widest uppercase">Enterprise readiness</div>
-            <h3 class="mt-2 text-xl sm:text-2xl font-extrabold">
-              Built for banks, compliance teams & high-stakes verification
-            </h3>
-            <p class="mt-2 text-sm muted max-w-2xl">
-              VoiceSafe provides advisory risk signals — fast, privacy-first, and designed for reviewable reports.
-              Always verify identity via official channels before any payment.
-            </p>
-          </div>
-
-          <div class="shrink-0 hidden sm:block">
-            <div class="chip rounded-2xl px-4 py-3 text-xs">
-              <div class="muted">Deployment</div>
-              <div class="mt-1 font-bold gold-text">PROD READY</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-          <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">Privacy</div>
-            <div class="mt-1 font-bold">No permanent storage</div>
-            <div class="mt-1 text-xs muted">Prototype posture • minimize sensitive data</div>
-          </div>
-          <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">Auditability</div>
-            <div class="mt-1 font-bold">Shareable case link</div>
-            <div class="mt-1 text-xs muted">Case ID + exportable JSON</div>
-          </div>
-          <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">Speed</div>
-            <div class="mt-1 font-bold">Seconds, not minutes</div>
-            <div class="mt-1 text-xs muted">Built for quick decision support</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="lg:col-span-4 glass rounded-3xl p-5 sm:p-6">
-        <div class="text-xs muted tracking-widest uppercase">Enterprise contact</div>
-        <div class="mt-2 text-lg font-extrabold">Request a pilot</div>
-        <p class="mt-2 text-sm muted">
-          Want VoiceSafe for your organization? We can support private deployments & custom risk policies.
-        </p>
-
-        <div class="mt-4 flex flex-col gap-2">
-          <a href="/contact.html" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold text-center">
-            <i class="fa-solid fa-handshake mr-2"></i>Contact sales
-          </a>
-
-          <a href="/security.html" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 text-center">
-            <i class="fa-solid fa-shield-halved mr-2"></i>Security overview
-          </a>
-
-          <a href="/privacy.html" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 text-center">
-            <i class="fa-solid fa-user-shield mr-2"></i>Privacy policy
-          </a>
-
-          <div class="mt-2 text-[11px] muted leading-5">
-            Tip: For compliance reviews, share a report using <span class="mono">Copy share link</span> and attach the exported JSON.
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- PLATFORM LAYER -->
     <section id="platformLayer" class="mt-6 sm:mt-8 glass gold-border rounded-3xl p-6 sm:p-8">
       <div class="flex items-start justify-between gap-4 flex-wrap">
@@ -389,211 +321,11 @@
         <span id="copyCaseIdToast" class="text-xs opacity-70 hidden">Copied ✓</span>
       </div>
 
-      <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
-        <div class="lg:col-span-8">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="chip rounded-2xl p-5">
-              <div class="text-xs muted">Real-time decision support</div>
-              <div class="mt-2 text-lg font-bold">Seconds, not minutes</div>
-              <div class="mt-2 text-xs muted">
-                Upload/record → risk signals → summary + flags + scores. Optimized for call centers and fraud desks.
-              </div>
-            </div>
-
-            <div class="chip rounded-2xl p-5">
-              <div class="text-xs muted">Explainable outputs</div>
-              <div class="mt-2 text-lg font-bold">Human-readable + structured</div>
-              <div class="mt-2 text-xs muted">
-                Clear summary for operators + JSON for systems. Built for reviewability and escalation workflows.
-              </div>
-            </div>
-
-            <div class="chip rounded-2xl p-5">
-              <div class="text-xs muted">Case evidence</div>
-              <div class="mt-2 text-lg font-bold">Case ID + share link</div>
-              <div class="mt-2 text-xs muted">
-                Share internally with compliance / investigations. Export JSON for attachments or ticketing systems.
-              </div>
-            </div>
-
-            <div class="chip rounded-2xl p-5">
-              <div class="text-xs muted">Deployment modes</div>
-              <div class="mt-2 text-lg font-bold">Cloud or private</div>
-              <div class="mt-2 text-xs muted">
-                SaaS today. Private deployments & custom policy controls for institutions (by agreement).
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-4 glass-soft rounded-2xl p-5 text-sm">
-            <div class="font-semibold mb-2">Integration-ready</div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs opacity-90">
-              <div class="chip rounded-xl p-3">
-                <div class="font-semibold"><i class="fa-solid fa-plug mr-2"></i>Webhooks</div>
-                <div class="muted mt-1">Push results to your tools</div>
-              </div>
-              <div class="chip rounded-xl p-3">
-                <div class="font-semibold"><i class="fa-solid fa-code mr-2"></i>API endpoints</div>
-                <div class="muted mt-1">Upload/analyze + case retrieval</div>
-              </div>
-              <div class="chip rounded-xl p-3">
-                <div class="font-semibold"><i class="fa-solid fa-file-export mr-2"></i>Export</div>
-                <div class="muted mt-1">JSON outputs for audit trails</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-4">
-          <div class="glass-soft rounded-2xl p-5 h-full flex flex-col">
-            <div class="text-xs muted tracking-widest uppercase">Next steps</div>
-            <div class="mt-2 text-lg font-bold">Try it or request a pilot</div>
-            <p class="mt-2 text-xs muted">
-              For institutions: we can support private deployments, rate limits, retention/redaction policies and custom risk rules.
-            </p>
-
-            <div class="mt-4 flex flex-col gap-2">
-              <button class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold" type="button"
-                      onclick="document.getElementById('analyzer')?.scrollIntoView({behavior:'smooth',block:'start'})">
-                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Try live analysis
-              </button>
-
-              <a href="/contact.html" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 text-center">
-                <i class="fa-solid fa-handshake mr-2"></i>Request enterprise demo
-              </a>
-
-              <div class="grid grid-cols-2 gap-2">
-                <a href="/security.html" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90 text-center">
-                  <i class="fa-solid fa-shield-halved mr-2"></i>Security
-                </a>
-                <a href="/privacy.html" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90 text-center">
-                  <i class="fa-solid fa-user-shield mr-2"></i>Privacy
-                </a>
-              </div>
-            </div>
-
-            <div class="mt-4 text-[11px] muted">
-              Note: VoiceSafe provides advisory signals. For high-stakes actions, always verify identity via official channels.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="text-[11px] muted mt-4 leading-5">
+      <div class="mt-6 text-[11px] muted leading-5">
         VoiceSafe outputs risk signals for triage and decision support — not biometric identity verification.
         Use it as an early-warning layer and confirm identity through trusted official channels.
       </div>
     </section>
-
-    <!-- ENTERPRISE SECTION -->
-    <section id="enterprise" class="mt-6 sm:mt-8">
-      <div class="glass gold-border rounded-3xl p-6 sm:p-8">
-        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-          <div class="min-w-0">
-            <div class="inline-flex items-center gap-2 chip px-3 py-1.5 rounded-full text-xs">
-              <i class="fa-solid fa-building-columns"></i>
-              <span class="opacity-90">Enterprise</span>
-              <span class="opacity-40">•</span>
-              <span class="opacity-80">Banks • Telecom • Gov • KYC/AML teams</span>
-            </div>
-
-            <h2 class="mt-4 text-2xl sm:text-3xl font-extrabold leading-tight">
-              Built for <span class="gold-text">institutions</span> that need fast, explainable voice-scam signals
-            </h2>
-
-            <p class="mt-3 text-sm sm:text-base muted max-w-3xl">
-              VoiceSafe is an early-warning layer for call centers and fraud teams. It produces clear risk signals (not forensic certainty),
-              with privacy-first defaults and audit-friendly outputs.
-            </p>
-
-            <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div class="chip rounded-2xl p-4">
-                <div class="text-xs muted">Deployment</div>
-                <div class="mt-1 text-lg font-bold">Cloud or Private</div>
-                <div class="mt-1 text-xs muted">SaaS • VPC • on-prem (by agreement)</div>
-              </div>
-              <div class="chip rounded-2xl p-4">
-                <div class="text-xs muted">Integrations</div>
-                <div class="mt-1 text-lg font-bold">API-first</div>
-                <div class="mt-1 text-xs muted">Webhooks • Case IDs • JSON reports</div>
-              </div>
-              <div class="chip rounded-2xl p-4">
-                <div class="text-xs muted">Governance</div>
-                <div class="mt-1 text-lg font-bold">Audit-friendly</div>
-                <div class="mt-1 text-xs muted">Logs • deterministic mode (optional)</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="shrink-0 w-full lg:w-[360px]">
-            <div class="glass-soft rounded-2xl p-5">
-              <div class="text-sm font-semibold">Enterprise package</div>
-
-              <ul class="mt-3 space-y-2 text-sm opacity-90">
-                <li class="flex gap-2">
-                  <i class="fa-solid fa-check text-white/80 mt-1"></i>
-                  <span>Bulk analysis + rate limits tuned for call centers</span>
-                </li>
-                <li class="flex gap-2">
-                  <i class="fa-solid fa-check text-white/80 mt-1"></i>
-                  <span>Policy controls: retention, redaction, case export</span>
-                </li>
-                <li class="flex gap-2">
-                  <i class="fa-solid fa-check text-white/80 mt-1"></i>
-                  <span>Explainable flags + human-readable summary</span>
-                </li>
-                <li class="flex gap-2">
-                  <i class="fa-solid fa-check text-white/80 mt-1"></i>
-                  <span>Security & compliance documentation on request</span>
-                </li>
-              </ul>
-
-              <div class="mt-5 grid grid-cols-1 gap-2">
-                <a
-                  href="mailto:enterprise@voicesafe.ai?subject=VoiceSafe%20Enterprise%20Demo&body=Hi%20VoiceSafe%20team%2C%0A%0AWe%20would%20like%20to%20request%20an%20enterprise%20demo.%0A%0ACompany%3A%0AUse%20case%3A%0ARegion%3A%0AVolume%20(est.)%3A%0APreferred%20deployment%3A%20SaaS%20/%20VPC%20/%20On-prem%0A%0AThanks!"
-                  class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold text-center"
-                >
-                  <i class="fa-solid fa-handshake mr-2"></i>Request enterprise demo
-                </a>
-
-                <div class="grid grid-cols-2 gap-2">
-                  <a href="/security.html" class="chip rounded-xl px-4 py-3 text-sm font-semibold text-center hover:opacity-90">
-                    <i class="fa-solid fa-shield mr-2"></i>Security
-                  </a>
-                  <a href="/privacy.html" class="chip rounded-xl px-4 py-3 text-sm font-semibold text-center hover:opacity-90">
-                    <i class="fa-solid fa-user-shield mr-2"></i>Privacy
-                  </a>
-                </div>
-
-                <button id="enterpriseScrollAnalyze" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90" type="button">
-                  <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Try live analysis
-                </button>
-
-                <div class="text-[11px] muted mt-3 leading-5">
-                  VoiceSafe outputs risk signals for triage and decision support — not biometric identity verification.
-                  Use it as an early-warning layer and confirm identity through trusted, official channels before any payment or account action.
-                </div>
-
-                <div class="text-[11px] muted mt-1 leading-5">
-                  Note: VoiceSafe provides advisory signals. For high-stakes decisions, verify identity via official channels.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <script>
-      (function(){
-        const btn = document.getElementById("enterpriseScrollAnalyze");
-        if (!btn) return;
-        btn.addEventListener("click", () => {
-          const el = document.getElementById("analyzer") || document.getElementById("resultsCard");
-          el && el.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-      })();
-    </script>
 
     <!-- MAIN: Analyzer + Results -->
     <section id="analyzer" class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
@@ -611,19 +343,15 @@
 
         <div class="mt-5">
           <label class="block text-sm muted mb-2" for="fileInput">Upload file</label>
-          <input id="fileInput" type="file" accept="audio/*,video/*"
-                 class="w-full text-sm chip rounded-xl p-3 outline-none focus-ring" />
+          <input id="fileInput" type="file" accept="audio/*,video/*" class="w-full text-sm chip rounded-xl p-3 outline-none focus-ring" />
           <div class="mt-2 text-xs muted" id="fileHint">No file selected.</div>
         </div>
 
         <div class="mt-5 grid grid-cols-2 gap-3">
-          <button id="recordBtn" type="button"
-                  class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
+          <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
             <i class="fa-solid fa-microphone mr-2"></i>Record
           </button>
-          <button id="analyzeBtn"
-                  class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold"
-                  type="button">
+          <button id="analyzeBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold">
             <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
           </button>
         </div>
@@ -642,23 +370,16 @@
           <p class="muted text-xs mt-1">Saved cases can be searched & shared (if backend supports it).</p>
 
           <div class="mt-4 space-y-3">
-            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                   placeholder="Title (e.g. Telegram investor)" />
+            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Title (e.g. Telegram investor)" />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                     placeholder="Platform (Telegram)" />
-              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                     placeholder="Country (US)" />
+              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Platform (Telegram)" />
+              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Country (US)" />
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                     placeholder="Language (EN)" />
-              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                     placeholder="Tags (comma separated)" />
+              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Language (EN)" />
+              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Tags (comma separated)" />
             </div>
-            <textarea id="notes" rows="3"
-                      class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                      placeholder="Notes (what happened)"></textarea>
+            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Notes (what happened)"></textarea>
           </div>
 
           <div class="mt-4 text-xs muted">
@@ -689,11 +410,11 @@
               <i class="fa-regular fa-copy mr-2"></i>Copy JSON
             </button>
 
-            <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled type="button">
+            <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
               <i class="fa-solid fa-link mr-2"></i>Copy share link
             </button>
 
-            <button id="shareSocialBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" disabled type="button">
+            <button id="shareSocialBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
               <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i>Share
             </button>
 
@@ -749,30 +470,26 @@
             <div class="text-sm font-semibold">Saved case</div>
             <div class="mt-2 text-xs muted">Case ID</div>
             <div class="mt-1 mono text-sm break-all" id="caseId">—</div>
-            <div class="mt-3 flex gap-2">
-              <button id="copyCaseLinkBtn" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90" type="button">
+
+            <div class="mt-3 flex gap-2 items-center">
+              <button id="copyCaseLinkBtn" type="button" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90">
                 🔗 Copy share link
               </button>
               <span id="copyToast" class="text-xs muted hidden">Link copied ✓</span>
             </div>
+
             <div class="mt-3 text-xs muted" id="caseSavedHint">Analyze a sample to create a case.</div>
           </div>
 
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold">Search cases</div>
             <div class="mt-3 flex gap-2">
-              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0"
-                     placeholder="Search title / notes..." />
-              <button id="searchBtn" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0" type="button">
-                Search
-              </button>
+              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" placeholder="Search title / notes..." />
+              <button id="searchBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0">Search</button>
             </div>
             <div class="mt-3 flex gap-2">
-              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0"
-                     placeholder="Tag filter (optional)" />
-              <button id="clearBtn" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0" type="button">
-                Clear
-              </button>
+              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" placeholder="Tag filter (optional)" />
+              <button id="clearBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">Clear</button>
             </div>
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height:min(46vh,360px);"></div>
           </div>
@@ -814,7 +531,7 @@
   </div>
 
   <!-- HOW MODAL -->
-  <div id="howModal" class="fixed inset-0 hidden items-center justify-center z-50" aria-hidden="true">
+  <div id="howModal" class="fixed inset-0 hidden items-center justify-center z-50">
     <div id="howBackdrop" class="absolute inset-0 bg-black/60"></div>
     <div class="relative w-[92%] max-w-2xl rounded-3xl border border-white/10 bg-[#0b0f14] p-6 sm:p-7 shadow-xl">
       <div class="flex items-start justify-between gap-4">
@@ -840,7 +557,7 @@
   </div>
 
   <!-- PAYWALL MODAL -->
-  <div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50" aria-hidden="true">
+  <div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50">
     <div id="paywallBackdrop" class="absolute inset-0 bg-black/60"></div>
     <div class="relative w-[92%] max-w-lg rounded-3xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
       <div class="flex items-start justify-between gap-4">
@@ -882,12 +599,10 @@
       PROD: "https://voicesafe-backend-1.onrender.com",
       LOCAL: "http://127.0.0.1:10000",
     };
-
-    // Stripe
     window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
     window.STRIPE_BILLING_PORTAL_URL = ""; // optional
 
-    (function bootWiring() {
+    (function bootWiring(){
       if (window.__VS_BOOTED__) return;
       window.__VS_BOOTED__ = true;
 
@@ -921,6 +636,9 @@
       const caseIdEl = $("caseId");
       const caseSavedHint = $("caseSavedHint");
 
+      const copyCaseLinkBtn = $("copyCaseLinkBtn");
+      const copyToast = $("copyToast");
+
       const searchQ = $("searchQ");
       const searchTag = $("searchTag");
       const searchBtn = $("searchBtn");
@@ -943,10 +661,11 @@
       const ctaAnalyze = $("ctaAnalyze");
       const ctaDemo = $("ctaDemo");
       const ctaHow = $("ctaHow");
-
       const joinWaitlistBtn = $("joinWaitlistBtn");
+
       const howModal = $("howModal");
       const paywallModal = $("paywallModal");
+      const toneToggle = $("toneToggle");
 
       // Debug show only ?debug=1
       (function initDebug(){
@@ -962,14 +681,15 @@
       let lastCaseId = null;
       let progressInterval = null;
 
+      // Recorder state
+      let mediaRecorder = null;
+      let recordedChunks = [];
+      let recording = false;
+      let recordStream = null;
+
       // ===========================
       // Helpers
       // ===========================
-      function lockScroll(locked){
-        document.documentElement.style.overflow = locked ? "hidden" : "";
-        document.body.style.overflow = locked ? "hidden" : "";
-      }
-
       function toast(msg) {
         const t = $("toast");
         const m = $("toastMsg");
@@ -1022,6 +742,12 @@
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
+      function lockScroll(lock) {
+        // keep it simple + safe
+        document.body.style.overflow = lock ? "hidden" : "";
+        document.documentElement.style.overflow = lock ? "hidden" : "";
+      }
+
       function setResultUI(payload) {
         const src = payload || {};
         const scam = pickNumber(src, ["scam_score", "scamScore", "risk", "risk_score"], 0);
@@ -1047,16 +773,95 @@
 
         setBars(scam, ai, stress);
 
-        if (shareSocialBtn) shareSocialBtn.disabled = false;
-        if (shareBtn) shareBtn.disabled = false;
-
+        // enable share buttons
         [shareBtn, shareSocialBtn].forEach(b => {
           if (!b) return;
+          b.disabled = false;
           b.removeAttribute("disabled");
           b.style.pointerEvents = "auto";
           b.style.cursor = "pointer";
         });
       }
+
+      function safeIsTyping() {
+        const el = document.activeElement;
+        if (!el) return false;
+        const tag = el.tagName?.toLowerCase();
+        return tag === "input" || tag === "textarea" || el.isContentEditable === true;
+      }
+
+      async function copyTextToClipboard(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch {
+          try {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.left = "-9999px";
+            ta.style.top = "-9999px";
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            return true;
+          } catch {
+            return false;
+          }
+        }
+      }
+
+      function showInlineCopyToast() {
+        if (!copyToast) return;
+        copyToast.classList.remove("hidden");
+        clearTimeout(window.__copyToastT);
+        window.__copyToastT = setTimeout(() => copyToast.classList.add("hidden"), 1200);
+      }
+
+      // ===========================
+      // Modals
+      // ===========================
+      function openHow() {
+        if (!howModal) return;
+        howModal.classList.remove("hidden");
+        howModal.classList.add("flex");
+        lockScroll(true);
+      }
+      function closeHow() {
+        if (!howModal) return;
+        howModal.classList.add("hidden");
+        howModal.classList.remove("flex");
+        lockScroll(false);
+      }
+
+      function openPaywall(){
+        if (!paywallModal) return;
+        paywallModal.classList.remove("hidden");
+        paywallModal.classList.add("flex");
+        lockScroll(true);
+        renderWaitlistCount();
+      }
+      function closePaywall(){
+        if (!paywallModal) return;
+        paywallModal.classList.add("hidden");
+        paywallModal.classList.remove("flex");
+        lockScroll(false);
+      }
+
+      $("howBackdrop")?.addEventListener("click", closeHow);
+      $("howClose")?.addEventListener("click", closeHow);
+      $("paywallBackdrop")?.addEventListener("click", closePaywall);
+      $("paywallClose")?.addEventListener("click", closePaywall);
+
+      // ESC closes modals
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          // close in order of priority
+          if (paywallModal && !paywallModal.classList.contains("hidden")) closePaywall();
+          else if (howModal && !howModal.classList.contains("hidden")) closeHow();
+        }
+      });
 
       // ===========================
       // Demo
@@ -1088,8 +893,17 @@
         scrollToId("resultsCard");
       }
 
+      // D loads demo (but not while typing)
       document.addEventListener("keydown", (e) => {
+        if (safeIsTyping()) return;
         if (e.key && e.key.toLowerCase() === "d") loadDemoResult();
+      });
+
+      // Ctrl/Cmd + Enter => Analyze
+      document.addEventListener("keydown", (e) => {
+        const isMac = navigator.platform?.toLowerCase().includes("mac");
+        const mod = isMac ? e.metaKey : e.ctrlKey;
+        if (mod && e.key === "Enter") analyzeBtn?.click();
       });
 
       // ===========================
@@ -1109,7 +923,7 @@
       }
       renderWaitlistCount();
 
-      if (joinWaitlistBtn) joinWaitlistBtn.addEventListener("click", joinEarlyAccess);
+      joinWaitlistBtn?.addEventListener("click", joinEarlyAccess);
       $("paywallWaitlist")?.addEventListener("click", () => { joinEarlyAccess(); closePaywall(); });
 
       (function simulateLiveJoins(){
@@ -1124,78 +938,39 @@
       })();
 
       // ===========================
-      // How modal + Paywall modal
+      // Hero buttons
       // ===========================
-      function openModal(modal){
-        if (!modal) return;
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
-        modal.setAttribute("aria-hidden","false");
-        lockScroll(true);
-      }
-      function closeModal(modal){
-        if (!modal) return;
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-        modal.setAttribute("aria-hidden","true");
-        lockScroll(false);
-      }
-
-      function openHow(){ openModal(howModal); }
-      function closeHow(){ closeModal(howModal); }
-
-      function openPaywall(){ openModal(paywallModal); renderWaitlistCount(); }
-      function closePaywall(){ closeModal(paywallModal); }
-
-      // ESC closes any open modal
-      document.addEventListener("keydown", (e) => {
-        if (e.key !== "Escape") return;
-        if (howModal && !howModal.classList.contains("hidden")) closeHow();
-        if (paywallModal && !paywallModal.classList.contains("hidden")) closePaywall();
-      });
-
-      if (ctaHow) ctaHow.addEventListener("click", openHow);
-      $("howBackdrop")?.addEventListener("click", closeHow);
-      $("howClose")?.addEventListener("click", closeHow);
+      ctaHow?.addEventListener("click", openHow);
       $("howTryDemo")?.addEventListener("click", () => { closeHow(); loadDemoResult(); });
       $("howGoAnalyze")?.addEventListener("click", () => { closeHow(); scrollToId("analyzer"); });
 
-      $("paywallBackdrop")?.addEventListener("click", closePaywall);
-      $("paywallClose")?.addEventListener("click", closePaywall);
-
-      // Hero CTAs
-      if (ctaAnalyze) ctaAnalyze.addEventListener("click", () => scrollToId("analyzer"));
-      if (ctaDemo) ctaDemo.addEventListener("click", loadDemoResult);
-      if (demoBtn) demoBtn.addEventListener("click", loadDemoResult);
+      ctaAnalyze?.addEventListener("click", () => scrollToId("analyzer"));
+      ctaDemo?.addEventListener("click", loadDemoResult);
+      demoBtn?.addEventListener("click", loadDemoResult);
 
       // ===========================
       // Stripe buttons
       // ===========================
-      if (upgradeBtn) upgradeBtn.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
+      upgradeBtn?.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
       $("paywallCta")?.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
 
-      if (manageSubBtn) {
-        manageSubBtn.addEventListener("click", async () => {
-          const customerId = localStorage.getItem("voicesafe_customer_id");
-          if (!customerId) {
-            toast("No active subscription found.");
-            return;
-          }
-          try {
-            const r = await fetch(`${backendBase}/create-portal-session`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ customerId }),
-            });
-            const data = await r.json().catch(() => ({}));
-            if (data?.ok && data?.url) window.location.href = data.url;
-            else toast("Could not open billing portal.");
-          } catch (e) {
-            console.error("PORTAL ERROR:", e);
-            toast("Billing portal error.");
-          }
-        });
-      }
+      manageSubBtn?.addEventListener("click", async () => {
+        const customerId = localStorage.getItem("voicesafe_customer_id");
+        if (!customerId) { toast("No active subscription found."); return; }
+        try {
+          const r = await fetch(`${backendBase}/create-portal-session`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ customerId }),
+          });
+          const data = await r.json().catch(() => ({}));
+          if (data?.ok && data?.url) window.location.href = data.url;
+          else toast("Could not open billing portal.");
+        } catch (e) {
+          console.error("PORTAL ERROR:", e);
+          toast("Billing portal error.");
+        }
+      });
 
       // ===========================
       // Mode + backend health (debug only)
@@ -1222,107 +997,403 @@
         checkBackend();
       }
 
-      if (btnProd) btnProd.addEventListener("click", () => setMode("PROD"));
-      if (btnLocal) btnLocal.addEventListener("click", () => setMode("LOCAL"));
+      btnProd?.addEventListener("click", () => setMode("PROD"));
+      btnLocal?.addEventListener("click", () => setMode("LOCAL"));
       setMode("PROD");
 
       // ===========================
       // File selection
       // ===========================
-      if (fileInput) {
-        fileInput.addEventListener("change", () => {
-          const f = fileInput.files && fileInput.files[0];
-          if (!fileHint) return;
-          fileHint.textContent = f ? `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)` : "No file selected.";
-        });
-      }
+      fileInput?.addEventListener("change", () => {
+        const f = fileInput.files && fileInput.files[0];
+        if (!fileHint) return;
+        fileHint.textContent = f ? `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)` : "No file selected.";
+      });
 
       // ===========================
-      // Record microphone
+      // Record microphone (with proper stop)
       // ===========================
-      let mediaRecorder = null;
-      let recordedChunks = [];
-      let recording = false;
-      let recordStream = null;
+      recordBtn?.addEventListener("click", async () => {
+        try {
+          if (!recording) {
+            recordStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            recordedChunks = [];
+            mediaRecorder = new MediaRecorder(recordStream);
 
-      if (recordBtn) {
-        recordBtn.addEventListener("click", async () => {
-          try {
-            if (!("MediaRecorder" in window)) {
-              toast("Recording not supported in this browser.");
-              return;
-            }
+            mediaRecorder.ondataavailable = (e) => {
+              if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+            };
 
-            if (!recording) {
-              recordStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-              recordedChunks = [];
-              mediaRecorder = new MediaRecorder(recordStream);
+            mediaRecorder.onstop = () => {
+              try {
+                const blob = new Blob(recordedChunks, { type: "audio/webm" });
+                const file = new File([blob], "mic.webm", { type: "audio/webm" });
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                if (fileInput) fileInput.files = dt.files;
+                if (fileHint) fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+                toast("Recording saved ✓");
+              } catch {
+                toast("Could not finalize recording.");
+              } finally {
+                // stop mic tracks for real
+                try { recordStream?.getTracks()?.forEach(t => t.stop()); } catch {}
+                recordStream = null;
+              }
+            };
 
-              mediaRecorder.ondataavailable = (e) => {
-                if (e.data && e.data.size > 0) recordedChunks.push(e.data);
-              };
-
-              mediaRecorder.onstop = () => {
-                try {
-                  const blob = new Blob(recordedChunks, { type: "audio/webm" });
-                  const file = new File([blob], "mic.webm", { type: "audio/webm" });
-                  const dt = new DataTransfer();
-                  dt.items.add(file);
-                  fileInput.files = dt.files;
-                  if (fileHint) fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
-                  toast("Recording saved ✓");
-                } catch {
-                  toast("Could not finalize recording.");
-                } finally {
-                  // release mic
-                  try { recordStream?.getTracks()?.forEach(t => t.stop()); } catch {}
-                  recordStream = null;
-                }
-              };
-
-              mediaRecorder.start();
-              recording = true;
-              recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
-              toast("Recording…");
-            } else {
-              mediaRecorder?.stop();
-              recording = false;
-              recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
-            }
-          } catch {
-            alert("Microphone permission blocked or unavailable.");
+            mediaRecorder.start();
+            recording = true;
+            recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
+            toast("Recording…");
+          } else {
+            mediaRecorder?.stop();
+            recording = false;
+            recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
           }
-        });
-      }
+        } catch {
+          alert("Microphone permission blocked or unavailable.");
+        }
+      });
 
       // ===========================
       // Analyze
       // ===========================
-      if (analyzeBtn) {
-        analyzeBtn.addEventListener("click", async () => {
-          const isPro = localStorage.getItem("voicesafe_pro") === "true";
-          const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
-          const FREE_LIMIT = 3;
-          const usage = Number(localStorage.getItem("vs_usage") || 0);
+      analyzeBtn?.addEventListener("click", async () => {
+        const isPro = localStorage.getItem("voicesafe_pro") === "true";
+        const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
+        const FREE_LIMIT = 3;
+        const usage = Number(localStorage.getItem("vs_usage") || 0);
 
-          if (!isPro && !DEMO_MODE && usage >= FREE_LIMIT) {
-            openPaywall();
+        if (!isPro && !DEMO_MODE && usage >= FREE_LIMIT) {
+          openPaywall();
+          return;
+        }
+
+        const f = fileInput?.files?.[0];
+        if (!f) { toast("Select a file or record audio first."); return; }
+
+        const steps = [
+          "Uploading sample…",
+          "Analyzing voice signals…",
+          "Detecting AI impersonation…",
+          "Measuring stress markers…",
+          "Scanning scam patterns…",
+          "Finalizing report…",
+        ];
+
+        let stepIndex = 0;
+        if (summaryText) summaryText.textContent = steps[0];
+        if (progressInterval) clearInterval(progressInterval);
+        progressInterval = setInterval(() => {
+          stepIndex = Math.min(stepIndex + 1, steps.length - 1);
+          if (summaryText) summaryText.textContent = steps[stepIndex];
+        }, 850);
+
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…';
+
+        if (flagsWrap) flagsWrap.innerHTML = "";
+        setBars(0, 0, 0);
+        rawJson?.classList.add("hidden");
+
+        const startTime = Date.now();
+        const MIN_TIME = 650;
+
+        try {
+          const form = new FormData();
+          form.append("file", f);
+          form.append("title", titleEl?.value || "");
+          form.append("platform", platformEl?.value || "");
+          form.append("country", countryEl?.value || "");
+          form.append("language", languageEl?.value || "");
+          form.append("tags", tagsEl?.value || "");
+          form.append("notes", notesEl?.value || "");
+
+          const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
+          const data = await resp.json().catch(() => null);
+
+          if (!resp.ok) {
+            const msg = data?.message || data?.error || `HTTP ${resp.status}`;
+            if (summaryText) summaryText.textContent = `Error: ${msg}`;
+            toast("Analyze failed.");
+            console.error("UPLOAD ERROR:", data);
             return;
           }
 
-          const f = fileInput?.files?.[0];
-          if (!f) {
-            toast("Select a file or record audio first.");
-            return;
+          if (!isPro && !DEMO_MODE) {
+            const current = Number(localStorage.getItem("vs_usage") || 0);
+            localStorage.setItem("vs_usage", String(current + 1));
           }
 
-          const steps = [
-            "Uploading sample…",
-            "Analyzing voice signals…",
-            "Detecting AI impersonation…",
-            "Measuring stress markers…",
-            "Scanning scam patterns…",
-            "Finalizing report…",
-          ];
+          const aiResult = data?.aiResult || data?.result || data || {};
+          lastResponse = aiResult;
+
+          lastCaseId = data?.case_id || data?.caseId || data?.id || aiResult?.case_id || null;
+
+          if (lastCaseId) {
+            caseIdEl && (caseIdEl.textContent = String(lastCaseId));
+            caseSavedHint && (caseSavedHint.textContent = "Case saved.");
+          } else {
+            caseIdEl && (caseIdEl.textContent = "—");
+            caseSavedHint && (caseSavedHint.textContent = "No case id returned by backend (share works as local link).");
+          }
+
+          setResultUI(aiResult);
+
+          if (rawJson) {
+            rawJson.textContent = JSON.stringify(data, null, 2);
+            rawJson.classList.remove("hidden");
+          }
+
+          toast("Analysis complete ✓");
+          scrollToId("resultsCard");
+        } catch (e) {
+          console.error("ANALYZE ERROR:", e);
+          if (summaryText) summaryText.textContent = `Network error: ${e?.message || e}`;
+          toast("Network error.");
+        } finally {
+          const elapsed = Date.now() - startTime;
+          if (elapsed < MIN_TIME) await new Promise(r => setTimeout(r, MIN_TIME - elapsed));
+          if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+          analyzeBtn.disabled = false;
+          analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+        }
+      });
+
+      // ===========================
+      // Copy JSON
+      // ===========================
+      copyJsonBtn?.addEventListener("click", async () => {
+        if (!lastResponse) { toast("No JSON yet."); return; }
+        const ok = await copyTextToClipboard(JSON.stringify(lastResponse, null, 2));
+        toast(ok ? "Copied ✓" : "Clipboard blocked.");
+      });
+
+      // ===========================
+      // Share link (one logic for ALL)
+      // ===========================
+      function buildShareUrl() {
+        const shareUrl = new URL(window.location.origin + window.location.pathname);
+        if (lastCaseId) shareUrl.searchParams.set("case", String(lastCaseId));
+        else shareUrl.searchParams.set("share", "local");
+        return shareUrl.toString();
+      }
+
+      async function copyShareUrl() {
+        if (!lastResponse) { toast("No result to share yet."); return; }
+        const url = buildShareUrl();
+        const ok = await copyTextToClipboard(url);
+        if (ok) toast("Share link copied ✓");
+        else window.prompt("Copy link:", url);
+      }
+
+      shareBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        copyShareUrl();
+      });
+
+      copyCaseLinkBtn?.addEventListener("click", async () => {
+        if (!lastResponse) { toast("No result to share yet."); return; }
+        const url = buildShareUrl();
+        const ok = await copyTextToClipboard(url);
+        if (ok) showInlineCopyToast();
+        else window.prompt("Copy link:", url);
+      });
+
+      shareSocialBtn?.addEventListener("click", async () => {
+        if (!lastResponse) { toast("No result to share yet."); return; }
+
+        const scam = clampPct(pickNumber(lastResponse, ["scam_score","scamScore","risk"], 0));
+        const ai = clampPct(pickNumber(lastResponse, ["ai_probability","aiProb","ai_voice_probability"], 0));
+        const stress = clampPct(pickNumber(lastResponse, ["stress_level","stressLevel","stress"], 0));
+        const url = buildShareUrl();
+
+        const text = `VoiceSafe report: Scam ${Math.round(scam)}% • AI voice ${Math.round(ai)}% • Stress ${Math.round(stress)}% — verify before paying.`;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: "VoiceSafe Report", text, url });
+            toast("Shared ✓");
+            return;
+          } catch {}
+        }
+
+        const ok = await copyTextToClipboard(`${text} ${url}`);
+        if (ok) toast("Copied share text ✓");
+        else window.prompt("Copy:", `${text} ${url}`);
+      });
+
+      // ===========================
+      // Search cases (optional)
+      // ===========================
+      function escapeHtml(s) {
+        return (s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      }
+
+      function renderSearchList(items) {
+        if (!resultsList) return;
+        resultsList.innerHTML = "";
+        if (!items || !items.length) {
+          resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
+          return;
+        }
+        items.slice(0, 25).forEach(item => {
+          const id = item.id || item.case_id || item._id;
+          const title = item?.meta?.title || item?.title || "(untitled)";
+          const row = document.createElement("div");
+          row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
+          row.innerHTML = `
+            <div class="flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
+                <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
+              </div>
+              <div class="text-sm font-bold gold-text shrink-0">Load</div>
+            </div>
+          `;
+          row.addEventListener("click", () => loadCase(id));
+          resultsList.appendChild(row);
         });
       }
+
+      async function doSearch() {
+        if (!resultsList) return;
+        const q = (searchQ?.value || "").trim();
+        const tag = (searchTag?.value || "").trim();
+        const url = new URL(`${backendBase}/cases`);
+        if (q) url.searchParams.set("q", q);
+        if (tag) url.searchParams.set("tag", tag);
+
+        resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
+        try {
+          const r = await fetch(url.toString(), { cache: "no-store" });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok) throw new Error(j?.message || "Search failed");
+          renderSearchList(j?.cases || j?.items || []);
+        } catch {
+          resultsList.innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`;
+        }
+      }
+
+      async function loadCase(id) {
+        if (!id) return;
+        if (summaryText) summaryText.textContent = "Loading case…";
+        scrollToId("resultsCard");
+
+        try {
+          const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok) {
+            if (summaryText) summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
+            toast("Load failed.");
+            return;
+          }
+
+          const c = j.case || j.item || j;
+          const meta = c.meta || {};
+          const data = c.data || c;
+
+          titleEl && (titleEl.value = meta.title || c.title || "");
+          platformEl && (platformEl.value = meta.platform || c.platform || "");
+          countryEl && (countryEl.value = meta.country || c.country || "");
+          languageEl && (languageEl.value = meta.language || c.language || "");
+          tagsEl && (tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || ""));
+          notesEl && (notesEl.value = meta.notes || c.notes || "");
+
+          lastResponse = data;
+          lastCaseId = c.id || c._id || id;
+
+          caseIdEl && (caseIdEl.textContent = String(lastCaseId));
+          caseSavedHint && (caseSavedHint.textContent = "Loaded from saved cases.");
+
+          setResultUI(data);
+
+          if (rawJson) {
+            rawJson.textContent = JSON.stringify(j, null, 2);
+            rawJson.classList.remove("hidden");
+          }
+
+          const u = new URL(window.location.href);
+          u.searchParams.set("case", String(lastCaseId));
+          history.replaceState({}, "", u.toString());
+          toast("Case loaded ✓");
+        } catch {
+          if (summaryText) summaryText.textContent = "Could not load case (network error).";
+          toast("Network error.");
+        }
+      }
+
+      searchBtn?.addEventListener("click", doSearch);
+      clearBtn?.addEventListener("click", () => {
+        searchQ && (searchQ.value = "");
+        searchTag && (searchTag.value = "");
+        resultsList && (resultsList.innerHTML = "");
+        toast("Cleared.");
+      });
+
+      // Enter in search input triggers search
+      [searchQ, searchTag].forEach(inp => {
+        inp?.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") doSearch();
+        });
+      });
+
+      // Auto-load from share link ?case=...
+      (function bootCase(){
+        const u = new URL(window.location.href);
+        const id = u.searchParams.get("case");
+        if (id) loadCase(id);
+      })();
+
+      // ===========================
+      // Stripe SUCCESS VERIFY (SERVER TRUTH)
+      // ===========================
+      (async function handleStripeSuccess(){
+        const url = new URL(window.location.href);
+        const sessionId = url.searchParams.get("session_id");
+        if (!sessionId) return;
+
+        try {
+          const r = await fetch(`${backendBase}/verify-session?session_id=${encodeURIComponent(sessionId)}`, { cache: "no-store" });
+          const data = await r.json().catch(() => ({}));
+
+          if (data?.ok && data?.isPro) {
+            localStorage.setItem("voicesafe_pro", "true");
+            if (data.customerId) localStorage.setItem("voicesafe_customer_id", data.customerId);
+            alert("✅ PRO activated successfully!");
+          } else {
+            alert("⚠️ Payment detected but subscription not active.");
+          }
+        } catch (e) {
+          console.error("VERIFY ERROR:", e);
+          alert("Verification failed. Please contact support.");
+        }
+
+        url.searchParams.delete("session_id");
+        window.history.replaceState({}, "", url.pathname);
+      })();
+
+            // ===========================
+            // ENTERPRISE TONE TOGGLE
+            // ===========================
+            (function initEnterpriseToggle(){
+              const btn = toneToggle;
+              if (!btn) return;
+      
+              const STORAGE_KEY = "voicesafe_enterprise_mode";
+      
+              function applyMode(enabled){
+                const heroTitle = document.querySelector("h1");
+                const summaryLabel = document.querySelector("#resultsSub");
+      
+                if (enabled){
+                  btn.innerHTML = '<i class="fa-solid fa-building-columns mr-2"></i>Enterprise mode: ON';
+                }
+              }
+            })();
+          })();
+        </script>
+      </body>
+      </html>
