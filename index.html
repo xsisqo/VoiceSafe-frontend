@@ -1054,18 +1054,44 @@
       }
 
       if (shareBtn) {
-        shareBtn.addEventListener("click", async () => {
-          if (!lastCaseId) { toast("No case id."); return; }
-          const url = new URL(window.location.href);
-          url.searchParams.set("case", String(lastCaseId));
-          try {
-            await navigator.clipboard.writeText(url.toString());
-            toast("Link copied ✓");
-          } catch {
-            toast(url.toString());
-          }
-        });
+  shareBtn.addEventListener("click", async () => {
+    try {
+      if (!lastResponse) {
+        toast("No result to share yet.");
+        return;
       }
+
+      const res = await fetch(`${backendBase}/share`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          result: lastResponse,
+          meta: {
+            created_at: new Date().toISOString()
+          }
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.ok) {
+        throw new Error(data?.error || "Share failed");
+      }
+
+      const shareUrl = data.share_url;
+
+      await navigator.clipboard.writeText(shareUrl);
+
+      toast("Share link copied ✓");
+
+    } catch (e) {
+      console.error("SHARE ERROR:", e);
+      toast("Share failed.");
+    }
+  });
+}
 
       if (shareSocialBtn) {
         shareSocialBtn.addEventListener("click", async () => {
