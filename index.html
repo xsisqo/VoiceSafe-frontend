@@ -383,9 +383,20 @@
   </div>
 </div>
 
-<div class="chip rounded-xl px-3 py-2 text-xs font-medium">
-  <i class="fa-solid fa-hashtag mr-2"></i>
-  Sample Case ID: VS-2026-ALPHA-0142
+<div class="mt-2 text-xs opacity-80 tracking-wide flex items-center gap-2 flex-wrap">
+  <span class="opacity-70">Sample Case ID:</span>
+  <code id="sampleCaseId" class="chip rounded-xl px-2 py-1 text-xs">VS-2026-ALPHA-0142</code>
+
+  <button
+    id="copyCaseIdBtn"
+    type="button"
+    class="chip rounded-xl px-3 py-1 text-xs hover:opacity-90"
+    title="Copy Case ID"
+  >
+    <i class="fa-regular fa-copy mr-1"></i> Copy
+  </button>
+
+  <span id="copyCaseIdToast" class="text-xs opacity-70 hidden">Copied ✓</span>
 </div>
 
   <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
@@ -1664,6 +1675,35 @@
       // ===========================
       checkBackend();
     })();
+
+// ===========================
+// Copy Sample Case ID
+// ===========================
+(function () {
+  const btn = document.getElementById("copyCaseIdBtn");
+  const codeEl = document.getElementById("sampleCaseId");
+  const toast = document.getElementById("copyCaseIdToast");
+  if (!btn || !codeEl) return;
+
+  btn.addEventListener("click", async () => {
+    const text = codeEl.textContent.trim();
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+    if (toast) {
+      toast.classList.remove("hidden");
+      setTimeout(() => toast.classList.add("hidden"), 1000);
+    }
+  });
+})();
+
   </script>
 
   <div style="text-align:center;opacity:.5;font-size:12px;margin-top:30px;margin-bottom:18px">
