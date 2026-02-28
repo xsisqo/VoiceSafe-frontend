@@ -1011,6 +1011,8 @@
               caseIdEl.textContent = "—";
               caseSavedHint.textContent = "No case id returned by backend.";
               shareBtn.disabled = true;
+              copyShareBtn.disabled = false;
+if (shareSocialBtn) shareSocialBtn.disabled = false;
             }
 
             // enable social share once we have a result
