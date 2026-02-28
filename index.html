@@ -244,6 +244,118 @@
       </div>
     </section>
 
+<!-- ===========================
+     ENTERPRISE SECTION
+     =========================== -->
+<section id="enterprise" class="mt-6 sm:mt-8">
+  <div class="glass gold-border rounded-3xl p-6 sm:p-8">
+    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+      <div class="min-w-0">
+        <div class="inline-flex items-center gap-2 chip px-3 py-1.5 rounded-full text-xs">
+          <i class="fa-solid fa-building-columns"></i>
+          <span class="opacity-90">Enterprise</span>
+          <span class="opacity-40">•</span>
+          <span class="opacity-80">Banks • Telecom • Gov • KYC/AML teams</span>
+        </div>
+
+        <h2 class="mt-4 text-2xl sm:text-3xl font-extrabold leading-tight">
+          Built for <span class="gold-text">institutions</span> that need fast, explainable voice-scam signals
+        </h2>
+
+        <p class="mt-3 text-sm sm:text-base muted max-w-3xl">
+          VoiceSafe is an early-warning layer for call centers and fraud teams. It produces clear risk signals (not forensic certainty),
+          with privacy-first defaults and audit-friendly outputs.
+        </p>
+
+        <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">Deployment</div>
+            <div class="mt-1 text-lg font-bold">Cloud or Private</div>
+            <div class="mt-1 text-xs muted">SaaS • VPC • on-prem (by agreement)</div>
+          </div>
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">Integrations</div>
+            <div class="mt-1 text-lg font-bold">API-first</div>
+            <div class="mt-1 text-xs muted">Webhooks • Case IDs • JSON reports</div>
+          </div>
+          <div class="chip rounded-2xl p-4">
+            <div class="text-xs muted">Governance</div>
+            <div class="mt-1 text-lg font-bold">Audit-friendly</div>
+            <div class="mt-1 text-xs muted">Logs • deterministic mode (optional)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shrink-0 w-full lg:w-[360px]">
+        <div class="glass-soft rounded-2xl p-5">
+          <div class="text-sm font-semibold">Enterprise package</div>
+
+          <ul class="mt-3 space-y-2 text-sm opacity-90">
+            <li class="flex gap-2">
+              <i class="fa-solid fa-check text-white/80 mt-1"></i>
+              <span>Bulk analysis + rate limits tuned for call centers</span>
+            </li>
+            <li class="flex gap-2">
+              <i class="fa-solid fa-check text-white/80 mt-1"></i>
+              <span>Policy controls: retention, redaction, case export</span>
+            </li>
+            <li class="flex gap-2">
+              <i class="fa-solid fa-check text-white/80 mt-1"></i>
+              <span>Explainable flags + human-readable summary</span>
+            </li>
+            <li class="flex gap-2">
+              <i class="fa-solid fa-check text-white/80 mt-1"></i>
+              <span>Security & compliance documentation on request</span>
+            </li>
+          </ul>
+
+          <div class="mt-5 grid grid-cols-1 gap-2">
+            <a
+              href="mailto:enterprise@voicesafe.ai?subject=VoiceSafe%20Enterprise%20Demo&body=Hi%20VoiceSafe%20team%2C%0A%0AWe%20would%20like%20to%20request%20an%20enterprise%20demo.%0A%0ACompany%3A%0AUse%20case%3A%0ARegion%3A%0AVolume%20(est.)%3A%0APreferred%20deployment%3A%20SaaS%20/%20VPC%20/%20On-prem%0A%0AThanks!"
+              class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold text-center"
+            >
+              <i class="fa-solid fa-handshake mr-2"></i>Request enterprise demo
+            </a>
+
+            <div class="grid grid-cols-2 gap-2">
+              <a href="/security.html" class="chip rounded-xl px-4 py-3 text-sm font-semibold text-center hover:opacity-90">
+                <i class="fa-solid fa-shield mr-2"></i>Security
+              </a>
+              <a href="/privacy.html" class="chip rounded-xl px-4 py-3 text-sm font-semibold text-center hover:opacity-90">
+                <i class="fa-solid fa-user-shield mr-2"></i>Privacy
+              </a>
+            </div>
+
+            <button
+              id="enterpriseScrollAnalyze"
+              class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90"
+              type="button"
+            >
+              <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Try live analysis
+            </button>
+
+            <div class="text-[11px] muted mt-1 leading-5">
+              Note: VoiceSafe provides advisory signals. For high-stakes decisions, verify identity via official channels.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll helper for Enterprise CTA
+  (function(){
+    const btn = document.getElementById("enterpriseScrollAnalyze");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const el = document.getElementById("analyzer") || document.getElementById("resultsCard");
+      el && el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  })();
+</script>
+
     <!-- MAIN: Analyzer + Results -->
     <section id="analyzer" class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
       <!-- LEFT: Analyzer -->
