@@ -142,6 +142,29 @@
    ULTRA PRO: breathing glow
    ========================= */
 
+/* ULTRA PRO: apply to results card */
+#resultsCard.ultra-pro{
+  position: relative;
+  overflow: hidden;
+  animation: vs-breathe 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+#resultsCard.ultra-pro::after{
+  content:"";
+  position:absolute;
+  inset:-18px;
+  border-radius: 28px;
+  pointer-events:none;
+  opacity:.18;
+  filter: blur(18px);
+  animation: vs-aurora 4.2s ease-in-out infinite;
+  /* farbu berieme z data-risk glow vrstvy cez mix */
+  background: radial-gradient(60% 60% at 30% 30%, rgba(255,255,255,.16), transparent 60%),
+              radial-gradient(70% 70% at 70% 60%, rgba(255,255,255,.10), transparent 60%);
+  mix-blend-mode: screen;
+}
+
 /* pulz na karte (jemné dýchanie) */
 @keyframes vs-breathe {
   0%, 100% { transform: translateZ(0) scale(1); }
@@ -467,7 +490,7 @@
       </div>
 
       <!-- RIGHT -->
-      <div id="resultsCard" class="lg:col-span-7 glass rounded-3xl p-5 sm:p-6 risk-ring risk-border" data-risk="LOW">
+      <div id="resultsCard" class="lg:col-span-7 glass rounded-3xl p-5 sm:p-6 risk-ring risk-border ultra-pro" data-risk="LOW">
         <div class="text-xs muted tracking-widest uppercase" data-i18n="ai_risk_assessment">AI Risk Assessment</div>
 
         <div class="mt-2 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
