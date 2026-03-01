@@ -168,13 +168,21 @@
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
+    <!-- Language switch -->
+    <div class="flex justify-end mb-3">
+      <select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs">
+        <option value="en">🇺🇸 English</option>
+        <option value="sk">🇸🇰 Slovensky</option>
+      </select>
+    </div>
+
     <!-- Top strip -->
     <div class="flex items-center justify-between gap-3 mb-6">
       <div class="inline-flex items-center gap-2 chip px-3 py-1.5 rounded-full text-xs">
         <i class="fa-solid fa-shield-halved"></i>
-        <span class="opacity-90">Early Access</span>
+        <span class="opacity-90" data-i18n="top_early_access">Early Access</span>
         <span class="opacity-40">•</span>
-        <span class="opacity-80"><span id="waitlistCountBadge">0</span> people joined</span>
+        <span class="opacity-80"><span id="waitlistCountBadge">0</span> <span data-i18n="top_people_joined">people joined</span></span>
       </div>
       <div class="hidden sm:flex items-center gap-2 text-xs muted">
         <span id="liveActivity"></span>
@@ -184,94 +192,97 @@
     <!-- TRUST BAR -->
     <div class="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center">
       <div class="lg:col-span-7 text-xs opacity-85 tracking-wide">
-        <span class="opacity-70">Built for evaluation by</span>
-        <span class="font-semibold opacity-95">Banks • Fraud Operations • Compliance (KYC/AML) • Investigations</span>
+        <span class="opacity-70" data-i18n="trust_built_for">Built for evaluation by</span>
+        <span class="font-semibold opacity-95" data-i18n="trust_groups">Banks • Fraud Operations • Compliance (KYC/AML) • Investigations</span>
         <span class="opacity-50">•</span>
-        <span class="opacity-80">Advisory signals, not identity verification.</span>
+        <span class="opacity-80" data-i18n="trust_note">Advisory signals, not identity verification.</span>
       </div>
       <div class="lg:col-span-5 flex flex-wrap gap-2 lg:justify-end">
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-shield-halved mr-2"></i>Privacy-first posture</span>
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-clipboard-check mr-2"></i>Audit-friendly outputs</span>
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-plug mr-2"></i>API-first integration</span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-shield-halved mr-2"></i><span data-i18n="trust_privacy">Privacy-first posture</span></span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-clipboard-check mr-2"></i><span data-i18n="trust_audit">Audit-friendly outputs</span></span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-plug mr-2"></i><span data-i18n="trust_api">API-first integration</span></span>
       </div>
     </div>
 
     <!-- Enterprise toggle -->
     <div class="flex items-center gap-2 mt-3">
-      <span class="text-xs muted hidden sm:inline">Tone</span>
+      <span class="text-xs muted hidden sm:inline" data-i18n="tone_label">Tone</span>
       <button id="toneToggle" class="chip rounded-full px-3 py-1.5 text-xs font-semibold hover:opacity-90" type="button">
-        <i class="fa-solid fa-building-columns mr-2"></i>Enterprise mode: OFF
+        <i class="fa-solid fa-building-columns mr-2"></i><span data-i18n="enterprise_off">Enterprise mode: OFF</span>
       </button>
     </div>
 
     <!-- HERO -->
     <section class="glass gold-border rounded-3xl p-6 sm:p-8 mt-4">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-bolt mr-2"></i>Seconds, not minutes</span>
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-lock mr-2"></i>Privacy-first by design</span>
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-globe mr-2"></i>Global scam protection</span>
+        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-bolt mr-2"></i><span data-i18n="hero_chip_1">Seconds, not minutes</span></span>
+        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-lock mr-2"></i><span data-i18n="hero_chip_2">Privacy-first by design</span></span>
+        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-globe mr-2"></i><span data-i18n="hero_chip_3">Global scam protection</span></span>
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div class="lg:col-span-7">
+          <!-- NEPREPISUJEME celý H1 (kvôli spanom), prekladáme len druhý riadok cez span -->
           <h1 id="heroTitle" class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
             <span class="gold-text">VoiceSafe</span><br />
-            Your AI Guardian <span class="gold-text">Against Voice Scams</span>
+            <span data-i18n="hero_title_line2">Your AI Guardian</span> <span class="gold-text" data-i18n="hero_title_gold">Against Voice Scams</span>
           </h1>
 
-          <p id="heroDesc" class="mt-4 text-base sm:text-lg muted max-w-2xl">
-            Upload a voice message. Know in seconds if it’s trying to scam you — <span class="text-white/90 font-semibold">before you send money</span>.
+          <p id="heroDesc" class="mt-4 text-base sm:text-lg muted max-w-2xl" data-i18n="hero_desc">
+            Upload a voice message. Know in seconds if it’s trying to scam you — before you send money.
             Get a clear report: scam score, AI voice probability, stress signals, and red flags.
           </p>
 
           <div class="mt-6 flex flex-wrap gap-3">
             <button id="ctaAnalyze" class="btn-gold rounded-xl px-5 py-3 text-sm font-semibold" type="button">
-              <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Start Risk Assessment
+              <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="cta_start">Start Risk Assessment</span>
             </button>
             <button id="ctaDemo" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90" type="button">
-              <i class="fa-solid fa-play mr-2"></i>View Platform Demo
+              <i class="fa-solid fa-play mr-2"></i><span data-i18n="cta_demo">View Platform Demo</span>
             </button>
             <button id="ctaHow" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90" type="button">
-              <i class="fa-solid fa-circle-info mr-2"></i>Explore Methodology
+              <i class="fa-solid fa-circle-info mr-2"></i><span data-i18n="cta_how">Explore Methodology</span>
             </button>
           </div>
 
           <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
             <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted">Storage posture</div>
-              <div class="mt-1 text-lg font-bold">No permanent storage</div>
-              <div class="mt-1 text-xs muted">Designed for privacy</div>
+              <div class="text-xs muted" data-i18n="hero_card1_k">Storage posture</div>
+              <div class="mt-1 text-lg font-bold" data-i18n="hero_card1_v">No permanent storage</div>
+              <div class="mt-1 text-xs muted" data-i18n="hero_card1_s">Designed for privacy</div>
             </div>
             <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted">Output</div>
-              <div class="mt-1 text-lg font-bold">Clear risk signals</div>
-              <div class="mt-1 text-xs muted">Human-readable summary</div>
+              <div class="text-xs muted" data-i18n="hero_card2_k">Output</div>
+              <div class="mt-1 text-lg font-bold" data-i18n="hero_card2_v">Clear risk signals</div>
+              <div class="mt-1 text-xs muted" data-i18n="hero_card2_s">Human-readable summary</div>
             </div>
             <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted">Use case</div>
-              <div class="mt-1 text-lg font-bold">Before paying</div>
-              <div class="mt-1 text-xs muted">Verify with official channels</div>
+              <div class="text-xs muted" data-i18n="hero_card3_k">Use case</div>
+              <div class="mt-1 text-lg font-bold" data-i18n="hero_card3_v">Before paying</div>
+              <div class="mt-1 text-xs muted" data-i18n="hero_card3_s">Verify with official channels</div>
             </div>
           </div>
 
           <div class="mt-5 text-xs muted">
-            Joined early access: <span id="waitlistCountTop" class="text-white/90 font-semibold">0</span>
+            <span data-i18n="joined_label">Joined early access:</span>
+            <span id="waitlistCountTop" class="text-white/90 font-semibold">0</span>
             <span class="opacity-40">•</span>
-            <span id="waitlistUrgency">Early Access is open now.</span>
+            <span id="waitlistUrgency" data-i18n="early_access_open">Early Access is open now.</span>
             <span class="opacity-40">•</span>
-            <span class="kbd">Tip:</span> Press <span class="kbd">D</span> for demo
+            <span class="kbd">Tip:</span>
+            <span data-i18n="tip_press">Press</span> <span class="kbd">D</span> <span data-i18n="tip_for_demo">for demo</span>
           </div>
         </div>
 
         <div class="lg:col-span-5 grid gap-3">
           <button id="joinWaitlistBtn" class="chip rounded-2xl p-5 text-left hover:opacity-90" type="button">
-            <div class="text-sm font-semibold"><i class="fa-solid fa-fire mr-2"></i>Join Early Access</div>
-            <div class="mt-1 text-xs muted">Helps prioritize features and builds credibility with investors.</div>
+            <div class="text-sm font-semibold"><i class="fa-solid fa-fire mr-2"></i><span data-i18n="join_btn">Join Early Access</span></div>
+            <div class="mt-1 text-xs muted" data-i18n="join_desc">Helps prioritize features and builds credibility with investors.</div>
           </button>
 
           <div class="glass-soft rounded-2xl p-5">
-            <div class="text-sm font-semibold">Safety note</div>
-            <div class="mt-2 text-xs muted leading-6">
+            <div class="text-sm font-semibold" data-i18n="safety_title">Safety note</div>
+            <div class="mt-2 text-xs muted leading-6" data-i18n="safety_text">
               VoiceSafe provides advisory signals. If money is involved, always verify via an official number
               (bank, company website, known contact).
             </div>
@@ -281,11 +292,11 @@
           <div id="debugCard" class="glass-soft rounded-2xl p-5 hidden">
             <div class="flex items-start justify-between gap-3">
               <div class="min-w-0">
-                <div class="text-sm font-semibold">System status</div>
+                <div class="text-sm font-semibold" data-i18n="debug_status">System status</div>
                 <div class="text-xs muted mt-1 truncate" id="backendStatus">Checking…</div>
               </div>
               <div class="text-right shrink-0">
-                <div class="text-xs muted">Mode</div>
+                <div class="text-xs muted" data-i18n="debug_mode">Mode</div>
                 <div class="text-sm font-semibold gold-text" id="modeLabel">PROD</div>
               </div>
             </div>
@@ -305,41 +316,41 @@
       <div class="lg:col-span-5 glass rounded-3xl p-5 sm:p-6">
         <div class="flex items-start justify-between gap-3">
           <div>
-            <h2 class="text-lg font-semibold">Analyze a sample</h2>
-            <p class="muted text-sm mt-1">Upload audio/video or record a short clip.</p>
+            <h2 class="text-lg font-semibold" data-i18n="analyze_title">Analyze a sample</h2>
+            <p class="muted text-sm mt-1" data-i18n="analyze_sub">Upload audio/video or record a short clip.</p>
           </div>
           <button id="demoBtn" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90" type="button">
-            <i class="fa-solid fa-bolt mr-2"></i>Demo
+            <i class="fa-solid fa-bolt mr-2"></i><span data-i18n="demo_btn">Demo</span>
           </button>
         </div>
 
         <div class="mt-5">
-          <label class="block text-sm muted mb-2" for="fileInput">Upload file</label>
+          <label class="block text-sm muted mb-2" for="fileInput" data-i18n="upload_label">Upload file</label>
           <input id="fileInput" type="file" accept="audio/*,video/*" class="w-full text-sm chip rounded-xl p-3 outline-none focus-ring" />
-          <div class="mt-2 text-xs muted" id="fileHint">No file selected.</div>
+          <div class="mt-2 text-xs muted" id="fileHint" data-i18n="no_file">No file selected.</div>
         </div>
 
         <div class="mt-5 grid grid-cols-2 gap-3">
           <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
-            <i class="fa-solid fa-microphone mr-2"></i>Record
+            <i class="fa-solid fa-microphone mr-2"></i><span data-i18n="record_btn">Record</span>
           </button>
           <button id="analyzeBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold">
-            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="analyze_btn">Analyze</span>
           </button>
         </div>
 
         <div class="mt-4 text-xs muted">
-          Free 3 analyses • No signup required • Privacy-first
+          <span data-i18n="free_line">Free 3 analyses • No signup required • Privacy-first</span>
           <div class="mt-2 leading-6">
-            🔒 No permanent voice storage (prototype)<br/>
-            ⚡ Instant risk assessment<br/>
-            🇪🇺 GDPR-ready posture
+            🔒 <span data-i18n="free_b1">No permanent voice storage (prototype)</span><br/>
+            ⚡ <span data-i18n="free_b2">Instant risk assessment</span><br/>
+            🇪🇺 <span data-i18n="free_b3">GDPR-ready posture</span>
           </div>
         </div>
 
         <div class="mt-6 divider pt-5">
-          <h3 class="text-sm font-semibold">Case details (optional)</h3>
-          <p class="muted text-xs mt-1">Saved cases can be searched & shared (if backend supports it).</p>
+          <h3 class="text-sm font-semibold" data-i18n="case_title">Case details (optional)</h3>
+          <p class="muted text-xs mt-1" data-i18n="case_sub">Saved cases can be searched & shared (if backend supports it).</p>
 
           <div class="mt-4 space-y-3">
             <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Title (e.g. Telegram investor)" />
@@ -354,29 +365,29 @@
             <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Notes (what happened)"></textarea>
           </div>
 
-          <div class="mt-4 text-xs muted">Tip: Keep personal data out of notes.</div>
+          <div class="mt-4 text-xs muted" data-i18n="tip_notes">Tip: Keep personal data out of notes.</div>
         </div>
 
         <div class="mt-5 chip rounded-2xl p-4 text-xs muted">
-          <div class="font-semibold text-white/90">Disclaimer</div>
-          <div class="mt-1">Scores are prototypes and can be wrong. Always verify identity using official channels.</div>
+          <div class="font-semibold text-white/90" data-i18n="disc_title">Disclaimer</div>
+          <div class="mt-1" data-i18n="disc_text">Scores are prototypes and can be wrong. Always verify identity using official channels.</div>
         </div>
       </div>
 
       <!-- RIGHT -->
       <div id="resultsCard" class="lg:col-span-7 glass rounded-3xl p-5 sm:p-6 risk-ring risk-border" data-risk="LOW">
-        <div class="text-xs muted tracking-widest uppercase">AI Risk Assessment</div>
+        <div class="text-xs muted tracking-widest uppercase" data-i18n="results_kicker">AI Risk Assessment</div>
 
         <div class="mt-2 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div class="min-w-0">
-            <h2 class="text-2xl font-extrabold">Results</h2>
-            <p class="muted text-sm mt-1" id="resultsSub">Upload or record to generate a report.</p>
+            <h2 class="text-2xl font-extrabold" data-i18n="results_title">Results</h2>
+            <p class="muted text-sm mt-1" id="resultsSub" data-i18n="results_sub">Upload or record to generate a report.</p>
 
             <div class="mt-3 inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs font-semibold">
-              <span class="muted">Risk level:</span>
+              <span class="muted" data-i18n="risk_level">Risk level:</span>
               <span id="riskLabel" class="gold-text">—</span>
               <span class="opacity-40">•</span>
-              <span class="muted">Confidence:</span>
+              <span class="muted" data-i18n="confidence">Confidence:</span>
               <span id="confidenceLabel" class="text-white/90">—</span>
             </div>
 
@@ -390,19 +401,24 @@
 
           <div class="flex items-center gap-2 flex-wrap">
             <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button">
-              <i class="fa-regular fa-copy mr-2"></i>Copy JSON
+              <i class="fa-regular fa-copy mr-2"></i><span data-i18n="copy_json">Copy JSON</span>
             </button>
             <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
-              <i class="fa-solid fa-link mr-2"></i>Copy share link
+              <i class="fa-solid fa-link mr-2"></i><span data-i18n="copy_link">Copy share link</span>
             </button>
             <button id="shareSocialBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
-              <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i>Share
+              <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i><span data-i18n="share">Share</span>
             </button>
+
+            <button id="shareCardBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold">
+              📊 <span data-i18n="share_card">Share card</span>
+            </button>
+
             <button id="upgradeBtn" class="btn-gold rounded-xl px-4 py-2 text-sm font-extrabold" type="button">
-              🚀 Unlock Pro – €9/month
+              🚀 <span data-i18n="unlock_pro">Unlock Pro – €9/month</span>
             </button>
             <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm hover:opacity-90" type="button">
-              Manage subscription
+              <span data-i18n="manage_sub">Manage subscription</span>
             </button>
           </div>
         </div>
@@ -411,9 +427,9 @@
         <div id="actionBox" class="mt-4 glass-soft rounded-2xl p-4 sm:p-5">
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
-              <div class="text-xs muted tracking-widest uppercase">Recommended action</div>
+              <div class="text-xs muted tracking-widest uppercase" data-i18n="rec_action">Recommended action</div>
               <div class="mt-1 text-lg font-extrabold" id="actionTitle">—</div>
-              <div class="mt-2 text-sm muted leading-6" id="actionText">Run an analysis to generate guidance.</div>
+              <div class="mt-2 text-sm muted leading-6" id="actionText" data-i18n="rec_action_default">Run an analysis to generate guidance.</div>
             </div>
             <div class="shrink-0">
               <span id="actionPill" class="chip rounded-full px-3 py-1 text-xs font-extrabold">—</span>
@@ -422,67 +438,67 @@
 
           <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
             <div class="chip rounded-xl p-3">
-              <div class="font-semibold">1) Pause</div>
-              <div class="muted mt-1">Stop payment / sensitive steps</div>
+              <div class="font-semibold" data-i18n="step1_t">1) Pause</div>
+              <div class="muted mt-1" data-i18n="step1_s">Stop payment / sensitive steps</div>
             </div>
             <div class="chip rounded-xl p-3">
-              <div class="font-semibold">2) Verify</div>
-              <div class="muted mt-1">Call an official number</div>
+              <div class="font-semibold" data-i18n="step2_t">2) Verify</div>
+              <div class="muted mt-1" data-i18n="step2_s">Call an official number</div>
             </div>
             <div class="chip rounded-xl p-3">
-              <div class="font-semibold">3) Escalate</div>
-              <div class="muted mt-1">Share case + export JSON</div>
+              <div class="font-semibold" data-i18n="step3_t">3) Escalate</div>
+              <div class="muted mt-1" data-i18n="step3_s">Share case + export JSON</div>
             </div>
           </div>
         </div>
 
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">Scam score</div>
+            <div class="text-xs muted" data-i18n="metric_scam">Scam score</div>
             <div class="mt-1 text-3xl font-extrabold"><span id="scamScore">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="scamBar"></div></div>
           </div>
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">AI voice probability</div>
+            <div class="text-xs muted" data-i18n="metric_ai">AI voice probability</div>
             <div class="mt-1 text-3xl font-extrabold"><span id="aiProb">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="aiBar"></div></div>
           </div>
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted">Stress level</div>
+            <div class="text-xs muted" data-i18n="metric_stress">Stress level</div>
             <div class="mt-1 text-3xl font-extrabold"><span id="stressLevel">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="stressBar"></div></div>
           </div>
         </div>
 
         <div class="mt-5 chip rounded-2xl p-5">
-          <div class="text-xs muted">Summary</div>
-          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText">Upload or record a sample to see results.</div>
+          <div class="text-xs muted" data-i18n="summary_k">Summary</div>
+          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText" data-i18n="summary_default">Upload or record a sample to see results.</div>
           <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
         </div>
 
         <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="chip rounded-2xl p-5">
-            <div class="text-sm font-semibold">Saved case</div>
-            <div class="mt-2 text-xs muted">Case ID</div>
+            <div class="text-sm font-semibold" data-i18n="saved_case">Saved case</div>
+            <div class="mt-2 text-xs muted" data-i18n="case_id">Case ID</div>
             <div class="mt-1 mono text-sm break-all" id="caseId">—</div>
             <div class="mt-3 flex gap-2 items-center">
               <button id="copyCaseLinkBtn" type="button" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90">
-                🔗 Copy share link
+                🔗 <span data-i18n="copy_link">Copy share link</span>
               </button>
-              <span id="copyToast" class="text-xs muted hidden">Link copied ✓</span>
+              <span id="copyToast" class="text-xs muted hidden" data-i18n="copied_toast">Link copied ✓</span>
             </div>
-            <div class="mt-3 text-xs muted" id="caseSavedHint">Analyze a sample to create a case.</div>
+            <div class="mt-3 text-xs muted" id="caseSavedHint" data-i18n="case_hint">Analyze a sample to create a case.</div>
           </div>
 
           <div class="chip rounded-2xl p-5">
-            <div class="text-sm font-semibold">Search cases</div>
+            <div class="text-sm font-semibold" data-i18n="search_cases">Search cases</div>
             <div class="mt-3 flex gap-2">
               <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" placeholder="Search title / notes..." />
-              <button id="searchBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0">Search</button>
+              <button id="searchBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0" data-i18n="search_btn">Search</button>
             </div>
             <div class="mt-3 flex gap-2">
               <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" placeholder="Tag filter (optional)" />
-              <button id="clearBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0">Clear</button>
+              <button id="clearBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0" data-i18n="clear_btn">Clear</button>
             </div>
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height:min(46vh,360px);"></div>
           </div>
@@ -494,25 +510,25 @@
 
     <!-- FAQ -->
     <section id="faq" class="mt-10 glass-soft rounded-3xl p-6 sm:p-7">
-      <h3 class="text-xl font-extrabold">How it works</h3>
+      <h3 class="text-xl font-extrabold" data-i18n="how_title">How it works</h3>
       <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
         <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted">1) Input</div>
-          <div class="mt-1 font-semibold">Upload or record</div>
-          <div class="mt-1 text-xs muted">Audio/video supported</div>
+          <div class="text-xs muted" data-i18n="how_1k">1) Input</div>
+          <div class="mt-1 font-semibold" data-i18n="how_1v">Upload or record</div>
+          <div class="mt-1 text-xs muted" data-i18n="how_1s">Audio/video supported</div>
         </div>
         <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted">2) Analysis</div>
-          <div class="mt-1 font-semibold">Risk scoring</div>
-          <div class="mt-1 text-xs muted">Signals + probabilities</div>
+          <div class="text-xs muted" data-i18n="how_2k">2) Analysis</div>
+          <div class="mt-1 font-semibold" data-i18n="how_2v">Risk scoring</div>
+          <div class="mt-1 text-xs muted" data-i18n="how_2s">Signals + probabilities</div>
         </div>
         <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted">3) Action</div>
-          <div class="mt-1 font-semibold">Verify</div>
-          <div class="mt-1 text-xs muted">Use official channels</div>
+          <div class="text-xs muted" data-i18n="how_3k">3) Action</div>
+          <div class="mt-1 font-semibold" data-i18n="how_3v">Verify</div>
+          <div class="mt-1 text-xs muted" data-i18n="how_3s">Use official channels</div>
         </div>
       </div>
-      <p class="mt-4 text-sm muted leading-6">
+      <p class="mt-4 text-sm muted leading-6" data-i18n="how_p">
         VoiceSafe is a prototype. Scores can be wrong — treat the report as an early warning system.
         When money is involved, always verify the caller via trusted, official contact methods.
       </p>
@@ -529,21 +545,21 @@
     <div class="relative w-[92%] max-w-2xl rounded-3xl border border-white/10 bg-[#0b0f14] p-6 sm:p-7 shadow-xl">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h3 class="text-xl font-extrabold">How VoiceSafe works</h3>
-          <p class="mt-1 text-sm muted">Clear output, fast workflow, minimal friction.</p>
+          <h3 class="text-xl font-extrabold" data-i18n="how_modal_title">How VoiceSafe works</h3>
+          <p class="mt-1 text-sm muted" data-i18n="how_modal_sub">Clear output, fast workflow, minimal friction.</p>
         </div>
         <button id="howClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90" type="button">✕</button>
       </div>
-      <div class="mt-5 text-sm muted leading-6">
+      <div class="mt-5 text-sm muted leading-6" data-i18n="how_modal_text">
         Upload or record a short sample. VoiceSafe returns a risk report with:
         scam score, AI voice probability, stress level, and red flags.
       </div>
       <div class="mt-6 flex flex-col sm:flex-row gap-2">
         <button id="howTryDemo" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full sm:w-auto" type="button">
-          <i class="fa-solid fa-play mr-2"></i>Load demo
+          <i class="fa-solid fa-play mr-2"></i><span data-i18n="how_modal_demo">Load demo</span>
         </button>
         <button id="howGoAnalyze" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full sm:w-auto" type="button">
-          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Go to analyzer
+          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="how_modal_go">Go to analyzer</span>
         </button>
       </div>
     </div>
@@ -555,19 +571,19 @@
     <div class="relative w-[92%] max-w-lg rounded-3xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h3 class="text-xl font-extrabold">Free limit reached</h3>
-          <p class="mt-1 text-sm muted">Upgrade to Pro to continue analyzing.</p>
+          <h3 class="text-xl font-extrabold" data-i18n="paywall_title">Free limit reached</h3>
+          <p class="mt-1 text-sm muted" data-i18n="paywall_sub">Upgrade to Pro to continue analyzing.</p>
         </div>
         <button id="paywallClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90" type="button">✕</button>
       </div>
       <div class="mt-4 grid gap-2 text-sm opacity-90">
-        <div>✓ Unlimited analyses</div>
-        <div>✓ Priority processing</div>
-        <div>✓ Case history & sharing</div>
+        <div data-i18n="paywall_b1">✓ Unlimited analyses</div>
+        <div data-i18n="paywall_b2">✓ Priority processing</div>
+        <div data-i18n="paywall_b3">✓ Case history & sharing</div>
       </div>
       <div class="mt-6 flex flex-col gap-2">
-        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full" type="button">Start Pro – €9/month</button>
-        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full" type="button">Join early access</button>
+        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full" type="button" data-i18n="paywall_cta">Start Pro – €9/month</button>
+        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full" type="button" data-i18n="paywall_join">Join early access</button>
         <p id="waitlistCountText" class="mt-2 text-xs muted text-center"></p>
       </div>
     </div>
@@ -592,7 +608,10 @@
     window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
     window.STRIPE_BILLING_PORTAL_URL = ""; // optional
 
-    (function bootWiring(){
+    // ===========================
+    // WIRING (FIX: už nie IIFE, ale normálna funkcia dostupná globálne)
+    // ===========================
+    function bootWiring(){
       if (window.__VS_BOOTED__) return;
       window.__VS_BOOTED__ = true;
 
@@ -660,8 +679,10 @@
 
       // Debug only ?debug=1
       (function initDebug(){
-        const u = new URL(window.location.href);
-        if (u.searchParams.get("debug") === "1") $("debugCard")?.classList.remove("hidden");
+        try {
+          const u = new URL(window.location.href);
+          if (u.searchParams.get("debug") === "1") $("debugCard")?.classList.remove("hidden");
+        } catch {}
       })();
 
       // State
@@ -811,13 +832,11 @@
         const summary = pickText(src, ["summary","explanation","message"], "Analysis complete.");
         const flags = normalizeFlags(src.flags || src.signals || src.red_flags || src.redFlags);
 
-        // Numbers
         if (scamScoreEl) scamScoreEl.textContent = String(Math.round(clampPct(scam)));
         if (aiProbEl) aiProbEl.textContent = String(Math.round(clampPct(ai)));
         if (stressLevelEl) stressLevelEl.textContent = String(Math.round(clampPct(stress)));
         if (summaryText) summaryText.textContent = summary;
 
-        // Flags
         if (flagsWrap){
           flagsWrap.innerHTML = "";
           flags.forEach(f => {
@@ -828,10 +847,8 @@
           });
         }
 
-        // Bars
         setBars(scam, ai, stress);
 
-        // Risk UI
         const risk = riskFromScore(scam);
         const confidence = confidenceFromSignals(ai, stress);
 
@@ -850,13 +867,11 @@
         if (riskLabelEl) riskLabelEl.textContent = risk;
         if (confidenceEl) confidenceEl.textContent = confidence;
 
-        // Recommended action
         const action = actionFromRisk(risk);
         $("actionPill") && ($("actionPill").textContent = action.pill);
         $("actionTitle") && ($("actionTitle").textContent = action.title);
         $("actionText") && ($("actionText").textContent = action.text);
 
-        // Enable share buttons
         [shareBtn, shareSocialBtn].forEach(b => {
           if (!b) return;
           b.disabled = false;
@@ -1064,7 +1079,9 @@
           } else {
             mediaRecorder?.stop();
             recording = false;
-            recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i>Record`;
+            recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i><span data-i18n="record_btn">Record</span>`;
+            // po stopnutí hneď preložíme label (aby tam nezostalo anglicky)
+            if (window.VS_I18N_APPLY) window.VS_I18N_APPLY();
           }
         } catch {
           alert("Microphone permission blocked or unavailable.");
@@ -1175,7 +1192,8 @@
           if (elapsed < MIN_TIME) await new Promise(r => setTimeout(r, MIN_TIME - elapsed));
           if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
           analyzeBtn.disabled = false;
-          analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Analyze';
+          analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="analyze_btn">Analyze</span>';
+          if (window.VS_I18N_APPLY) window.VS_I18N_APPLY();
         }
       });
 
@@ -1230,7 +1248,6 @@
         toast("Copied share text ✓");
       });
 
-      // Copy case link (same as share)
       copyCaseLinkBtn?.addEventListener("click", async () => {
         const id = (caseIdEl?.textContent || "").trim();
         if (!id || id === "—") { toast("No Case ID yet."); return; }
@@ -1258,200 +1275,25 @@
           const id = item.id || item.case_id || item._id;
           const title = item?.meta?.title || item?.title || "(untitled)";
           const row = document.createElement("div");
-          row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
-          row.innerHTML = `
-            <div class="flex items-center justify-between gap-3">
-              <div class="min-w-0">
-                <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
-                <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
-              </div>
-              <div class="text-sm font-bold gold-text shrink-0">Load</div>
-            </div>
-          `;
-          row.addEventListener("click", () => loadCase(id));
+          row.className = "chip rounded-xl p-3 text-sm cursor-pointer hover:opacity-80";
+          row.innerHTML = `<div>${escapeHtml(title)}</div><div class="text-xs muted">${escapeHtml(id)}</div>`;
+          row.addEventListener("click", async () => {
+            const r = await fetch(`${backendBase}/case/${id}`);
+            const c = await r.json().catch(() => null);
+            if (!c) { toast("Could not load case."); return; }
+            const ar = c?.aiResult || c?.result || c;
+            lastResponse = ar;
+            lastCaseId = id;
+            setResultUI(ar);
+            if (rawJson){
+              rawJson.textContent = JSON.stringify(c, null, 2);
+              rawJson.classList.remove("hidden");
+            }
+            const u = new URL(window.location.href);
+            u.searchParams.set("case", String(id));
+            history.replaceState({}, "", u.toString());
+            toast("Case loaded ✓");
+            scrollToId("resultsCard");
+          });
           resultsList.appendChild(row);
         });
-      }
-
-      async function doSearch(){
-        if (!resultsList) return;
-        const q = (searchQ?.value || "").trim();
-        const tag = (searchTag?.value || "").trim();
-        const url = new URL(`${backendBase}/cases`);
-        if (q) url.searchParams.set("q", q);
-        if (tag) url.searchParams.set("tag", tag);
-
-        resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
-        try {
-          const r = await fetch(url.toString(), { cache: "no-store" });
-          const j = await r.json().catch(() => ({}));
-          if (!r.ok) throw new Error(j?.message || "Search failed");
-          renderSearchList(j?.cases || j?.items || []);
-        } catch {
-          resultsList.innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`;
-        }
-      }
-
-      async function loadCase(id){
-        if (!id) return;
-        if (summaryText) summaryText.textContent = "Loading case…";
-        scrollToId("resultsCard");
-
-        try {
-          const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
-          const j = await r.json().catch(() => ({}));
-          if (!r.ok){
-            if (summaryText) summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
-            toast("Load failed.");
-            return;
-          }
-
-          const c = j.case || j.item || j;
-          const meta = c.meta || {};
-          const data = c.aiResult || c.data || c;
-
-          if (titleEl) titleEl.value = meta.title || c.title || "";
-          if (platformEl) platformEl.value = meta.platform || c.platform || "";
-          if (countryEl) countryEl.value = meta.country || c.country || "";
-          if (languageEl) languageEl.value = meta.language || c.language || "";
-          if (tagsEl) tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
-          if (notesEl) notesEl.value = meta.notes || c.notes || "";
-
-          lastResponse = data;
-          lastCaseId = c.id || c._id || id;
-
-          if (caseIdEl) caseIdEl.textContent = String(lastCaseId);
-          if (caseSavedHint) caseSavedHint.textContent = "Loaded from saved cases.";
-
-          setResultUI(data);
-
-          if (rawJson){
-            rawJson.textContent = JSON.stringify(j, null, 2);
-            rawJson.classList.remove("hidden");
-          }
-
-          const u = new URL(window.location.href);
-          u.searchParams.set("case", String(lastCaseId));
-          history.replaceState({}, "", u.toString());
-
-          toast("Case loaded ✓");
-        } catch {
-          if (summaryText) summaryText.textContent = "Could not load case (network error).";
-          toast("Network error.");
-        }
-      }
-
-      searchBtn?.addEventListener("click", doSearch);
-      clearBtn?.addEventListener("click", () => {
-        if (searchQ) searchQ.value = "";
-        if (searchTag) searchTag.value = "";
-        if (resultsList) resultsList.innerHTML = "";
-        toast("Cleared.");
-      });
-
-      [searchQ, searchTag].forEach(inp => {
-        inp?.addEventListener("keydown", (e) => { if (e.key === "Enter") doSearch(); });
-      });
-
-      // Auto-load from ?case=...
-      (function bootCase(){
-        const u = new URL(window.location.href);
-        const id = u.searchParams.get("case");
-        if (id) loadCase(id);
-      })();
-
-      // ===========================
-      // Stripe verify (optional endpoint)
-      // ===========================
-      (async function handleStripeSuccess(){
-        const url = new URL(window.location.href);
-        const sessionId = url.searchParams.get("session_id");
-        if (!sessionId) return;
-
-        try {
-          const r = await fetch(`${backendBase}/verify-session?session_id=${encodeURIComponent(sessionId)}`, { cache:"no-store" });
-          const data = await r.json().catch(() => ({}));
-          if (data?.ok && data?.isPro){
-            localStorage.setItem("voicesafe_pro", "true");
-            if (data.customerId) localStorage.setItem("voicesafe_customer_id", data.customerId);
-            alert("✅ PRO activated successfully!");
-          } else {
-            alert("⚠️ Payment detected but subscription not active.");
-          }
-        } catch (e) {
-          console.error("VERIFY ERROR:", e);
-          alert("Verification failed. Please contact support.");
-        }
-
-        url.searchParams.delete("session_id");
-        window.history.replaceState({}, "", url.pathname);
-      })();
-
-      // ===========================
-      // Enterprise tone toggle
-      // ===========================
-      (function initEnterpriseToggle(){
-        if (!toneToggle) return;
-        const STORAGE_KEY = "voicesafe_enterprise_mode";
-
-        function applyMode(enabled){
-          const heroTitle = $("heroTitle");
-          const heroDesc = $("heroDesc");
-          const summaryLabel = $("resultsSub");
-
-          if (enabled){
-            toneToggle.innerHTML = '<i class="fa-solid fa-building-columns mr-2"></i>Enterprise mode: ON';
-            toneToggle.classList.add("gold-border");
-
-            if (heroTitle){
-              heroTitle.innerHTML = '<span class="gold-text">VoiceSafe</span><br/>Institutional AI Risk Layer for Voice Fraud Detection';
-            }
-            if (heroDesc){
-              heroDesc.textContent = "Real-time voice fraud risk assessment designed for financial institutions, fraud operations teams, and high-stakes verification workflows.";
-            }
-            if (summaryLabel){
-              summaryLabel.textContent = "Structured risk output for compliance & fraud teams.";
-            }
-          } else {
-            toneToggle.innerHTML = '<i class="fa-solid fa-building-columns mr-2"></i>Enterprise mode: OFF';
-            toneToggle.classList.remove("gold-border");
-
-            if (heroTitle){
-              heroTitle.innerHTML = '<span class="gold-text">VoiceSafe</span><br/>Your AI Guardian <span class="gold-text">Against Voice Scams</span>';
-            }
-            if (heroDesc){
-              heroDesc.innerHTML = 'Upload a voice message. Know in seconds if it’s trying to scam you — <span class="text-white/90 font-semibold">before you send money</span>. Get a clear report: scam score, AI voice probability, stress signals, and red flags.';
-            }
-            if (summaryLabel){
-              summaryLabel.textContent = "Upload or record to generate a report.";
-            }
-          }
-        }
-
-        const saved = localStorage.getItem(STORAGE_KEY) === "true";
-        applyMode(saved);
-
-        toneToggle.addEventListener("click", () => {
-          const current = localStorage.getItem(STORAGE_KEY) === "true";
-          const next = !current;
-          localStorage.setItem(STORAGE_KEY, String(next));
-          applyMode(next);
-        });
-      })();
-
-      // ===========================
-      // Init
-      // ===========================
-      checkBackend();
-
-      // Ctrl/Cmd + Enter => Analyze
-      document.addEventListener("keydown", (e) => {
-        const isMac = navigator.platform?.toLowerCase().includes("mac");
-        const mod = isMac ? e.metaKey : e.ctrlKey;
-        if (mod && e.key === "Enter") analyzeBtn?.click();
-      });
-
-    })();
-  </script>
-</body>
-</html>
