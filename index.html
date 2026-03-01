@@ -168,6 +168,21 @@
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
+<div style="position:fixed;top:12px;right:12px;z-index:99999;background:#111;padding:8px;border-radius:12px;border:1px solid rgba(255,255,255,.2)">
+  <select id="langSwitch" style="color:white;background:transparent">
+    <option value="en">EN</option>
+    <option value="sk">SK</option>
+  </select>
+</div>
+
+<!-- Language switch -->
+<div class="flex justify-end mb-3">
+  <select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs">
+    <option value="en">🇺🇸 English</option>
+    <option value="sk">🇸🇰 Slovensky</option>
+  </select>
+</div>
+
     <!-- Top strip -->
     <div class="flex items-center justify-between gap-3 mb-6">
       <div class="inline-flex items-center gap-2 chip px-3 py-1.5 rounded-full text-xs">
@@ -180,6 +195,11 @@
         <span id="liveActivity"></span>
       </div>
     </div>
+
+<select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs font-semibold">
+  <option value="en">EN</option>
+  <option value="sk">SK</option>
+</select>
 
     <!-- TRUST BAR -->
     <div class="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center">
@@ -398,6 +418,9 @@
             <button id="shareSocialBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
               <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i>Share
             </button>
+
+            <button id="shareCardBtn" class="btn">Share card</button>
+
             <button id="upgradeBtn" class="btn-gold rounded-xl px-4 py-2 text-sm font-extrabold" type="button">
               🚀 Unlock Pro – €9/month
             </button>
@@ -1371,5 +1394,52 @@
           
               })();
             </script>
+            // ===========================
+// LANGUAGE SYSTEM
+// ===========================
+
+let LANG = "en";
+let DICT = {};
+
+async function loadLanguage(lang) {
+  LANG = lang;
+  localStorage.setItem("vs_lang", lang);
+
+  const res = await fetch(`i18n/${lang}.json`);
+  DICT = await res.json();
+
+  applyTranslations();
+}
+
+function t(key){
+  return DICT[key] || key;
+}
+
+function applyTranslations(){
+
+  const heroTitle = document.querySelector("h1");
+  if(heroTitle) heroTitle.innerText = t("hero_title");
+
+  const analyzeBtn = document.getElementById("analyzeBtn");
+  if(analyzeBtn) analyzeBtn.innerText = t("analyze");
+
+  const recordBtn = document.getElementById("recordBtn");
+  if(recordBtn) recordBtn.innerText = t("record");
+
+}
+
+document.getElementById("langSwitch")?.addEventListener("change",(e)=>{
+  loadLanguage(e.target.value);
+});
+
+// auto detect
+(async function(){
+  const saved = localStorage.getItem("vs_lang");
+  const browser = navigator.language.startsWith("sk") ? "sk" : "en";
+  await loadLanguage(saved || browser);
+})();
+
+<script src="share-card.js"></script>
+
           </body>
           </html>
