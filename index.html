@@ -168,13 +168,6 @@
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
-<div style="position:fixed;top:12px;right:12px;z-index:99999;background:#111;padding:8px;border-radius:12px;border:1px solid rgba(255,255,255,.2)">
-  <select id="langSwitch" style="color:white;background:transparent">
-    <option value="en">EN</option>
-    <option value="sk">SK</option>
-  </select>
-</div>
-
 <!-- Language switch -->
 <div class="flex justify-end mb-3">
   <select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs">
@@ -195,11 +188,6 @@
         <span id="liveActivity"></span>
       </div>
     </div>
-
-<select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs font-semibold">
-  <option value="en">EN</option>
-  <option value="sk">SK</option>
-</select>
 
     <!-- TRUST BAR -->
     <div class="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center">
@@ -1447,10 +1435,6 @@ document.getElementById("langSwitch")?.addEventListener("change",(e)=>{
 </script>
 
 <script src="share-card.js"></script>
-
-    <script>
-    bootWiring();
-    </script>
 
     <script>
     bootWiring();
