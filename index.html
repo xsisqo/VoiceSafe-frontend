@@ -118,7 +118,7 @@
     }
     .divider{border-top:1px solid rgba(255,255,255,.10)}
 
-    /* ===== Risk UI (Enterprise) ===== */
+    /* ===== Risk UI ===== */
     .risk-ring { position: relative; }
     .risk-ring::before{
       content:"";
@@ -162,17 +162,43 @@
     .risk-badge[data-risk="ELEVATED"]{ border-color: rgba(245,158,11,.40); }
     .risk-badge[data-risk="HIGH"]{ border-color: rgba(249,115,22,.45); }
     .risk-badge[data-risk="CRITICAL"]{ border-color: rgba(239,68,68,.50); }
+
+    /* Button row wrap fix (Manage subscription overlap) */
+    .btn-row { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; justify-content:flex-start; }
+    .btn-row > button { white-space:nowrap; }
+    @media (max-width: 640px){
+      .btn-row > button { flex: 1 1 auto; }
+    }
   </style>
 </head>
 
 <body class="min-h-screen safe-pb">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
-    <!-- Language switch -->
-    <div class="flex justify-end mb-3">
-      <select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs">
+    <!-- Language switch (desktop + mobile) -->
+    <div class="flex items-center justify-end gap-2 mb-3">
+      <span class="text-xs muted hidden sm:inline" data-i18n="lang_label">Language</span>
+      <select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs font-semibold focus-ring" aria-label="Language selector">
+        <option value="auto">🌍 Auto</option>
         <option value="en">🇺🇸 English</option>
         <option value="sk">🇸🇰 Slovensky</option>
+        <option value="cs">🇨🇿 Čeština</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="pt">🇵🇹 Português</option>
+        <option value="pl">🇵🇱 Polski</option>
+        <option value="hu">🇭🇺 Magyar</option>
+        <option value="ro">🇷🇴 Română</option>
+        <option value="tr">🇹🇷 Türkçe</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="uk">🇺🇦 Українська</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="hi">🇮🇳 हिन्दी</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="ko">🇰🇷 한국어</option>
       </select>
     </div>
 
@@ -180,9 +206,9 @@
     <div class="flex items-center justify-between gap-3 mb-6">
       <div class="inline-flex items-center gap-2 chip px-3 py-1.5 rounded-full text-xs">
         <i class="fa-solid fa-shield-halved"></i>
-        <span class="opacity-90" data-i18n="top_early_access">Early Access</span>
+        <span class="opacity-90" data-i18n="early_access">Early Access</span>
         <span class="opacity-40">•</span>
-        <span class="opacity-80"><span id="waitlistCountBadge">0</span> <span data-i18n="top_people_joined">people joined</span></span>
+        <span class="opacity-80"><span id="waitlistCountBadge">0</span> <span data-i18n="people_joined">people joined</span></span>
       </div>
       <div class="hidden sm:flex items-center gap-2 text-xs muted">
         <span id="liveActivity"></span>
@@ -192,40 +218,53 @@
     <!-- TRUST BAR -->
     <div class="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center">
       <div class="lg:col-span-7 text-xs opacity-85 tracking-wide">
-        <span class="opacity-70" data-i18n="trust_built_for">Built for evaluation by</span>
-        <span class="font-semibold opacity-95" data-i18n="trust_groups">Banks • Fraud Operations • Compliance (KYC/AML) • Investigations</span>
+        <span class="opacity-70" data-i18n="built_for_eval">Built for evaluation by</span>
+        <span class="font-semibold opacity-95" data-i18n="trust_audience">
+          Banks • Fraud Operations • Compliance (KYC/AML) • Investigations
+        </span>
         <span class="opacity-50">•</span>
-        <span class="opacity-80" data-i18n="trust_note">Advisory signals, not identity verification.</span>
+        <span class="opacity-80" data-i18n="advisory_note">Advisory signals, not identity verification.</span>
       </div>
       <div class="lg:col-span-5 flex flex-wrap gap-2 lg:justify-end">
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-shield-halved mr-2"></i><span data-i18n="trust_privacy">Privacy-first posture</span></span>
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-clipboard-check mr-2"></i><span data-i18n="trust_audit">Audit-friendly outputs</span></span>
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-plug mr-2"></i><span data-i18n="trust_api">API-first integration</span></span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]">
+          <i class="fa-solid fa-shield-halved mr-2"></i><span data-i18n="privacy_first">Privacy-first posture</span>
+        </span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]">
+          <i class="fa-solid fa-clipboard-check mr-2"></i><span data-i18n="audit_friendly">Audit-friendly outputs</span>
+        </span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]">
+          <i class="fa-solid fa-plug mr-2"></i><span data-i18n="api_first">API-first integration</span>
+        </span>
       </div>
     </div>
 
     <!-- Enterprise toggle -->
     <div class="flex items-center gap-2 mt-3">
-      <span class="text-xs muted hidden sm:inline" data-i18n="tone_label">Tone</span>
+      <span class="text-xs muted hidden sm:inline" data-i18n="tone">Tone</span>
       <button id="toneToggle" class="chip rounded-full px-3 py-1.5 text-xs font-semibold hover:opacity-90" type="button">
-        <i class="fa-solid fa-building-columns mr-2"></i><span data-i18n="enterprise_off">Enterprise mode: OFF</span>
+        <i class="fa-solid fa-building-columns mr-2"></i><span id="toneToggleText">Enterprise mode: OFF</span>
       </button>
     </div>
 
     <!-- HERO -->
     <section class="glass gold-border rounded-3xl p-6 sm:p-8 mt-4">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-bolt mr-2"></i><span data-i18n="hero_chip_1">Seconds, not minutes</span></span>
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-lock mr-2"></i><span data-i18n="hero_chip_2">Privacy-first by design</span></span>
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-globe mr-2"></i><span data-i18n="hero_chip_3">Global scam protection</span></span>
+        <span class="chip rounded-full px-3 py-1 text-xs">
+          <i class="fa-solid fa-bolt mr-2"></i><span data-i18n="seconds_not_minutes">Seconds, not minutes</span>
+        </span>
+        <span class="chip rounded-full px-3 py-1 text-xs">
+          <i class="fa-solid fa-lock mr-2"></i><span data-i18n="privacy_by_design">Privacy-first by design</span>
+        </span>
+        <span class="chip rounded-full px-3 py-1 text-xs">
+          <i class="fa-solid fa-globe mr-2"></i><span data-i18n="global_protection">Global scam protection</span>
+        </span>
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div class="lg:col-span-7">
-          <!-- NEPREPISUJEME celý H1 (kvôli spanom), prekladáme len druhý riadok cez span -->
           <h1 id="heroTitle" class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
             <span class="gold-text">VoiceSafe</span><br />
-            <span data-i18n="hero_title_line2">Your AI Guardian</span> <span class="gold-text" data-i18n="hero_title_gold">Against Voice Scams</span>
+            <span data-i18n="hero_title_rest">Your AI Guardian Against Voice Scams</span>
           </h1>
 
           <p id="heroDesc" class="mt-4 text-base sm:text-lg muted max-w-2xl" data-i18n="hero_desc">
@@ -235,54 +274,55 @@
 
           <div class="mt-6 flex flex-wrap gap-3">
             <button id="ctaAnalyze" class="btn-gold rounded-xl px-5 py-3 text-sm font-semibold" type="button">
-              <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="cta_start">Start Risk Assessment</span>
+              <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="start_assessment">Start Risk Assessment</span>
             </button>
             <button id="ctaDemo" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90" type="button">
-              <i class="fa-solid fa-play mr-2"></i><span data-i18n="cta_demo">View Platform Demo</span>
+              <i class="fa-solid fa-play mr-2"></i><span data-i18n="view_demo">View Platform Demo</span>
             </button>
             <button id="ctaHow" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90" type="button">
-              <i class="fa-solid fa-circle-info mr-2"></i><span data-i18n="cta_how">Explore Methodology</span>
+              <i class="fa-solid fa-circle-info mr-2"></i><span data-i18n="explore_method">Explore Methodology</span>
             </button>
           </div>
 
           <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
             <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted" data-i18n="hero_card1_k">Storage posture</div>
-              <div class="mt-1 text-lg font-bold" data-i18n="hero_card1_v">No permanent storage</div>
-              <div class="mt-1 text-xs muted" data-i18n="hero_card1_s">Designed for privacy</div>
+              <div class="text-xs muted" data-i18n="storage_posture">Storage posture</div>
+              <div class="mt-1 text-lg font-bold" data-i18n="no_storage">No permanent storage</div>
+              <div class="mt-1 text-xs muted" data-i18n="designed_for_privacy">Designed for privacy</div>
             </div>
             <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted" data-i18n="hero_card2_k">Output</div>
-              <div class="mt-1 text-lg font-bold" data-i18n="hero_card2_v">Clear risk signals</div>
-              <div class="mt-1 text-xs muted" data-i18n="hero_card2_s">Human-readable summary</div>
+              <div class="text-xs muted" data-i18n="output">Output</div>
+              <div class="mt-1 text-lg font-bold" data-i18n="clear_signals">Clear risk signals</div>
+              <div class="mt-1 text-xs muted" data-i18n="human_readable">Human-readable summary</div>
             </div>
             <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted" data-i18n="hero_card3_k">Use case</div>
-              <div class="mt-1 text-lg font-bold" data-i18n="hero_card3_v">Before paying</div>
-              <div class="mt-1 text-xs muted" data-i18n="hero_card3_s">Verify with official channels</div>
+              <div class="text-xs muted" data-i18n="use_case">Use case</div>
+              <div class="mt-1 text-lg font-bold" data-i18n="before_paying">Before paying</div>
+              <div class="mt-1 text-xs muted" data-i18n="verify_official">Verify with official channels</div>
             </div>
           </div>
 
           <div class="mt-5 text-xs muted">
-            <span data-i18n="joined_label">Joined early access:</span>
+            <span data-i18n="joined_early_access">Joined early access:</span>
             <span id="waitlistCountTop" class="text-white/90 font-semibold">0</span>
             <span class="opacity-40">•</span>
             <span id="waitlistUrgency" data-i18n="early_access_open">Early Access is open now.</span>
             <span class="opacity-40">•</span>
-            <span class="kbd">Tip:</span>
-            <span data-i18n="tip_press">Press</span> <span class="kbd">D</span> <span data-i18n="tip_for_demo">for demo</span>
+            <span class="kbd">Tip:</span> <span data-i18n="press_d_for_demo">Press</span> <span class="kbd">D</span> <span data-i18n="for_demo">for demo</span>
           </div>
         </div>
 
         <div class="lg:col-span-5 grid gap-3">
           <button id="joinWaitlistBtn" class="chip rounded-2xl p-5 text-left hover:opacity-90" type="button">
-            <div class="text-sm font-semibold"><i class="fa-solid fa-fire mr-2"></i><span data-i18n="join_btn">Join Early Access</span></div>
-            <div class="mt-1 text-xs muted" data-i18n="join_desc">Helps prioritize features and builds credibility with investors.</div>
+            <div class="text-sm font-semibold"><i class="fa-solid fa-fire mr-2"></i><span data-i18n="join_early_access">Join Early Access</span></div>
+            <div class="mt-1 text-xs muted" data-i18n="join_early_access_desc">
+              Helps prioritize features and builds credibility with investors.
+            </div>
           </button>
 
           <div class="glass-soft rounded-2xl p-5">
-            <div class="text-sm font-semibold" data-i18n="safety_title">Safety note</div>
-            <div class="mt-2 text-xs muted leading-6" data-i18n="safety_text">
+            <div class="text-sm font-semibold" data-i18n="safety_note">Safety note</div>
+            <div class="mt-2 text-xs muted leading-6" data-i18n="safety_note_text">
               VoiceSafe provides advisory signals. If money is involved, always verify via an official number
               (bank, company website, known contact).
             </div>
@@ -292,11 +332,11 @@
           <div id="debugCard" class="glass-soft rounded-2xl p-5 hidden">
             <div class="flex items-start justify-between gap-3">
               <div class="min-w-0">
-                <div class="text-sm font-semibold" data-i18n="debug_status">System status</div>
+                <div class="text-sm font-semibold" data-i18n="system_status">System status</div>
                 <div class="text-xs muted mt-1 truncate" id="backendStatus">Checking…</div>
               </div>
               <div class="text-right shrink-0">
-                <div class="text-xs muted" data-i18n="debug_mode">Mode</div>
+                <div class="text-xs muted" data-i18n="mode">Mode</div>
                 <div class="text-sm font-semibold gold-text" id="modeLabel">PROD</div>
               </div>
             </div>
@@ -316,71 +356,71 @@
       <div class="lg:col-span-5 glass rounded-3xl p-5 sm:p-6">
         <div class="flex items-start justify-between gap-3">
           <div>
-            <h2 class="text-lg font-semibold" data-i18n="analyze_title">Analyze a sample</h2>
-            <p class="muted text-sm mt-1" data-i18n="analyze_sub">Upload audio/video or record a short clip.</p>
+            <h2 class="text-lg font-semibold" data-i18n="analyze_sample">Analyze a sample</h2>
+            <p class="muted text-sm mt-1" data-i18n="upload_or_record">Upload audio/video or record a short clip.</p>
           </div>
           <button id="demoBtn" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90" type="button">
-            <i class="fa-solid fa-bolt mr-2"></i><span data-i18n="demo_btn">Demo</span>
+            <i class="fa-solid fa-bolt mr-2"></i><span data-i18n="demo">Demo</span>
           </button>
         </div>
 
         <div class="mt-5">
-          <label class="block text-sm muted mb-2" for="fileInput" data-i18n="upload_label">Upload file</label>
+          <label class="block text-sm muted mb-2" for="fileInput" data-i18n="upload_file">Upload file</label>
           <input id="fileInput" type="file" accept="audio/*,video/*" class="w-full text-sm chip rounded-xl p-3 outline-none focus-ring" />
-          <div class="mt-2 text-xs muted" id="fileHint" data-i18n="no_file">No file selected.</div>
+          <div class="mt-2 text-xs muted" id="fileHint" data-i18n="no_file_selected">No file selected.</div>
         </div>
 
         <div class="mt-5 grid grid-cols-2 gap-3">
           <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
-            <i class="fa-solid fa-microphone mr-2"></i><span data-i18n="record_btn">Record</span>
+            <i class="fa-solid fa-microphone mr-2"></i><span data-i18n="record">Record</span>
           </button>
           <button id="analyzeBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold">
-            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="analyze_btn">Analyze</span>
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="analyze">Analyze</span>
           </button>
         </div>
 
-        <div class="mt-4 text-xs muted">
-          <span data-i18n="free_line">Free 3 analyses • No signup required • Privacy-first</span>
-          <div class="mt-2 leading-6">
-            🔒 <span data-i18n="free_b1">No permanent voice storage (prototype)</span><br/>
-            ⚡ <span data-i18n="free_b2">Instant risk assessment</span><br/>
-            🇪🇺 <span data-i18n="free_b3">GDPR-ready posture</span>
-          </div>
+        <div class="mt-4 text-xs muted" data-i18n="free_line">
+          Free 3 analyses • No signup required • Privacy-first
+        </div>
+        <div class="mt-2 text-xs muted leading-6">
+          🔒 <span data-i18n="no_storage_proto">No permanent voice storage (prototype)</span><br/>
+          ⚡ <span data-i18n="instant_assessment">Instant risk assessment</span><br/>
+          🇪🇺 <span data-i18n="gdpr_posture">GDPR-ready posture</span>
         </div>
 
         <div class="mt-6 divider pt-5">
-          <h3 class="text-sm font-semibold" data-i18n="case_title">Case details (optional)</h3>
-          <p class="muted text-xs mt-1" data-i18n="case_sub">Saved cases can be searched & shared (if backend supports it).</p>
+          <h3 class="text-sm font-semibold" data-i18n="case_details">Case details (optional)</h3>
+          <p class="muted text-xs mt-1" data-i18n="case_details_desc">Saved cases can be searched & shared (if backend supports it).</p>
 
           <div class="mt-4 space-y-3">
-            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Title (e.g. Telegram investor)" />
+            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" data-i18n-placeholder="ph_title" placeholder="Title (e.g. Telegram investor)" />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Platform (Telegram)" />
-              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Country (US)" />
+              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" data-i18n-placeholder="ph_platform" placeholder="Platform (Telegram)" />
+              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" data-i18n-placeholder="ph_country" placeholder="Country (US)" />
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Language (EN)" />
-              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Tags (comma separated)" />
+              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" data-i18n-placeholder="ph_language" placeholder="Language (EN)" />
+              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" data-i18n-placeholder="ph_tags" placeholder="Tags (comma separated)" />
             </div>
-            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" placeholder="Notes (what happened)"></textarea>
+            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring" data-i18n-placeholder="ph_notes" placeholder="Notes (what happened)"></textarea>
           </div>
 
-          <div class="mt-4 text-xs muted" data-i18n="tip_notes">Tip: Keep personal data out of notes.</div>
+          <div class="mt-4 text-xs muted" data-i18n="tip_no_personal">Tip: Keep personal data out of notes.</div>
         </div>
 
         <div class="mt-5 chip rounded-2xl p-4 text-xs muted">
-          <div class="font-semibold text-white/90" data-i18n="disc_title">Disclaimer</div>
-          <div class="mt-1" data-i18n="disc_text">Scores are prototypes and can be wrong. Always verify identity using official channels.</div>
+          <div class="font-semibold text-white/90" data-i18n="disclaimer">Disclaimer</div>
+          <div class="mt-1" data-i18n="disclaimer_text">Scores are prototypes and can be wrong. Always verify identity using official channels.</div>
         </div>
       </div>
 
       <!-- RIGHT -->
       <div id="resultsCard" class="lg:col-span-7 glass rounded-3xl p-5 sm:p-6 risk-ring risk-border" data-risk="LOW">
-        <div class="text-xs muted tracking-widest uppercase" data-i18n="results_kicker">AI Risk Assessment</div>
+        <div class="text-xs muted tracking-widest uppercase" data-i18n="ai_risk_assessment">AI Risk Assessment</div>
 
         <div class="mt-2 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div class="min-w-0">
-            <h2 class="text-2xl font-extrabold" data-i18n="results_title">Results</h2>
+            <h2 class="text-2xl font-extrabold" data-i18n="results">Results</h2>
             <p class="muted text-sm mt-1" id="resultsSub" data-i18n="results_sub">Upload or record to generate a report.</p>
 
             <div class="mt-3 inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs font-semibold">
@@ -399,18 +439,18 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-2 flex-wrap">
+          <div class="btn-row">
             <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button">
               <i class="fa-regular fa-copy mr-2"></i><span data-i18n="copy_json">Copy JSON</span>
             </button>
             <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
-              <i class="fa-solid fa-link mr-2"></i><span data-i18n="copy_link">Copy share link</span>
+              <i class="fa-solid fa-link mr-2"></i><span data-i18n="copy_share_link">Copy share link</span>
             </button>
             <button id="shareSocialBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
               <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i><span data-i18n="share">Share</span>
             </button>
 
-            <button id="shareCardBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold">
+            <button id="shareCardBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button">
               📊 <span data-i18n="share_card">Share card</span>
             </button>
 
@@ -418,7 +458,7 @@
               🚀 <span data-i18n="unlock_pro">Unlock Pro – €9/month</span>
             </button>
             <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm hover:opacity-90" type="button">
-              <span data-i18n="manage_sub">Manage subscription</span>
+              <span data-i18n="manage_subscription">Manage subscription</span>
             </button>
           </div>
         </div>
@@ -427,9 +467,9 @@
         <div id="actionBox" class="mt-4 glass-soft rounded-2xl p-4 sm:p-5">
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
-              <div class="text-xs muted tracking-widest uppercase" data-i18n="rec_action">Recommended action</div>
+              <div class="text-xs muted tracking-widest uppercase" data-i18n="recommended_action">Recommended action</div>
               <div class="mt-1 text-lg font-extrabold" id="actionTitle">—</div>
-              <div class="mt-2 text-sm muted leading-6" id="actionText" data-i18n="rec_action_default">Run an analysis to generate guidance.</div>
+              <div class="mt-2 text-sm muted leading-6" id="actionText" data-i18n="action_placeholder">Run an analysis to generate guidance.</div>
             </div>
             <div class="shrink-0">
               <span id="actionPill" class="chip rounded-full px-3 py-1 text-xs font-extrabold">—</span>
@@ -438,41 +478,41 @@
 
           <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
             <div class="chip rounded-xl p-3">
-              <div class="font-semibold" data-i18n="step1_t">1) Pause</div>
-              <div class="muted mt-1" data-i18n="step1_s">Stop payment / sensitive steps</div>
+              <div class="font-semibold" data-i18n="step1_pause">1) Pause</div>
+              <div class="muted mt-1" data-i18n="step1_desc">Stop payment / sensitive steps</div>
             </div>
             <div class="chip rounded-xl p-3">
-              <div class="font-semibold" data-i18n="step2_t">2) Verify</div>
-              <div class="muted mt-1" data-i18n="step2_s">Call an official number</div>
+              <div class="font-semibold" data-i18n="step2_verify">2) Verify</div>
+              <div class="muted mt-1" data-i18n="step2_desc">Call an official number</div>
             </div>
             <div class="chip rounded-xl p-3">
-              <div class="font-semibold" data-i18n="step3_t">3) Escalate</div>
-              <div class="muted mt-1" data-i18n="step3_s">Share case + export JSON</div>
+              <div class="font-semibold" data-i18n="step3_escalate">3) Escalate</div>
+              <div class="muted mt-1" data-i18n="step3_desc">Share case + export JSON</div>
             </div>
           </div>
         </div>
 
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted" data-i18n="metric_scam">Scam score</div>
+            <div class="text-xs muted" data-i18n="scam_score">Scam score</div>
             <div class="mt-1 text-3xl font-extrabold"><span id="scamScore">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="scamBar"></div></div>
           </div>
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted" data-i18n="metric_ai">AI voice probability</div>
+            <div class="text-xs muted" data-i18n="ai_voice_probability">AI voice probability</div>
             <div class="mt-1 text-3xl font-extrabold"><span id="aiProb">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="aiBar"></div></div>
           </div>
           <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted" data-i18n="metric_stress">Stress level</div>
+            <div class="text-xs muted" data-i18n="stress_level">Stress level</div>
             <div class="mt-1 text-3xl font-extrabold"><span id="stressLevel">—</span><span class="text-base muted">%</span></div>
             <div class="mt-3 bar"><div id="stressBar"></div></div>
           </div>
         </div>
 
         <div class="mt-5 chip rounded-2xl p-5">
-          <div class="text-xs muted" data-i18n="summary_k">Summary</div>
-          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText" data-i18n="summary_default">Upload or record a sample to see results.</div>
+          <div class="text-xs muted" data-i18n="summary">Summary</div>
+          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText" data-i18n="summary_placeholder">Upload or record a sample to see results.</div>
           <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
         </div>
 
@@ -483,22 +523,22 @@
             <div class="mt-1 mono text-sm break-all" id="caseId">—</div>
             <div class="mt-3 flex gap-2 items-center">
               <button id="copyCaseLinkBtn" type="button" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90">
-                🔗 <span data-i18n="copy_link">Copy share link</span>
+                🔗 <span data-i18n="copy_share_link">Copy share link</span>
               </button>
-              <span id="copyToast" class="text-xs muted hidden" data-i18n="copied_toast">Link copied ✓</span>
+              <span id="copyToast" class="text-xs muted hidden">Link copied ✓</span>
             </div>
-            <div class="mt-3 text-xs muted" id="caseSavedHint" data-i18n="case_hint">Analyze a sample to create a case.</div>
+            <div class="mt-3 text-xs muted" id="caseSavedHint" data-i18n="case_saved_hint">Analyze a sample to create a case.</div>
           </div>
 
           <div class="chip rounded-2xl p-5">
             <div class="text-sm font-semibold" data-i18n="search_cases">Search cases</div>
             <div class="mt-3 flex gap-2">
-              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" placeholder="Search title / notes..." />
-              <button id="searchBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0" data-i18n="search_btn">Search</button>
+              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" data-i18n-placeholder="ph_search" placeholder="Search title / notes..." />
+              <button id="searchBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0" data-i18n="search">Search</button>
             </div>
             <div class="mt-3 flex gap-2">
-              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" placeholder="Tag filter (optional)" />
-              <button id="clearBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0" data-i18n="clear_btn">Clear</button>
+              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0" data-i18n-placeholder="ph_tag" placeholder="Tag filter (optional)" />
+              <button id="clearBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0" data-i18n="clear">Clear</button>
             </div>
             <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height:min(46vh,360px);"></div>
           </div>
@@ -510,33 +550,45 @@
 
     <!-- FAQ -->
     <section id="faq" class="mt-10 glass-soft rounded-3xl p-6 sm:p-7">
-      <h3 class="text-xl font-extrabold" data-i18n="how_title">How it works</h3>
+      <h3 class="text-xl font-extrabold" data-i18n="how_it_works">How it works</h3>
       <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
         <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted" data-i18n="how_1k">1) Input</div>
-          <div class="mt-1 font-semibold" data-i18n="how_1v">Upload or record</div>
-          <div class="mt-1 text-xs muted" data-i18n="how_1s">Audio/video supported</div>
+          <div class="text-xs muted" data-i18n="faq1_title">1) Input</div>
+          <div class="mt-1 font-semibold" data-i18n="faq1_h">Upload or record</div>
+          <div class="mt-1 text-xs muted" data-i18n="faq1_d">Audio/video supported</div>
         </div>
         <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted" data-i18n="how_2k">2) Analysis</div>
-          <div class="mt-1 font-semibold" data-i18n="how_2v">Risk scoring</div>
-          <div class="mt-1 text-xs muted" data-i18n="how_2s">Signals + probabilities</div>
+          <div class="text-xs muted" data-i18n="faq2_title">2) Analysis</div>
+          <div class="mt-1 font-semibold" data-i18n="faq2_h">Risk scoring</div>
+          <div class="mt-1 text-xs muted" data-i18n="faq2_d">Signals + probabilities</div>
         </div>
         <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted" data-i18n="how_3k">3) Action</div>
-          <div class="mt-1 font-semibold" data-i18n="how_3v">Verify</div>
-          <div class="mt-1 text-xs muted" data-i18n="how_3s">Use official channels</div>
+          <div class="text-xs muted" data-i18n="faq3_title">3) Action</div>
+          <div class="mt-1 font-semibold" data-i18n="faq3_h">Verify</div>
+          <div class="mt-1 text-xs muted" data-i18n="faq3_d">Use official channels</div>
         </div>
       </div>
-      <p class="mt-4 text-sm muted leading-6" data-i18n="how_p">
+      <p class="mt-4 text-sm muted leading-6" data-i18n="faq_text">
         VoiceSafe is a prototype. Scores can be wrong — treat the report as an early warning system.
         When money is involved, always verify the caller via trusted, official contact methods.
       </p>
     </section>
 
-    <div class="mt-10 text-center text-xs muted">
-      VoiceSafe • Early Access • Built for global anti-scam awareness • <span class="mono">voicesafe.ai</span>
-    </div>
+    <!-- FOOTER (Privacy / Terms / Contact / Security) -->
+    <footer class="mt-10 text-center text-xs muted">
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="/privacy" class="hover:opacity-90 underline underline-offset-4" data-i18n="privacy">Privacy</a>
+        <span class="opacity-40">•</span>
+        <a href="/terms" class="hover:opacity-90 underline underline-offset-4" data-i18n="terms">Service Terms</a>
+        <span class="opacity-40">•</span>
+        <a href="mailto:contact@voicesafe.ai" class="hover:opacity-90 underline underline-offset-4" data-i18n="contact">Contact</a>
+        <span class="opacity-40">•</span>
+        <a href="mailto:security@voicesafe.ai" class="hover:opacity-90 underline underline-offset-4" data-i18n="security">Security</a>
+      </div>
+      <div class="mt-2">
+        VoiceSafe • Early Access • <span class="mono">voicesafe.ai</span>
+      </div>
+    </footer>
   </div>
 
   <!-- HOW MODAL -->
@@ -550,16 +602,16 @@
         </div>
         <button id="howClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90" type="button">✕</button>
       </div>
-      <div class="mt-5 text-sm muted leading-6" data-i18n="how_modal_text">
+      <div class="mt-5 text-sm muted leading-6" data-i18n="how_modal_body">
         Upload or record a short sample. VoiceSafe returns a risk report with:
         scam score, AI voice probability, stress level, and red flags.
       </div>
       <div class="mt-6 flex flex-col sm:flex-row gap-2">
         <button id="howTryDemo" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full sm:w-auto" type="button">
-          <i class="fa-solid fa-play mr-2"></i><span data-i18n="how_modal_demo">Load demo</span>
+          <i class="fa-solid fa-play mr-2"></i><span data-i18n="load_demo">Load demo</span>
         </button>
         <button id="howGoAnalyze" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full sm:w-auto" type="button">
-          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="how_modal_go">Go to analyzer</span>
+          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="go_to_analyzer">Go to analyzer</span>
         </button>
       </div>
     </div>
@@ -571,19 +623,23 @@
     <div class="relative w-[92%] max-w-lg rounded-3xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h3 class="text-xl font-extrabold" data-i18n="paywall_title">Free limit reached</h3>
-          <p class="mt-1 text-sm muted" data-i18n="paywall_sub">Upgrade to Pro to continue analyzing.</p>
+          <h3 class="text-xl font-extrabold" data-i18n="free_limit_reached">Free limit reached</h3>
+          <p class="mt-1 text-sm muted" data-i18n="upgrade_to_pro">Upgrade to Pro to continue analyzing.</p>
         </div>
         <button id="paywallClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90" type="button">✕</button>
       </div>
       <div class="mt-4 grid gap-2 text-sm opacity-90">
-        <div data-i18n="paywall_b1">✓ Unlimited analyses</div>
-        <div data-i18n="paywall_b2">✓ Priority processing</div>
-        <div data-i18n="paywall_b3">✓ Case history & sharing</div>
+        <div data-i18n="pro1">✓ Unlimited analyses</div>
+        <div data-i18n="pro2">✓ Priority processing</div>
+        <div data-i18n="pro3">✓ Case history & sharing</div>
       </div>
       <div class="mt-6 flex flex-col gap-2">
-        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full" type="button" data-i18n="paywall_cta">Start Pro – €9/month</button>
-        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full" type="button" data-i18n="paywall_join">Join early access</button>
+        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full" type="button" data-i18n="start_pro">
+          Start Pro – €9/month
+        </button>
+        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full" type="button" data-i18n="join_early_access">
+          Join early access
+        </button>
         <p id="waitlistCountText" class="mt-2 text-xs muted text-center"></p>
       </div>
     </div>
@@ -604,18 +660,321 @@
       PROD: "https://voicesafe-backend-1.onrender.com",
       LOCAL: "http://127.0.0.1:10000",
     };
-
     window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
     window.STRIPE_BILLING_PORTAL_URL = ""; // optional
 
     // ===========================
-    // WIRING (FIX: už nie IIFE, ale normálna funkcia dostupná globálne)
+    // i18n (single-file, no fetch needed)
     // ===========================
-    function bootWiring(){
-      if (window.__VS_BOOTED__) return;
-      window.__VS_BOOTED__ = true;
+    const I18N = {
+      en: {
+        lang_label: "Language",
+        early_access: "Early Access",
+        people_joined: "people joined",
+        built_for_eval: "Built for evaluation by",
+        trust_audience: "Banks • Fraud Operations • Compliance (KYC/AML) • Investigations",
+        advisory_note: "Advisory signals, not identity verification.",
+        privacy_first: "Privacy-first posture",
+        audit_friendly: "Audit-friendly outputs",
+        api_first: "API-first integration",
+        tone: "Tone",
+        seconds_not_minutes: "Seconds, not minutes",
+        privacy_by_design: "Privacy-first by design",
+        global_protection: "Global scam protection",
+        hero_title_rest: "Your AI Guardian Against Voice Scams",
+        hero_desc: "Upload a voice message. Know in seconds if it’s trying to scam you — before you send money. Get a clear report: scam score, AI voice probability, stress signals, and red flags.",
+        start_assessment: "Start Risk Assessment",
+        view_demo: "View Platform Demo",
+        explore_method: "Explore Methodology",
+        storage_posture: "Storage posture",
+        no_storage: "No permanent storage",
+        designed_for_privacy: "Designed for privacy",
+        output: "Output",
+        clear_signals: "Clear risk signals",
+        human_readable: "Human-readable summary",
+        use_case: "Use case",
+        before_paying: "Before paying",
+        verify_official: "Verify with official channels",
+        joined_early_access: "Joined early access:",
+        early_access_open: "Early Access is open now.",
+        press_d_for_demo: "Press",
+        for_demo: "for demo",
+        join_early_access: "Join Early Access",
+        join_early_access_desc: "Helps prioritize features and builds credibility with investors.",
+        safety_note: "Safety note",
+        safety_note_text: "VoiceSafe provides advisory signals. If money is involved, always verify via an official number (bank, company website, known contact).",
+        system_status: "System status",
+        mode: "Mode",
+        analyze_sample: "Analyze a sample",
+        upload_or_record: "Upload audio/video or record a short clip.",
+        demo: "Demo",
+        upload_file: "Upload file",
+        no_file_selected: "No file selected.",
+        record: "Record",
+        analyze: "Analyze",
+        free_line: "Free 3 analyses • No signup required • Privacy-first",
+        no_storage_proto: "No permanent voice storage (prototype)",
+        instant_assessment: "Instant risk assessment",
+        gdpr_posture: "GDPR-ready posture",
+        case_details: "Case details (optional)",
+        case_details_desc: "Saved cases can be searched & shared (if backend supports it).",
+        ph_title: "Title (e.g. Telegram investor)",
+        ph_platform: "Platform (Telegram)",
+        ph_country: "Country (US)",
+        ph_language: "Language (EN)",
+        ph_tags: "Tags (comma separated)",
+        ph_notes: "Notes (what happened)",
+        tip_no_personal: "Tip: Keep personal data out of notes.",
+        disclaimer: "Disclaimer",
+        disclaimer_text: "Scores are prototypes and can be wrong. Always verify identity using official channels.",
+        ai_risk_assessment: "AI Risk Assessment",
+        results: "Results",
+        results_sub: "Upload or record to generate a report.",
+        risk_level: "Risk level:",
+        confidence: "Confidence:",
+        copy_json: "Copy JSON",
+        copy_share_link: "Copy share link",
+        share: "Share",
+        share_card: "Share card",
+        unlock_pro: "Unlock Pro – €9/month",
+        manage_subscription: "Manage subscription",
+        recommended_action: "Recommended action",
+        action_placeholder: "Run an analysis to generate guidance.",
+        step1_pause: "1) Pause",
+        step1_desc: "Stop payment / sensitive steps",
+        step2_verify: "2) Verify",
+        step2_desc: "Call an official number",
+        step3_escalate: "3) Escalate",
+        step3_desc: "Share case + export JSON",
+        scam_score: "Scam score",
+        ai_voice_probability: "AI voice probability",
+        stress_level: "Stress level",
+        summary: "Summary",
+        summary_placeholder: "Upload or record a sample to see results.",
+        saved_case: "Saved case",
+        case_id: "Case ID",
+        case_saved_hint: "Analyze a sample to create a case.",
+        search_cases: "Search cases",
+        ph_search: "Search title / notes...",
+        ph_tag: "Tag filter (optional)",
+        search: "Search",
+        clear: "Clear",
+        how_it_works: "How it works",
+        faq1_title: "1) Input",
+        faq1_h: "Upload or record",
+        faq1_d: "Audio/video supported",
+        faq2_title: "2) Analysis",
+        faq2_h: "Risk scoring",
+        faq2_d: "Signals + probabilities",
+        faq3_title: "3) Action",
+        faq3_h: "Verify",
+        faq3_d: "Use official channels",
+        faq_text: "VoiceSafe is a prototype. Scores can be wrong — treat the report as an early warning system. When money is involved, always verify the caller via trusted, official contact methods.",
+        privacy: "Privacy",
+        terms: "Service Terms",
+        contact: "Contact",
+        security: "Security",
+        how_modal_title: "How VoiceSafe works",
+        how_modal_sub: "Clear output, fast workflow, minimal friction.",
+        how_modal_body: "Upload or record a short sample. VoiceSafe returns a risk report with: scam score, AI voice probability, stress level, and red flags.",
+        load_demo: "Load demo",
+        go_to_analyzer: "Go to analyzer",
+        free_limit_reached: "Free limit reached",
+        upgrade_to_pro: "Upgrade to Pro to continue analyzing.",
+        pro1: "✓ Unlimited analyses",
+        pro2: "✓ Priority processing",
+        pro3: "✓ Case history & sharing",
+        start_pro: "Start Pro – €9/month",
+      },
+      sk: {
+        lang_label: "Jazyk",
+        early_access: "Early Access",
+        people_joined: "ľudí sa pridalo",
+        built_for_eval: "Určené na hodnotenie pre",
+        advisory_note: "Signály sú poradné, nie overenie identity.",
+        privacy_first: "Súkromie na prvom mieste",
+        audit_friendly: "Auditovateľné výstupy",
+        api_first: "API-first integrácia",
+        tone: "Tón",
+        seconds_not_minutes: "Sekundy, nie minúty",
+        privacy_by_design: "Súkromie by design",
+        global_protection: "Globálna ochrana pred scamom",
+        hero_title_rest: "Tvoj AI strážca proti hlasovým podvodom",
+        hero_desc: "Nahraj hlas. Zistíš za pár sekúnd, či ide o podvod — ešte predtým, než pošleš peniaze. Dostaneš report: scam score, pravdepodobnosť AI hlasu, stres a red flags.",
+        start_assessment: "Spustiť analýzu",
+        view_demo: "Spustiť demo",
+        explore_method: "Ako to funguje",
+        storage_posture: "Ukladanie",
+        no_storage: "Bez trvalého ukladania",
+        designed_for_privacy: "Navrhnuté pre súkromie",
+        output: "Výstup",
+        clear_signals: "Jasné rizikové signály",
+        human_readable: "Zrozumiteľné zhrnutie",
+        use_case: "Použitie",
+        before_paying: "Pred platbou",
+        verify_official: "Over oficiálnym kanálom",
+        joined_early_access: "Pridaní v early access:",
+        early_access_open: "Early Access je otvorený.",
+        press_d_for_demo: "Stlač",
+        for_demo: "pre demo",
+        join_early_access: "Pridať sa do Early Access",
+        join_early_access_desc: "Pomáha prioritizovať funkcie a buduje dôveryhodnosť.",
+        safety_note: "Bezpečnostná poznámka",
+        safety_note_text: "VoiceSafe dáva poradné signály. Ak ide o peniaze, vždy over cez oficiálne číslo (banka, web, známy kontakt).",
+        system_status: "Stav systému",
+        mode: "Mód",
+        analyze_sample: "Analyzuj vzorku",
+        upload_or_record: "Nahraj audio/video alebo nahraj krátky klip.",
+        demo: "Demo",
+        upload_file: "Nahrať súbor",
+        no_file_selected: "Nie je vybraný súbor.",
+        record: "Nahrávať",
+        analyze: "Analyzovať",
+        free_line: "Zadarmo 3 analýzy • Bez registrácie • Súkromie",
+        no_storage_proto: "Bez trvalého ukladania hlasu (prototyp)",
+        instant_assessment: "Okamžité vyhodnotenie",
+        gdpr_posture: "GDPR-ready prístup",
+        case_details: "Detaily prípadu (voliteľné)",
+        case_details_desc: "Uložené prípady je možné hľadať a zdieľať (ak backend podporuje).",
+        ph_title: "Názov (napr. Telegram investor)",
+        ph_platform: "Platforma (Telegram)",
+        ph_country: "Krajina (US)",
+        ph_language: "Jazyk (SK)",
+        ph_tags: "Tagy (oddelené čiarkou)",
+        ph_notes: "Poznámky (čo sa stalo)",
+        tip_no_personal: "Tip: Nedávaj osobné údaje do poznámok.",
+        disclaimer: "Upozornenie",
+        disclaimer_text: "Skóre je prototyp a môže sa mýliť. Identitu vždy over oficiálne.",
+        ai_risk_assessment: "AI vyhodnotenie rizika",
+        results: "Výsledky",
+        results_sub: "Nahraj alebo nahraj nahrávku pre report.",
+        risk_level: "Riziko:",
+        confidence: "Istota:",
+        copy_json: "Kopírovať JSON",
+        copy_share_link: "Kopírovať link",
+        share: "Zdieľať",
+        share_card: "Zdieľať kartu",
+        unlock_pro: "Odomknúť Pro – €9/mesiac",
+        manage_subscription: "Spravovať predplatné",
+        recommended_action: "Odporúčané kroky",
+        action_placeholder: "Spusti analýzu pre odporúčanie.",
+        step1_pause: "1) Pauza",
+        step1_desc: "Stop platbu / citlivé kroky",
+        step2_verify: "2) Over",
+        step2_desc: "Zavolaj na oficiálne číslo",
+        step3_escalate: "3) Eskaluj",
+        step3_desc: "Zdieľaj case + export JSON",
+        scam_score: "Scam skóre",
+        ai_voice_probability: "AI hlas pravdepodobnosť",
+        stress_level: "Stres",
+        summary: "Zhrnutie",
+        summary_placeholder: "Nahraj vzorku a uvidíš výsledky.",
+        saved_case: "Uložený prípad",
+        case_id: "Case ID",
+        case_saved_hint: "Analyzuj vzorku pre vytvorenie prípadu.",
+        search_cases: "Hľadať prípady",
+        ph_search: "Hľadať názov / poznámky...",
+        ph_tag: "Filter tag (voliteľné)",
+        search: "Hľadať",
+        clear: "Vymazať",
+        how_it_works: "Ako to funguje",
+        faq1_title: "1) Vstup",
+        faq1_h: "Nahraj alebo nahraj",
+        faq1_d: "Audio/video podporované",
+        faq2_title: "2) Analýza",
+        faq2_h: "Rizikové skóre",
+        faq2_d: "Signály + pravdepodobnosti",
+        faq3_title: "3) Akcia",
+        faq3_h: "Over",
+        faq3_d: "Použi oficiálne kanály",
+        faq_text: "VoiceSafe je prototyp. Skóre môže byť nesprávne — ber to ako včasné varovanie. Ak ide o peniaze, vždy over volajúceho cez dôveryhodný oficiálny kontakt.",
+        privacy: "Privacy",
+        terms: "Service Terms",
+        contact: "Contact",
+        security: "Security",
+        how_modal_title: "Ako VoiceSafe funguje",
+        how_modal_sub: "Jasný výstup, rýchly workflow, minimum krokov.",
+        how_modal_body: "Nahraj alebo nahraj krátku vzorku. VoiceSafe vráti report: scam skóre, AI hlas, stres a red flags.",
+        load_demo: "Načítať demo",
+        go_to_analyzer: "Ísť na analyzér",
+        free_limit_reached: "Limit zdarma vyčerpaný",
+        upgrade_to_pro: "Pre pokračovanie prejdi na Pro.",
+        pro1: "✓ Neobmedzené analýzy",
+        pro2: "✓ Prioritné spracovanie",
+        pro3: "✓ História a zdieľanie prípadov",
+        start_pro: "Spustiť Pro – €9/mesiac",
+      }
+    };
 
+    function normalizeLang(code){
+      if (!code) return "en";
+      const c = String(code).toLowerCase();
+      if (c === "zh" || c.startsWith("zh")) return "zh";
+      if (c === "pt" || c.startsWith("pt")) return "pt";
+      if (c === "en" || c.startsWith("en")) return "en";
+      if (c === "sk" || c.startsWith("sk")) return "sk";
+      if (c === "cs" || c.startsWith("cs")) return "cs";
+      if (c === "de" || c.startsWith("de")) return "de";
+      if (c === "fr" || c.startsWith("fr")) return "fr";
+      if (c === "es" || c.startsWith("es")) return "es";
+      if (c === "it" || c.startsWith("it")) return "it";
+      if (c === "pl" || c.startsWith("pl")) return "pl";
+      if (c === "hu" || c.startsWith("hu")) return "hu";
+      if (c === "ro" || c.startsWith("ro")) return "ro";
+      if (c === "tr" || c.startsWith("tr")) return "tr";
+      if (c === "ru" || c.startsWith("ru")) return "ru";
+      if (c === "uk" || c.startsWith("uk")) return "uk";
+      if (c === "ar" || c.startsWith("ar")) return "ar";
+      if (c === "hi" || c.startsWith("hi")) return "hi";
+      if (c === "ja" || c.startsWith("ja")) return "ja";
+      if (c === "ko" || c.startsWith("ko")) return "ko";
+      return "en";
+    }
+
+    function t(lang, key){
+      const dict = I18N[lang] || I18N.en;
+      return dict[key] ?? I18N.en[key] ?? key;
+    }
+
+    function applyTranslations(lang){
+      // text nodes
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        el.textContent = t(lang, key);
+      });
+      // placeholders
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        el.setAttribute("placeholder", t(lang, key));
+      });
+    }
+
+    function setLanguage(lang){
+      const resolved = (lang === "auto")
+        ? normalizeLang(navigator.language || "en")
+        : normalizeLang(lang);
+
+      localStorage.setItem("vs_lang", lang);
+      document.documentElement.lang = resolved;
+
+      applyTranslations(resolved);
+    }
+
+    // ===========================
+    // APP
+    // ===========================
+    document.addEventListener("DOMContentLoaded", () => {
       const $ = (id) => document.getElementById(id);
+
+      // language init
+      const langSwitch = $("langSwitch");
+      const savedLang = localStorage.getItem("vs_lang") || "auto";
+      if (langSwitch) langSwitch.value = savedLang;
+      setLanguage(savedLang);
+
+      langSwitch?.addEventListener("change", (e) => {
+        setLanguage(e.target.value);
+      });
 
       // DOM
       const fileInput = $("fileInput");
@@ -638,6 +997,7 @@
       const copyJsonBtn = $("copyJsonBtn");
       const shareBtn = $("shareBtn");
       const shareSocialBtn = $("shareSocialBtn");
+      const shareCardBtn = $("shareCardBtn");
 
       const upgradeBtn = $("upgradeBtn");
       const manageSubBtn = $("manageSubBtn");
@@ -676,13 +1036,12 @@
       const paywallModal = $("paywallModal");
 
       const toneToggle = $("toneToggle");
+      const toneToggleText = $("toneToggleText");
 
       // Debug only ?debug=1
       (function initDebug(){
-        try {
-          const u = new URL(window.location.href);
-          if (u.searchParams.get("debug") === "1") $("debugCard")?.classList.remove("hidden");
-        } catch {}
+        const u = new URL(window.location.href);
+        if (u.searchParams.get("debug") === "1") $("debugCard")?.classList.remove("hidden");
       })();
 
       // State
@@ -697,17 +1056,15 @@
       let recording = false;
       let recordStream = null;
 
-      // ===========================
       // Helpers
-      // ===========================
       function toast(msg){
-        const t = $("toast");
-        const m = $("toastMsg");
-        if (!t || !m) return;
-        m.textContent = msg;
-        t.classList.remove("hidden");
+        const tEl = $("toast");
+        const mEl = $("toastMsg");
+        if (!tEl || !mEl) return;
+        mEl.textContent = msg;
+        tEl.classList.remove("hidden");
         clearTimeout(toast._timer);
-        toast._timer = setTimeout(() => t.classList.add("hidden"), 2200);
+        toast._timer = setTimeout(() => tEl.classList.add("hidden"), 2200);
       }
 
       function lockScroll(lock){
@@ -876,14 +1233,10 @@
           if (!b) return;
           b.disabled = false;
           b.removeAttribute("disabled");
-          b.style.pointerEvents = "auto";
-          b.style.cursor = "pointer";
         });
       }
 
-      // ===========================
       // Modals
-      // ===========================
       function openHow(){ if (!howModal) return; howModal.classList.remove("hidden"); howModal.classList.add("flex"); lockScroll(true); }
       function closeHow(){ if (!howModal) return; howModal.classList.add("hidden"); howModal.classList.remove("flex"); lockScroll(false); }
       function openPaywall(){ if (!paywallModal) return; paywallModal.classList.remove("hidden"); paywallModal.classList.add("flex"); lockScroll(true); renderWaitlistCount(); }
@@ -901,9 +1254,7 @@
         }
       });
 
-      // ===========================
       // Demo
-      // ===========================
       function loadDemoResult(){
         localStorage.setItem("vs_demo", "true");
         const demo = {
@@ -936,9 +1287,7 @@
         if (e.key && e.key.toLowerCase() === "d") loadDemoResult();
       });
 
-      // ===========================
       // Waitlist (local)
-      // ===========================
       function renderWaitlistCount(){
         const count = Number(localStorage.getItem("waitlist") || 0);
         $("waitlistCountTop") && ($("waitlistCountTop").textContent = String(count));
@@ -967,9 +1316,7 @@
         }, 6500);
       })();
 
-      // ===========================
       // Hero buttons
-      // ===========================
       ctaHow?.addEventListener("click", openHow);
       $("howTryDemo")?.addEventListener("click", () => { closeHow(); loadDemoResult(); });
       $("howGoAnalyze")?.addEventListener("click", () => { closeHow(); scrollToId("analyzer"); });
@@ -978,13 +1325,10 @@
       ctaDemo?.addEventListener("click", loadDemoResult);
       demoBtn?.addEventListener("click", loadDemoResult);
 
-      // ===========================
       // Stripe buttons
-      // ===========================
       upgradeBtn?.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
       $("paywallCta")?.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
 
-      // Billing portal (optional endpoint)
       manageSubBtn?.addEventListener("click", async () => {
         const customerId = localStorage.getItem("voicesafe_customer_id");
         if (!customerId) { toast("No active subscription found."); return; }
@@ -1003,9 +1347,7 @@
         }
       });
 
-      // ===========================
-      // Mode + backend health (debug only)
-      // ===========================
+      // Mode + backend health (debug)
       function setStatus(text){ if (backendStatus) backendStatus.textContent = text; }
 
       async function checkBackend(){
@@ -1027,34 +1369,27 @@
         toast(`Mode: ${mode}`);
         checkBackend();
       }
-
       btnProd?.addEventListener("click", () => setMode("PROD"));
       btnLocal?.addEventListener("click", () => setMode("LOCAL"));
       setMode("PROD");
 
-      // ===========================
       // File selection
-      // ===========================
       fileInput?.addEventListener("change", () => {
         const f = fileInput.files && fileInput.files[0];
         if (!fileHint) return;
-        fileHint.textContent = f ? `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)` : "No file selected.";
+        fileHint.textContent = f ? `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)` : t(normalizeLang(navigator.language), "no_file_selected");
       });
 
-      // ===========================
       // Record microphone
-      // ===========================
       recordBtn?.addEventListener("click", async () => {
         try {
           if (!recording) {
             recordStream = await navigator.mediaDevices.getUserMedia({ audio: true });
             recordedChunks = [];
             mediaRecorder = new MediaRecorder(recordStream);
-
             mediaRecorder.ondataavailable = (e) => {
               if (e.data && e.data.size > 0) recordedChunks.push(e.data);
             };
-
             mediaRecorder.onstop = () => {
               try {
                 const blob = new Blob(recordedChunks, { type: "audio/webm" });
@@ -1071,7 +1406,6 @@
                 recordStream = null;
               }
             };
-
             mediaRecorder.start();
             recording = true;
             recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
@@ -1079,18 +1413,17 @@
           } else {
             mediaRecorder?.stop();
             recording = false;
-            recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i><span data-i18n="record_btn">Record</span>`;
-            // po stopnutí hneď preložíme label (aby tam nezostalo anglicky)
-            if (window.VS_I18N_APPLY) window.VS_I18N_APPLY();
+            recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i><span data-i18n="record">Record</span>`;
+            // refresh label to selected language
+            const saved = localStorage.getItem("vs_lang") || "auto";
+            setLanguage(saved);
           }
         } catch {
           alert("Microphone permission blocked or unavailable.");
         }
       });
 
-      // ===========================
       // Analyze
-      // ===========================
       analyzeBtn?.addEventListener("click", async () => {
         const isPro = localStorage.getItem("voicesafe_pro") === "true";
         const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
@@ -1177,7 +1510,7 @@
           setResultUI(aiResult);
 
           if (rawJson){
-            rawJson.textContent = JSON.stringify(data, null, 2);
+            rawJson.textContent = JSON.stringify(aiResult, null, 2);
             rawJson.classList.remove("hidden");
           }
 
@@ -1192,23 +1525,21 @@
           if (elapsed < MIN_TIME) await new Promise(r => setTimeout(r, MIN_TIME - elapsed));
           if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
           analyzeBtn.disabled = false;
-          analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="analyze_btn">Analyze</span>';
-          if (window.VS_I18N_APPLY) window.VS_I18N_APPLY();
+          analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="analyze">Analyze</span>';
+          // refresh label to selected language
+          const saved = localStorage.getItem("vs_lang") || "auto";
+          setLanguage(saved);
         }
       });
 
-      // ===========================
       // Copy JSON
-      // ===========================
       copyJsonBtn?.addEventListener("click", async () => {
         if (!lastResponse) { toast("No JSON yet."); return; }
         const ok = await copyTextToClipboard(JSON.stringify(lastResponse, null, 2));
         toast(ok ? "Copied ✓" : "Clipboard blocked.");
       });
 
-      // ===========================
       // Share
-      // ===========================
       function buildShareUrl(){
         const shareUrl = new URL(window.location.origin + window.location.pathname);
         if (lastCaseId) shareUrl.searchParams.set("case", String(lastCaseId));
@@ -1257,9 +1588,20 @@
         showInlineCopyToast();
       });
 
-      // ===========================
-      // Cases: Search + Load (optional backend support)
-      // ===========================
+      // Share card (simple - copies a summary text for now)
+      shareCardBtn?.addEventListener("click", async () => {
+        if (!lastResponse){ toast("No result yet."); return; }
+        const scam = clampPct(pickNumber(lastResponse, ["scam_score","scamScore","risk"], 0));
+        const ai = clampPct(pickNumber(lastResponse, ["ai_probability","aiProb","ai_voice_probability"], 0));
+        const stress = clampPct(pickNumber(lastResponse, ["stress_level","stressLevel","stress"], 0));
+        const risk = riskFromScore(scam);
+        const url = buildShareUrl();
+        const cardText = `VoiceSafe • Risk: ${risk}\nScam: ${Math.round(scam)}% | AI: ${Math.round(ai)}% | Stress: ${Math.round(stress)}%\n${url}`;
+        const ok = await copyTextToClipboard(cardText);
+        toast(ok ? "Share card copied ✓" : "Clipboard blocked.");
+      });
+
+      // Cases: Search + Load
       function escapeHtml(s){
         return (s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
       }
@@ -1275,25 +1617,130 @@
           const id = item.id || item.case_id || item._id;
           const title = item?.meta?.title || item?.title || "(untitled)";
           const row = document.createElement("div");
-          row.className = "chip rounded-xl p-3 text-sm cursor-pointer hover:opacity-80";
-          row.innerHTML = `<div>${escapeHtml(title)}</div><div class="text-xs muted">${escapeHtml(id)}</div>`;
-          row.addEventListener("click", async () => {
-            const r = await fetch(`${backendBase}/case/${id}`);
-            const c = await r.json().catch(() => null);
-            if (!c) { toast("Could not load case."); return; }
-            const ar = c?.aiResult || c?.result || c;
-            lastResponse = ar;
-            lastCaseId = id;
-            setResultUI(ar);
-            if (rawJson){
-              rawJson.textContent = JSON.stringify(c, null, 2);
-              rawJson.classList.remove("hidden");
-            }
-            const u = new URL(window.location.href);
-            u.searchParams.set("case", String(id));
-            history.replaceState({}, "", u.toString());
-            toast("Case loaded ✓");
-            scrollToId("resultsCard");
-          });
+          row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
+          row.innerHTML = `
+            <div class="flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
+                <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
+              </div>
+              <div class="text-sm font-bold gold-text shrink-0">Load</div>
+            </div>
+          `;
+          row.addEventListener("click", () => loadCase(id));
           resultsList.appendChild(row);
         });
+      }
+
+      async function doSearch(){
+        if (!resultsList) return;
+        const q = (searchQ?.value || "").trim();
+        const tag = (searchTag?.value || "").trim();
+        const url = new URL(`${backendBase}/cases`);
+        if (q) url.searchParams.set("q", q);
+        if (tag) url.searchParams.set("tag", tag);
+
+        resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
+        try {
+          const r = await fetch(url.toString(), { cache: "no-store" });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok) throw new Error(j?.message || "Search failed");
+          renderSearchList(j?.cases || j?.items || []);
+        } catch {
+          resultsList.innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`;
+        }
+      }
+
+      async function loadCase(id){
+        if (!id) return;
+        if (summaryText) summaryText.textContent = "Loading case…";
+        scrollToId("resultsCard");
+
+        try {
+          const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok){
+            if (summaryText) summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
+            toast("Load failed.");
+            return;
+          }
+
+          const c = j.case || j.item || j;
+          const meta = c.meta || {};
+          const data = c.aiResult || c.data || c;
+
+          if (titleEl) titleEl.value = meta.title || c.title || "";
+          if (platformEl) platformEl.value = meta.platform || c.platform || "";
+          if (countryEl) countryEl.value = meta.country || c.country || "";
+          if (languageEl) languageEl.value = meta.language || c.language || "";
+          if (tagsEl) tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
+          if (notesEl) notesEl.value = meta.notes || c.notes || "";
+
+          lastResponse = data;
+          lastCaseId = c.id || c._id || id;
+
+          if (caseIdEl) caseIdEl.textContent = String(lastCaseId);
+          if (caseSavedHint) caseSavedHint.textContent = "Loaded from saved cases.";
+
+          setResultUI(data);
+
+          if (rawJson){
+            rawJson.textContent = JSON.stringify(j, null, 2);
+            rawJson.classList.remove("hidden");
+          }
+
+          toast("Case loaded ✓");
+        } catch (e) {
+          console.error("LOAD CASE ERROR:", e);
+          if (summaryText) summaryText.textContent = "Error loading case.";
+          toast("Load error.");
+        }
+      }
+
+      searchBtn?.addEventListener("click", doSearch);
+      clearBtn?.addEventListener("click", () => {
+        if (searchQ) searchQ.value = "";
+        if (searchTag) searchTag.value = "";
+        if (resultsList) resultsList.innerHTML = "";
+        toast("Cleared.");
+      });
+
+      [searchQ, searchTag].forEach(inp => {
+        inp?.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") doSearch();
+        });
+      });
+
+      // Enterprise mode toggle
+      function renderTone(){
+        const isEnterprise = localStorage.getItem("voicesafe_enterprise") === "true";
+        if (toneToggleText) toneToggleText.textContent = `Enterprise mode: ${isEnterprise ? "ON" : "OFF"}`;
+      }
+      renderTone();
+
+      toneToggle?.addEventListener("click", () => {
+        const isEnterprise = localStorage.getItem("voicesafe_enterprise") === "true";
+        localStorage.setItem("voicesafe_enterprise", String(!isEnterprise));
+        renderTone();
+        toast(`Enterprise mode: ${!isEnterprise ? "ON" : "OFF"}`);
+      });
+
+      // Auto-load case from URL
+      (function loadCaseFromUrl(){
+        const u = new URL(window.location.href);
+        const caseId = u.searchParams.get("case");
+        if (caseId && caseId !== "local") {
+          loadCase(caseId);
+        }
+      })();
+
+      // Ctrl/Cmd + Enter => Analyze
+      document.addEventListener("keydown", (e) => {
+        const isMac = navigator.platform?.toLowerCase().includes("mac");
+        const mod = isMac ? e.metaKey : e.ctrlKey;
+        if (mod && e.key === "Enter") analyzeBtn?.click();
+      });
+    });
+  </script>
+</body>
+</html>
