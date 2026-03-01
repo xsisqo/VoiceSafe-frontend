@@ -146,8 +146,8 @@
 #resultsCard.ultra-pro{
   position: relative;
   overflow: hidden;
-  animation: vs-breathe 3.6s ease-in-out infinite;
-  will-change: transform;
+  animation: vs-breathe 2.2s ease-in-out infinite;
+  will-change: transform, box-shadow;
 }
 
 #resultsCard.ultra-pro::after{
@@ -167,8 +167,15 @@
 
 /* pulz na karte (jemné dýchanie) */
 @keyframes vs-breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+  0%,100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(80,180,255,0);
+  }
+
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 35px rgba(80,180,255,.35);
+  }
 }
 
 /* “aurora” glow okolo karty */
