@@ -1395,7 +1395,11 @@
                 })();
           
               })();
+
             </script>
+
+            <script>
+
             // ===========================
 // LANGUAGE SYSTEM
 // ===========================
@@ -1440,12 +1444,17 @@ document.getElementById("langSwitch")?.addEventListener("change",(e)=>{
   const browser = navigator.language.startsWith("sk") ? "sk" : "en";
   await loadLanguage(saved || browser);
 })();
+</script>
 
 <script src="share-card.js"></script>
 
-<script>
-bootWiring();
-</script>
+    <script>
+    bootWiring();
+    </script>
 
-</body>
+    <script>
+    bootWiring();
+    </script>
+
+  </body>
 </html>
