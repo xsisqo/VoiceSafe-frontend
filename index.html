@@ -1291,6 +1291,17 @@
         const confidenceEl = $("confidenceLabel");
 
         if (resultsCard) resultsCard.setAttribute("data-risk", risk);
+
+// ===== ULTRA PRO PULSE =====
+if (resultsCard) {
+  const shouldPulse =
+    risk === "ELEVATED" ||
+    risk === "HIGH" ||
+    risk === "CRITICAL";
+
+  resultsCard.classList.toggle("ultra-pro-pulse", shouldPulse);
+}
+
         if (riskBadge) riskBadge.setAttribute("data-risk", risk);
         if (riskBadgeText){
           const map = { LOW:"LOW RISK", GUARDED:"GUARDED", ELEVATED:"ELEVATED", HIGH:"HIGH RISK", CRITICAL:"CRITICAL" };
