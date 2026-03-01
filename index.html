@@ -138,22 +138,47 @@
     background .35s ease;
 }
 
-.risk-ring[data-risk] {
-  animation: riskPulse .6s ease;
+/* =========================
+   ULTRA PRO: breathing glow
+   ========================= */
+
+/* pulz na karte (jemné dýchanie) */
+@keyframes vs-breathe {
+  0%, 100% { transform: translateZ(0) scale(1); }
+  50% { transform: translateZ(0) scale(1.006); }
 }
 
-@keyframes riskPulse {
-  0% {
-    transform: scale(.98);
-    opacity: .6;
-  }
-  60% {
-    transform: scale(1.02);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-  }
+/* “aurora” glow okolo karty */
+@keyframes vs-aurora {
+  0%, 100% { opacity: .18; filter: blur(18px); transform: scale(.985); }
+  50% { opacity: .34; filter: blur(22px); transform: scale(1.01); }
+}
+
+/* výsledková karta dostane pulz iba keď má data-risk */
+#resultsCard.risk-ring[data-risk]{
+  animation: vs-breathe 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* glow vrstva */
+#resultsCard.risk-ring[data-risk]::before{
+  opacity: .22; /* default */
+  filter: blur(18px);
+  transform: scale(.985);
+  animation: vs-aurora 3.2s ease-in-out infinite;
+}
+
+/* risk → intenzita + farba (použije tvoje existujúce rgba farby, len boostne efekt) */
+#resultsCard.risk-ring[data-risk="LOW"]::before{ opacity: .20; }
+#resultsCard.risk-ring[data-risk="GUARDED"]::before{ opacity: .24; }
+#resultsCard.risk-ring[data-risk="ELEVATED"]::before{ opacity: .30; }
+#resultsCard.risk-ring[data-risk="HIGH"]::before{ opacity: .38; }
+#resultsCard.risk-ring[data-risk="CRITICAL"]::before{ opacity: .46; }
+
+/* extra “shine” na border pri vyššom risk */
+#resultsCard.risk-border[data-risk="HIGH"],
+#resultsCard.risk-border[data-risk="CRITICAL"]{
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 18px 70px rgba(0,0,0,.35);
 }
 
     }
