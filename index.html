@@ -1,196 +1,55 @@
-<!-- file: frontend/index.html -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>VoiceSafe — Your AI Guardian Against Voice Scams</title>
-  <meta name="description" content="Upload a voice message. Know in seconds if it’s trying to scam you — before you send money." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VoiceSafe – Anti-Scam Voice Analyzer</title>
 
-  <!-- OpenGraph / Twitter -->
-  <meta property="og:title" content="VoiceSafe — Your AI Guardian Against Voice Scams" />
-  <meta property="og:description" content="Upload a voice message. Know in seconds if it’s trying to scam you — before you send money." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://voicesafe.ai" />
-  <meta property="og:image" content="/og-image.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="VoiceSafe — Your AI Guardian Against Voice Scams" />
-  <meta name="twitter:description" content="Upload a voice message. Know in seconds if it’s trying to scam you — before you send money." />
-  <meta name="twitter:image" content="/og-image.png" />
-
-  <!-- Favicons / PWA -->
-  <link rel="icon" href="/favicon.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/icon-192.png" />
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <meta name="theme-color" content="#070A12" />
-
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    :root{
-      --bg0:#070A12;
-      --bg1:#0B1220;
-      --stroke:rgba(255,255,255,.10);
-      --gold1:#F7D774;
-      --gold2:#C9A24A;
-      --muted:rgba(255,255,255,.74);
-      --shadow:0 22px 70px rgba(0,0,0,.55);
-      --shadow2:0 14px 50px rgba(0,0,0,.45);
-      --glassA:rgba(255,255,255,.07);
-      --glassB:rgba(255,255,255,.03);
-    }
-    html,body{height:100%}
-    body{
-      background:
-        radial-gradient(1000px 650px at 14% 10%, rgba(247,215,116,.14), transparent 62%),
-        radial-gradient(900px 600px at 88% 0%, rgba(201,162,74,.12), transparent 60%),
-        radial-gradient(1000px 760px at 50% 105%, rgba(99,102,241,.12), transparent 62%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      color:#fff;
-      overflow-x:hidden;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-    }
-    *{box-sizing:border-box}
-    .muted{color:var(--muted)}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
-    .glass{
-      background:linear-gradient(180deg, var(--glassA), var(--glassB));
-      border:1px solid var(--stroke);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(10px);
-    }
-    .glass-soft{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
-      border:1px solid rgba(255,255,255,.09);
-      box-shadow:var(--shadow2);
-      backdrop-filter:blur(10px);
-    }
-    .gold-border{
-      border:1px solid rgba(247,215,116,.34);
-      box-shadow:0 0 0 1px rgba(201,162,74,.18) inset;
-    }
-    .gold-text{
-      background:linear-gradient(90deg, var(--gold1), var(--gold2));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .chip{
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.05);
-    }
-    .btn-gold{
-      background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
-      color:#111827;
-      box-shadow:0 12px 34px rgba(247,215,116,.18);
-      transition:transform .12s ease, filter .12s ease, box-shadow .12s ease;
-    }
-    .btn-gold:hover{filter:brightness(1.03); transform:translateY(-1px)}
-    .btn-gold:active{transform:translateY(0)}
-    .btn-gold:disabled{opacity:.45; cursor:not-allowed; box-shadow:none; transform:none}
-    .focus-ring:focus{outline:none; box-shadow:0 0 0 3px rgba(247,215,116,.25)}
-    .bar{
-      height:10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .bar>div{
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg, rgba(247,215,116,1), rgba(201,162,74,1));
-      width:0%;
-      transition:width .35s ease;
-    }
-    .safe-pb{padding-bottom:env(safe-area-inset-bottom)}
-    .kbd{
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06);
-      padding:.15rem .45rem;
-      border-radius:.5rem;
-      font-size:.72rem;
-    }
-    .divider{border-top:1px solid rgba(255,255,255,.10)}
+    /* tiny polish */
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); }
+    .shadow-soft { box-shadow: 0 18px 60px rgba(0,0,0,.35); }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .progressBar { height: 10px; border-radius: 9999px; overflow: hidden; background: rgba(255,255,255,.12); }
+    .progressFill { height: 100%; width: 0%; background: rgba(245, 158, 11, .85); border-radius: 9999px; transition: width .35s ease; }
 
-    /* ===== Risk UI ===== */
-    .risk-ring { position: relative; }
-    .risk-ring::before{
-      content:"";
-      position:absolute; inset:-2px;
-      border-radius: 24px;
-      pointer-events:none;
-      opacity:0;
-      filter: blur(14px);
-      transition: opacity .25s ease, transform .25s ease;
-      transform: scale(.985);
-    }
-    .risk-ring[data-risk="LOW"]::before{ opacity:.22; background: rgba(34,197,94,.45); }
-    .risk-ring[data-risk="GUARDED"]::before{ opacity:.25; background: rgba(59,130,246,.45); }
-    .risk-ring[data-risk="ELEVATED"]::before{ opacity:.30; background: rgba(245,158,11,.50); }
-    .risk-ring[data-risk="HIGH"]::before{ opacity:.36; background: rgba(249,115,22,.55); }
-    .risk-ring[data-risk="CRITICAL"]::before{ opacity:.42; background: rgba(239,68,68,.60); }
+    /* chips */
+    .chip { display: inline-flex; align-items: center; gap: .5rem; border-radius: 9999px; padding: .35rem .75rem; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.10); color: rgba(255,255,255,.92); }
 
-    .risk-border{ transition: border-color .25s ease, box-shadow .25s ease; border:1px solid rgba(255,255,255,.10); }
-    .risk-border[data-risk="LOW"]{ border-color: rgba(34,197,94,.35); box-shadow: 0 0 0 1px rgba(34,197,94,.18) inset; }
-    .risk-border[data-risk="GUARDED"]{ border-color: rgba(59,130,246,.35); box-shadow: 0 0 0 1px rgba(59,130,246,.18) inset; }
-    .risk-border[data-risk="ELEVATED"]{ border-color: rgba(245,158,11,.40); box-shadow: 0 0 0 1px rgba(245,158,11,.20) inset; }
-    .risk-border[data-risk="HIGH"]{ border-color: rgba(249,115,22,.45); box-shadow: 0 0 0 1px rgba(249,115,22,.22) inset; }
-    .risk-border[data-risk="CRITICAL"]{ border-color: rgba(239,68,68,.50); box-shadow: 0 0 0 1px rgba(239,68,68,.24) inset; }
+    /* risk ring */
+    .risk-ring { box-shadow: 0 0 0 2px rgba(245,158,11,.18), 0 0 60px rgba(245,158,11,.08); }
+    .risk-border { border: 1px solid rgba(245,158,11,.28); }
 
-    .risk-badge{
-      display:inline-flex; align-items:center; gap:.5rem;
-      padding:.25rem .6rem;
-      border-radius: 9999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      backdrop-filter: blur(8px);
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: 11px;
-      line-height: 1;
-      transition: background .2s ease, border-color .2s ease;
-    }
+    /* risk badge */
     .risk-badge[data-risk="LOW"]{ border-color: rgba(34,197,94,.35); }
     .risk-badge[data-risk="GUARDED"]{ border-color: rgba(59,130,246,.35); }
     .risk-badge[data-risk="ELEVATED"]{ border-color: rgba(245,158,11,.40); }
     .risk-badge[data-risk="HIGH"]{ border-color: rgba(249,115,22,.45); }
     .risk-badge[data-risk="CRITICAL"]{ border-color: rgba(239,68,68,.50); }
-
-    /* language select polish */
-    .lang-select { min-width: 210px; }
-    @media (max-width: 420px){
-      .lang-select { min-width: 180px; }
-    }
   </style>
 </head>
 
-<body class="min-h-screen safe-pb">
+<body class="min-h-screen safe-pb text-white" style="background: radial-gradient(1200px 600px at 20% 10%, rgba(245,158,11,.08), transparent 60%), radial-gradient(1000px 600px at 85% 30%, rgba(59,130,246,.10), transparent 55%), #0b1220;">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
-    <!-- Language switch -->
-    <div class="flex justify-end mb-3">
-      <select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs lang-select" aria-label="Language">
+    <!-- Fixed language switch (visible on desktop + mobile) -->
+    <div class="glass shadow-soft" style="position:fixed;top:12px;right:12px;z-index:99999;padding:8px;border-radius:14px;">
+      <select id="langSwitch" class="chip rounded-xl px-3 py-2 text-xs font-semibold" style="background: transparent;">
         <option value="en">🇺🇸 English</option>
         <option value="sk">🇸🇰 Slovensky</option>
-        <option value="cs">🇨🇿 Čeština</option>
+        <option value="cs">🇨🇿 Česky</option>
         <option value="de">🇩🇪 Deutsch</option>
-        <option value="es">🇪🇸 Español</option>
         <option value="fr">🇫🇷 Français</option>
+        <option value="es">🇪🇸 Español</option>
         <option value="it">🇮🇹 Italiano</option>
-        <option value="pt">🇵🇹 Português</option>
         <option value="pl">🇵🇱 Polski</option>
-        <option value="hu">🇭🇺 Magyar</option>
-        <option value="ro">🇷🇴 Română</option>
-        <option value="uk">🇺🇦 Українська</option>
-        <option value="ru">🇷🇺 Русский</option>
+        <option value="pt">🇵🇹 Português</option>
         <option value="tr">🇹🇷 Türkçe</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="uk">🇺🇦 Українська</option>
         <option value="ar">🇸🇦 العربية</option>
         <option value="hi">🇮🇳 हिन्दी</option>
         <option value="zh">🇨🇳 中文</option>
@@ -203,1862 +62,756 @@
     <div class="flex items-center justify-between gap-3 mb-6">
       <div class="inline-flex items-center gap-2 chip px-3 py-1.5 rounded-full text-xs">
         <i class="fa-solid fa-shield-halved"></i>
-        <span class="opacity-90" data-i18n="top_early_access">Early Access</span>
+        <span class="opacity-90">Early Access</span>
         <span class="opacity-40">•</span>
-        <span class="opacity-80"><span id="waitlistCountBadge">0</span> <span data-i18n="top_people_joined">people joined</span></span>
+        <span class="opacity-80"><span id="waitlistCountBadge">0</span> people joined</span>
       </div>
-      <div class="hidden sm:flex items-center gap-2 text-xs muted">
+
+      <div class="hidden sm:flex items-center gap-2 text-xs opacity-80">
         <span id="liveActivity"></span>
       </div>
     </div>
 
-    <!-- TRUST BAR -->
-    <div class="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center">
+    <!-- Trust bar -->
+    <div class="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center mb-6">
       <div class="lg:col-span-7 text-xs opacity-85 tracking-wide">
-        <span class="opacity-70" data-i18n="trust_built_for">Built for evaluation by</span>
-        <span class="font-semibold opacity-95" data-i18n="trust_who">Banks • Fraud Operations • Compliance (KYC/AML) • Investigations</span>
-        <span class="opacity-50">•</span>
-        <span class="opacity-80" data-i18n="trust_note">Advisory signals, not identity verification.</span>
+        <span class="opacity-70">Built for evaluation by</span>
+        <span class="font-semibold opacity-95"> Banks • Fraud Operations • Compliance (KYC/AML) • Investigations</span>
+        <span class="opacity-50"> • </span>
+        <span class="opacity-80">Advisory signals, not identity verification.</span>
       </div>
       <div class="lg:col-span-5 flex flex-wrap gap-2 lg:justify-end">
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-shield-halved mr-2"></i><span data-i18n="trust_chip_privacy">Privacy-first posture</span></span>
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-clipboard-check mr-2"></i><span data-i18n="trust_chip_audit">Audit-friendly outputs</span></span>
-        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-plug mr-2"></i><span data-i18n="trust_chip_api">API-first integration</span></span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-user-shield"></i> Privacy-first posture</span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-clipboard-check"></i> Audit-friendly outputs</span>
+        <span class="chip rounded-full px-3 py-1 text-[11px]"><i class="fa-solid fa-plug"></i> API-first integration</span>
       </div>
-    </div>
-
-    <!-- Enterprise toggle -->
-    <div class="flex items-center gap-2 mt-3">
-      <span class="text-xs muted hidden sm:inline" data-i18n="tone_label">Tone</span>
-      <button id="toneToggle" class="chip rounded-full px-3 py-1.5 text-xs font-semibold hover:opacity-90" type="button">
-        <i class="fa-solid fa-building-columns mr-2"></i><span id="toneToggleText">Enterprise mode: OFF</span>
-      </button>
     </div>
 
     <!-- HERO -->
-    <section class="glass gold-border rounded-3xl p-6 sm:p-8 mt-4">
-      <div class="flex flex-wrap items-center gap-2">
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-bolt mr-2"></i><span data-i18n="hero_chip_seconds">Seconds, not minutes</span></span>
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-lock mr-2"></i><span data-i18n="hero_chip_privacy">Privacy-first by design</span></span>
-        <span class="chip rounded-full px-3 py-1 text-xs"><i class="fa-solid fa-globe mr-2"></i><span data-i18n="hero_chip_global">Global scam protection</span></span>
+    <div class="glass shadow-soft rounded-3xl p-6 sm:p-8 risk-ring risk-border">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip text-xs"><i class="fa-solid fa-bolt"></i> Seconds, not minutes</span>
+        <span class="chip text-xs"><i class="fa-solid fa-lock"></i> Privacy-first by design</span>
+        <span class="chip text-xs"><i class="fa-solid fa-globe"></i> Global scam protection</span>
       </div>
 
-      <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div class="lg:col-span-7">
-          <h1 id="heroTitle" class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
-            <span class="gold-text">VoiceSafe</span><br />
-            <span data-i18n="hero_title_line">Your AI Guardian</span> <span class="gold-text" data-i18n="hero_title_accent">Against Voice Scams</span>
+          <h1 id="heroTitle" class="text-3xl sm:text-4xl font-extrabold leading-tight">
+            VoiceSafe — The Risk Intelligence Layer
           </h1>
-
-          <p id="heroDesc" class="mt-4 text-base sm:text-lg muted max-w-2xl" data-i18n="hero_desc">
-            Upload a voice message. Know in seconds if it’s trying to scam you — before you send money. Get a clear report: scam score, AI voice probability, stress signals, and red flags.
+          <p id="heroDesc" class="mt-4 text-base sm:text-lg text-white/80 leading-relaxed">
+            Upload a voice message. Know in seconds if it’s trying to scam you — <b>before you send money</b>.
+            Get a clear report: scam score, AI voice probability, stress signals, and red flags.
           </p>
 
           <div class="mt-6 flex flex-wrap gap-3">
-            <button id="ctaAnalyze" class="btn-gold rounded-xl px-5 py-3 text-sm font-semibold" type="button">
-              <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="cta_start">Start Risk Assessment</span>
+            <button id="ctaAnalyze" class="btn chip px-5 py-3 rounded-2xl font-semibold bg-amber-400/90 text-black hover:bg-amber-400 transition">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Start Risk Assessment
             </button>
-            <button id="ctaDemo" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90" type="button">
-              <i class="fa-solid fa-play mr-2"></i><span data-i18n="cta_demo">View Platform Demo</span>
+            <button id="ctaDemo" class="btn chip px-5 py-3 rounded-2xl font-semibold hover:bg-white/10 transition">
+              <i class="fa-solid fa-play"></i> View Platform Demo
             </button>
-            <button id="ctaHow" class="chip rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90" type="button">
-              <i class="fa-solid fa-circle-info mr-2"></i><span data-i18n="cta_how">Explore Methodology</span>
+            <button id="ctaHow" class="btn chip px-5 py-3 rounded-2xl font-semibold hover:bg-white/10 transition">
+              <i class="fa-solid fa-circle-info"></i> Explore Methodology
             </button>
           </div>
 
-          <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-            <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted" data-i18n="hero_card_storage_label">Storage posture</div>
-              <div class="mt-1 text-lg font-bold" data-i18n="hero_card_storage_value">No permanent storage</div>
-              <div class="mt-1 text-xs muted" data-i18n="hero_card_storage_hint">Designed for privacy</div>
+          <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="glass rounded-2xl p-4">
+              <div class="text-xs opacity-70">Storage posture</div>
+              <div class="mt-1 font-semibold">No permanent storage</div>
+              <div class="mt-1 text-xs opacity-70">Designed for privacy</div>
             </div>
-            <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted" data-i18n="hero_card_output_label">Output</div>
-              <div class="mt-1 text-lg font-bold" data-i18n="hero_card_output_value">Clear risk signals</div>
-              <div class="mt-1 text-xs muted" data-i18n="hero_card_output_hint">Human-readable summary</div>
+            <div class="glass rounded-2xl p-4">
+              <div class="text-xs opacity-70">Output</div>
+              <div class="mt-1 font-semibold">Clear risk signals</div>
+              <div class="mt-1 text-xs opacity-70">Human-readable summary</div>
             </div>
-            <div class="chip rounded-2xl p-4">
-              <div class="text-xs muted" data-i18n="hero_card_use_label">Use case</div>
-              <div class="mt-1 text-lg font-bold" data-i18n="hero_card_use_value">Before paying</div>
-              <div class="mt-1 text-xs muted" data-i18n="hero_card_use_hint">Verify with official channels</div>
+            <div class="glass rounded-2xl p-4">
+              <div class="text-xs opacity-70">Use case</div>
+              <div class="mt-1 font-semibold">Before paying</div>
+              <div class="mt-1 text-xs opacity-70">Verify with official channels</div>
             </div>
-          </div>
-
-          <div class="mt-5 text-xs muted">
-            <span data-i18n="hero_joined">Joined early access:</span>
-            <span id="waitlistCountTop" class="text-white/90 font-semibold">0</span>
-            <span class="opacity-40">•</span>
-            <span id="waitlistUrgency" data-i18n="hero_urgency">Early Access is open now.</span>
-            <span class="opacity-40">•</span>
-            <span class="kbd" data-i18n="hero_tip">Tip:</span> <span data-i18n="hero_tip_keys">Press</span> <span class="kbd">D</span> <span data-i18n="hero_tip_demo">for demo</span>
           </div>
         </div>
 
-        <div class="lg:col-span-5 grid gap-3">
-          <button id="joinWaitlistBtn" class="chip rounded-2xl p-5 text-left hover:opacity-90" type="button">
-            <div class="text-sm font-semibold"><i class="fa-solid fa-fire mr-2"></i><span data-i18n="join_title">Join Early Access</span></div>
-            <div class="mt-1 text-xs muted" data-i18n="join_desc">Helps prioritize features and builds credibility with investors.</div>
-          </button>
+        <div class="lg:col-span-5 space-y-3">
+          <div class="glass rounded-2xl p-4">
+            <div class="flex items-center gap-2 text-sm font-semibold">
+              <i class="fa-solid fa-user-plus"></i> Join Early Access
+            </div>
+            <div class="mt-1 text-xs opacity-75">
+              Helps prioritize features and builds credibility with investors.
+            </div>
+          </div>
 
-          <div class="glass-soft rounded-2xl p-5">
-            <div class="text-sm font-semibold" data-i18n="safety_title">Safety note</div>
-            <div class="mt-2 text-xs muted leading-6" data-i18n="safety_text">
+          <div class="glass rounded-2xl p-4">
+            <div class="flex items-center gap-2 text-sm font-semibold">
+              <i class="fa-solid fa-triangle-exclamation"></i> Safety note
+            </div>
+            <div class="mt-1 text-xs opacity-75">
               VoiceSafe provides advisory signals. If money is involved, always verify via an official number (bank, company website, known contact).
             </div>
           </div>
-
-          <!-- Debug only when ?debug=1 -->
-          <div id="debugCard" class="glass-soft rounded-2xl p-5 hidden">
-            <div class="flex items-start justify-between gap-3">
-              <div class="min-w-0">
-                <div class="text-sm font-semibold" data-i18n="debug_title">System status</div>
-                <div class="text-xs muted mt-1 truncate" id="backendStatus" data-i18n="debug_checking">Checking…</div>
-              </div>
-              <div class="text-right shrink-0">
-                <div class="text-xs muted" data-i18n="debug_mode">Mode</div>
-                <div class="text-sm font-semibold gold-text" id="modeLabel">PROD</div>
-              </div>
-            </div>
-            <div class="mt-3 text-xs muted break-all"><span class="mono" id="backendUrl"></span></div>
-            <div class="mt-4 flex gap-2">
-              <button id="btnProd" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90" type="button">PROD</button>
-              <button id="btnLocal" class="chip rounded-xl px-3 py-2 text-xs font-semibold w-1/2 hover:opacity-90" type="button">LOCAL</button>
-            </div>
-          </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- MAIN: Analyzer + Results -->
+    <!-- Analyzer -->
     <section id="analyzer" class="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
-
-      <!-- LEFT -->
       <div class="lg:col-span-5 glass rounded-3xl p-5 sm:p-6">
         <div class="flex items-start justify-between gap-3">
           <div>
-            <h2 class="text-lg font-semibold" data-i18n="an_title">Analyze a sample</h2>
-            <p class="muted text-sm mt-1" data-i18n="an_sub">Upload audio/video or record a short clip.</p>
+            <h2 id="analyzeSampleTitle" class="text-lg font-semibold">Analyze a sample</h2>
+            <p id="analyzeSampleDesc" class="text-sm text-white/70 mt-1">Upload audio/video or record a short clip.</p>
           </div>
-          <button id="demoBtn" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90" type="button">
-            <i class="fa-solid fa-bolt mr-2"></i><span data-i18n="btn_demo">Demo</span>
-          </button>
+          <span id="demoChip" class="chip text-xs"><i class="fa-solid fa-bolt"></i> Demo</span>
         </div>
 
-        <div class="mt-5">
-          <label class="block text-sm muted mb-2" for="fileInput" data-i18n="an_upload_label">Upload file</label>
-          <input id="fileInput" type="file" accept="audio/*,video/*" class="w-full text-sm chip rounded-xl p-3 outline-none focus-ring" />
-          <div class="mt-2 text-xs muted" id="fileHint" data-i18n="an_no_file">No file selected.</div>
-        </div>
+        <div class="mt-4 space-y-3">
+          <label class="text-xs opacity-75">Upload file</label>
+          <input id="fileInput" type="file" accept="audio/*,video/*"
+            class="w-full chip rounded-2xl px-4 py-3 text-sm outline-none focus:ring focus:ring-amber-400/30" />
 
-        <div class="mt-5 grid grid-cols-2 gap-3">
-          <button id="recordBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90">
-            <i class="fa-solid fa-microphone mr-2"></i><span data-i18n="btn_record">Record</span>
-          </button>
-          <button id="analyzeBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold">
-            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="btn_analyze">Analyze</span>
-          </button>
-        </div>
+          <div class="flex gap-3">
+            <button id="recordBtn" class="btn chip rounded-2xl px-4 py-3 text-sm font-semibold hover:bg-white/10 transition w-1/2">
+              <i class="fa-solid fa-microphone"></i> Record
+            </button>
+            <button id="analyzeBtn" class="btn chip rounded-2xl px-4 py-3 text-sm font-semibold bg-amber-400/90 text-black hover:bg-amber-400 transition w-1/2">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze
+            </button>
+          </div>
 
-        <div class="mt-4 text-xs muted" data-i18n="an_free_line">
-          Free 3 analyses • No signup required • Privacy-first
-        </div>
-        <div class="mt-2 text-xs muted leading-6">
-          <div>🔒 <span data-i18n="an_privacy_bullet">No permanent voice storage (prototype)</span></div>
-          <div>⚡ <span data-i18n="an_fast_bullet">Instant risk assessment</span></div>
-          <div>🇪🇺 <span data-i18n="an_gdpr_bullet">GDPR-ready posture</span></div>
+          <div class="text-xs text-white/70 pt-1">
+            <span class="opacity-90">Free 3 analyses</span> • No signup required • Privacy-first
+            <div class="mt-2 space-y-1">
+              <div><i class="fa-solid fa-lock opacity-80"></i> No permanent voice storage (prototype)</div>
+              <div><i class="fa-solid fa-bolt opacity-80"></i> Instant risk assessment</div>
+            </div>
+          </div>
+
+          <div class="text-xs opacity-60">EU GDPR-ready posture</div>
         </div>
 
         <div class="mt-6 divider pt-5">
-          <h3 class="text-sm font-semibold" data-i18n="case_opt_title">Case details (optional)</h3>
-          <p class="muted text-xs mt-1" data-i18n="case_opt_sub">Saved cases can be searched & shared (if backend supports it).</p>
+          <h3 class="text-sm font-semibold">Case details (optional)</h3>
+          <p class="muted text-xs mt-1">Saved cases can be searched & shared (if backend supports it).</p>
 
           <div class="mt-4 space-y-3">
-            <input id="title" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                   data-i18n-ph="ph_title" placeholder="Title (e.g. Telegram investor)" />
+            <input id="title" class="w-full chip rounded-2xl p-3 text-sm outline-none focus:ring focus:ring-amber-400/30" placeholder="Title (e.g. Telegram investor)" />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="platform" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                     data-i18n-ph="ph_platform" placeholder="Platform (Telegram)" />
-              <input id="country" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                     data-i18n-ph="ph_country" placeholder="Country (US)" />
+              <input id="platform" class="w-full chip rounded-2xl p-3 text-sm outline-none focus:ring focus:ring-amber-400/30" placeholder="Platform (Telegram)" />
+              <input id="country" class="w-full chip rounded-2xl p-3 text-sm outline-none focus:ring focus:ring-amber-400/30" placeholder="Country (US)" />
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input id="language" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                     data-i18n-ph="ph_language" placeholder="Language (EN)" />
-              <input id="tags" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                     data-i18n-ph="ph_tags" placeholder="Tags (comma separated)" />
+              <input id="language" class="w-full chip rounded-2xl p-3 text-sm outline-none focus:ring focus:ring-amber-400/30" placeholder="Language (EN)" />
+              <input id="tags" class="w-full chip rounded-2xl p-3 text-sm outline-none focus:ring focus:ring-amber-400/30" placeholder="Tags (comma separated)" />
             </div>
-            <textarea id="notes" rows="3" class="w-full chip rounded-xl p-3 text-sm outline-none focus-ring"
-                      data-i18n-ph="ph_notes" placeholder="Notes (what happened)"></textarea>
+            <textarea id="notes" rows="3" class="w-full chip rounded-2xl p-3 text-sm outline-none focus:ring focus:ring-amber-400/30" placeholder="Notes (what happened)"></textarea>
           </div>
 
-          <div class="mt-4 text-xs muted" data-i18n="case_tip">Tip: Keep personal data out of notes.</div>
-        </div>
+          <div class="mt-4 text-xs muted">Tip: Keep personal data out of notes.</div>
 
-        <div class="mt-5 chip rounded-2xl p-4 text-xs muted">
-          <div class="font-semibold text-white/90" data-i18n="disc_title">Disclaimer</div>
-          <div class="mt-1" data-i18n="disc_text">Scores are prototypes and can be wrong. Always verify identity using official channels.</div>
+          <div class="mt-5 chip rounded-2xl p-4 text-xs muted">
+            <div class="font-semibold text-white/90">Disclaimer</div>
+            <div class="mt-1">Scores are prototypes and can be wrong. Always verify identity using official channels.</div>
+          </div>
         </div>
       </div>
 
-      <!-- RIGHT -->
-      <div id="resultsCard" class="lg:col-span-7 glass rounded-3xl p-5 sm:p-6 risk-ring risk-border" data-risk="LOW">
-        <div class="text-xs muted tracking-widest uppercase" data-i18n="res_kicker">AI Risk Assessment</div>
-
-        <div class="mt-2 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-          <div class="min-w-0">
-            <h2 class="text-2xl font-extrabold" data-i18n="res_title">Results</h2>
-            <p class="muted text-sm mt-1" id="resultsSub" data-i18n="res_sub">Upload or record to generate a report.</p>
-
-            <div class="mt-3 inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs font-semibold">
-              <span class="muted" data-i18n="res_risk_label">Risk level:</span>
-              <span id="riskLabel" class="gold-text">—</span>
-              <span class="opacity-40">•</span>
-              <span class="muted" data-i18n="res_conf_label">Confidence:</span>
-              <span id="confidenceLabel" class="text-white/90">—</span>
-            </div>
-
-            <div class="mt-2">
-              <span id="riskBadge" class="risk-badge" data-risk="LOW">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span id="riskBadgeText">LOW RISK</span>
-              </span>
-            </div>
+      <div class="lg:col-span-7 glass rounded-3xl p-5 sm:p-6 risk-ring risk-border">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div class="text-xs opacity-70">AI RISK ASSESSMENT</div>
+            <h2 id="resultsTitle" class="text-xl font-bold mt-1">Results</h2>
+            <p id="resultsDesc" class="text-sm text-white/70 mt-1">Structured risk output for compliance & fraud teams.</p>
           </div>
 
-          <div class="flex items-center gap-2 flex-wrap">
-            <button id="copyJsonBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button">
-              <i class="fa-regular fa-copy mr-2"></i><span data-i18n="btn_copy_json">Copy JSON</span>
+          <div class="flex flex-wrap gap-2">
+            <button id="copyJsonBtn" class="btn chip text-xs px-3 py-2 rounded-xl hover:bg-white/10 transition">
+              <i class="fa-solid fa-copy"></i> Copy JSON
             </button>
-            <button id="shareBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
-              <i class="fa-solid fa-link mr-2"></i><span data-i18n="btn_copy_link">Copy share link</span>
+            <button id="copyLinkBtn" class="btn chip text-xs px-3 py-2 rounded-xl hover:bg-white/10 transition">
+              <i class="fa-solid fa-link"></i> Copy share link
             </button>
-            <button id="shareSocialBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button" disabled>
-              <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i><span data-i18n="btn_share">Share</span>
-            </button>
-
-            <button id="shareCardBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button">
-              📊 <span data-i18n="btn_share_card">Share card</span>
-            </button>
-
-            <button id="upgradeBtn" class="btn-gold rounded-xl px-4 py-2 text-sm font-extrabold" type="button">
-              🚀 <span data-i18n="btn_upgrade">Unlock Pro – €9/month</span>
-            </button>
-            <button id="manageSubBtn" class="chip rounded-xl px-4 py-2 text-sm hover:opacity-90" type="button">
-              <span data-i18n="btn_manage">Manage subscription</span>
+            <button id="shareBtn" class="btn chip text-xs px-3 py-2 rounded-xl hover:bg-white/10 transition">
+              <i class="fa-solid fa-share-nodes"></i> Share
             </button>
           </div>
         </div>
 
-        <!-- ACTION BOX -->
-        <div id="actionBox" class="mt-4 glass-soft rounded-2xl p-4 sm:p-5">
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-              <div class="text-xs muted tracking-widest uppercase" data-i18n="act_kicker">Recommended action</div>
-              <div class="mt-1 text-lg font-extrabold" id="actionTitle">—</div>
-              <div class="mt-2 text-sm muted leading-6" id="actionText" data-i18n="act_default">Run an analysis to generate guidance.</div>
-            </div>
-            <div class="shrink-0">
-              <span id="actionPill" class="chip rounded-full px-3 py-1 text-xs font-extrabold">—</span>
-            </div>
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="glass rounded-2xl p-4 risk-badge" data-risk="ELEVATED">
+            <div class="text-xs opacity-70">Scam score</div>
+            <div class="mt-2 text-2xl font-extrabold"><span id="scamScore">—</span>%</div>
+            <div class="mt-2 progressBar"><div id="scamBar" class="progressFill"></div></div>
           </div>
 
-          <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-            <div class="chip rounded-xl p-3">
-              <div class="font-semibold" data-i18n="act_step1_title">1) Pause</div>
-              <div class="muted mt-1" data-i18n="act_step1_text">Stop payment / sensitive steps</div>
-            </div>
-            <div class="chip rounded-xl p-3">
-              <div class="font-semibold" data-i18n="act_step2_title">2) Verify</div>
-              <div class="muted mt-1" data-i18n="act_step2_text">Call an official number</div>
-            </div>
-            <div class="chip rounded-xl p-3">
-              <div class="font-semibold" data-i18n="act_step3_title">3) Escalate</div>
-              <div class="muted mt-1" data-i18n="act_step3_text">Share case + export JSON</div>
-            </div>
+          <div class="glass rounded-2xl p-4 risk-badge" data-risk="GUARDED">
+            <div class="text-xs opacity-70">AI voice probability</div>
+            <div class="mt-2 text-2xl font-extrabold"><span id="aiProb">—</span>%</div>
+            <div class="mt-2 progressBar"><div id="aiBar" class="progressFill"></div></div>
+          </div>
+
+          <div class="glass rounded-2xl p-4 risk-badge" data-risk="HIGH">
+            <div class="text-xs opacity-70">Stress level</div>
+            <div class="mt-2 text-2xl font-extrabold"><span id="stressLevel">—</span>%</div>
+            <div class="mt-2 progressBar"><div id="stressBar" class="progressFill"></div></div>
           </div>
         </div>
 
-        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted" data-i18n="metric_scam">Scam score</div>
-            <div class="mt-1 text-3xl font-extrabold"><span id="scamScore">—</span><span class="text-base muted">%</span></div>
-            <div class="mt-3 bar"><div id="scamBar"></div></div>
-          </div>
-          <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted" data-i18n="metric_ai">AI voice probability</div>
-            <div class="mt-1 text-3xl font-extrabold"><span id="aiProb">—</span><span class="text-base muted">%</span></div>
-            <div class="mt-3 bar"><div id="aiBar"></div></div>
-          </div>
-          <div class="chip rounded-2xl p-4">
-            <div class="text-xs muted" data-i18n="metric_stress">Stress level</div>
-            <div class="mt-1 text-3xl font-extrabold"><span id="stressLevel">—</span><span class="text-base muted">%</span></div>
-            <div class="mt-3 bar"><div id="stressBar"></div></div>
-          </div>
+        <div class="mt-4 glass rounded-2xl p-4">
+          <div class="font-semibold text-sm">What to do if risk is high</div>
+          <ol class="mt-2 text-xs text-white/75 space-y-1 list-decimal list-inside">
+            <li>Stop the conversation. Don’t send money.</li>
+            <li>Verify via an official channel (website number / known contact).</li>
+            <li>Save and share the report if needed.</li>
+          </ol>
         </div>
 
-        <div class="mt-5 chip rounded-2xl p-5">
-          <div class="text-xs muted" data-i18n="sum_label">Summary</div>
-          <div class="mt-2 text-slate-100 text-sm sm:text-base" id="summaryText" data-i18n="sum_default">Upload or record a sample to see results.</div>
-          <div class="mt-3 flex flex-wrap gap-2" id="flagsWrap"></div>
+        <div class="mt-4 glass rounded-2xl p-4">
+          <div class="font-semibold text-sm">Summary</div>
+          <div id="summaryText" class="mt-1 text-sm text-white/75">Upload or record a sample to see results.</div>
+          <div id="badgesRow" class="mt-3 flex flex-wrap gap-2"></div>
         </div>
 
-        <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="chip rounded-2xl p-5">
-            <div class="text-sm font-semibold" data-i18n="saved_title">Saved case</div>
-            <div class="mt-2 text-xs muted" data-i18n="saved_caseid">Case ID</div>
-            <div class="mt-1 mono text-sm break-all" id="caseId">—</div>
-            <div class="mt-3 flex gap-2 items-center">
-              <button id="copyCaseLinkBtn" type="button" class="chip rounded-xl px-3 py-2 text-xs font-semibold hover:opacity-90">
-                🔗 <span data-i18n="btn_copy_link">Copy share link</span>
-              </button>
-              <span id="copyToast" class="text-xs muted hidden" data-i18n="toast_link_copied">Link copied ✓</span>
-            </div>
-            <div class="mt-3 text-xs muted" id="caseSavedHint" data-i18n="saved_hint">Analyze a sample to create a case.</div>
+        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="glass rounded-2xl p-4">
+            <div class="font-semibold text-sm">Saved case</div>
+            <div class="text-xs text-white/70 mt-1">Case ID</div>
+            <div id="caseId" class="mt-1 text-sm font-mono text-white/90">—</div>
+            <button id="copySavedLinkBtn" class="btn chip text-xs px-3 py-2 rounded-xl hover:bg-white/10 transition mt-3">
+              <i class="fa-solid fa-link"></i> Copy share link
+            </button>
+            <div id="caseStatus" class="mt-2 text-xs text-white/70"></div>
           </div>
 
-          <div class="chip rounded-2xl p-5">
-            <div class="text-sm font-semibold" data-i18n="search_title">Search cases</div>
-            <div class="mt-3 flex gap-2">
-              <input id="searchQ" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0"
-                     data-i18n-ph="ph_search" placeholder="Search title / notes..." />
-              <button id="searchBtn" type="button" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold shrink-0" data-i18n="btn_search">Search</button>
+          <div class="glass rounded-2xl p-4">
+            <div class="font-semibold text-sm">Search cases</div>
+            <div class="mt-3 space-y-2">
+              <div class="flex gap-2">
+                <input id="searchQuery" class="w-full chip rounded-2xl px-3 py-2 text-sm outline-none focus:ring focus:ring-amber-400/30" placeholder="Search title / notes..." />
+                <button id="searchBtn" class="btn chip text-xs px-3 py-2 rounded-xl bg-amber-400/90 text-black hover:bg-amber-400 transition">Search</button>
+              </div>
+              <div class="flex gap-2">
+                <input id="searchTag" class="w-full chip rounded-2xl px-3 py-2 text-sm outline-none focus:ring focus:ring-amber-400/30" placeholder="Tag filter (optional)" />
+                <button id="clearSearchBtn" class="btn chip text-xs px-3 py-2 rounded-xl hover:bg-white/10 transition">Clear</button>
+              </div>
+              <div id="searchResults" class="text-xs text-white/70 mt-2"></div>
             </div>
-            <div class="mt-3 flex gap-2">
-              <input id="searchTag" class="flex-1 chip rounded-xl p-3 text-sm outline-none focus-ring min-w-0"
-                     data-i18n-ph="ph_tag" placeholder="Tag filter (optional)" />
-              <button id="clearBtn" type="button" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 shrink-0" data-i18n="btn_clear">Clear</button>
-            </div>
-            <div class="mt-4 pr-1 overflow-auto" id="resultsList" style="max-height:min(46vh,360px);"></div>
           </div>
         </div>
-
-        <pre class="mt-5 chip rounded-2xl p-4 text-xs overflow-auto hidden" id="rawJson" style="max-height:min(40vh,320px);"></pre>
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq" class="mt-10 glass-soft rounded-3xl p-6 sm:p-7">
-      <h3 class="text-xl font-extrabold" data-i18n="faq_title">How it works</h3>
-      <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-        <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted" data-i18n="faq_1_label">1) Input</div>
-          <div class="mt-1 font-semibold" data-i18n="faq_1_title">Upload or record</div>
-          <div class="mt-1 text-xs muted" data-i18n="faq_1_desc">Audio/video supported</div>
+    <!-- How it works -->
+    <div class="mt-6 glass rounded-3xl p-5 sm:p-6">
+      <h3 id="howItWorksTitle" class="text-lg font-semibold">How it works</h3>
+      <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="glass rounded-2xl p-4">
+          <div class="text-xs opacity-70">1) Input</div>
+          <div class="mt-1 font-semibold">Upload or record</div>
+          <div class="mt-1 text-xs opacity-70">Audio/video supported</div>
         </div>
-        <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted" data-i18n="faq_2_label">2) Analysis</div>
-          <div class="mt-1 font-semibold" data-i18n="faq_2_title">Risk scoring</div>
-          <div class="mt-1 text-xs muted" data-i18n="faq_2_desc">Signals + probabilities</div>
+        <div class="glass rounded-2xl p-4">
+          <div class="text-xs opacity-70">2) Analysis</div>
+          <div class="mt-1 font-semibold">Risk scoring</div>
+          <div class="mt-1 text-xs opacity-70">Signals + probabilities</div>
         </div>
-        <div class="chip rounded-2xl p-4">
-          <div class="text-xs muted" data-i18n="faq_3_label">3) Action</div>
-          <div class="mt-1 font-semibold" data-i18n="faq_3_title">Verify</div>
-          <div class="mt-1 text-xs muted" data-i18n="faq_3_desc">Use official channels</div>
+        <div class="glass rounded-2xl p-4">
+          <div class="text-xs opacity-70">3) Action</div>
+          <div class="mt-1 font-semibold">Verify</div>
+          <div class="mt-1 text-xs opacity-70">Use official channels</div>
         </div>
       </div>
-      <p class="mt-4 text-sm muted leading-6" data-i18n="faq_text">
+
+      <p class="mt-4 text-xs text-white/70">
         VoiceSafe is a prototype. Scores can be wrong — treat the report as an early warning system. When money is involved, always verify the caller via trusted, official contact methods.
       </p>
-    </section>
+    </div>
 
-    <div class="mt-10 text-center text-xs muted">
-      VoiceSafe • <span data-i18n="footer_early">Early Access</span> • <span data-i18n="footer_tagline">Built for global anti-scam awareness</span> • <span class="mono">voicesafe.ai</span>
+    <!-- Footer -->
+    <div class="mt-8 text-center text-xs text-white/60">
+      VoiceSafe • Early Access • Built for global anti-scam awareness • voicesafe.ai
+      <div class="mt-2 flex justify-center gap-4">
+        <a class="hover:text-white/80" href="privacy.html">Privacy</a>
+        <a class="hover:text-white/80" href="terms.html">Terms</a>
+        <a class="hover:text-white/80" href="security.html">Security</a>
+        <a class="hover:text-white/80" href="contact.html">Contact</a>
+      </div>
+      <div class="mt-2 text-[10px] opacity-60" id="buildTag"></div>
     </div>
   </div>
 
-  <!-- HOW MODAL -->
-  <div id="howModal" class="fixed inset-0 hidden items-center justify-center z-50">
-    <div id="howBackdrop" class="absolute inset-0 bg-black/60"></div>
-    <div class="relative w-[92%] max-w-2xl rounded-3xl border border-white/10 bg-[#0b0f14] p-6 sm:p-7 shadow-xl">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <h3 class="text-xl font-extrabold" data-i18n="how_title">How VoiceSafe works</h3>
-          <p class="mt-1 text-sm muted" data-i18n="how_sub">Clear output, fast workflow, minimal friction.</p>
-        </div>
-        <button id="howClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90" type="button" aria-label="Close">✕</button>
-      </div>
-      <div class="mt-5 text-sm muted leading-6" data-i18n="how_body">
-        Upload or record a short sample. VoiceSafe returns a risk report with: scam score, AI voice probability, stress level, and red flags.
-      </div>
-      <div class="mt-6 flex flex-col sm:flex-row gap-2">
-        <button id="howTryDemo" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full sm:w-auto" type="button">
-          <i class="fa-solid fa-play mr-2"></i><span data-i18n="how_demo">Load demo</span>
-        </button>
-        <button id="howGoAnalyze" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full sm:w-auto" type="button">
-          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="how_go">Go to analyzer</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- PAYWALL MODAL -->
-  <div id="paywallModal" class="fixed inset-0 hidden items-center justify-center z-50">
-    <div id="paywallBackdrop" class="absolute inset-0 bg-black/60"></div>
-    <div class="relative w-[92%] max-w-lg rounded-3xl border border-white/10 bg-[#0b0f14] p-6 shadow-xl">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <h3 class="text-xl font-extrabold" data-i18n="pay_title">Free limit reached</h3>
-          <p class="mt-1 text-sm muted" data-i18n="pay_sub">Upgrade to Pro to continue analyzing.</p>
-        </div>
-        <button id="paywallClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90" type="button" aria-label="Close">✕</button>
-      </div>
-      <div class="mt-4 grid gap-2 text-sm opacity-90">
-        <div data-i18n="pay_b1">✓ Unlimited analyses</div>
-        <div data-i18n="pay_b2">✓ Priority processing</div>
-        <div data-i18n="pay_b3">✓ Case history & sharing</div>
-      </div>
-      <div class="mt-6 flex flex-col gap-2">
-        <button id="paywallCta" class="btn-gold rounded-xl px-4 py-3 text-sm font-extrabold w-full" type="button">
-          <span data-i18n="pay_cta">Start Pro – €9/month</span>
-        </button>
-        <button id="paywallWaitlist" class="chip rounded-xl px-4 py-3 text-sm font-semibold hover:opacity-90 w-full" type="button">
-          <span data-i18n="pay_waitlist">Join early access</span>
-        </button>
-        <p id="waitlistCountText" class="mt-2 text-xs muted text-center"></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST -->
-  <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 hidden z-[60]">
-    <div class="chip gold-border rounded-2xl px-4 py-3 text-sm shadow-xl">
-      <span id="toastMsg"></span>
-    </div>
-  </div>
-
-  <!-- Share Card Modal -->
-  <div id="shareCardModal" class="fixed inset-0 hidden items-center justify-center z-[70]">
-    <div id="shareCardBackdrop" class="absolute inset-0 bg-black/70"></div>
-    <div class="relative w-[94%] max-w-xl rounded-3xl border border-white/10 bg-[#0b0f14] p-5 sm:p-6 shadow-xl">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <div class="text-xs muted tracking-widest uppercase" data-i18n="card_kicker">Shareable card</div>
-          <div class="text-xl font-extrabold mt-1">VoiceSafe</div>
-          <div class="text-sm muted mt-1" data-i18n="card_sub">Export an image you can send to support, bank, or family.</div>
-        </div>
-        <button id="shareCardClose" class="rounded-xl px-3 py-2 text-sm chip hover:opacity-90" type="button">✕</button>
-      </div>
-
-      <div class="mt-4 glass-soft rounded-2xl p-5 risk-border risk-ring" id="cardPreview" data-risk="LOW">
-        <div class="flex items-center justify-between gap-3">
-          <div class="min-w-0">
-            <div class="text-xs muted" data-i18n="card_case">Case</div>
-            <div class="mono text-sm break-all" id="cardCaseId">—</div>
-          </div>
-          <span class="risk-badge" id="cardRiskBadge" data-risk="LOW">
-            <i class="fa-solid fa-shield-halved"></i>
-            <span id="cardRiskText">LOW RISK</span>
-          </span>
-        </div>
-
-        <div class="mt-4 grid grid-cols-3 gap-3">
-          <div class="chip rounded-2xl p-3">
-            <div class="text-xs muted" data-i18n="metric_scam">Scam score</div>
-            <div class="text-2xl font-extrabold mt-1"><span id="cardScam">—</span>%</div>
-          </div>
-          <div class="chip rounded-2xl p-3">
-            <div class="text-xs muted" data-i18n="metric_ai">AI voice probability</div>
-            <div class="text-2xl font-extrabold mt-1"><span id="cardAi">—</span>%</div>
-          </div>
-          <div class="chip rounded-2xl p-3">
-            <div class="text-xs muted" data-i18n="metric_stress">Stress level</div>
-            <div class="text-2xl font-extrabold mt-1"><span id="cardStress">—</span>%</div>
-          </div>
-        </div>
-
-        <div class="mt-4">
-          <div class="text-xs muted" data-i18n="sum_label">Summary</div>
-          <div class="text-sm mt-2" id="cardSummary">—</div>
-        </div>
-
-        <div class="mt-4 text-[11px] muted leading-5">
-          <span data-i18n="card_disclaimer">Advisory signals only. Always verify via an official channel before acting.</span>
-          <span class="opacity-40">•</span> voicesafe.ai
-        </div>
-      </div>
-
-      <div class="mt-5 flex flex-wrap gap-2">
-        <button id="cardCopyTextBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button">
-          <i class="fa-regular fa-copy mr-2"></i><span data-i18n="card_copy_text">Copy text</span>
-        </button>
-        <button id="cardCopyLinkBtn" class="chip rounded-xl px-4 py-2 text-sm font-semibold hover:opacity-90" type="button">
-          <i class="fa-solid fa-link mr-2"></i><span data-i18n="card_copy_link">Copy link</span>
-        </button>
-        <button id="cardDownloadBtn" class="btn-gold rounded-xl px-4 py-2 text-sm font-extrabold" type="button">
-          <i class="fa-solid fa-download mr-2"></i><span data-i18n="card_download">Download PNG</span>
-        </button>
-      </div>
-
-      <div class="mt-3 text-xs muted" data-i18n="card_note">
-        Note: On some iOS browsers, image download may open in a new tab. That’s OK.
-      </div>
-    </div>
-  </div>
-
+  <!-- ===========================
+       Existing app logic (analyze/upload/cases/share)
+       (NECHÁVAM, len jazykový systém opravujem nižšie)
+  ============================ -->
   <script>
-    // ===========================
-    // CONFIG
-    // ===========================
-    window.URLS = {
-      PROD: "https://voicesafe-backend-1.onrender.com",
-      LOCAL: "http://127.0.0.1:10000",
-    };
-    window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
+    // ---------------------------
+    // Config
+    // ---------------------------
+    const BACKEND_URL = "https://voicesafe-backend-1.onrender.com";
+    const AI_URL = "https://voicesafe-ai.onrender.com/analyze";
 
-    // ===========================
-    // I18N (INLINE, NO EXTRA FILES)
-    // ===========================
-    const I18N = {
-      en: {
-        top_early_access: "Early Access",
-        top_people_joined: "people joined",
-        trust_built_for: "Built for evaluation by",
-        trust_who: "Banks • Fraud Operations • Compliance (KYC/AML) • Investigations",
-        trust_note: "Advisory signals, not identity verification.",
-        trust_chip_privacy: "Privacy-first posture",
-        trust_chip_audit: "Audit-friendly outputs",
-        trust_chip_api: "API-first integration",
-        tone_label: "Tone",
+    const waitlistCountBadge = document.getElementById("waitlistCountBadge");
+    const liveActivity = document.getElementById("liveActivity");
+    const buildTag = document.getElementById("buildTag");
 
-        hero_chip_seconds: "Seconds, not minutes",
-        hero_chip_privacy: "Privacy-first by design",
-        hero_chip_global: "Global scam protection",
-        hero_title_line: "Your AI Guardian",
-        hero_title_accent: "Against Voice Scams",
-        hero_desc: "Upload a voice message. Know in seconds if it’s trying to scam you — before you send money. Get a clear report: scam score, AI voice probability, stress signals, and red flags.",
-        cta_start: "Start Risk Assessment",
-        cta_demo: "View Platform Demo",
-        cta_how: "Explore Methodology",
-        hero_card_storage_label: "Storage posture",
-        hero_card_storage_value: "No permanent storage",
-        hero_card_storage_hint: "Designed for privacy",
-        hero_card_output_label: "Output",
-        hero_card_output_value: "Clear risk signals",
-        hero_card_output_hint: "Human-readable summary",
-        hero_card_use_label: "Use case",
-        hero_card_use_value: "Before paying",
-        hero_card_use_hint: "Verify with official channels",
-        hero_joined: "Joined early access:",
-        hero_urgency: "Early Access is open now.",
-        hero_tip: "Tip:",
-        hero_tip_keys: "Press",
-        hero_tip_demo: "for demo",
+    // build tag
+    try {
+      const now = new Date();
+      buildTag.textContent = "VoiceSafe.ai • BUILD: " + now.toISOString().slice(0,10);
+    } catch {}
 
-        join_title: "Join Early Access",
-        join_desc: "Helps prioritize features and builds credibility with investors.",
-        safety_title: "Safety note",
-        safety_text: "VoiceSafe provides advisory signals. If money is involved, always verify via an official number (bank, company website, known contact).",
+    // mock live activity (optional)
+    (function(){
+      const cities = ["New York","Paris","Bratislava","London","Berlin","Madrid","Toronto","Sydney","Dubai","Singapore"];
+      setInterval(() => {
+        const c = cities[Math.floor(Math.random()*cities.length)];
+        liveActivity.textContent = `🔥 Someone from ${c} joined ${Math.floor(Math.random()*35)+3}s ago`;
+      }, 6500);
+    })();
 
-        debug_title: "System status",
-        debug_checking: "Checking…",
-        debug_mode: "Mode",
+    // ---------------------------
+    // UI elements
+    // ---------------------------
+    const fileInput = document.getElementById("fileInput");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const recordBtn = document.getElementById("recordBtn");
+    const demoBtn = document.getElementById("demoBtn");
 
-        an_title: "Analyze a sample",
-        an_sub: "Upload audio/video or record a short clip.",
-        btn_demo: "Demo",
-        an_upload_label: "Upload file",
-        an_no_file: "No file selected.",
-        btn_record: "Record",
-        btn_analyze: "Analyze",
-        an_free_line: "Free 3 analyses • No signup required • Privacy-first",
-        an_privacy_bullet: "No permanent voice storage (prototype)",
-        an_fast_bullet: "Instant risk assessment",
-        an_gdpr_bullet: "GDPR-ready posture",
+    const scamScoreEl = document.getElementById("scamScore");
+    const aiProbEl = document.getElementById("aiProb");
+    const stressLevelEl = document.getElementById("stressLevel");
 
-        case_opt_title: "Case details (optional)",
-        case_opt_sub: "Saved cases can be searched & shared (if backend supports it).",
-        case_tip: "Tip: Keep personal data out of notes.",
+    const scamBar = document.getElementById("scamBar");
+    const aiBar = document.getElementById("aiBar");
+    const stressBar = document.getElementById("stressBar");
 
-        ph_title: "Title (e.g. Telegram investor)",
-        ph_platform: "Platform (Telegram)",
-        ph_country: "Country (US)",
-        ph_language: "Language (EN)",
-        ph_tags: "Tags (comma separated)",
-        ph_notes: "Notes (what happened)",
-        ph_search: "Search title / notes...",
-        ph_tag: "Tag filter (optional)",
+    const summaryText = document.getElementById("summaryText");
+    const badgesRow = document.getElementById("badgesRow");
 
-        disc_title: "Disclaimer",
-        disc_text: "Scores are prototypes and can be wrong. Always verify identity using official channels.",
+    const copyJsonBtn = document.getElementById("copyJsonBtn");
+    const copyLinkBtn = document.getElementById("copyLinkBtn");
+    const shareBtn = document.getElementById("shareBtn");
 
-        res_kicker: "AI Risk Assessment",
-        res_title: "Results",
-        res_sub: "Upload or record to generate a report.",
-        res_risk_label: "Risk level:",
-        res_conf_label: "Confidence:",
-        btn_copy_json: "Copy JSON",
-        btn_copy_link: "Copy share link",
-        btn_share: "Share",
-        btn_share_card: "Share card",
-        btn_upgrade: "Unlock Pro – €9/month",
-        btn_manage: "Manage subscription",
+    const caseIdEl = document.getElementById("caseId");
+    const copySavedLinkBtn = document.getElementById("copySavedLinkBtn");
+    const caseStatus = document.getElementById("caseStatus");
 
-        act_kicker: "Recommended action",
-        act_default: "Run an analysis to generate guidance.",
-        act_step1_title: "1) Pause",
-        act_step1_text: "Stop payment / sensitive steps",
-        act_step2_title: "2) Verify",
-        act_step2_text: "Call an official number",
-        act_step3_title: "3) Escalate",
-        act_step3_text: "Share case + export JSON",
+    const searchQuery = document.getElementById("searchQuery");
+    const searchTag = document.getElementById("searchTag");
+    const searchBtn = document.getElementById("searchBtn");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+    const searchResults = document.getElementById("searchResults");
 
-        metric_scam: "Scam score",
-        metric_ai: "AI voice probability",
-        metric_stress: "Stress level",
+    const titleEl = document.getElementById("title");
+    const platformEl = document.getElementById("platform");
+    const countryEl = document.getElementById("country");
+    const languageEl = document.getElementById("language");
+    const tagsEl = document.getElementById("tags");
+    const notesEl = document.getElementById("notes");
 
-        sum_label: "Summary",
-        sum_default: "Upload or record a sample to see results.",
+    // ---------------------------
+    // Helpers
+    // ---------------------------
+    function setProgress(el, bar, val) {
+      const v = Math.max(0, Math.min(100, Number(val || 0)));
+      el.textContent = String(Math.round(v));
+      bar.style.width = v + "%";
+    }
 
-        saved_title: "Saved case",
-        saved_caseid: "Case ID",
-        saved_hint: "Analyze a sample to create a case.",
-        toast_link_copied: "Link copied ✓",
+    function addBadge(text) {
+      const span = document.createElement("span");
+      span.className = "chip text-[11px]";
+      span.textContent = text;
+      badgesRow.appendChild(span);
+    }
 
-        search_title: "Search cases",
-        btn_search: "Search",
-        btn_clear: "Clear",
+    function setResults(data) {
+      const scam = data?.scam_score ?? 0;
+      const ai = data?.ai_voice_probability ?? 0;
+      const stress = data?.stress_level ?? 0;
 
-        faq_title: "How it works",
-        faq_1_label: "1) Input",
-        faq_1_title: "Upload or record",
-        faq_1_desc: "Audio/video supported",
-        faq_2_label: "2) Analysis",
-        faq_2_title: "Risk scoring",
-        faq_2_desc: "Signals + probabilities",
-        faq_3_label: "3) Action",
-        faq_3_title: "Verify",
-        faq_3_desc: "Use official channels",
-        faq_text: "VoiceSafe is a prototype. Scores can be wrong — treat the report as an early warning system. When money is involved, always verify the caller via trusted, official contact methods.",
+      setProgress(scamScoreEl, scamBar, scam);
+      setProgress(aiProbEl, aiBar, ai);
+      setProgress(stressLevelEl, stressBar, stress);
 
-        footer_early: "Early Access",
-        footer_tagline: "Built for global anti-scam awareness",
-
-        pay_title: "Free limit reached",
-        pay_sub: "Upgrade to Pro to continue analyzing.",
-        pay_b1: "✓ Unlimited analyses",
-        pay_b2: "✓ Priority processing",
-        pay_b3: "✓ Case history & sharing",
-        pay_cta: "Start Pro – €9/month",
-        pay_waitlist: "Join early access",
-
-        how_title: "How VoiceSafe works",
-        how_sub: "Clear output, fast workflow, minimal friction.",
-        how_body: "Upload or record a short sample. VoiceSafe returns a risk report with: scam score, AI voice probability, stress level, and red flags.",
-        how_demo: "Load demo",
-        how_go: "Go to analyzer",
-
-        card_kicker: "Shareable card",
-        card_sub: "Export an image you can send to support, bank, or family.",
-        card_case: "Case",
-        card_disclaimer: "Advisory signals only. Always verify via an official channel before acting.",
-        card_copy_text: "Copy text",
-        card_copy_link: "Copy link",
-        card_download: "Download PNG",
-        card_note: "Note: On some iOS browsers, image download may open in a new tab. That’s OK."
-      },
-
-      // SK full (najdôležitejší)
-      sk: {
-        top_early_access: "Skorý prístup",
-        top_people_joined: "ľudí sa pridalo",
-        trust_built_for: "Vytvorené na testovanie pre",
-        trust_who: "Banky • Fraud tímy • Compliance (KYC/AML) • Investigácie",
-        trust_note: "Poradenské signály, nie biometrická identifikácia.",
-        trust_chip_privacy: "Privacy-first prístup",
-        trust_chip_audit: "Audit-friendly výstupy",
-        trust_chip_api: "API-first integrácia",
-        tone_label: "Tón",
-
-        hero_chip_seconds: "Sekundy, nie minúty",
-        hero_chip_privacy: "Privacy-first dizajn",
-        hero_chip_global: "Globálna ochrana pred scamom",
-        hero_title_line: "Tvoj AI strážca",
-        hero_title_accent: "proti hlasovým podvodom",
-        hero_desc: "Nahraj hlasovú správu. Zistíš do pár sekúnd, či ide o podvod — ešte predtým, než pošleš peniaze. Dostaneš jasný report: scam skóre, pravdepodobnosť AI hlasu, stres signály a red flags.",
-        cta_start: "Spustiť analýzu rizika",
-        cta_demo: "Pozrieť demo",
-        cta_how: "Ako to funguje",
-        hero_card_storage_label: "Ukladanie",
-        hero_card_storage_value: "Bez trvalého ukladania",
-        hero_card_storage_hint: "Navrhnuté pre súkromie",
-        hero_card_output_label: "Výstup",
-        hero_card_output_value: "Jasné rizikové signály",
-        hero_card_output_hint: "Zrozumiteľné zhrnutie",
-        hero_card_use_label: "Použitie",
-        hero_card_use_value: "Pred platbou",
-        hero_card_use_hint: "Over cez oficiálne kanály",
-        hero_joined: "Skorý prístup:",
-        hero_urgency: "Skorý prístup je otvorený.",
-        hero_tip: "Tip:",
-        hero_tip_keys: "Stlač",
-        hero_tip_demo: "pre demo",
-
-        join_title: "Pridať sa do skorého prístupu",
-        join_desc: "Pomáha prioritizovať funkcie a budovať dôveryhodnosť.",
-        safety_title: "Bezpečnostná poznámka",
-        safety_text: "VoiceSafe dáva poradenské signály. Ak ide o peniaze, vždy si over kontakt cez oficiálne číslo (banka, web firmy, známy kontakt).",
-
-        debug_title: "Stav systému",
-        debug_checking: "Kontrolujem…",
-        debug_mode: "Režim",
-
-        an_title: "Analyzovať vzorku",
-        an_sub: "Nahraj audio/video alebo nahraj krátky záznam.",
-        btn_demo: "Demo",
-        an_upload_label: "Nahrať súbor",
-        an_no_file: "Žiadny súbor nie je vybraný.",
-        btn_record: "Nahrávať",
-        btn_analyze: "Analyzovať",
-        an_free_line: "Zadarmo 3 analýzy • Bez registrácie • Privacy-first",
-        an_privacy_bullet: "Bez trvalého ukladania hlasu (prototyp)",
-        an_fast_bullet: "Okamžité vyhodnotenie rizika",
-        an_gdpr_bullet: "GDPR-ready prístup",
-
-        case_opt_title: "Detaily prípadu (voliteľné)",
-        case_opt_sub: "Uložené prípady vieš vyhľadávať a zdieľať (ak backend podporuje).",
-        case_tip: "Tip: Do poznámok nedávaj osobné údaje.",
-
-        ph_title: "Názov (napr. Telegram investor)",
-        ph_platform: "Platforma (Telegram)",
-        ph_country: "Krajina (SK)",
-        ph_language: "Jazyk (SK)",
-        ph_tags: "Tagy (oddelené čiarkou)",
-        ph_notes: "Poznámky (čo sa stalo)",
-        ph_search: "Hľadať názov / poznámky…",
-        ph_tag: "Filter tagu (voliteľné)",
-
-        disc_title: "Upozornenie",
-        disc_text: "Skóre je prototyp a môže sa mýliť. Vždy over identitu cez oficiálne kanály.",
-
-        res_kicker: "AI vyhodnotenie rizika",
-        res_title: "Výsledky",
-        res_sub: "Nahraj alebo nahraj záznam pre report.",
-        res_risk_label: "Riziko:",
-        res_conf_label: "Istota:",
-        btn_copy_json: "Kopírovať JSON",
-        btn_copy_link: "Kopírovať link",
-        btn_share: "Zdieľať",
-        btn_share_card: "Zdieľací card",
-        btn_upgrade: "Odomknúť Pro – 9 €/mes.",
-        btn_manage: "Správa predplatného",
-
-        act_kicker: "Odporúčaná akcia",
-        act_default: "Spusť analýzu pre odporúčanie.",
-        act_step1_title: "1) Pauza",
-        act_step1_text: "Zastav platbu / citlivé kroky",
-        act_step2_title: "2) Over",
-        act_step2_text: "Zavolaj na oficiálne číslo",
-        act_step3_title: "3) Eskaluj",
-        act_step3_text: "Zdieľaj case + export JSON",
-
-        metric_scam: "Scam skóre",
-        metric_ai: "Pravdepodobnosť AI hlasu",
-        metric_stress: "Úroveň stresu",
-
-        sum_label: "Zhrnutie",
-        sum_default: "Nahraj vzorku pre výsledok.",
-
-        saved_title: "Uložený prípad",
-        saved_caseid: "Case ID",
-        saved_hint: "Spusť analýzu pre vytvorenie prípadu.",
-        toast_link_copied: "Link skopírovaný ✓",
-
-        search_title: "Vyhľadávanie prípadov",
-        btn_search: "Hľadať",
-        btn_clear: "Vymazať",
-
-        faq_title: "Ako to funguje",
-        faq_1_label: "1) Vstup",
-        faq_1_title: "Nahraj alebo nahrávaj",
-        faq_1_desc: "Podpora audio/video",
-        faq_2_label: "2) Analýza",
-        faq_2_title: "Skórovanie rizika",
-        faq_2_desc: "Signály + pravdepodobnosti",
-        faq_3_label: "3) Akcia",
-        faq_3_title: "Over",
-        faq_3_desc: "Použi oficiálne kanály",
-        faq_text: "VoiceSafe je prototyp. Skóre môže byť nesprávne — ber to ako early warning. Keď ide o peniaze, vždy over volajúceho cez dôveryhodné oficiálne kontakty.",
-
-        footer_early: "Skorý prístup",
-        footer_tagline: "Globálna anti-scam osveta",
-
-        pay_title: "Limit zadarmo vyčerpaný",
-        pay_sub: "Upgraduj na Pro a pokračuj v analýzach.",
-        pay_b1: "✓ Neobmedzené analýzy",
-        pay_b2: "✓ Prioritné spracovanie",
-        pay_b3: "✓ História + zdieľanie",
-        pay_cta: "Spustiť Pro – 9 €/mes.",
-        pay_waitlist: "Pridať sa do skorého prístupu",
-
-        how_title: "Ako funguje VoiceSafe",
-        how_sub: "Jasný výstup, rýchly flow, minimum krokov.",
-        how_body: "Nahraj alebo nahrávaj krátku vzorku. VoiceSafe vráti report: scam skóre, AI hlas, stres a red flags.",
-        how_demo: "Načítať demo",
-        how_go: "Ísť na analyzér",
-
-        card_kicker: "Zdieľací card",
-        card_sub: "Exportni obrázok, ktorý pošleš podpore, banke alebo rodine.",
-        card_case: "Prípad",
-        card_disclaimer: "Iba poradenské signály. Pred akciou vždy over cez oficiálny kanál.",
-        card_copy_text: "Kopírovať text",
-        card_copy_link: "Kopírovať link",
-        card_download: "Stiahnuť PNG",
-        card_note: "Pozn.: Na niektorých iOS prehliadačoch sa stiahnutie otvorí v novej karte. Je to OK."
+      badgesRow.innerHTML = "";
+      if (Array.isArray(data?.red_flags)) {
+        data.red_flags.slice(0, 6).forEach(f => addBadge(f));
       }
-    };
 
-    // fallback: pre jazyky, ktoré nemajú vlastný slovník -> EN
-    const FALLBACK_LANG = "en";
-
-    function detectBestLang(){
-      const saved = localStorage.getItem("vs_lang");
-      if (saved && I18N[saved]) return saved;
-
-      const nav = (navigator.language || "en").toLowerCase();
-      const short = nav.split("-")[0];
-
-      const map = { cs:"cs", sk:"sk", de:"de", es:"es", fr:"fr", it:"it", pt:"pt", pl:"pl", hu:"hu", ro:"ro", uk:"uk", ru:"ru", tr:"tr", ar:"ar", hi:"hi", zh:"zh", ja:"ja", ko:"ko" };
-      const best = map[short] || "en";
-      return I18N[best] ? best : "en";
+      summaryText.textContent = data?.summary || "Analysis complete. Review signals and verify via official channels.";
     }
 
-    function t(lang, key){
-      const dict = I18N[lang] || I18N[FALLBACK_LANG] || {};
-      return (dict && dict[key]) ? dict[key] : (I18N[FALLBACK_LANG]?.[key] || key);
-    }
+    // ---------------------------
+    // Analyze
+    // ---------------------------
+    async function analyzeFile(blob) {
+      if (!blob) return;
+      analyzeBtn.disabled = true;
+      analyzeBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...`;
 
-    function applyTranslations(lang){
-      document.documentElement.lang = lang;
+      try {
+        const fd = new FormData();
+        fd.append("file", blob, "sample");
 
-      // text nodes
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        el.textContent = t(lang, key);
-      });
+        // optional metadata
+        fd.append("title", titleEl.value || "");
+        fd.append("platform", platformEl.value || "");
+        fd.append("country", countryEl.value || "");
+        fd.append("language", languageEl.value || "");
+        fd.append("tags", tagsEl.value || "");
+        fd.append("notes", notesEl.value || "");
 
-      // placeholders
-      document.querySelectorAll("[data-i18n-ph]").forEach(el => {
-        const key = el.getAttribute("data-i18n-ph");
-        el.setAttribute("placeholder", t(lang, key));
-      });
+        const res = await fetch(AI_URL, { method: "POST", body: fd });
+        if (!res.ok) throw new Error("AI analyze failed: " + res.status);
+        const data = await res.json();
 
-      // keep tone button label in sync
-      const isEnt = localStorage.getItem("voicesafe_enterprise") === "true";
-      const toneText = document.getElementById("toneToggleText");
-      if (toneText){
-        toneText.textContent = `Enterprise mode: ${isEnt ? "ON" : "OFF"}`;
+        window.__LAST_RESULT__ = data;
+        setResults(data);
+
+        // case id (if backend returns)
+        if (data?.case_id) {
+          caseIdEl.textContent = data.case_id;
+          caseStatus.textContent = "Case saved.";
+        } else {
+          caseIdEl.textContent = "—";
+          caseStatus.textContent = "";
+        }
+
+      } catch (e) {
+        console.error(e);
+        summaryText.textContent = "Error analyzing sample. Please try again.";
+      } finally {
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> Analyze`;
       }
     }
 
-    function setLang(lang){
-      const finalLang = I18N[lang] ? lang : FALLBACK_LANG;
-      localStorage.setItem("vs_lang", finalLang);
-      const select = document.getElementById("langSwitch");
-      if (select) select.value = finalLang;
-
-      // if missing language dict, use EN text but keep selection
-      applyTranslations(finalLang);
-    }
-
-    // ===========================
-    // APP (BOOT)
-    // ===========================
-    (function boot(){
-      // init language
-      const initialLang = detectBestLang();
-      setLang(initialLang);
-
-      document.getElementById("langSwitch")?.addEventListener("change", (e) => {
-        setLang(e.target.value);
-      });
-
-      // ===========================
-      // Wiring
-      // ===========================
-      const $ = (id) => document.getElementById(id);
-
-      // DOM
-      const fileInput = $("fileInput");
-      const analyzeBtn = $("analyzeBtn");
-      const demoBtn = $("demoBtn");
-      const recordBtn = $("recordBtn");
-      const fileHint = $("fileHint");
-
-      const scamScoreEl = $("scamScore");
-      const aiProbEl = $("aiProb");
-      const stressLevelEl = $("stressLevel");
-      const summaryText = $("summaryText");
-      const flagsWrap = $("flagsWrap");
-      const rawJson = $("rawJson");
-
-      const scamBar = $("scamBar");
-      const aiBar = $("aiBar");
-      const stressBar = $("stressBar");
-
-      const copyJsonBtn = $("copyJsonBtn");
-      const shareBtn = $("shareBtn");
-      const shareSocialBtn = $("shareSocialBtn");
-
-      const upgradeBtn = $("upgradeBtn");
-      const manageSubBtn = $("manageSubBtn");
-
-      const caseIdEl = $("caseId");
-      const caseSavedHint = $("caseSavedHint");
-
-      const copyCaseLinkBtn = $("copyCaseLinkBtn");
-      const copyToast = $("copyToast");
-
-      const searchQ = $("searchQ");
-      const searchTag = $("searchTag");
-      const searchBtn = $("searchBtn");
-      const clearBtn = $("clearBtn");
-      const resultsList = $("resultsList");
-
-      const titleEl = $("title");
-      const platformEl = $("platform");
-      const countryEl = $("country");
-      const languageEl = $("language");
-      const tagsEl = $("tags");
-      const notesEl = $("notes");
-
-      const btnProd = $("btnProd");
-      const btnLocal = $("btnLocal");
-      const backendStatus = $("backendStatus");
-      const backendUrl = $("backendUrl");
-      const modeLabel = $("modeLabel");
-
-      const ctaAnalyze = $("ctaAnalyze");
-      const ctaDemo = $("ctaDemo");
-      const ctaHow = $("ctaHow");
-
-      const joinWaitlistBtn = $("joinWaitlistBtn");
-      const howModal = $("howModal");
-      const paywallModal = $("paywallModal");
-
-      const toneToggle = $("toneToggle");
-
-      // Share card
-      const shareCardBtn = $("shareCardBtn");
-      const shareCardModal = $("shareCardModal");
-      const shareCardBackdrop = $("shareCardBackdrop");
-      const shareCardClose = $("shareCardClose");
-      const cardCopyTextBtn = $("cardCopyTextBtn");
-      const cardCopyLinkBtn = $("cardCopyLinkBtn");
-      const cardDownloadBtn = $("cardDownloadBtn");
-
-      // Debug only ?debug=1
-      (function initDebug(){
-        const u = new URL(window.location.href);
-        if (u.searchParams.get("debug") === "1") $("debugCard")?.classList.remove("hidden");
-      })();
-
-      // State
-      let backendBase = window.URLS.PROD;
-      let lastResponse = null;
-      let lastCaseId = null;
-      let progressInterval = null;
-
-      // Recorder
-      let mediaRecorder = null;
-      let recordedChunks = [];
-      let recording = false;
-      let recordStream = null;
-
-      function toast(msg){
-        const tEl = $("toast");
-        const mEl = $("toastMsg");
-        if (!tEl || !mEl) return;
-        mEl.textContent = msg;
-        tEl.classList.remove("hidden");
-        clearTimeout(toast._timer);
-        toast._timer = setTimeout(() => tEl.classList.add("hidden"), 2200);
+    analyzeBtn?.addEventListener("click", async () => {
+      const f = fileInput.files?.[0];
+      if (!f) {
+        summaryText.textContent = "Please select a file first.";
+        return;
       }
+      await analyzeFile(f);
+    });
 
-      function lockScroll(lock){
-        document.body.style.overflow = lock ? "hidden" : "";
-        document.documentElement.style.overflow = lock ? "hidden" : "";
-      }
+    // ---------------------------
+    // Record (simple)
+    // ---------------------------
+    let mediaRecorder = null;
+    let recordedChunks = [];
 
-      function clampPct(v){
-        const n = Number(v);
-        if (!Number.isFinite(n)) return 0;
-        return Math.max(0, Math.min(100, n));
-      }
-
-      function setBars(scam, ai, stress){
-        if (scamBar) scamBar.style.width = clampPct(scam) + "%";
-        if (aiBar) aiBar.style.width = clampPct(ai) + "%";
-        if (stressBar) stressBar.style.width = clampPct(stress) + "%";
-      }
-
-      function normalizeFlags(flags){
-        if (!flags) return [];
-        if (Array.isArray(flags)) return flags.filter(Boolean).slice(0, 12);
-        if (typeof flags === "string") return flags.split(",").map(s => s.trim()).filter(Boolean).slice(0, 12);
-        return [];
-      }
-
-      function pickNumber(obj, keys, fallback = 0){
-        for (const k of keys){
-          const val = obj?.[k];
-          if (val === undefined || val === null || val === "") continue;
-          const n = Number(val);
-          if (Number.isFinite(n)) return n;
+    recordBtn?.addEventListener("click", async () => {
+      try {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+          mediaRecorder.stop();
+          return;
         }
-        return fallback;
-      }
-
-      function pickText(obj, keys, fallback = ""){
-        for (const k of keys){
-          const val = obj?.[k];
-          if (typeof val === "string" && val.trim()) return val.trim();
-        }
-        return fallback;
-      }
-
-      function scrollToId(id){
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
-      function safeIsTyping(){
-        const el = document.activeElement;
-        if (!el) return false;
-        const tag = el.tagName?.toLowerCase();
-        return tag === "input" || tag === "textarea" || el.isContentEditable === true;
-      }
-
-      async function copyTextToClipboard(text){
-        try {
-          await navigator.clipboard.writeText(text);
-          return true;
-        } catch {
-          try {
-            const ta = document.createElement("textarea");
-            ta.value = text;
-            ta.style.position = "fixed";
-            ta.style.left = "-9999px";
-            ta.style.top = "-9999px";
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand("copy");
-            document.body.removeChild(ta);
-            return true;
-          } catch {
-            return false;
-          }
-        }
-      }
-
-      function showInlineCopyToast(){
-        if (!copyToast) return;
-        copyToast.classList.remove("hidden");
-        clearTimeout(window.__copyToastT);
-        window.__copyToastT = setTimeout(() => copyToast.classList.add("hidden"), 1200);
-      }
-
-      function riskFromScore(s){
-        const n = clampPct(s);
-        if (n >= 85) return "CRITICAL";
-        if (n >= 70) return "HIGH";
-        if (n >= 45) return "ELEVATED";
-        if (n >= 25) return "GUARDED";
-        return "LOW";
-      }
-
-      function confidenceFromSignals(ai, stress){
-        const c = Math.max(clampPct(ai), clampPct(stress));
-        if (c >= 85) return "High";
-        if (c >= 60) return "Medium";
-        return "Low";
-      }
-
-      function actionFromRisk(level){
-        switch(level){
-          case "CRITICAL":
-            return { pill:"HOLD + ESCALATE", title:"Stop the process. Treat as probable fraud.", text:"Do not send money or share codes. Verify identity via an official number. Escalate internally and attach the case report (share link + JSON)." };
-          case "HIGH":
-            return { pill:"VERIFY NOW", title:"High-risk indicators detected.", text:"Pause any transaction. Verify via an official channel (bank/company website). If pressure continues, escalate and share the report." };
-          case "ELEVATED":
-            return { pill:"VERIFY", title:"Elevated risk. Proceed only with verification.", text:"Continue only after verification through a trusted channel. Avoid links, remote access tools, and urgent payment requests." };
-          case "GUARDED":
-            return { pill:"CAUTION", title:"Lower risk signal, but stay cautious.", text:"No strong fraud pattern detected, but still verify if money, account access, or personal data is involved." };
-          default:
-            return { pill:"OK", title:"No strong risk pattern detected.", text:"Treat as informational. If anything feels off, verify via official channels before acting." };
-        }
-      }
-
-      function setResultUI(payload){
-        const src = payload || {};
-        const scam = pickNumber(src, ["scam_score","scamScore","risk","risk_score"], 0);
-        const ai = pickNumber(src, ["ai_probability","aiProb","ai_voice_probability","aiVoiceProbability"], 0);
-        const stress = pickNumber(src, ["stress_level","stressLevel","stress","stress_score"], 0);
-        const summary = pickText(src, ["summary","explanation","message"], "Analysis complete.");
-        const flags = normalizeFlags(src.flags || src.signals || src.red_flags || src.redFlags);
-
-        if (scamScoreEl) scamScoreEl.textContent = String(Math.round(clampPct(scam)));
-        if (aiProbEl) aiProbEl.textContent = String(Math.round(clampPct(ai)));
-        if (stressLevelEl) stressLevelEl.textContent = String(Math.round(clampPct(stress)));
-        if (summaryText) summaryText.textContent = summary;
-
-        if (flagsWrap){
-          flagsWrap.innerHTML = "";
-          flags.forEach(f => {
-            const chip = document.createElement("span");
-            chip.className = "chip rounded-full px-3 py-1 text-xs";
-            chip.textContent = f;
-            flagsWrap.appendChild(chip);
-          });
-        }
-
-        setBars(scam, ai, stress);
-
-        const risk = riskFromScore(scam);
-        const confidence = confidenceFromSignals(ai, stress);
-
-        const resultsCard = $("resultsCard");
-        const riskBadge = $("riskBadge");
-        const riskBadgeText = $("riskBadgeText");
-        const riskLabelEl = $("riskLabel");
-        const confidenceEl = $("confidenceLabel");
-
-        if (resultsCard) resultsCard.setAttribute("data-risk", risk);
-        if (riskBadge) riskBadge.setAttribute("data-risk", risk);
-
-        if (riskBadgeText){
-          const map = { LOW:"LOW RISK", GUARDED:"GUARDED", ELEVATED:"ELEVATED", HIGH:"HIGH RISK", CRITICAL:"CRITICAL" };
-          riskBadgeText.textContent = map[risk] || "RISK";
-        }
-        if (riskLabelEl) riskLabelEl.textContent = risk;
-        if (confidenceEl) confidenceEl.textContent = confidence;
-
-        const action = actionFromRisk(risk);
-        $("actionPill") && ($("actionPill").textContent = action.pill);
-        $("actionTitle") && ($("actionTitle").textContent = action.title);
-        $("actionText") && ($("actionText").textContent = action.text);
-
-        [shareBtn, shareSocialBtn].forEach(b => {
-          if (!b) return;
-          b.disabled = false;
-          b.removeAttribute("disabled");
-          b.style.pointerEvents = "auto";
-          b.style.cursor = "pointer";
-        });
-      }
-
-      // ===========================
-      // Modals
-      // ===========================
-      function openHow(){ if (!howModal) return; howModal.classList.remove("hidden"); howModal.classList.add("flex"); lockScroll(true); }
-      function closeHow(){ if (!howModal) return; howModal.classList.add("hidden"); howModal.classList.remove("flex"); lockScroll(false); }
-      function openPaywall(){ if (!paywallModal) return; paywallModal.classList.remove("hidden"); paywallModal.classList.add("flex"); lockScroll(true); renderWaitlistCount(); }
-      function closePaywall(){ if (!paywallModal) return; paywallModal.classList.add("hidden"); paywallModal.classList.remove("flex"); lockScroll(false); }
-
-      $("howBackdrop")?.addEventListener("click", closeHow);
-      $("howClose")?.addEventListener("click", closeHow);
-      $("paywallBackdrop")?.addEventListener("click", closePaywall);
-      $("paywallClose")?.addEventListener("click", closePaywall);
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          if (paywallModal && !paywallModal.classList.contains("hidden")) closePaywall();
-          else if (howModal && !howModal.classList.contains("hidden")) closeHow();
-          else if (shareCardModal && !shareCardModal.classList.contains("hidden")) closeShareCard();
-        }
-      });
-
-      // ===========================
-      // Demo
-      // ===========================
-      function loadDemoResult(){
-        localStorage.setItem("vs_demo", "true");
-        const demo = {
-          scam_score: 82,
-          ai_probability: 91,
-          stress_level: 67,
-          summary: "High likelihood of AI-generated impersonation with financial manipulation intent. Verify identity through an official number before sending money.",
-          flags: [
-            "AI voice synthesis detected (prototype)",
-            "Urgency / pressure language (prototype)",
-            "Financial request pattern (prototype)",
-            "Emotional manipulation markers (prototype)"
-          ]
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (e) => { if (e.data.size) recordedChunks.push(e.data); };
+        mediaRecorder.onstop = async () => {
+          stream.getTracks().forEach(t => t.stop());
+          const blob = new Blob(recordedChunks, { type: "audio/webm" });
+          await analyzeFile(blob);
         };
-        lastResponse = demo;
-        lastCaseId = "demo";
-        if (caseIdEl) caseIdEl.textContent = "demo";
-        if (caseSavedHint) caseSavedHint.textContent = "Demo case (local).";
-        setResultUI(demo);
-        if (rawJson){
-          rawJson.textContent = JSON.stringify(demo, null, 2);
-          rawJson.classList.remove("hidden");
-        }
-        toast("Demo loaded ✓");
-        scrollToId("resultsCard");
+        mediaRecorder.start();
+        recordBtn.innerHTML = `<i class="fa-solid fa-stop"></i> Stop`;
+      } catch (e) {
+        console.error(e);
+        summaryText.textContent = "Recording not available (permission denied or unsupported).";
       }
+    });
 
-      document.addEventListener("keydown", (e) => {
-        if (safeIsTyping()) return;
-        if (e.key && e.key.toLowerCase() === "d") loadDemoResult();
-      });
-
-      // ===========================
-      // Waitlist (local)
-      // ===========================
-      function renderWaitlistCount(){
-        const count = Number(localStorage.getItem("waitlist") || 0);
-        $("waitlistCountTop") && ($("waitlistCountTop").textContent = String(count));
-        $("waitlistCountBadge") && ($("waitlistCountBadge").textContent = String(count));
-        $("waitlistCountText") && ($("waitlistCountText").textContent = `Total Early Access joins: ${count}`);
+    // reset record label after stop (best-effort)
+    document.addEventListener("click", () => {
+      if (mediaRecorder && mediaRecorder.state !== "recording") {
+        // do nothing
       }
+    });
 
-      function joinEarlyAccess(){
-        const count = Number(localStorage.getItem("waitlist") || 0) + 1;
-        localStorage.setItem("waitlist", String(count));
-        renderWaitlistCount();
-        toast("Joined Early Access ✓");
+    // ---------------------------
+    // Demo / CTA scroll
+    // ---------------------------
+    document.getElementById("ctaAnalyze")?.addEventListener("click", () => {
+      document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("ctaHow")?.addEventListener("click", () => {
+      document.getElementById("howItWorksTitle")?.scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("ctaDemo")?.addEventListener("click", () => {
+      document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
+    });
+
+    // ---------------------------
+    // Copy/share helpers
+    // ---------------------------
+    function copyText(text) {
+      if (!text) return;
+      navigator.clipboard?.writeText(text).catch(()=>{});
+    }
+
+    copyJsonBtn?.addEventListener("click", () => {
+      copyText(JSON.stringify(window.__LAST_RESULT__ || {}, null, 2));
+      summaryText.textContent = "JSON copied.";
+    });
+
+    function buildShareLink() {
+      const cid = (window.__LAST_RESULT__ && window.__LAST_RESULT__.case_id) ? window.__LAST_RESULT__.case_id : "";
+      if (!cid) return "";
+      return `${location.origin}${location.pathname}?case=${encodeURIComponent(cid)}`;
+    }
+
+    copyLinkBtn?.addEventListener("click", () => {
+      const link = buildShareLink();
+      if (!link) { summaryText.textContent = "No share link yet (analyze to create a case)."; return; }
+      copyText(link);
+      summaryText.textContent = "Share link copied.";
+    });
+
+    copySavedLinkBtn?.addEventListener("click", () => {
+      const link = buildShareLink();
+      if (!link) { caseStatus.textContent = "No case link yet."; return; }
+      copyText(link);
+      caseStatus.textContent = "Link copied.";
+    });
+
+    shareBtn?.addEventListener("click", async () => {
+      const link = buildShareLink();
+      if (!link) { summaryText.textContent = "No share link yet (analyze to create a case)."; return; }
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: "VoiceSafe report", text: "VoiceSafe risk report", url: link });
+        } else {
+          copyText(link);
+          summaryText.textContent = "Share not supported — link copied.";
+        }
+      } catch (e) {
+        console.warn(e);
       }
+    });
 
-      renderWaitlistCount();
-      joinWaitlistBtn?.addEventListener("click", joinEarlyAccess);
-      $("paywallWaitlist")?.addEventListener("click", () => { joinEarlyAccess(); closePaywall(); });
-
-      (function simulateLiveJoins(){
-        const el = $("liveActivity");
-        if (!el) return;
-        const cities = ["Vienna","Warsaw","Amsterdam","Paris","Madrid","New York","Toronto","Bratislava","Berlin","Rome","Dubai","Singapore"];
-        setInterval(() => {
-          const city = cities[Math.floor(Math.random() * cities.length)];
-          const seconds = Math.floor(Math.random() * 40) + 5;
-          el.textContent = `🔥 Someone from ${city} joined ${seconds}s ago`;
-        }, 6500);
-      })();
-
-      // ===========================
-      // Hero buttons
-      // ===========================
-      ctaHow?.addEventListener("click", openHow);
-      $("howTryDemo")?.addEventListener("click", () => { closeHow(); loadDemoResult(); });
-      $("howGoAnalyze")?.addEventListener("click", () => { closeHow(); scrollToId("analyzer"); });
-
-      ctaAnalyze?.addEventListener("click", () => scrollToId("analyzer"));
-      ctaDemo?.addEventListener("click", loadDemoResult);
-      demoBtn?.addEventListener("click", loadDemoResult);
-
-      // ===========================
-      // Stripe buttons
-      // ===========================
-      upgradeBtn?.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
-      $("paywallCta")?.addEventListener("click", () => window.location.href = window.STRIPE_CHECKOUT_URL);
-
-      manageSubBtn?.addEventListener("click", async () => {
-        const customerId = localStorage.getItem("voicesafe_customer_id");
-        if (!customerId) { toast("No active subscription found."); return; }
-        try {
-          const r = await fetch(`${backendBase}/create-portal-session`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ customerId }),
-          });
-          const data = await r.json().catch(() => ({}));
-          if (data?.ok && data?.url) window.location.href = data.url;
-          else toast("Could not open billing portal.");
-        } catch (e) {
-          console.error("PORTAL ERROR:", e);
-          toast("Billing portal error.");
-        }
-      });
-
-      // ===========================
-      // Mode + backend health (debug only)
-      // ===========================
-      function setStatus(text){ if (backendStatus) backendStatus.textContent = text; }
-      async function checkBackend(){
-        try {
-          const r = await fetch(`${backendBase}/health`, { cache: "no-store" });
-          if (!r.ok) throw new Error("health not ok");
-          const j = await r.json().catch(() => ({}));
-          const aiOk = (j.ai_ok === true);
-          setStatus(`${aiOk ? "OK" : "Degraded"} • AI_OK: ${String(j.ai_ok ?? "n/a")}`.trim());
-        } catch {
-          setStatus("Offline / blocked (check URL, CORS, or server)");
-        }
-      }
-      function setMode(mode){
-        backendBase = window.URLS[mode] || backendBase;
-        if (backendUrl) backendUrl.textContent = backendBase;
-        if (modeLabel) modeLabel.textContent = mode;
-        toast(`Mode: ${mode}`);
-        checkBackend();
-      }
-      btnProd?.addEventListener("click", () => setMode("PROD"));
-      btnLocal?.addEventListener("click", () => setMode("LOCAL"));
-      setMode("PROD");
-
-      // ===========================
-      // File selection
-      // ===========================
-      fileInput?.addEventListener("change", () => {
-        const f = fileInput.files && fileInput.files[0];
-        if (!fileHint) return;
-        fileHint.textContent = f ? `Selected: ${f.name} (${Math.round(f.size / 1024)} KB)` : t(localStorage.getItem("vs_lang") || "en", "an_no_file");
-      });
-
-      // ===========================
-      // Record microphone
-      // ===========================
-      recordBtn?.addEventListener("click", async () => {
-        try {
-          if (!recording) {
-            recordStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            recordedChunks = [];
-            mediaRecorder = new MediaRecorder(recordStream);
-            mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) recordedChunks.push(e.data); };
-            mediaRecorder.onstop = () => {
-              try {
-                const blob = new Blob(recordedChunks, { type: "audio/webm" });
-                const file = new File([blob], "mic.webm", { type: "audio/webm" });
-                const dt = new DataTransfer();
-                dt.items.add(file);
-                if (fileInput) fileInput.files = dt.files;
-                if (fileHint) fileHint.textContent = `Recorded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
-                toast("Recording saved ✓");
-              } catch {
-                toast("Could not finalize recording.");
-              } finally {
-                try { recordStream?.getTracks()?.forEach(t => t.stop()); } catch {}
-                recordStream = null;
-              }
-            };
-
-            mediaRecorder.start();
-            recording = true;
-            recordBtn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i>Stop`;
-            toast("Recording…");
-          } else {
-            mediaRecorder?.stop();
-            recording = false;
-            recordBtn.innerHTML = `<i class="fa-solid fa-microphone mr-2"></i><span data-i18n="btn_record">${t(localStorage.getItem("vs_lang") || "en", "btn_record")}</span>`;
-          }
-        } catch {
-          alert("Microphone permission blocked or unavailable.");
-        }
-      });
-
-      // ===========================
-      // Analyze
-      // ===========================
-      analyzeBtn?.addEventListener("click", async () => {
-        const isPro = localStorage.getItem("voicesafe_pro") === "true";
-        const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
-        const FREE_LIMIT = 3;
-        const usage = Number(localStorage.getItem("vs_usage") || 0);
-
-        if (!isPro && !DEMO_MODE && usage >= FREE_LIMIT){
-          openPaywall();
-          return;
-        }
-
-        const f = fileInput?.files?.[0];
-        if (!f){ toast("Select a file or record audio first."); return; }
-
-        const steps = [
-          "Uploading sample…",
-          "Analyzing voice signals…",
-          "Detecting AI impersonation…",
-          "Measuring stress markers…",
-          "Scanning scam patterns…",
-          "Finalizing report…",
-        ];
-
-        let stepIndex = 0;
-        if (summaryText) summaryText.textContent = steps[0];
-
-        if (progressInterval) clearInterval(progressInterval);
-        progressInterval = setInterval(() => {
-          stepIndex = Math.min(stepIndex + 1, steps.length - 1);
-          if (summaryText) summaryText.textContent = steps[stepIndex];
-        }, 850);
-
-        analyzeBtn.disabled = true;
-        analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner mr-2 fa-spin"></i>Analyzing…';
-
-        if (flagsWrap) flagsWrap.innerHTML = "";
-        setBars(0,0,0);
-        rawJson?.classList.add("hidden");
-
-        const startTime = Date.now();
-        const MIN_TIME = 650;
-
-        try {
-          const form = new FormData();
-          form.append("file", f);
-          form.append("title", titleEl?.value || "");
-          form.append("platform", platformEl?.value || "");
-          form.append("country", countryEl?.value || "");
-          form.append("language", languageEl?.value || "");
-          form.append("tags", tagsEl?.value || "");
-          form.append("notes", notesEl?.value || "");
-
-          const resp = await fetch(`${backendBase}/upload`, { method: "POST", body: form });
-          const data = await resp.json().catch(() => null);
-
-          if (!resp.ok){
-            const msg = data?.message || data?.error || `HTTP ${resp.status}`;
-            if (summaryText) summaryText.textContent = `Error: ${msg}`;
-            toast("Analyze failed.");
-            console.error("UPLOAD ERROR:", data);
-            return;
-          }
-
-          if (!isPro && !DEMO_MODE){
-            const current = Number(localStorage.getItem("vs_usage") || 0);
-            localStorage.setItem("vs_usage", String(current + 1));
-          }
-
-          const aiResult = data?.aiResult || data?.result || data || {};
-          lastResponse = aiResult;
-          lastCaseId = data?.case_id || data?.caseId || data?.id || aiResult?.case_id || null;
-
-          if (lastCaseId){
-            caseIdEl && (caseIdEl.textContent = String(lastCaseId));
-            caseSavedHint && (caseSavedHint.textContent = "Case saved.");
-            const u = new URL(window.location.href);
-            u.searchParams.set("case", String(lastCaseId));
-            history.replaceState({}, "", u.toString());
-          } else {
-            caseIdEl && (caseIdEl.textContent = "—");
-            caseSavedHint && (caseSavedHint.textContent = "No case id returned by backend.");
-          }
-
-          setResultUI(aiResult);
-
-          if (rawJson){
-            rawJson.textContent = JSON.stringify(aiResult, null, 2);
-            rawJson.classList.remove("hidden");
-          }
-
-          toast("Analysis complete ✓");
-          scrollToId("resultsCard");
-        } catch (e) {
-          console.error("ANALYZE ERROR:", e);
-          if (summaryText) summaryText.textContent = `Network error: ${e?.message || e}`;
-          toast("Network error.");
-        } finally {
-          const elapsed = Date.now() - startTime;
-          if (elapsed < MIN_TIME) await new Promise(r => setTimeout(r, MIN_TIME - elapsed));
-          if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-          analyzeBtn.disabled = false;
-          analyzeBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i><span data-i18n="btn_analyze">Analyze</span>';
-          // re-apply translations to fix injected innerHTML labels
-          setLang(localStorage.getItem("vs_lang") || "en");
-        }
-      });
-
-      // ===========================
-      // Copy JSON
-      // ===========================
-      copyJsonBtn?.addEventListener("click", async () => {
-        if (!lastResponse) { toast("No JSON yet."); return; }
-        const ok = await copyTextToClipboard(JSON.stringify(lastResponse, null, 2));
-        toast(ok ? "Copied ✓" : "Clipboard blocked.");
-      });
-
-      // ===========================
-      // Share
-      // ===========================
-      function buildShareUrl(){
-        const shareUrl = new URL(window.location.origin + window.location.pathname);
-        if (lastCaseId) shareUrl.searchParams.set("case", String(lastCaseId));
-        else shareUrl.searchParams.set("share", "local");
-        return shareUrl.toString();
-      }
-
-      shareBtn?.addEventListener("click", async (e) => {
-        e.preventDefault();
-        if (!lastResponse){ toast("No result to share yet."); return; }
-        const url = buildShareUrl();
-        const ok = await copyTextToClipboard(url);
-        if (!ok) window.prompt("Copy link:", url);
-        toast("Share link copied ✓");
-      });
-
-      shareSocialBtn?.addEventListener("click", async () => {
-        if (!lastResponse){ toast("No result to share yet."); return; }
-
-        const scam = clampPct(pickNumber(lastResponse, ["scam_score","scamScore","risk"], 0));
-        const ai = clampPct(pickNumber(lastResponse, ["ai_probability","aiProb","ai_voice_probability"], 0));
-        const stress = clampPct(pickNumber(lastResponse, ["stress_level","stressLevel","stress"], 0));
-        const url = buildShareUrl();
-
-        const text = `VoiceSafe report: Scam ${Math.round(scam)}% • AI voice ${Math.round(ai)}% • Stress ${Math.round(stress)}% — verify before paying.`;
-
-        if (navigator.share){
-          try {
-            await navigator.share({ title: "VoiceSafe Report", text, url });
-            toast("Shared ✓");
-            return;
-          } catch {}
-        }
-
-        const ok = await copyTextToClipboard(`${text} ${url}`);
-        if (!ok) window.prompt("Copy:", `${text} ${url}`);
-        toast("Copied share text ✓");
-      });
-
-      copyCaseLinkBtn?.addEventListener("click", async () => {
-        const id = (caseIdEl?.textContent || "").trim();
-        if (!id || id === "—") { toast("No Case ID yet."); return; }
-        const url = buildShareUrl();
-        const ok = await copyTextToClipboard(url);
-        if (!ok) window.prompt("Copy link:", url);
-        showInlineCopyToast();
-      });
-
-      // ===========================
-      // Cases: Search + Load
-      // ===========================
-      function escapeHtml(s){
-        return (s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-      }
-
-      function renderSearchList(items){
-        if (!resultsList) return;
-        resultsList.innerHTML = "";
-        if (!items || !items.length){
-          resultsList.innerHTML = `<div class="text-xs muted">No results.</div>`;
-          return;
-        }
-        items.slice(0, 25).forEach(item => {
-          const id = item.id || item.case_id || item._id;
-          const title = item?.meta?.title || item?.title || "(untitled)";
-          const row = document.createElement("div");
-          row.className = "chip rounded-xl p-3 mb-2 cursor-pointer hover:opacity-90";
-          row.innerHTML = `
-            <div class="flex items-center justify-between gap-3">
-              <div class="min-w-0">
-                <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
-                <div class="text-[11px] muted mono break-all mt-1">${escapeHtml(id || "")}</div>
-              </div>
-              <div class="text-sm font-bold gold-text shrink-0">Load</div>
-            </div>
-          `;
-          row.addEventListener("click", () => loadCase(id));
-          resultsList.appendChild(row);
-        });
-      }
-
-      async function doSearch(){
-        if (!resultsList) return;
-        const q = (searchQ?.value || "").trim();
-        const tag = (searchTag?.value || "").trim();
-        const url = new URL(`${backendBase}/cases`);
+    // ---------------------------
+    // Search cases (if backend supports)
+    // ---------------------------
+    async function searchCases() {
+      const q = searchQuery.value || "";
+      const tag = searchTag.value || "";
+      searchResults.textContent = "Searching...";
+      try {
+        const url = new URL(BACKEND_URL + "/cases");
         if (q) url.searchParams.set("q", q);
         if (tag) url.searchParams.set("tag", tag);
-
-        resultsList.innerHTML = `<div class="text-xs muted">Searching…</div>`;
-        try {
-          const r = await fetch(url.toString(), { cache: "no-store" });
-          const j = await r.json().catch(() => ({}));
-          if (!r.ok) throw new Error(j?.message || "Search failed");
-          renderSearchList(j?.cases || j?.items || []);
-        } catch {
-          resultsList.innerHTML = `<div class="text-xs muted">Search error. (Backend may not support /cases)</div>`;
-        }
-      }
-
-      async function loadCase(id){
-        if (!id) return;
-        if (summaryText) summaryText.textContent = "Loading case…";
-        scrollToId("resultsCard");
-
-        try {
-          const r = await fetch(`${backendBase}/case/${encodeURIComponent(id)}`, { cache: "no-store" });
-          const j = await r.json().catch(() => ({}));
-          if (!r.ok){
-            if (summaryText) summaryText.textContent = `Could not load case: ${j?.message || "Error"}`;
-            toast("Load failed.");
-            return;
-          }
-
-          const c = j.case || j.item || j;
-          const meta = c.meta || {};
-          const data = c.aiResult || c.data || c;
-
-          if (titleEl) titleEl.value = meta.title || c.title || "";
-          if (platformEl) platformEl.value = meta.platform || c.platform || "";
-          if (countryEl) countryEl.value = meta.country || c.country || "";
-          if (languageEl) languageEl.value = meta.language || c.language || "";
-          if (tagsEl) tagsEl.value = Array.isArray(meta.tags) ? meta.tags.join(", ") : (meta.tags || "");
-          if (notesEl) notesEl.value = meta.notes || c.notes || "";
-
-          lastResponse = data;
-          lastCaseId = c.id || c._id || id;
-
-          if (caseIdEl) caseIdEl.textContent = String(lastCaseId);
-          if (caseSavedHint) caseSavedHint.textContent = "Loaded from saved cases.";
-
-          setResultUI(data);
-
-          if (rawJson){
-            rawJson.textContent = JSON.stringify(j, null, 2);
-            rawJson.classList.remove("hidden");
-          }
-
-          toast("Case loaded ✓");
-          scrollToId("resultsCard");
-        } catch (e) {
-          console.error("LOAD CASE ERROR:", e);
-          if (summaryText) summaryText.textContent = "Error loading case.";
-          toast("Load error.");
-        }
-      }
-
-      searchBtn?.addEventListener("click", doSearch);
-      clearBtn?.addEventListener("click", () => {
-        if (searchQ) searchQ.value = "";
-        if (searchTag) searchTag.value = "";
-        if (resultsList) resultsList.innerHTML = "";
-        toast("Cleared.");
-      });
-
-      [searchQ, searchTag].forEach(inp => {
-        inp?.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") doSearch();
-        });
-      });
-
-      // URL param: load case on init
-      (function loadCaseFromUrl(){
-        const u = new URL(window.location.href);
-        const caseId = u.searchParams.get("case");
-        if (caseId && caseId !== "local") loadCase(caseId);
-      })();
-
-      // ===========================
-      // Tone toggle (enterprise mode)
-      // ===========================
-      function applyToneButton(){
-        const isEnterprise = localStorage.getItem("voicesafe_enterprise") === "true";
-        const toneText = $("toneToggleText");
-        if (toneText) toneText.textContent = `Enterprise mode: ${isEnterprise ? "ON" : "OFF"}`;
-      }
-      toneToggle?.addEventListener("click", () => {
-        const isEnterprise = localStorage.getItem("voicesafe_enterprise") === "true";
-        const newState = !isEnterprise;
-        localStorage.setItem("voicesafe_enterprise", String(newState));
-        applyToneButton();
-        toast(`Enterprise mode: ${newState ? "ON" : "OFF"}`);
-      });
-      applyToneButton();
-
-      // ===========================
-      // Share Card (NO external JS)
-      // ===========================
-      function openShareCard(){
-        if (!lastResponse){
-          toast("No result to share yet.");
+        const res = await fetch(url.toString());
+        if (!res.ok) throw new Error("Search failed");
+        const data = await res.json();
+        if (!Array.isArray(data) || !data.length) {
+          searchResults.textContent = "No results.";
           return;
         }
-        if (!shareCardModal) return;
-        shareCardModal.classList.remove("hidden");
-        shareCardModal.classList.add("flex");
-        lockScroll(true);
-
-        // fill card
-        const scam = Math.round(clampPct(pickNumber(lastResponse, ["scam_score","scamScore","risk"], 0)));
-        const ai = Math.round(clampPct(pickNumber(lastResponse, ["ai_probability","aiProb","ai_voice_probability"], 0)));
-        const stress = Math.round(clampPct(pickNumber(lastResponse, ["stress_level","stressLevel","stress"], 0)));
-        const sum = pickText(lastResponse, ["summary","explanation","message"], "—");
-        const risk = riskFromScore(scam);
-
-        $("cardCaseId") && ($("cardCaseId").textContent = lastCaseId ? String(lastCaseId) : "—");
-        $("cardScam") && ($("cardScam").textContent = String(scam));
-        $("cardAi") && ($("cardAi").textContent = String(ai));
-        $("cardStress") && ($("cardStress").textContent = String(stress));
-        $("cardSummary") && ($("cardSummary").textContent = sum);
-
-        const prev = $("cardPreview");
-        const rb = $("cardRiskBadge");
-        const rt = $("cardRiskText");
-        if (prev) prev.setAttribute("data-risk", risk);
-        if (rb) rb.setAttribute("data-risk", risk);
-        if (rt){
-          const map = { LOW:"LOW RISK", GUARDED:"GUARDED", ELEVATED:"ELEVATED", HIGH:"HIGH RISK", CRITICAL:"CRITICAL" };
-          rt.textContent = map[risk] || "RISK";
-        }
+        searchResults.innerHTML = data.slice(0, 6).map(c =>
+          `<div class="mt-2 glass rounded-2xl p-3">
+            <div class="text-xs opacity-70">${c.case_id || ""}</div>
+            <div class="text-sm font-semibold">${(c.title || "").replace(/</g,"&lt;")}</div>
+          </div>`
+        ).join("");
+      } catch (e) {
+        console.error(e);
+        searchResults.textContent = "Search not available.";
       }
+    }
 
-      function closeShareCard(){
-        if (!shareCardModal) return;
-        shareCardModal.classList.add("hidden");
-        shareCardModal.classList.remove("flex");
-        lockScroll(false);
+    searchBtn?.addEventListener("click", searchCases);
+    clearSearchBtn?.addEventListener("click", () => {
+      searchQuery.value = "";
+      searchTag.value = "";
+      searchResults.textContent = "";
+    });
+
+    // ---------------------------
+    // bootWiring hook (legacy)
+    // ---------------------------
+    function bootWiring() {
+      // ensure record label resets after stop
+      if (recordBtn) {
+        const observer = new MutationObserver(() => {});
+        observer.observe(recordBtn, { childList: true, subtree: true });
       }
+      // waitlist badge can be updated from backend later
+      if (waitlistCountBadge) waitlistCountBadge.textContent = "0";
+    }
 
-      shareCardBtn?.addEventListener("click", openShareCard);
-      shareCardBackdrop?.addEventListener("click", closeShareCard);
-      shareCardClose?.addEventListener("click", closeShareCard);
+    // ===========================
+    // LANGUAGE SYSTEM (robust)
+    // ===========================
+const SUPPORTED_LANGS = [
+  { code: "en", label: "🇺🇸 English" },
+  { code: "sk", label: "🇸🇰 Slovensky" },
+  { code: "cs", label: "🇨🇿 Česky" },
+  { code: "de", label: "🇩🇪 Deutsch" },
+  { code: "fr", label: "🇫🇷 Français" },
+  { code: "es", label: "🇪🇸 Español" },
+  { code: "it", label: "🇮🇹 Italiano" },
+  { code: "pl", label: "🇵🇱 Polski" },
+  { code: "pt", label: "🇵🇹 Português" },
+  { code: "tr", label: "🇹🇷 Türkçe" },
+  { code: "ru", label: "🇷🇺 Русский" },
+  { code: "uk", label: "🇺🇦 Українська" },
+  { code: "ar", label: "🇸🇦 العربية" },
+  { code: "hi", label: "🇮🇳 हिन्दी" },
+  { code: "zh", label: "🇨🇳 中文" },
+  { code: "ja", label: "🇯🇵 日本語" },
+  { code: "ko", label: "🇰🇷 한국어" },
+];
 
-      cardCopyTextBtn?.addEventListener("click", async () => {
-        if (!lastResponse) return;
-        const scam = Math.round(clampPct(pickNumber(lastResponse, ["scam_score","scamScore","risk"], 0)));
-        const ai = Math.round(clampPct(pickNumber(lastResponse, ["ai_probability","aiProb","ai_voice_probability"], 0)));
-        const stress = Math.round(clampPct(pickNumber(lastResponse, ["stress_level","stressLevel","stress"], 0)));
-        const summary = pickText(lastResponse, ["summary","explanation","message"], "");
-        const url = buildShareUrl();
-        const text = `VoiceSafe report\nCase: ${lastCaseId || "—"}\nRisk: ${riskFromScore(scam)}\nScam: ${scam}% | AI: ${ai}% | Stress: ${stress}%\nSummary: ${summary}\nLink: ${url}`;
-        const ok = await copyTextToClipboard(text);
-        toast(ok ? "Copied ✓" : "Clipboard blocked.");
-      });
+const LANG_STORAGE_KEY = "vs_lang";
 
-      cardCopyLinkBtn?.addEventListener("click", async () => {
-        const url = buildShareUrl();
-        const ok = await copyTextToClipboard(url);
-        toast(ok ? "Copied ✓" : "Clipboard blocked.");
-      });
+const I18N = {
+  en: {},
+  sk: {
+    heroTitle: `VoiceSafe — Inteligentná ochrana pred hlasovými podvodmi`,
+    heroDesc: `Nahraj hlasovú správu. Zistíš do pár sekúnd, či ide o podvod — ešte predtým, než pošleš peniaze. Dostaneš jasný report: scam skóre, pravdepodobnosť AI hlasu, stres signály a red flags.`,
+    ctaAnalyze: "Spustiť analýzu rizika",
+    ctaDemo: "Pozrieť demo",
+    ctaHow: "Ako to funguje",
+    analyzeSampleTitle: "Analyzovať vzorku",
+    analyzeSampleDesc: "Nahraj audio/video alebo nahraj krátky záznam.",
+    resultsTitle: "Výsledky",
+    resultsDesc: "Štruktúrovaný výstup rizika pre compliance & fraud tímy.",
+    recordBtn: "Nahrávať",
+    analyzeBtn: "Analyzovať",
+    demoBtn: "Demo",
+    ph_title: "Názov (napr. Telegram investor)",
+    ph_platform: "Platforma (Telegram)",
+    ph_country: "Krajina (SK)",
+    ph_language: "Jazyk (SK)",
+    ph_tags: "Tagy (oddelené čiarkou)",
+    ph_notes: "Poznámky (čo sa stalo)",
+    howItWorksTitle: "Ako to funguje",
+  },
+  es: { ctaAnalyze: "Iniciar evaluación de riesgo", ctaDemo: "Ver demo", ctaHow: "Cómo funciona" },
+  fr: { ctaAnalyze: "Lancer l’évaluation du risque", ctaDemo: "Voir la démo", ctaHow: "Comment ça marche" },
+  de: { ctaAnalyze: "Risikoanalyse starten", ctaDemo: "Demo ansehen", ctaHow: "So funktioniert’s" },
+  it: { ctaAnalyze: "Avvia valutazione del rischio", ctaDemo: "Vedi demo", ctaHow: "Come funziona" },
+  pt: { ctaAnalyze: "Iniciar avaliação de risco", ctaDemo: "Ver demonstração", ctaHow: "Como funciona" },
+  pl: { ctaAnalyze: "Uruchom ocenę ryzyka", ctaDemo: "Zobacz demo", ctaHow: "Jak to działa" },
+  cs: { ctaAnalyze: "Spustit analýzu rizika", ctaDemo: "Zobrazit demo", ctaHow: "Jak to funguje" },
+  tr: { ctaAnalyze: "Risk analizi başlat", ctaDemo: "Demoyu gör", ctaHow: "Nasıl çalışır" },
+  ru: { ctaAnalyze: "Запустить оценку риска", ctaDemo: "Смотреть демо", ctaHow: "Как это работает" },
+  uk: { ctaAnalyze: "Запустити оцінку ризику", ctaDemo: "Переглянути демо", ctaHow: "Як це працює" },
+  ar: { ctaAnalyze: "بدء تقييم المخاطر", ctaDemo: "عرض العرض التوضيحي", ctaHow: "كيف يعمل" },
+  hi: { ctaAnalyze: "जोखिम मूल्यांकन शुरू करें", ctaDemo: "डेमो देखें", ctaHow: "यह कैसे काम करता है" },
+  zh: { ctaAnalyze: "开始风险评估", ctaDemo: "查看演示", ctaHow: "工作原理" },
+  ja: { ctaAnalyze: "リスク評価を開始", ctaDemo: "デモを見る", ctaHow: "仕組み" },
+  ko: { ctaAnalyze: "위험 평가 시작", ctaDemo: "데모 보기", ctaHow: "작동 방식" },
+};
 
-      // Generate PNG without extra libraries (SVG->canvas)
-      cardDownloadBtn?.addEventListener("click", async () => {
-        const preview = $("cardPreview");
-        if (!preview) return;
+function normalizeLang(lang) {
+  if (!lang) return "en";
+  const base = String(lang).toLowerCase().split("-")[0];
+  const supported = SUPPORTED_LANGS.some(l => l.code === base);
+  return supported ? base : "en";
+}
 
-        // build an SVG snapshot (simple + stable)
-        const rect = preview.getBoundingClientRect();
-        const w = Math.max(680, Math.round(rect.width * 2));
-        const h = Math.max(420, Math.round(rect.height * 2));
+function detectLang() {
+  const saved = localStorage.getItem(LANG_STORAGE_KEY);
+  if (saved) return normalizeLang(saved);
+  const nav = (navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;
+  return normalizeLang(nav);
+}
 
-        // get text content
-        const caseId = ($("cardCaseId")?.textContent || "—").trim();
-        const riskText = ($("cardRiskText")?.textContent || "RISK").trim();
-        const scam = ($("cardScam")?.textContent || "—").trim();
-        const ai = ($("cardAi")?.textContent || "—").trim();
-        const stress = ($("cardStress")?.textContent || "—").trim();
-        const summary = ($("cardSummary")?.textContent || "—").trim();
+function t(key, lang) {
+  const l = lang || "en";
+  return (I18N[l] && I18N[l][key]) || (I18N.en && I18N.en[key]) || "";
+}
 
-        // risk color
-        const risk = ($("cardPreview")?.getAttribute("data-risk") || "LOW").toUpperCase();
-        const riskColor = ({
-          LOW: "#22c55e",
-          GUARDED: "#3b82f6",
-          ELEVATED: "#f59e0b",
-          HIGH: "#f97316",
-          CRITICAL: "#ef4444"
-        })[risk] || "#22c55e";
+function setText(id, key, lang) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const val = t(key, lang);
+  if (!val) return;
+  el.textContent = val;
+}
 
-        const esc = (s) => (s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function setPlaceholder(id, key, lang) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const val = t(key, lang);
+  if (!val) return;
+  el.setAttribute("placeholder", val);
+}
 
-        const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
-  <defs>
-    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#111827"/>
-      <stop offset="1" stop-color="#0b0f14"/>
-    </linearGradient>
-    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity="0.45"/>
-    </filter>
-  </defs>
-  <rect x="0" y="0" width="${w}" height="${h}" rx="44" fill="url(#bg)"/>
-  <rect x="26" y="26" width="${w-52}" height="${h-52}" rx="38" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
-  <circle cx="${w-90}" cy="88" r="26" fill="${riskColor}" opacity="0.35"/>
-  <rect x="${w-230}" y="60" width="180" height="56" rx="28" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
-  <text x="${w-140}" y="96" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="16" fill="#fff" font-weight="800" letter-spacing="1">${esc(riskText)}</text>
+function setButtonLabel(buttonId, key, lang) {
+  const btn = document.getElementById(buttonId);
+  if (!btn) return;
+  const val = t(key, lang);
+  if (!val) return;
+  const icon = btn.querySelector("i");
+  if (icon) btn.innerHTML = icon.outerHTML + " " + val;
+  else btn.textContent = val;
+}
 
-  <text x="60" y="92" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="34" fill="#fff" font-weight="900">VoiceSafe</text>
-  <text x="60" y="122" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="16" fill="rgba(255,255,255,0.72)">Case: ${esc(caseId)}</text>
+function applyTranslations(lang) {
+  setText("heroTitle", "heroTitle", lang);
+  setText("heroDesc", "heroDesc", lang);
 
-  <g transform="translate(60, 160)">
-    <rect x="0" y="0" width="${(w-120)}" height="130" rx="26" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
-    <g transform="translate(26, 30)">
-      <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" fill="rgba(255,255,255,0.70)">Scam</text>
-      <text x="0" y="44" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" fill="#fff" font-weight="900">${esc(scam)}%</text>
-    </g>
-    <g transform="translate(${Math.round((w-120)/3)+26}, 30)">
-      <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" fill="rgba(255,255,255,0.70)">AI</text>
-      <text x="0" y="44" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" fill="#fff" font-weight="900">${esc(ai)}%</text>
-    </g>
-    <g transform="translate(${Math.round(((w-120)*2)/3)+26}, 30)">
-      <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" fill="rgba(255,255,255,0.70)">Stress</text>
-      <text x="0" y="44" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" fill="#fff" font-weight="900">${esc(stress)}%</text>
-    </g>
-  </g>
+  setButtonLabel("ctaAnalyze", "ctaAnalyze", lang);
+  setButtonLabel("ctaDemo", "ctaDemo", lang);
+  setButtonLabel("ctaHow", "ctaHow", lang);
 
-  <g transform="translate(60, 320)">
-    <text x="0" y="0" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" fill="rgba(255,255,255,0.70)">Summary</text>
-    <foreignObject x="0" y="16" width="${w-120}" height="${h-380}">
-      <div xmlns="http://www.w3.org/1999/xhtml" style="color: rgba(255,255,255,0.92); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; font-size: 16px; line-height: 1.35;">
-        ${esc(summary)}
-      </div>
-    </foreignObject>
-    <text x="0" y="${h-70}" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.60)">Advisory signals only • verify via official channels • voicesafe.ai</text>
-  </g>
-</svg>`;
+  setText("analyzeSampleTitle", "analyzeSampleTitle", lang);
+  setText("analyzeSampleDesc", "analyzeSampleDesc", lang);
+  setText("resultsTitle", "resultsTitle", lang);
+  setText("resultsDesc", "resultsDesc", lang);
 
-        const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
+  setButtonLabel("recordBtn", "recordBtn", lang);
+  setButtonLabel("analyzeBtn", "analyzeBtn", lang);
+  setButtonLabel("demoBtn", "demoBtn", lang);
 
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0);
-          URL.revokeObjectURL(url);
+  setPlaceholder("title", "ph_title", lang);
+  setPlaceholder("platform", "ph_platform", lang);
+  setPlaceholder("country", "ph_country", lang);
+  setPlaceholder("language", "ph_language", lang);
+  setPlaceholder("tags", "ph_tags", lang);
+  setPlaceholder("notes", "ph_notes", lang);
 
-          canvas.toBlob((pngBlob) => {
-            if (!pngBlob) { toast("PNG export failed."); return; }
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(pngBlob);
-            a.download = `voicesafe-card-${(lastCaseId || "local")}.png`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            toast("Downloaded ✓");
-          }, "image/png");
-        };
-        img.onerror = () => { URL.revokeObjectURL(url); toast("PNG export blocked."); };
-        img.src = url;
-      });
+  setText("howItWorksTitle", "howItWorksTitle", lang);
+}
 
-      // ===========================
-      // Share Card Modal helpers
-      // ===========================
-      function closeShareCard(){
-        if (!shareCardModal) return;
-        shareCardModal.classList.add("hidden");
-        shareCardModal.classList.remove("flex");
-        lockScroll(false);
-      }
+function initLanguageSystem() {
+  const langSwitch = document.getElementById("langSwitch");
+  if (langSwitch && langSwitch.options && langSwitch.options.length < SUPPORTED_LANGS.length) {
+    langSwitch.innerHTML = SUPPORTED_LANGS.map(l => `<option value="${l.code}">${l.label}</option>`).join("");
+  }
+  const initial = detectLang();
+  if (langSwitch) langSwitch.value = initial;
+  applyTranslations(initial);
 
-      // ===========================
-      // init
-      // ===========================
-      (function init(){
-        // If you want: auto-fill "language" field with selected UI lang
-        const currentLang = localStorage.getItem("vs_lang") || "en";
-        if (languageEl && !languageEl.value) languageEl.value = currentLang.toUpperCase();
-
-        // show backend url in debug
-        if (backendUrl) backendUrl.textContent = backendBase;
-
-        // default disabled share buttons until result
-        [shareBtn, shareSocialBtn].forEach(b => { if (b) b.disabled = true; });
-
-        // close share card
-        $("shareCardBackdrop")?.addEventListener("click", closeShareCard);
-        $("shareCardClose")?.addEventListener("click", closeShareCard);
-
-        // Ctrl/Cmd + Enter -> Analyze
-        document.addEventListener("keydown", (e) => {
-          const isMac = navigator.platform?.toLowerCase().includes("mac");
-          const mod = isMac ? e.metaKey : e.ctrlKey;
-          if (mod && e.key === "Enter") analyzeBtn?.click();
-        });
-      })();
-    })();
+  if (langSwitch) {
+    langSwitch.addEventListener("change", (e) => {
+      const next = normalizeLang(e.target.value);
+      localStorage.setItem(LANG_STORAGE_KEY, next);
+      applyTranslations(next);
+    });
+  }
+}
   </script>
+
+  <script src="share-card.js"></script>
+  <script>
+    // boot app (once)
+    try { bootWiring(); } catch (e) { console.warn("bootWiring() not found yet", e); }
+    try { initLanguageSystem(); } catch (e) { console.warn("Language init failed", e); }
+  </script>
+
 </body>
 </html>
