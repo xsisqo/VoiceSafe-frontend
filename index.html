@@ -2899,6 +2899,30 @@
 
   </script>
 
+<script>
+window.bootWiring = function () {
+
+  if (window.__VS_BOOTED__) return;
+  window.__VS_BOOTED__ = true;
+
+  const $ = (id) => document.getElementById(id);
+
+  const fileInput = $("fileInput");
+  const analyzeBtn = $("analyzeBtn");
+
+  if (!fileInput || !analyzeBtn) {
+    console.log("VoiceSafe: DOM not ready");
+    return;
+  }
+
+  analyzeBtn.addEventListener("click", () => {
+    console.log("Analyze clicked ✅");
+  });
+
+  console.log("VoiceSafe booted ✅");
+};
+</script>
+
 <!-- CONFIG (API URL) -->
 <script src="config.js"></script>
 
