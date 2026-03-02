@@ -1221,7 +1221,7 @@
 
 
 
-  <script>
+</script>
 
     // ===========================
 
@@ -1230,22 +1230,17 @@
     // ===========================
 
     window.URLS = {
-
-      PROD: "*HYPERLINK https://voicesafe-backend-1.onrender.com https://voicesafe-backend-1.onrender.com",
-
-      LOCAL: "*HYPERLINK http://127.0.0.1:10000 http://127.0.0.1:10000",
-
-    };
+  PROD: "https://voicesafe-backend-1.onrender.com",
+  LOCAL: "http://127.0.0.1:10000",
+};
 
 
 
-    window.STRIPE_CHECKOUT_URL = "*HYPERLINK https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800 https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-
-    window.STRIPE_BILLING_PORTAL_URL = ""; // optional
+    window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
 
 
 
-    (function bootWiring(){
+    window.bootWiring = function() {
 
       if (window.__VS_BOOTED__) return;
 
@@ -2797,9 +2792,7 @@
 
                 })();
 
-          
-
-              })();
+              });
 
 
 
