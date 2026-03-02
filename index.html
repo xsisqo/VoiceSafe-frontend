@@ -2930,8 +2930,10 @@ window.bootWiring = function () {
 <script src="share-card.js"></script>
 
 <script>
-  window.bootWiring && window.bootWiring();
-</script>
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof window.bootWiring === "function") window.bootWiring();
+  });
+</script
 
 </body>
 </html>
