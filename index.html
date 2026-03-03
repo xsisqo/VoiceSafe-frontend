@@ -617,6 +617,12 @@
     window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
     window.STRIPE_BILLING_PORTAL_URL = ""; // optional
 
+function clamp(n, min, max) {
+  n = Number(n);
+  if (Number.isNaN(n)) return min;
+  return Math.max(min, Math.min(max, n));
+}
+
     function bootWiring(){
       if (window.__VS_BOOTED__) return;
       window.__VS_BOOTED__ = true;
