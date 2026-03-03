@@ -617,7 +617,7 @@
     window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
     window.STRIPE_BILLING_PORTAL_URL = ""; // optional
 
-    (function bootWiring(){
+    function bootWiring(){
       if (window.__VS_BOOTED__) return;
       window.__VS_BOOTED__ = true;
 
@@ -1394,58 +1394,56 @@
                   }
                 })();
           
-              })();
-            </script>
-            // ===========================
-// LANGUAGE SYSTEM
-// ===========================
+                }
+          
+                bootWiring();
+          
+  // ===========================
+  // LANGUAGE SYSTEM
+  // ===========================
+  let LANG = "en";
+  let DICT = {};
 
-let LANG = "en";
-let DICT = {};
+  async function loadLanguage(lang) {
+    LANG = lang;
+    localStorage.setItem("vs_lang", lang);
 
-async function loadLanguage(lang) {
-  LANG = lang;
-  localStorage.setItem("vs_lang", lang);
+    const res = await fetch(`i18n/${lang}.json`);
+    DICT = await res.json();
 
-  const res = await fetch(`i18n/${lang}.json`);
-  DICT = await res.json();
+    applyTranslations();
+  }
 
-  applyTranslations();
-}
+  function t(key){
+    return DICT[key] || key;
+  }
 
-function t(key){
-  return DICT[key] || key;
-}
+  function applyTranslations(){
+    const heroTitle = document.querySelector("h1");
+    if(heroTitle) heroTitle.innerText = t("hero_title");
 
-function applyTranslations(){
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    if(analyzeBtn) analyzeBtn.innerText = t("analyze");
 
-  const heroTitle = document.querySelector("h1");
-  if(heroTitle) heroTitle.innerText = t("hero_title");
+    const recordBtn = document.getElementById("recordBtn");
+    if(recordBtn) recordBtn.innerText = t("record");
+  }
 
-  const analyzeBtn = document.getElementById("analyzeBtn");
-  if(analyzeBtn) analyzeBtn.innerText = t("analyze");
+  document.getElementById("langSwitch")?.addEventListener("change",(e)=>{
+    loadLanguage(e.target.value);
+  });
 
-  const recordBtn = document.getElementById("recordBtn");
-  if(recordBtn) recordBtn.innerText = t("record");
+  // auto detect
+  (async function(){
+    const saved = localStorage.getItem("vs_lang");
+    const browser = navigator.language.startsWith("sk") ? "sk" : "en";
+    await loadLanguage(saved || browser);
+  })();
 
-}
-
-document.getElementById("langSwitch")?.addEventListener("change",(e)=>{
-  loadLanguage(e.target.value);
-});
-
-// auto detect
-(async function(){
-  const saved = localStorage.getItem("vs_lang");
-  const browser = navigator.language.startsWith("sk") ? "sk" : "en";
-  await loadLanguage(saved || browser);
-})();
+  bootWiring();
+</script>
 
 <script src="share-card.js"></script>
-
-<script>
-bootWiring();
-</script>
 
 </body>
 </html>
