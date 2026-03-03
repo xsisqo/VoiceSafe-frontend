@@ -1544,10 +1544,10 @@ setBar("stressBar", stressP);
         setBtnText(demoBtn, t.demo);
         setBtnText(recordBtn, (window.__VS_RECORDING ? t.stop : t.record));
 
-        setBtnText(copyJsonBtn, t.copyJson);
-        setBtnText(copyLinkBtn, t.copyLink);
-        setBtnText(shareBtn, t.share);
-        setBtnText(shareCardBtn, t.shareCard);
+        setBtnText(document.getElementById("copyJsonBtn"), t.copyJson);
+setBtnText(document.getElementById("copyLinkBtn"), t.copyLink);
+setBtnText(document.getElementById("shareBtn"), t.share);
+setBtnText(document.getElementById("shareCardBtn"), t.shareCard);
 
         if (upgradeBtn) upgradeBtn.textContent = t.unlockPro;
         if (manageBillingBtn) manageBillingBtn.textContent = t.manageSub;
