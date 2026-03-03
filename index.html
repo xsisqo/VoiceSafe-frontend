@@ -1233,6 +1233,66 @@ window.__voicesafe_share = {
         }
       });
 
+// ---- normalize API response -> UI numbers ----
+const scam =
+  Number(
+    data?.scam ??
+    data?.scam_score ??
+    data?.scamScore ??
+    data?.scores?.scam ??
+    data?.scores?.scam_score ??
+    0
+  ) || 0;
+
+const ai =
+  Number(
+    data?.ai ??
+    data?.ai_probability ??
+    data?.aiVoiceProbability ??
+    data?.ai_voice_probability ??
+    data?.scores?.ai ??
+    data?.scores?.ai_probability ??
+    0
+  ) || 0;
+
+const stress =
+  Number(
+    data?.stress ??
+    data?.stress_level ??
+    data?.stressLevel ??
+    data?.scores?.stress ??
+    data?.scores?.stress_level ??
+    0
+  ) || 0;
+
+// clamp 0..100
+const clamp01 = (n) => Math.max(0, Math.min(100, Number(n) || 0));
+const scamP = clamp01(scam);
+const aiP = clamp01(ai);
+const stressP = clamp01(stress);
+
+// ---- IMPORTANT: feed share-card.js ----
+window.__voicesafe_share = {
+  scam: scamP,
+  ai: aiP,
+  stress: stressP,
+  shareUrl: data?.shareUrl || data?.share_url || data?.url || window.location.href
+};
+
+// ---- update UI text/percent bars ----
+if (scamScoreEl) scamScoreEl.textContent = `${Math.round(scamP)}%`;
+if (aiProbEl) aiProbEl.textContent = `${Math.round(aiP)}%`;
+if (stressEl) stressEl.textContent = `${Math.round(stressP)}%`;
+
+// ak máš progress bary / width:
+const setBar = (id, pct) => {
+  const el = document.getElementById(id);
+  if (el) el.style.width = `${pct}%`;
+};
+setBar("scamBar", scamP);
+setBar("aiBar", aiP);
+setBar("stressBar", stressP);
+
       // ===========================
       // Copy JSON
       // ===========================
