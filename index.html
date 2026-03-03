@@ -122,7 +122,11 @@
       vertical-align: middle;
       margin-right: 8px;
     }
-  </style>
+  
+/* Icon styles */
+.btn-icon{display:inline-flex;align-items:center;gap:10px}
+.btn-icon svg{width:18px;height:18px;flex:0 0 18px}
+</style>
 </head>
 
 <body class="min-h-screen">
@@ -721,9 +725,10 @@
   window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
   window.STRIPE_BILLING_PORTAL_URL = "";
 
-  // Google Identity Services (GSI) — "348148364673-pmqok6ms5okq261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com"
+  // Google Identity Services (GSI) — set your Client ID here
   // Example: "1234567890-abcdefg.apps.googleusercontent.com"
-  window.GOOGLE_CLIENT_ID = "348148364673-pmqok6ms5okq261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com";
+  window.GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || "PASTE_YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+
   function setUserBadgeFromStorage(){
     const badge = document.getElementById("userBadge");
     if (!badge) return;
@@ -752,8 +757,8 @@
 
   function initGoogleLogin(){
     // Safe no-op if not configured
-    const clientId = window.GOOGLE_CLIENT_ID || "348148364673-pmqok6ms5okq261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com";
-    if (!clientId || clientId.includes("348148364673-pmqok6ms5okq261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com")) return;
+    const clientId = window.GOOGLE_CLIENT_ID || "";
+    if (!clientId || clientId.includes("PASTE_YOUR_GOOGLE_CLIENT_ID")) return;
 
     const mount = document.getElementById("googleBtn");
     if (!mount) return;
