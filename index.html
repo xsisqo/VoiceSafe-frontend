@@ -7,6 +7,7 @@
 
   <!-- Tailwind (CDN for prototype). For production, compile Tailwind. -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <meta name="theme-color" content="#0b1220" />
   <meta name="description" content="VoiceSafe analyzes voice/audio for scam-risk signals and provides a clear, actionable risk assessment." />
@@ -147,6 +148,11 @@
         </nav>
 
         <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-2 mr-1">
+            <div id="googleBtn" class="googleBtnWrap"></div>
+            <div id="userBadge" class="text-xs text-white/70"></div>
+          </div>
+
           <button id="howBtnTop" class="hidden sm:inline-flex btn rounded-xl px-3 py-2 text-sm" type="button" data-i18n="howBtn">How it works</button>
 
           <div class="dd">
@@ -715,6 +721,71 @@
   window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
   window.STRIPE_BILLING_PORTAL_URL = "";
 
+  // Google Identity Services (GSI) — set your Client ID here
+  // Example: "1234567890-abcdefg.apps.googleusercontent.com"
+  window.GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || "PASTE_YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+
+  function setUserBadgeFromStorage(){
+    const badge = document.getElementById("userBadge");
+    if (!badge) return;
+    try{
+      const u = JSON.parse(localStorage.getItem("vs_user") || "null");
+      badge.textContent = u?.email ? ("Signed in: " + u.email) : "";
+    }catch{
+      badge.textContent = "";
+    }
+  }
+
+  async function gsiExchange(idToken){
+    const base = (window.MODE === "LOCAL") ? window.URLS.LOCAL : window.URLS.PROD;
+    const r = await fetch(base + "/auth/google", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id_token: idToken })
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data?.ok) throw new Error(data?.error || ("Auth failed (" + r.status + ")"));
+    localStorage.setItem("vs_token", data.token);
+    localStorage.setItem("vs_user", JSON.stringify(data.user || {}));
+    setUserBadgeFromStorage();
+    return data;
+  }
+
+  function initGoogleLogin(){
+    // Safe no-op if not configured
+    const clientId = window.GOOGLE_CLIENT_ID || "";
+    if (!clientId || clientId.includes("PASTE_YOUR_GOOGLE_CLIENT_ID")) return;
+
+    const mount = document.getElementById("googleBtn");
+    if (!mount) return;
+
+    if (!window.google?.accounts?.id) return;
+
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: async (resp) => {
+        try{
+          await gsiExchange(resp.credential);
+          toast("Google login OK ✅");
+        }catch(e){
+          console.error(e);
+          toast("Google login failed", true);
+          alert("Google login failed: " + (e?.message || e));
+        }
+      }
+    });
+
+    window.google.accounts.id.renderButton(mount, {
+      theme: "outline",
+      size: "large",
+      text: "continue_with"
+    });
+
+    // Optional One Tap:
+    // window.google.accounts.id.prompt();
+  }
+
+
   const BUILD_ID = (Math.random().toString(16).slice(2,8) + "-" + Date.now().toString(16).slice(-6)).toUpperCase();
 
   // ===========================
@@ -748,9 +819,16 @@
     else localStorage.removeItem(API_KEY_LS);
     updateApiKeyUI();
   }
+  function getVsToken(){
+    return localStorage.getItem("vs_token") || "";
+  }
   function authHeaders(){
+    const h = {};
     const k = getApiKey();
-    return k ? { "x-api-key": k } : {};
+    if (k) h["x-api-key"] = k;
+    const t = getVsToken();
+    if (t) h["Authorization"] = "Bearer " + t;
+    return h;
   }
   function maskKey(k){
     if (!k) return "";
@@ -1628,6 +1706,11 @@
   function boot(){
     qs("year").textContent = String(new Date().getFullYear());
     qs("buildId").textContent = BUILD_ID;
+
+
+    // Google login UI
+    setUserBadgeFromStorage();
+    initGoogleLogin();
 
     // FIX: correct precedence (previously could mis-evaluate)
     const savedLang =
