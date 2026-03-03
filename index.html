@@ -1540,18 +1540,31 @@ setBar("stressBar", stressP);
           else btn.textContent = label;
         };
 
-        setBtnText(analyzeBtn, t.analyze);
-        setBtnText(demoBtn, t.demo);
-        setBtnText(recordBtn, (window.__VS_RECORDING ? t.stop : t.record));
+// ALWAYS re-get buttons here (avoid undefined vars)
+const analyzeBtn = document.getElementById("analyzeBtn");
+const demoBtn = document.getElementById("demoBtn");
+const recordBtn = document.getElementById("recordBtn");
 
-        setBtnText(document.getElementById("copyJsonBtn"), t.copyJson);
-setBtnText(document.getElementById("copyLinkBtn"), t.copyLink);
-setBtnText(document.getElementById("shareBtn"), t.share);
-setBtnText(document.getElementById("shareCardBtn"), t.shareCard);
+const copyJsonBtn = document.getElementById("copyJsonBtn");
+const copyLinkBtn = document.getElementById("copyLinkBtn");
+const shareBtn = document.getElementById("shareBtn");
+const shareCardBtn = document.getElementById("shareCardBtn");
 
-        if (upgradeBtn) upgradeBtn.textContent = t.unlockPro;
-        if (manageBillingBtn) manageBillingBtn.textContent = t.manageSub;
-      }
+const upgradeBtn = document.getElementById("upgradeBtn");
+const manageBillingBtn = document.getElementById("manageBillingBtn");
+
+setBtnText(analyzeBtn, t.analyze);
+setBtnText(demoBtn, t.demo);
+setBtnText(recordBtn, (window.__VS_RECORDING ? t.stop : t.record));
+
+setBtnText(copyJsonBtn, t.copyJson);
+setBtnText(copyLinkBtn, t.copyLink);
+setBtnText(shareBtn, t.share);
+setBtnText(shareCardBtn, t.shareCard);
+
+if (upgradeBtn) upgradeBtn.textContent = t.unlockPro;
+if (manageBillingBtn) manageBillingBtn.textContent = t.manageSub;
+      
 
       // Listen language change
       const langSwitchEl = document.getElementById("langSwitch");
