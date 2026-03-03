@@ -835,6 +835,11 @@ function clamp(n, min, max) {
       }
 
       function setResultUI(payload){
+        payload = payload || {};
+
+const data = payload;
+const riskText = data.riskText || data.risk || "";
+
       // payload can be:
       // - {scam_score, ai_probability, stress_level, risk_level, confidence}
       // - {scores:{...}, meta:{...}}
