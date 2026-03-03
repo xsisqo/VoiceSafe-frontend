@@ -829,67 +829,68 @@
       }
 
       function setResultUI(payload){
-        const src = payload || {};
-        const scam = pickNumber(src, ["scam_score","scamScore","risk","risk_score"], 0);
-        const ai = pickNumber(src, ["ai_probability","aiProb","ai_voice_probability","aiVoiceProbability"], 0);
-        const stress = pickNumber(src, ["stress_level","stressLevel","stress","stress_score"], 0);
-        const summary = pickText(src, ["summary","explanation","message"], "Analysis complete.");
-        const flags = normalizeFlags(src.flags || src.signals || src.red_flags || src.redFlags);
+      // payload can be:
+      // - {scam_score, ai_probability, stress_level, risk_level, confidence}
+      // - {scores:{...}, meta:{...}}
+      // - wrapped in {result:..., analysis:..., ai_result:...}
+      const r = payload?.scores || payload?.result || payload?.analysis || payload?.ai_result || payload;
 
-        // Numbers
-        if (scamScoreEl) scamScoreEl.textContent = String(Math.round(clampPct(scam)));
-        if (aiProbEl) aiProbEl.textContent = String(Math.round(clampPct(ai)));
-        if (stressLevelEl) stressLevelEl.textContent = String(Math.round(clampPct(stress)));
-        if (summaryText) summaryText.textContent = summary;
-
-        // Flags
-        if (flagsWrap){
-          flagsWrap.innerHTML = "";
-          flags.forEach(f => {
-            const chip = document.createElement("span");
-            chip.className = "chip rounded-full px-3 py-1 text-xs";
-            chip.textContent = f;
-            flagsWrap.appendChild(chip);
-          });
+      const pickNum = (...vals) => {
+        for (const v of vals){
+          if (v === undefined || v === null) continue;
+          const n = Number(v);
+          if (!Number.isNaN(n)) return n;
         }
+        return null;
+      };
 
-        // Bars
-        setBars(scam, ai, stress);
+      const toPct = (n) => {
+        const x = Number(n);
+        if (Number.isNaN(x)) return 0;
+        // If model returns 0..1, convert to 0..100
+        return x <= 1 ? Math.round(x * 100) : Math.round(x);
+      };
 
-        // Risk UI
-        const risk = riskFromScore(scam);
-        const confidence = confidenceFromSignals(ai, stress);
+      const scam = clamp(toPct(pickNum(r?.scam_score, r?.scamScore, r?.scam, r?.scores?.scam_score, r?.scores?.scamScore)), 0, 100);
+      const aiProb = clamp(toPct(pickNum(r?.ai_probability, r?.aiProbability, r?.ai_prob, r?.aiProb, r?.ai_voice_probability, r?.aiVoiceProbability, r?.aiVoice, r?.scores?.ai_probability)), 0, 100);
+      const stress = clamp(toPct(pickNum(r?.stress_level, r?.stressLevel, r?.stress, r?.scores?.stress_level)), 0, 100);
 
-        const resultsCard = $("resultsCard");
-        const riskBadge = $("riskBadge");
-        const riskBadgeText = $("riskBadgeText");
-        const riskLabelEl = $("riskLabel");
-        const confidenceEl = $("confidenceLabel");
+      const riskLevel = (r?.risk_level || r?.riskLevel || r?.risk || payload?.risk_level || payload?.riskLevel || "").toString().toUpperCase();
+      const confidence = (r?.confidence || r?.confidence_level || r?.confidenceLevel || payload?.confidence || payload?.confidenceLevel || "").toString();
 
-        if (resultsCard) resultsCard.setAttribute("data-risk", risk);
-        if (riskBadge) riskBadge.setAttribute("data-risk", risk);
-        if (riskBadgeText){
-          const map = { LOW:"LOW RISK", GUARDED:"GUARDED", ELEVATED:"ELEVATED", HIGH:"HIGH RISK", CRITICAL:"CRITICAL" };
-          riskBadgeText.textContent = map[risk] || "RISK";
-        }
-        if (riskLabelEl) riskLabelEl.textContent = risk;
-        if (confidenceEl) confidenceEl.textContent = confidence;
+      // UI
+      scamScoreEl.textContent = `${scam}%`;
+      aiProbEl.textContent = `${aiProb}%`;
+      stressLevelEl.textContent = `${stress}%`;
 
-        // Recommended action
-        const action = actionFromRisk(risk);
-        $("actionPill") && ($("actionPill").textContent = action.pill);
-        $("actionTitle") && ($("actionTitle").textContent = action.title);
-        $("actionText") && ($("actionText").textContent = action.text);
+      setBars(scam, aiProb, stress);
 
-        // Enable share buttons
-        [shareBtn, shareSocialBtn].forEach(b => {
-          if (!b) return;
-          b.disabled = false;
-          b.removeAttribute("disabled");
-          b.style.pointerEvents = "auto";
-          b.style.cursor = "pointer";
-        });
+      // badges
+      if (riskBadge){
+        const label = riskLevel || (scam >= 60 || aiProb >= 60 ? "HIGH" : (scam >= 30 || aiProb >= 30 ? "MEDIUM" : "LOW"));
+        riskBadge.textContent = `${label} RISK`;
+        riskBadge.className = `pill ${label === "HIGH" ? "pill-red" : label === "MEDIUM" ? "pill-amber" : "pill-green"}`;
       }
+
+      if (riskText){
+        const conf = confidence ? `Confidence: ${confidence}` : "Confidence: —";
+        riskText.textContent = `Risk level: ${riskLevel || "—"} · ${conf}`;
+      }
+
+      if (summaryText){
+        if (scam >= 60 || aiProb >= 60){
+          summaryText.textContent = "High risk signals detected. Pause and verify via official channels.";
+        } else if (scam >= 30 || aiProb >= 30){
+          summaryText.textContent = "Some risk signals detected. Verify before acting.";
+        } else {
+          summaryText.textContent = "No strong risk pattern detected.";
+        }
+      }
+
+      // For share-card.js (optional)
+      window.__voicesafe_share = { scam, ai: aiProb, stress, shareUrl: (payload?.shareUrl || payload?.url || window.location.href) };
+    }
+
 
       // ===========================
       // Modals
@@ -1099,36 +1100,11 @@
       // ===========================
       // Analyze
       // ===========================
-      
-      // --- normalize result source ---
-const r = (data && data.ai) ? data.ai : data;
 
-// --- helper: accept 0-1 or 0-100 ---
-const toPct = (v) => {
-  const n = Number(v);
-  if (!Number.isFinite(n)) return 0;
-  return Math.round(n <= 1 ? n * 100 : n);
-};
-
-const scam = toPct(r.scam_score ?? r.scamScore);
-const aiP = toPct(r.ai_probability ?? r.aiVoiceProbability ?? r.ai_prob);
-const stress = toPct(r.stress_level ?? r.stressLevel);
-
-// update UI
-if (scamScoreEl) scamScoreEl.textContent = `${scam}%`;
-if (aiProbEl) aiProbEl.textContent = `${aiP}%`;
-if (stressEl) stressEl.textContent = `${stress}%`;
-
-// for share-card.js
-window.__voicesafe_share = {
-  scam,
-  ai: aiP,
-  stress,
-  shareUrl: (data && (data.shareUrl || data.share_url)) || location.href
-};
-      
-      
-      analyzeBtn?.addEventListener("click", async () => {
+  // =========================
+  // Analyze (upload -> backend -> AI)
+  // =========================
+  analyzeBtn?.addEventListener("click", async () => {
         const isPro = localStorage.getItem("voicesafe_pro") === "true";
         const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
         const FREE_LIMIT = 3;
@@ -1484,53 +1460,108 @@ setBar("stressBar", stressP);
                 })();
           
                 }
-          
-                bootWiring();
-          
   // ===========================
   // LANGUAGE SYSTEM
   // ===========================
-  let LANG = "en";
-  let DICT = {};
+  
+      // ===========================
+      // Language (inline, no external fetch)
+      // ===========================
+      const I18N = {
+        en: {
+          resultsTitle: "Results",
+          uploadHint: "Upload or record to generate a report.",
+          analyze: "Analyze",
+          demo: "Demo",
+          record: "Record",
+          stop: "Stop",
+          copyJson: "Copy JSON",
+          copyLink: "Copy share link",
+          share: "Share",
+          shareCard: "Share card",
+          unlockPro: "Unlock Pro – €9/month",
+          manageSub: "Manage subscription",
+          recActionTitleLow: "No strong risk pattern detected.",
+          recActionTitleMid: "Some risk signals detected.",
+          recActionTitleHigh: "High risk signals detected.",
+        },
+        sk: {
+          resultsTitle: "Výsledky",
+          uploadHint: "Nahraj alebo nahraj záznam a vygeneruj report.",
+          analyze: "Analyzovať",
+          demo: "Demo",
+          record: "Nahrávať",
+          stop: "Stop",
+          copyJson: "Kopírovať JSON",
+          copyLink: "Kopírovať zdieľací link",
+          share: "Zdieľať",
+          shareCard: "Zdieľať kartu",
+          unlockPro: "Odomknúť Pro – 9 €/mesiac",
+          manageSub: "Správa predplatného",
+          recActionTitleLow: "Nenašiel sa silný rizikový vzor.",
+          recActionTitleMid: "Zistené mierne rizikové signály.",
+          recActionTitleHigh: "Zistené vysoké rizikové signály.",
+        }
+      };
 
-  async function loadLanguage(lang) {
-    LANG = lang;
-    localStorage.setItem("vs_lang", lang);
+      function applyLang(lang){
+        LANG = (lang || "en").toLowerCase().startsWith("sk") ? "sk" : "en";
+        localStorage.setItem("vs_lang", LANG);
 
-    const res = await fetch(`i18n/${lang}.json`);
-    DICT = await res.json();
+        // Update dropdown UI
+        if (langSwitch) langSwitch.value = LANG.toUpperCase();
 
-    applyTranslations();
-  }
+        // Update a few key labels safely (only if elements exist)
+        const t = I18N[LANG];
 
-  function t(key){
-    return DICT[key] || key;
-  }
+        // Title / hints
+        const resultsH1 = document.querySelector("h1");
+        if (resultsH1) resultsH1.textContent = t.resultsTitle;
 
-  function applyTranslations(){
-    const heroTitle = document.querySelector("h1");
-    if(heroTitle) heroTitle.innerText = t("hero_title");
+        const hint = document.querySelector('[data-role="upload-hint"]') || document.querySelector(".results-subtitle");
+        if (hint) hint.textContent = t.uploadHint;
 
-    const analyzeBtn = document.getElementById("analyzeBtn");
-    if(analyzeBtn) analyzeBtn.innerText = t("analyze");
+        // Buttons (keep icons if present)
+        const setBtnText = (btn, label) => {
+          if (!btn) return;
+          const span = btn.querySelector("[data-btn-text]") || btn.querySelector(".btn-text");
+          if (span) span.textContent = label;
+          else btn.textContent = label;
+        };
 
-    const recordBtn = document.getElementById("recordBtn");
-    if(recordBtn) recordBtn.innerText = t("record");
-  }
+        setBtnText(analyzeBtn, t.analyze);
+        setBtnText(demoBtn, t.demo);
+        setBtnText(recordBtn, (window.__VS_RECORDING ? t.stop : t.record));
 
-  document.getElementById("langSwitch")?.addEventListener("change",(e)=>{
-    loadLanguage(e.target.value);
-  });
+        setBtnText(copyJsonBtn, t.copyJson);
+        setBtnText(copyLinkBtn, t.copyLink);
+        setBtnText(shareBtn, t.share);
+        setBtnText(shareCardBtn, t.shareCard);
 
-  // auto detect
-  (async function(){
-    const saved = localStorage.getItem("vs_lang");
-    const browser = navigator.language.startsWith("sk") ? "sk" : "en";
-    await loadLanguage(saved || browser);
-  })();
+        if (upgradeBtn) upgradeBtn.textContent = t.unlockPro;
+        if (manageBillingBtn) manageBillingBtn.textContent = t.manageSub;
+      }
 
-  bootWiring();
-</script>
+      // Listen language change
+      langSwitch?.addEventListener("change", (e) => applyLang(e.target.value));
+
+      // Boot once, after DOM is ready
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          bootWiring();
+          const saved = localStorage.getItem("vs_lang");
+          const browser = (navigator.language || "en");
+          applyLang(saved || browser);
+        });
+      } else {
+        bootWiring();
+        const saved = localStorage.getItem("vs_lang");
+        const browser = (navigator.language || "en");
+        applyLang(saved || browser);
+      }
+
+    </script>
+
 
 <script src="share-card.js"></script>
 
