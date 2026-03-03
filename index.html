@@ -1543,7 +1543,13 @@ setBar("stressBar", stressP);
       }
 
       // Listen language change
-      langSwitch?.addEventListener("change", (e) => applyLang(e.target.value));
+      const langSwitchEl = document.getElementById("langSwitch");
+
+if (langSwitchEl && typeof langSwitchEl.addEventListener === "function") {
+  langSwitchEl.addEventListener("change", (e) => {
+    applyLang(e.target.value);
+  });
+}
 
       // Boot once, after DOM is ready
       if (document.readyState === "loading") {
@@ -1562,8 +1568,9 @@ setBar("stressBar", stressP);
 
     </script>
 
-
-<script src="share-card.js"></script>
+<script>
+  window.bootWiring && window.bootWiring();
+</script>
 
 </body>
 </html>
