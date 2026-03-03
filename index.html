@@ -1099,6 +1099,35 @@
       // ===========================
       // Analyze
       // ===========================
+      
+      // --- normalize result source ---
+const r = (data && data.ai) ? data.ai : data;
+
+// --- helper: accept 0-1 or 0-100 ---
+const toPct = (v) => {
+  const n = Number(v);
+  if (!Number.isFinite(n)) return 0;
+  return Math.round(n <= 1 ? n * 100 : n);
+};
+
+const scam = toPct(r.scam_score ?? r.scamScore);
+const aiP = toPct(r.ai_probability ?? r.aiVoiceProbability ?? r.ai_prob);
+const stress = toPct(r.stress_level ?? r.stressLevel);
+
+// update UI
+if (scamScoreEl) scamScoreEl.textContent = `${scam}%`;
+if (aiProbEl) aiProbEl.textContent = `${aiP}%`;
+if (stressEl) stressEl.textContent = `${stress}%`;
+
+// for share-card.js
+window.__voicesafe_share = {
+  scam,
+  ai: aiP,
+  stress,
+  shareUrl: (data && (data.shareUrl || data.share_url)) || location.href
+};
+      
+      
       analyzeBtn?.addEventListener("click", async () => {
         const isPro = localStorage.getItem("voicesafe_pro") === "true";
         const DEMO_MODE = localStorage.getItem("vs_demo") === "true";
