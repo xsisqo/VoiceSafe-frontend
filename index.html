@@ -23,11 +23,14 @@
       --muted2: rgba(255,255,255,.55);
       --shadow: 0 20px 60px rgba(0,0,0,.55);
     }
-    html,body{background: radial-gradient(1200px 700px at 20% 10%, rgba(34,197,94,.14), transparent 55%),
-                           radial-gradient(900px 600px at 85% 20%, rgba(59,130,246,.14), transparent 55%),
-                           radial-gradient(900px 600px at 70% 85%, rgba(245,158,11,.12), transparent 55%),
-                           linear-gradient(180deg, var(--bg0), var(--bg1));
-              color:var(--text);}
+    html,body{
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(34,197,94,.14), transparent 55%),
+        radial-gradient(900px 600px at 85% 20%, rgba(59,130,246,.14), transparent 55%),
+        radial-gradient(900px 600px at 70% 85%, rgba(245,158,11,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color:var(--text);
+    }
     .glass{background: var(--card); border: 1px solid var(--stroke); box-shadow: var(--shadow); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
     .glass2{background: var(--card2); border: 1px solid var(--stroke); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
     .chip{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);}
@@ -47,6 +50,77 @@
     .ddBackdrop{position: fixed; inset: 0; z-index: 40;}
     /* Smooth scroll */
     html{scroll-behavior:smooth;}
+
+    /* ===== Enterprise UI upgrades ===== */
+
+    /* Loading overlay (Results card) */
+    .loadingOverlay{
+      position:absolute; inset:0;
+      background: rgba(7, 11, 20, .55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 1.5rem;
+      z-index: 20;
+    }
+    .spinner{
+      width: 22px; height: 22px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.22);
+      border-top-color: rgba(255,255,255,.75);
+      animation: spin 900ms linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Pulse for HIGH risk card */
+    .pulseHigh{
+      animation: pulseGlow 1.35s ease-in-out infinite;
+    }
+    @keyframes pulseGlow{
+      0%, 100% { box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 22px 70px rgba(239,68,68,.12); }
+      50% { box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 26px 90px rgba(239,68,68,.22); }
+    }
+
+    /* Subtle bar animation */
+    .barAnim{
+      position: relative;
+      overflow: hidden;
+    }
+    .barAnim::after{
+      content:"";
+      position:absolute; inset:0;
+      transform: translateX(-60%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.20), transparent);
+      animation: shimmer 1.6s ease-in-out infinite;
+    }
+    @keyframes shimmer{
+      0% { transform: translateX(-60%); }
+      100% { transform: translateX(60%); }
+    }
+
+    /* Risk gradients (applied inline via JS too) */
+    .gradLow { background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(59,130,246,.12)); }
+    .gradMedium { background: linear-gradient(135deg, rgba(245,158,11,.18), rgba(59,130,246,.10)); }
+    .gradHigh { background: linear-gradient(135deg, rgba(239,68,68,.18), rgba(245,158,11,.12)); }
+
+    /* Loading state for Analyze button */
+    .btnLoading{
+      opacity: .9;
+      cursor: not-allowed;
+      filter: saturate(.9);
+    }
+    .btnInlineSpinner{
+      width: 16px; height: 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,.15);
+      border-top-color: rgba(0,0,0,.55);
+      animation: spin 900ms linear infinite;
+      display:inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
   </style>
 </head>
 
@@ -246,7 +320,15 @@
 
         <!-- Right: Results -->
         <div class="lg:col-span-7">
-          <div id="resultsCard" class="glass rounded-3xl p-6">
+          <div id="resultsCard" class="glass rounded-3xl p-6 relative overflow-hidden">
+            <!-- Loading overlay -->
+            <div id="resultsLoading" class="loadingOverlay hidden">
+              <div class="flex items-center gap-3 glass2 px-4 py-3 rounded-2xl">
+                <div class="spinner"></div>
+                <div class="text-sm text-white/80" id="loadingText">Analyzing…</div>
+              </div>
+            </div>
+
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div>
                 <div class="text-sm text-white/60" data-i18n="resultsTitleSmall">AI risk assessment</div>
@@ -273,7 +355,7 @@
               <span id="proBadge" class="hidden chip rounded-full px-3 py-1 text-xs text-white/80">PRO</span>
             </div>
 
-            <div class="mt-4 glass2 rounded-2xl p-5" id="actionCard">
+            <div class="mt-4 glass2 rounded-2xl p-5 gradLow" id="actionCard">
               <div class="flex items-center justify-between">
                 <div class="text-xs text-white/60" data-i18n="recommendedAction">Recommended action</div>
                 <div id="riskPill" class="chip rounded-full px-3 py-1 text-xs font-semibold">—</div>
@@ -307,7 +389,7 @@
                   <div class="text-2xl font-semibold"><span id="scamScore">—</span><span class="text-white/60 text-sm">%</span></div>
                 </div>
                 <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div id="scamBar" class="h-2 rounded-full bg-amber-400/80" style="width:0%"></div>
+                  <div id="scamBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
                 </div>
               </div>
 
@@ -317,7 +399,7 @@
                   <div class="text-2xl font-semibold"><span id="aiProb">—</span><span class="text-white/60 text-sm">%</span></div>
                 </div>
                 <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div id="aiBar" class="h-2 rounded-full bg-amber-400/80" style="width:0%"></div>
+                  <div id="aiBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
                 </div>
               </div>
 
@@ -327,7 +409,7 @@
                   <div class="text-2xl font-semibold"><span id="stress">—</span><span class="text-white/60 text-sm">%</span></div>
                 </div>
                 <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div id="stressBar" class="h-2 rounded-full bg-amber-400/80" style="width:0%"></div>
+                  <div id="stressBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
                 </div>
               </div>
             </div>
@@ -509,8 +591,8 @@
 <script>
 /**
  * VoiceSafe — single-file frontend (enterprise-ready prototype)
- * - Fixes: demo scroll, how-it-works button, i18n stability, undefined vars, robust response mapping
- * - Improves: investor-grade UI, footer links, stable wiring, better error messaging
+ * + Enterprise UI upgrades (loading, pulse HIGH, gradient by risk, bar animations)
+ * + Fixes: language init bug, backend status logic, response mapping (supports {ai:{...}} OR flat JSON)
  */
 
 (function(){
@@ -523,7 +605,6 @@
   };
 
   window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-  // If you have billing portal URL, set it here; otherwise Manage subscription stays hidden.
   window.STRIPE_BILLING_PORTAL_URL = "";
 
   const BUILD_ID = (Math.random().toString(16).slice(2,8) + "-" + Date.now().toString(16).slice(-6)).toUpperCase();
@@ -535,9 +616,7 @@
     const n = Number(v);
     if (Number.isNaN(n)) return null;
     if (n <= 1 && n >= 0) return n;
-    // If it's 0-100 already:
     if (n <= 100 && n >= 0) return n / 100;
-    // If someone returns 0-1000 etc, just clamp:
     return Math.max(0, Math.min(1, n));
   }
   function pct(v01){
@@ -568,10 +647,30 @@
     card.scrollIntoView({behavior:"smooth", block:"start"});
   }
 
+  function setLoading(on, label){
+    const overlay = qs("resultsLoading");
+    const lt = qs("loadingText");
+    if (lt && label) lt.textContent = label;
+    if (overlay) overlay.classList.toggle("hidden", !on);
+
+    const btn = qs("analyzeBtn");
+    if (btn){
+      btn.disabled = !!on;
+      btn.classList.toggle("btnLoading", !!on);
+      const lang = localStorage.getItem("vs_lang") || "en";
+      const txt = (window.I18N && window.I18N[lang]?.analyzeBtn) ? window.I18N[lang].analyzeBtn : (lang==="sk" ? "Analyzovať" : "Analyze");
+      btn.innerHTML = on ? `<span class="btnInlineSpinner"></span>${lang==="sk" ? "Analyzujem…" : "Analyzing…"}`
+                         : txt;
+    }
+    // also protect record button
+    const rbtn = qs("recordBtn");
+    if (rbtn) rbtn.disabled = !!on;
+  }
+
   // ===========================
   // i18n
   // ===========================
-  const I18N = {
+  const I18N = window.I18N = {
     en: {
       tagline: "AI voice scam risk assessment",
       navHow:"How it works", navServices:"Services", navContact:"Contact", navTerms:"Terms",
@@ -687,10 +786,10 @@
       statusTitle:"Stav služby",
       modeLabel:"Režim", modeProdDesc:"Render backend", modeLocalDesc:"127.0.0.1",
       investorNoteTitle:"Poznámka pre investora",
-      investorNoteBody:"Prototyp ukazuje end‑to‑end UX a štruktúrované výstupy. Produkčná verzia doplní kalibráciu modelu, audio pre‑processing a audit logy.",
+      investorNoteBody:"Prototyp ukazuje end-to-end UX a štruktúrované výstupy. Produkčná verzia doplní kalibráciu modelu, audio pre-processing a audit logy.",
 
       analyzeTitleSmall:"Analyzovať vzorku",
-      analyzeTitle:"Nahraj alebo nahraj hlas",
+      analyzeTitle:"Nahraj alebo nahrávaj",
       demoBtn:"Demo",
       uploadLabel:"Nahrať súbor",
       recordBtn:"Nahrávať",
@@ -735,14 +834,14 @@
       howStep1Title:"Nahraj alebo nahrávaj",
       howStep1Desc:"Krátke klipy fungujú najlepšie. Vyťažíme audio signály a metadáta.",
       howStep2Title:"Vyhodnoť signály",
-      howStep2Desc:"Model dá scam‑risk, pravdepodobnosť syntetického hlasu a stres.",
+      howStep2Desc:"Model dá scam-risk, pravdepodobnosť syntetického hlasu a stres.",
       howStep3Title:"Dostaneš postup",
       howStep3Desc:"Jasná úroveň rizika, odporúčané kroky a export JSON.",
 
       servicesSmall:"Služby",
       servicesTitle:"Enterprise roadmap",
       svc1Title:"API + SDK", svc1Desc:"Stabilné endpointy, verzovanie a SDK pre web/mobil.",
-      svc2Title:"Kalibrácia modelu", svc2Desc:"Kalibrácia podľa krajiny/jazyka, kontrola false‑positive a confidence.",
+      svc2Title:"Kalibrácia modelu", svc2Desc:"Kalibrácia podľa krajiny/jazyka, kontrola false-positive a confidence.",
       svc3Title:"Compliance & audit", svc3Desc:"Retention, consent flow a audit logy pripravené na reguláciu.",
 
       contactSmall:"Kontakt",
@@ -773,13 +872,12 @@
   function applyLang(lang){
     const L = I18N[lang] || I18N.en;
     document.documentElement.lang = lang;
-    // text nodes
+
     document.querySelectorAll("[data-i18n]").forEach(el=>{
       const k = el.getAttribute("data-i18n");
       if (L[k] != null) el.textContent = L[k];
     });
 
-    // placeholders
     const ph = {
       titleEl: lang === "sk" ? "Názov (napr. Telegram investor)" : "Title (e.g. Telegram investor)",
       platformEl: lang === "sk" ? "Platforma (Telegram)" : "Platform (Telegram)",
@@ -801,31 +899,28 @@
   // Result mapping + UI
   // ===========================
   function normalizePayload(payload){
-    // Handle multiple backend shapes:
-    // - {scores:{...}, meta:{...}}
-    // - {result:{...}}
-    // - {analysis:{...}}
-    // - {scam_score:.., ai_probability:.., stress_level:.., risk_level:.., confidence:..}
     const p = payload || {};
-    const r = p.scores || p.result || p.analysis || p.ai_result || p.data || p;
-    const meta = p.meta || p.metadata || {};
+
+    // Support backend shape: { ai: {...}, filename, status, ... }
+    const aiWrapped = (p.ai && typeof p.ai === "object") ? p.ai : null;
+
+    const r0 = aiWrapped || p.scores || p.result || p.analysis || p.ai_result || p.data || p;
 
     // Candidate field names
-    const scam = r.scam_score ?? r.scamScore ?? r.scam_probability ?? r.scamProb ?? r.scam ?? meta.scam_score;
-    const ai   = r.ai_probability ?? r.aiProb ?? r.ai_voice_probability ?? r.aiVoiceProb ?? r.ai ?? meta.ai_probability;
-    const stress = r.stress_level ?? r.stress ?? r.stressLevel ?? meta.stress_level;
-    const riskLevel = (r.risk_level ?? r.riskLevel ?? r.risk ?? meta.risk_level ?? meta.risk)?.toString().toUpperCase();
-    const conf = r.confidence ?? r.conf ?? meta.confidence;
+    const scam = r0.scam_score ?? r0.scamScore ?? r0.scam_probability ?? r0.scamProb ?? r0.scam;
+    const ai = r0.ai_probability ?? r0.aiProb ?? r0.ai_voice_probability ?? r0.aiVoiceProb ?? r0.ai;
+    const stress = r0.stress_level ?? r0.stress ?? r0.stressLevel;
 
-    const summary = r.summary ?? r.message ?? r.explanation ?? p.summary ?? "";
-    const riskText = r.riskText ?? r.risk_text ?? r.reason ?? r.details ?? p.riskText ?? "";
+    const riskLevel = (r0.risk_level ?? r0.riskLevel ?? r0.risk)?.toString().toUpperCase();
+    const conf = r0.confidence ?? r0.conf;
 
-    // Sometimes model returns 0-100 numeric; convert to %
+    const summary = r0.summary ?? r0.message ?? r0.explanation ?? p.summary ?? "";
+    const riskText = r0.riskText ?? r0.risk_text ?? r0.reason ?? r0.details ?? p.riskText ?? "";
+
     const scamPct = pct(scam);
     const aiPct = pct(ai);
     const stressPct = pct(stress);
 
-    // If backend doesn't provide risk level, infer from scamPct
     let level = riskLevel;
     if (!level || level === "UNDEFINED" || level === "NULL") {
       if (scamPct == null) level = "—";
@@ -837,7 +932,7 @@
     const confidencePct = pct(conf);
 
     return {
-      raw: payload,
+      raw: (aiWrapped || payload),
       scamPct, aiPct, stressPct,
       level,
       confidencePct,
@@ -848,8 +943,7 @@
 
   function actionFromLevel(level, lang){
     const isSK = lang === "sk";
-    const L = level;
-    if (L === "HIGH"){
+    if (level === "HIGH"){
       return {
         pill: isSK ? "VYSOKÉ RIZIKO" : "HIGH RISK",
         title: isSK ? "Vysoké riziko. Najprv over." : "High risk. Verify first.",
@@ -857,7 +951,7 @@
                      "Pause sensitive steps. Verify identity via an official channel (not the number provided in the call)."
       };
     }
-    if (L === "MEDIUM"){
+    if (level === "MEDIUM"){
       return {
         pill: isSK ? "STREDNÉ RIZIKO" : "MEDIUM RISK",
         title: isSK ? "Zvýšené riziko. Postupuj opatrne." : "Elevated risk. Proceed cautiously.",
@@ -865,7 +959,7 @@
                      "Verify via at least two independent signals (website, known contact, official number)."
       };
     }
-    if (L === "LOW"){
+    if (level === "LOW"){
       return {
         pill: isSK ? "NÍZKE RIZIKO" : "LOW RISK",
         title: isSK ? "Nízke riziko. Zostaň ostražitý." : "Low risk. Stay alert.",
@@ -881,28 +975,45 @@
   }
 
   function setRiskVisual(level){
+    const resultsCard = qs("resultsCard");
+    const actionCard = qs("actionCard");
     const pill = qs("riskPill");
     const riskLevelEl = qs("riskLevel");
-    const actionCard = qs("actionCard");
+
+    // pulse only on HIGH
+    if (resultsCard) resultsCard.classList.toggle("pulseHigh", level === "HIGH");
+    if (actionCard) actionCard.classList.toggle("pulseHigh", level === "HIGH");
+
+    // gradients
+    if (actionCard){
+      actionCard.classList.remove("gradLow","gradMedium","gradHigh");
+      actionCard.classList.add(level === "HIGH" ? "gradHigh" : level === "MEDIUM" ? "gradMedium" : "gradLow");
+    }
 
     const map = {
-      HIGH: {pillBg:"rgba(239,68,68,.20)", pillStroke:"rgba(239,68,68,.35)", label:"HIGH", bar:"bg-red-400/80"},
-      MEDIUM: {pillBg:"rgba(245,158,11,.20)", pillStroke:"rgba(245,158,11,.35)", label:"MEDIUM", bar:"bg-amber-400/80"},
-      LOW: {pillBg:"rgba(34,197,94,.18)", pillStroke:"rgba(34,197,94,.35)", label:"LOW", bar:"bg-emerald-400/80"},
-      "—": {pillBg:"rgba(255,255,255,.06)", pillStroke:"rgba(255,255,255,.12)", label:"—", bar:"bg-white/30"},
+      HIGH: {pillBg:"rgba(239,68,68,.20)", pillStroke:"rgba(239,68,68,.35)", label:"HIGH"},
+      MEDIUM: {pillBg:"rgba(245,158,11,.20)", pillStroke:"rgba(245,158,11,.35)", label:"MEDIUM"},
+      LOW: {pillBg:"rgba(34,197,94,.18)", pillStroke:"rgba(34,197,94,.35)", label:"LOW"},
+      "—": {pillBg:"rgba(255,255,255,.06)", pillStroke:"rgba(255,255,255,.12)", label:"—"},
     };
     const v = map[level] || map["—"];
-    pill.style.background = v.pillBg;
-    pill.style.border = "1px solid " + v.pillStroke;
+    if (pill){
+      pill.style.background = v.pillBg;
+      pill.style.border = "1px solid " + v.pillStroke;
+    }
+    if (riskLevelEl) riskLevelEl.textContent = v.label;
 
-    // Card accent (subtle)
-    actionCard.style.boxShadow =
-      level === "HIGH" ? "0 20px 70px rgba(239,68,68,.12)" :
-      level === "MEDIUM" ? "0 20px 70px rgba(245,158,11,.12)" :
-      level === "LOW" ? "0 20px 70px rgba(34,197,94,.12)" :
-      "0 20px 70px rgba(0,0,0,.25)";
-
-    riskLevelEl.textContent = v.label;
+    // bar color by risk (nice but subtle)
+    const barIds = ["scamBar","aiBar","stressBar"];
+    barIds.forEach(id=>{
+      const el = qs(id);
+      if (!el) return;
+      el.classList.remove("bg-amber-400/80","bg-red-400/80","bg-emerald-400/80");
+      if (level === "HIGH") el.classList.add("bg-red-400/80");
+      else if (level === "MEDIUM") el.classList.add("bg-amber-400/80");
+      else if (level === "LOW") el.classList.add("bg-emerald-400/80");
+      else el.classList.add("bg-amber-400/80");
+    });
   }
 
   function setBars({scamPct, aiPct, stressPct}){
@@ -923,17 +1034,14 @@
     const lang = localStorage.getItem("vs_lang") || "en";
     const norm = normalizePayload(payload);
 
-    qs("rawJson").textContent = safeJson(payload);
+    qs("rawJson").textContent = safeJson(norm.raw);
     qs("debugLine").textContent = "Build " + BUILD_ID;
 
-    // Confidence
     qs("confidence").textContent = (norm.confidencePct == null ? "—" : (norm.confidencePct + "%"));
 
-    // Summary text
     const summary = norm.summary?.trim();
     qs("summaryText").textContent = summary || (I18N[lang]?.resultsHint || I18N.en.resultsHint);
 
-    // Risk + action
     const action = actionFromLevel(norm.level, lang);
     qs("riskPill").textContent = action.pill;
     qs("riskTitle").textContent = action.title;
@@ -946,8 +1054,7 @@
     const caseId = payload?.case_id || payload?.caseId || payload?.id || payload?.meta?.case_id;
     qs("caseId").textContent = caseId ? String(caseId) : "—";
 
-    // Save last result for share/copy
-    window.__VS_LAST_RESULT__ = payload;
+    window.__VS_LAST_RESULT__ = norm.raw;
   }
 
   // ===========================
@@ -971,7 +1078,8 @@
     try{
       const r = await fetch(backendBase + "/health", {cache:"no-store"});
       const j = await r.json().catch(()=> ({}));
-      const ok = r.ok && (j.ok === true || j.status === "ok" || j.healthy === true || Object.keys(j).length >= 0);
+      // FIX: Object.keys(j).length >= 0 was always true; now require a meaningful ok/healthy or non-empty payload with 2xx
+      const ok = r.ok && (j.ok === true || j.status === "ok" || j.healthy === true || Object.keys(j).length > 0);
       if (ok){
         label.textContent = "Online";
         dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400/80";
@@ -988,9 +1096,8 @@
   // ===========================
   // Analyze / Demo / Record
   // ===========================
-  let recording = null; // MediaRecorder
+  let recording = null;
   let recordedBlob = null;
-  let lastFile = null;
 
   function setFileHint(file){
     const hint = qs("fileHint");
@@ -1003,7 +1110,6 @@
   }
 
   function demoPayload(){
-    // Demo payload aligned to UI mapping
     return {
       scores: {
         scam_score: 0.82,
@@ -1018,23 +1124,22 @@
   }
 
   async function analyzeCurrent(){
-    // Prefer recorded blob > selected file
     const fileInput = qs("fileInput");
-    const f = recordedBlob ? new File([recordedBlob], "recording.webm", {type: recordedBlob.type || "audio/webm"}) :
-              (fileInput && fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
+    const f =
+      recordedBlob ? new File([recordedBlob], "recording.webm", {type: recordedBlob.type || "audio/webm"}) :
+      (fileInput && fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
 
     if (!f){
-      toast("Select a file or record first.");
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Najprv vyber súbor alebo nahraj." : "Select a file or record first.");
       return;
     }
 
-    // UI state
-    qs("analyzeBtn").disabled = true;
-    qs("analyzeBtn").textContent = "…";
-
     const t0 = now();
+    setLoading(true, (localStorage.getItem("vs_lang")==="sk") ? "Analyzujem…" : "Analyzing…");
+
     try{
       const form = new FormData();
+      // IMPORTANT: backend expects "audio"
       form.append("audio", f);
       form.append("title", qs("titleEl")?.value || "");
       form.append("platform", qs("platformEl")?.value || "");
@@ -1047,63 +1152,66 @@
       const data = await resp.json().catch(()=> null);
 
       if (!resp.ok || !data){
-        const msg = (data && (data.message || data.error)) ? (data.message || data.error) : `HTTP ${resp.status}`;
-        qs("summaryText").textContent = "Analyze failed.";
-        toast("Analyze failed: " + msg);
+        const msg = (data && (data.message || data.error || data.detail)) ? (data.message || data.error || data.detail) : `HTTP ${resp.status}`;
+        qs("summaryText").textContent = (localStorage.getItem("vs_lang")==="sk") ? "Analýza zlyhala." : "Analyze failed.";
+        toast(((localStorage.getItem("vs_lang")==="sk") ? "Analýza zlyhala: " : "Analyze failed: ") + msg);
         console.error("UPLOAD ERROR:", data);
         return;
       }
 
-      setResultUI(data);
-      toast("Analysis complete (" + (Math.round((now()-t0)/10)/100) + "s)");
+      // SUPPORT: backend can return {ai:{...}} OR flat
+      setResultUI(data.ai ? data.ai : data);
+      toast(((localStorage.getItem("vs_lang")==="sk") ? "Hotovo (" : "Done (") + (Math.round((now()-t0)/10)/100) + "s)");
       scrollToResults();
     }catch(e){
       console.error(e);
-      toast("Network error. Check CORS/URL.");
-      qs("summaryText").textContent = "Network error.";
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Sieťová chyba. Skontroluj URL/CORS." : "Network error. Check CORS/URL.");
+      qs("summaryText").textContent = (localStorage.getItem("vs_lang")==="sk") ? "Sieťová chyba." : "Network error.";
     }finally{
-      qs("analyzeBtn").disabled = false;
-      const lang = localStorage.getItem("vs_lang") || "en";
-      qs("analyzeBtn").textContent = I18N[lang]?.analyzeBtn || I18N.en.analyzeBtn;
+      setLoading(false);
     }
   }
 
   function runDemo(){
     const p = demoPayload();
     setResultUI(p);
-    toast("Demo loaded");
+    toast((localStorage.getItem("vs_lang")==="sk") ? "Demo načítané" : "Demo loaded");
     scrollToResults();
   }
 
   async function toggleRecord(){
     const btn = qs("recordBtn");
     const lang = localStorage.getItem("vs_lang") || "en";
+
     if (recording){
       recording.stop();
       return;
     }
+
     try{
       const stream = await navigator.mediaDevices.getUserMedia({audio:true});
       const chunks = [];
       const rec = new MediaRecorder(stream);
       recording = rec;
       recordedBlob = null;
-      btn.textContent = (lang === "sk" ? "Stop" : "Stop");
+
+      btn.textContent = "Stop";
+
       rec.ondataavailable = (e)=> { if (e.data && e.data.size) chunks.push(e.data); };
       rec.onstop = ()=>{
         recording = null;
         stream.getTracks().forEach(t=> t.stop());
         recordedBlob = new Blob(chunks, {type: chunks[0]?.type || "audio/webm"});
         btn.textContent = (I18N[lang]?.recordBtn || I18N.en.recordBtn);
-        toast("Recorded. Ready to analyze.");
-        // Show as selection
+        toast((lang==="sk") ? "Nahraté. Pripravené na analýzu." : "Recorded. Ready to analyze.");
         setFileHint({name:"recording.webm", size: recordedBlob.size});
       };
+
       rec.start();
-      toast("Recording…");
+      toast((lang==="sk") ? "Nahrávam…" : "Recording…");
     }catch(e){
       console.error(e);
-      toast("Mic blocked. Allow microphone.");
+      toast((lang==="sk") ? "Mikrofón zablokovaný. Povoľ mikrofón." : "Mic blocked. Allow microphone.");
       if (btn) btn.textContent = (I18N[lang]?.recordBtn || I18N.en.recordBtn);
       recording = null;
     }
@@ -1115,39 +1223,41 @@
   async function copyText(txt){
     try{
       await navigator.clipboard.writeText(txt);
-      toast("Copied");
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Skopírované" : "Copied");
     }catch{
-      // fallback
       const ta = document.createElement("textarea");
       ta.value = txt;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand("copy");
       ta.remove();
-      toast("Copied");
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Skopírované" : "Copied");
     }
   }
 
   function buildShareLink(){
-    // If backend supports saving cases & shareable IDs, use it. Otherwise fallback to current page.
     const caseId = (window.__VS_LAST_RESULT__ && (window.__VS_LAST_RESULT__.case_id || window.__VS_LAST_RESULT__.caseId || window.__VS_LAST_RESULT__.id)) || "";
     const url = new URL(window.location.href);
     if (caseId) url.searchParams.set("case", caseId);
     return url.toString();
   }
 
+  function escapeHtml(s){
+    return String(s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
   async function doSearch(){
     const q = (qs("searchQuery")?.value || "").trim();
-    if (!q){ toast("Enter a search query"); return; }
+    if (!q){ toast((localStorage.getItem("vs_lang")==="sk") ? "Zadaj hľadaný text" : "Enter a search query"); return; }
     const out = qs("searchOut");
-    out.textContent = "Searching…";
+    out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Hľadám…" : "Searching…";
     try{
       const r = await fetch(backendBase + "/cases/search?q=" + encodeURIComponent(q));
       const j = await r.json().catch(()=> ({}));
-      if (!r.ok){ out.textContent = "Search failed."; return; }
+      if (!r.ok){ out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Hľadanie zlyhalo." : "Search failed."; return; }
       const items = j.items || j.results || j.cases || [];
       out.innerHTML = "";
-      if (!items.length){ out.textContent = "No results."; return; }
+      if (!items.length){ out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Bez výsledkov." : "No results."; return; }
       items.slice(0,20).forEach(it=>{
         const id = it.id || it.case_id || it.caseId || it._id || "—";
         const title = it.title || it.name || "";
@@ -1158,27 +1268,23 @@
       });
     }catch(e){
       console.error(e);
-      out.textContent = "Network error.";
+      out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Sieťová chyba." : "Network error.";
     }
-  }
-
-  function escapeHtml(s){
-    return String(s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   }
 
   async function loadCase(){
     const caseId = qs("caseId")?.textContent;
-    if (!caseId || caseId === "—"){ toast("No case id"); return; }
+    if (!caseId || caseId === "—"){ toast((localStorage.getItem("vs_lang")==="sk") ? "Nemáš Case ID" : "No case id"); return; }
     try{
       const r = await fetch(backendBase + "/cases/" + encodeURIComponent(caseId));
       const j = await r.json().catch(()=> null);
-      if (!r.ok || !j){ toast("Load failed"); return; }
+      if (!r.ok || !j){ toast((localStorage.getItem("vs_lang")==="sk") ? "Načítanie zlyhalo" : "Load failed"); return; }
       setResultUI(j);
-      toast("Case loaded");
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Prípad načítaný" : "Case loaded");
       scrollToResults();
     }catch(e){
       console.error(e);
-      toast("Network error");
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Sieťová chyba" : "Network error");
     }
   }
 
@@ -1210,46 +1316,39 @@
   // Wiring
   // ===========================
   function boot(){
-    // Build info
     qs("year").textContent = String(new Date().getFullYear());
     qs("buildId").textContent = BUILD_ID;
 
-    // Restore language
-    const savedLang = localStorage.getItem("vs_lang") || (navigator.language || "en").toLowerCase().startsWith("sk") ? "sk" : "en";
+    // FIX: correct precedence (previously could mis-evaluate)
+    const savedLang =
+      localStorage.getItem("vs_lang") ||
+      (((navigator.language || "en").toLowerCase().startsWith("sk")) ? "sk" : "en");
+
     localStorage.setItem("vs_lang", savedLang);
     applyLang(savedLang);
 
-    // Restore mode
     setMode(localStorage.getItem("vs_mode") || "PROD");
 
-    // File selection
     qs("fileInput").addEventListener("change", (e)=>{
       recordedBlob = null;
       const f = e.target.files && e.target.files[0];
-      lastFile = f || null;
       setFileHint(f);
     });
 
-    // Analyze
     qs("analyzeBtn").addEventListener("click", analyzeCurrent);
 
-    // Demo
     qs("demoBtn").addEventListener("click", runDemo);
     qs("demoBtnHero").addEventListener("click", runDemo);
 
-    // Record
     qs("recordBtn").addEventListener("click", toggleRecord);
 
-    // How buttons
     const how = ()=> document.getElementById("how")?.scrollIntoView({behavior:"smooth", block:"start"});
     qs("howBtnHero").addEventListener("click", how);
     qs("howBtnTop").addEventListener("click", how);
 
-    // Modes
     qs("modeProd").addEventListener("click", ()=> { localStorage.setItem("vs_mode","PROD"); setMode("PROD"); });
     qs("modeLocal").addEventListener("click", ()=> { localStorage.setItem("vs_mode","LOCAL"); setMode("LOCAL"); });
 
-    // Upgrade/billing
     qs("upgradeBtn").addEventListener("click", ()=> { window.location.href = window.STRIPE_CHECKOUT_URL; });
     const manage = qs("manageBillingBtn");
     if (window.STRIPE_BILLING_PORTAL_URL){
@@ -1257,7 +1356,6 @@
       manage.addEventListener("click", ()=> window.open(window.STRIPE_BILLING_PORTAL_URL, "_blank"));
     }
 
-    // Copy/share
     qs("copyJsonBtn").addEventListener("click", ()=> {
       const p = window.__VS_LAST_RESULT__ || {};
       copyText(safeJson(p));
@@ -1274,21 +1372,16 @@
       }catch{}
     });
 
-    // Share card placeholder (kept as text-only; you can plug your existing share-card.js later)
     qs("shareCardBtn").addEventListener("click", ()=> {
-      toast("Share card: connect share-card.js for PNG export.");
-      // keep raw JSON for now
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Share card: pripoj share-card.js pre PNG export." : "Share card: connect share-card.js for PNG export.");
     });
 
-    // Cases
     qs("searchBtn").addEventListener("click", doSearch);
     qs("loadCaseBtn").addEventListener("click", loadCase);
     qs("openCaseBtn").addEventListener("click", openCase);
 
-    // Contact
     qs("copyContactBtn").addEventListener("click", ()=> copyText("hello@voicesafe.ai"));
 
-    // Language dropdown
     qs("langBtn").addEventListener("click", ()=> toggleLangMenu());
     qs("langBackdrop").addEventListener("click", ()=> toggleLangMenu(false));
     qs("langMenu").querySelectorAll("[data-lang]").forEach(b=>{
@@ -1298,13 +1391,11 @@
         applyLang(lang);
         toggleLangMenu(false);
         toast(lang === "sk" ? "Jazyk: SK" : "Language: EN");
-        // Keep buttons in correct text after translation
         qs("recordBtn").textContent = I18N[lang]?.recordBtn || I18N.en.recordBtn;
         qs("analyzeBtn").textContent = I18N[lang]?.analyzeBtn || I18N.en.analyzeBtn;
       });
     });
 
-    // Deep-link: case=...
     const url = new URL(window.location.href);
     const caseParam = url.searchParams.get("case");
     if (caseParam){
@@ -1312,8 +1403,7 @@
       loadCase().catch(()=>{});
     }
 
-    // Initial UI state
-    setResultUI({}); // show placeholders
+    setResultUI({});
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
