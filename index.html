@@ -628,6 +628,15 @@ Results
               <div class="mt-2 text-lg font-semibold" id="riskTitle">—</div>
               <div class="mt-1 text-sm text-white/65" id="riskText">—</div>
 
+              <div class="mt-4 glass2 rounded-xl p-4">
+  <div class="text-xs text-white/60">AI Risk Explanation</div>
+
+  <div id="fraudExplanation"
+       class="mt-2 text-sm text-white/80 whitespace-pre-line">
+    —
+  </div>
+</div>
+
               <div class="mt-4 grid sm:grid-cols-3 gap-3">
                 <div class="glass rounded-2xl p-4">
                   <div class="text-xs text-white/60" data-i18n="step1Label">1) Pause</div>
@@ -1504,6 +1513,34 @@ if (btn) {
 
 }
 
+function generateExplanation(norm){
+
+  const scam = norm.scamPct ?? 0
+  const ai = norm.aiPct ?? 0
+  const stress = norm.stressPct ?? 0
+
+  let reasons = []
+
+  if(scam > 70)
+    reasons.push("High scam probability detected.")
+
+  if(ai > 60)
+    reasons.push("Voice characteristics suggest possible AI synthesis.")
+
+  if(stress > 65)
+    reasons.push("Speaker stress level unusually high.")
+
+  if(reasons.length === 0)
+    reasons.push("No strong fraud indicators detected.")
+
+  const el = document.getElementById("fraudExplanation")
+
+  if(el){
+    el.textContent = reasons.map(r => "• " + r).join("\n")
+  }
+
+}
+
   function setResultUI(payload){
     const l = lang();
     const norm = normalizePayload(payload);
@@ -1522,6 +1559,7 @@ if (btn) {
     setRiskVisual(norm.level);
     setBars(norm);
     calculateTrust(norm);
+    generateExplanation(norm);
 
     qs("caseId").textContent = norm.caseId ? String(norm.caseId) : "—";
     window.__VS_LAST_RESULT__ = norm.raw;
