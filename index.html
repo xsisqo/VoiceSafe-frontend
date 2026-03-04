@@ -5,29 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>VoiceSafe — AI Anti-Scam Voice Analyzer</title>
   <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="VoiceSafe: AI analýza hlasu proti podvodom. Upload audio/video → risk, confidence, odporúčania, share report." />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
     :root{
-      --bg0:#070a14;
-      --bg1:#0b1020;
-      --card: rgba(255,255,255,.07);
-      --card2: rgba(255,255,255,.09);
-      --stroke: rgba(255,255,255,.12);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.62);
-      --muted2: rgba(255,255,255,.42);
-      --good:#31d17c;
-      --warn:#f5b942;
-      --bad:#ff4d6d;
-      --a:#7c3aed;
-      --b:#22d3ee;
-      --c:#60a5fa;
+      --bg0:#070a14; --bg1:#0b1020;
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.94);
       --shadow: 0 18px 55px rgba(0,0,0,.55);
     }
-
+    html,body{height:100%}
     body{
       background:
         radial-gradient(1200px 600px at 20% 10%, rgba(124,58,237,.35), transparent 55%),
@@ -35,102 +25,55 @@
         radial-gradient(900px 700px at 55% 85%, rgba(96,165,250,.16), transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
       color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior-y: none;
+      padding-bottom: env(safe-area-inset-bottom);
     }
-
+    button, a, input[type="file"]{ touch-action: manipulation; }
+    button{ -webkit-tap-highlight-color: transparent; }
     .glass{
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.07));
       border: 1px solid var(--stroke);
       box-shadow: var(--shadow);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
     }
-
     .btn{
-      border: 1px solid rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.16);
       background: rgba(255,255,255,.06);
       transition: transform .12s ease, background .12s ease, border-color .12s ease, filter .12s ease;
+      min-height: 44px;
     }
-    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.24); }
     .btn:active{ transform: translateY(0px) scale(.99); }
-
     .btnPrimary{
       border: 1px solid rgba(255,255,255,.18);
-      background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(34,211,238,.85));
+      background: linear-gradient(90deg, rgba(124,58,237,.96), rgba(34,211,238,.86));
       box-shadow: 0 18px 45px rgba(124,58,237,.25);
     }
-    .btnPrimary:hover{ filter: brightness(1.06); }
-    .pill{
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-    }
-
-    .pulseHigh{
-      animation: pulseHigh 1.2s ease-in-out infinite;
-    }
-    @keyframes pulseHigh{
-      0%,100%{ box-shadow: 0 0 0 rgba(255,77,109,.0), var(--shadow); }
-      50%{ box-shadow: 0 0 24px rgba(255,77,109,.35), var(--shadow); }
-    }
-
-    .resultPulse{
-      animation: resultPulse 1.8s ease-in-out infinite;
-    }
-    @keyframes resultPulse{
-      0%,100%{ box-shadow: 0 18px 55px rgba(0,0,0,.55); }
-      50%{ box-shadow: 0 18px 65px rgba(124,58,237,.28); }
-    }
-
-    .shimmer{
-      background: linear-gradient(90deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.12) 50%, rgba(255,255,255,.06) 100%);
-      background-size: 200% 100%;
-      animation: shimmer 1.0s linear infinite;
-    }
-    @keyframes shimmer{
-      0%{ background-position: 200% 0; }
-      100%{ background-position: -200% 0; }
-    }
-
-    .bar{
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      overflow: hidden;
-    }
-    .bar > div{
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(34,211,238,.9), rgba(124,58,237,.9));
-      width: 0%;
-      transition: width .45s ease;
-    }
-
-    .kbd{
-      font-size: 12px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.06);
-      padding: 2px 8px;
-      border-radius: 999px;
-      color: rgba(255,255,255,.75);
-    }
-
-    a.link{
-      color: rgba(34,211,238,.95);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
+    .pill{ border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.06); }
+    .kbd{ font-size: 12px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); padding: 2px 8px; border-radius: 999px; color: rgba(255,255,255,.75); }
+    .pulseHigh{ animation: pulseHigh 1.2s ease-in-out infinite; }
+    @keyframes pulseHigh{ 0%,100%{ box-shadow: 0 0 0 rgba(255,77,109,.0), var(--shadow);} 50%{ box-shadow: 0 0 24px rgba(255,77,109,.35), var(--shadow);} }
+    .resultPulse{ animation: resultPulse 1.8s ease-in-out infinite; }
+    @keyframes resultPulse{ 0%,100%{ box-shadow: 0 18px 55px rgba(0,0,0,.55);} 50%{ box-shadow: 0 18px 65px rgba(124,58,237,.24);} }
+    @media (prefers-reduced-motion: reduce){ .pulseHigh,.resultPulse{ animation:none !important; } .btn{ transition:none !important; } }
+    .shimmer{ background: linear-gradient(90deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.12) 50%, rgba(255,255,255,.06) 100%); background-size: 200% 100%; animation: shimmer 1.0s linear infinite; }
+    @keyframes shimmer{ 0%{ background-position: 200% 0; } 100%{ background-position: -200% 0; } }
+    .bar{ height:10px; border-radius:999px; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); overflow:hidden; }
+    .bar>div{ height:100%; border-radius:999px; background: linear-gradient(90deg, rgba(34,211,238,.9), rgba(124,58,237,.9)); width:0%; transition: width .45s ease; }
+    a.link{ color: rgba(34,211,238,.95); text-decoration: underline; text-underline-offset:3px; display:inline-block; padding:2px 0; }
+    .stickyActions{ position: sticky; bottom: calc(env(safe-area-inset-bottom) + 12px); z-index: 50; }
   </style>
 </head>
 
 <body class="min-h-screen">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
 
-    <!-- Top bar -->
     <header class="flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-2xl glass flex items-center justify-center">
-          <!-- shield icon -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" stroke="rgba(255,255,255,.9)" stroke-width="1.6"/>
             <path d="M9.2 12.1l2 2 3.7-4.2" stroke="rgba(34,211,238,.95)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -145,12 +88,9 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <button id="langSK" class="btn pill px-3 py-2 text-sm font-medium">SK</button>
-        <button id="langEN" class="btn pill px-3 py-2 text-sm font-medium">EN</button>
-
-        <button id="upgradeBtn" class="btn btnPrimary px-4 py-2 text-sm font-semibold rounded-2xl">
-          <span id="tUpgrade">Odomknúť Pro</span>
-        </button>
+        <button id="langSK" class="btn pill px-3 py-2 text-sm font-medium rounded-2xl">SK</button>
+        <button id="langEN" class="btn pill px-3 py-2 text-sm font-medium rounded-2xl">EN</button>
+        <button id="upgradeBtn" class="btn btnPrimary px-4 py-2 text-sm font-semibold rounded-2xl"><span id="tUpgrade">Odomknúť Pro</span></button>
 
         <div id="userChip" class="hidden md:flex items-center gap-2 glass rounded-2xl px-3 py-2">
           <img id="userPic" class="w-7 h-7 rounded-full border border-white/20" alt="" />
@@ -163,7 +103,6 @@
       </div>
     </header>
 
-    <!-- Hero -->
     <section id="hero" class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       <div class="glass rounded-3xl p-6 sm:p-8">
         <div class="flex items-center gap-2 text-sm text-white/70">
@@ -180,80 +119,55 @@
         </p>
 
         <div class="mt-5 flex flex-wrap gap-2">
-          <button id="btnAnalyzeScroll" class="btn btnPrimary rounded-2xl px-4 py-2.5 font-semibold">
-            <span id="tAnalyze">Analyzovať</span>
-          </button>
-          <button id="btnDemo" class="btn rounded-2xl px-4 py-2.5 font-semibold">
-            <span id="tDemo">Spustiť demo</span>
-          </button>
-          <button id="btnHow" class="btn rounded-2xl px-4 py-2.5 font-semibold">
-            <span id="tHow">Ako to funguje</span>
-          </button>
+          <button id="btnAnalyzeScroll" class="btn btnPrimary rounded-2xl px-4 py-2.5 font-semibold"><span id="tAnalyze">Analyzovať</span></button>
+          <button id="btnDemo" class="btn rounded-2xl px-4 py-2.5 font-semibold"><span id="tDemo">Spustiť demo</span></button>
+          <button id="btnHow" class="btn rounded-2xl px-4 py-2.5 font-semibold"><span id="tHow">Ako to funguje</span></button>
         </div>
 
         <div class="mt-5 grid grid-cols-3 gap-2">
-          <div class="pill rounded-2xl p-3">
-            <div id="tFast" class="text-xs text-white/60">Rýchle</div>
-            <div id="tFast2" class="text-sm font-semibold">Sekundy</div>
-          </div>
-          <div class="pill rounded-2xl p-3">
-            <div id="tExplain" class="text-xs text-white/60">Vysvetliteľné</div>
-            <div id="tExplain2" class="text-sm font-semibold">Nie len číslo</div>
-          </div>
-          <div class="pill rounded-2xl p-3">
-            <div id="tShare" class="text-xs text-white/60">Zdieľateľné</div>
-            <div id="tShare2" class="text-sm font-semibold">Public report</div>
+          <div class="pill rounded-2xl p-3"><div id="tFast" class="text-xs text-white/60">Rýchle</div><div id="tFast2" class="text-sm font-semibold">Sekundy</div></div>
+          <div class="pill rounded-2xl p-3"><div id="tExplain" class="text-xs text-white/60">Vysvetliteľné</div><div id="tExplain2" class="text-sm font-semibold">Nie len číslo</div></div>
+          <div class="pill rounded-2xl p-3"><div id="tShare" class="text-xs text-white/60">Zdieľateľné</div><div id="tShare2" class="text-sm font-semibold">Public report</div></div>
+        </div>
+
+        <div class="mt-5 glass rounded-2xl p-4">
+          <div class="text-sm font-semibold">Investor Proof</div>
+          <div class="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-white/80">
+            <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60">Killer feature</div><div class="font-semibold">Shareable case link</div></div>
+            <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60">Enterprise standard</div><div class="font-semibold">WAV mono 16kHz</div></div>
+            <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60">Trust</div><div class="font-semibold">Google GSI + JWT</div></div>
           </div>
         </div>
       </div>
 
       <div class="glass rounded-3xl p-6 sm:p-8">
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-sm text-white/70 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-cyan-300"></span>
-              <span id="tTrust">Trust & Privacy</span>
-            </div>
-            <div id="tTrustHeadline" class="mt-2 text-xl font-semibold">Vyhodnotenie bez zbytočného zdieľania dát</div>
-            <div id="tTrustSub" class="mt-1 text-sm text-white/60">
-              Prihlásenie je voliteľné. Pre históriu prípadov a zdieľateľné reporty sa prihlás cez Google.
-            </div>
-          </div>
+        <div class="text-sm text-white/70 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-300"></span>
+          <span id="tTrust">Trust & Privacy</span>
         </div>
+        <div id="tTrustHeadline" class="mt-2 text-xl font-semibold">Vyhodnotenie bez zbytočného zdieľania dát</div>
+        <div id="tTrustSub" class="mt-1 text-sm text-white/60">Prihlásenie je voliteľné. Pre históriu prípadov a zdieľateľné reporty sa prihlás cez Google.</div>
 
         <div class="mt-5 glass rounded-2xl p-4">
           <div class="flex items-center justify-between gap-3">
             <div class="text-sm">
               <div class="text-white/70" id="tAuthStatusLabel">Stav:</div>
               <div id="authStatus" class="font-semibold">—</div>
+              <div id="authDetail" class="text-xs text-white/55 mt-1"></div>
             </div>
             <div class="flex items-center gap-2">
-              <div id="gsiBtnWrap" class="min-h-[40px]"></div>
+              <div id="gsiBtnWrap" class="min-h-[44px]"></div>
               <button id="logoutBtnMobile" class="hidden btn rounded-2xl px-3 py-2 text-sm">Logout</button>
             </div>
           </div>
 
-          <div class="mt-3 text-xs text-white/60" id="tGsiNote">
-            Používame Google Identity Services (GSI). Bez redirectov. Bez “invalid_client” okna.
-          </div>
+          <div class="mt-3 text-xs text-white/60" id="tGsiNote">Používame Google Identity Services (GSI). Bez redirectov. Bez “invalid_client” okna.</div>
 
           <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
-            <div class="pill rounded-xl p-2 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span id="tChip1">Shareable reports</span>
-            </div>
-            <div class="pill rounded-xl p-2 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span id="tChip2">My Cases history</span>
-            </div>
-            <div class="pill rounded-xl p-2 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span id="tChip3">Confidence engine</span>
-            </div>
-            <div class="pill rounded-xl p-2 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span id="tChip4">Mobile-first UI</span>
-            </div>
+            <div class="pill rounded-xl p-2 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span id="tChip1">Shareable reports</span></div>
+            <div class="pill rounded-xl p-2 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span id="tChip2">My Cases history</span></div>
+            <div class="pill rounded-xl p-2 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span id="tChip3">Confidence engine</span></div>
+            <div class="pill rounded-xl p-2 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span id="tChip4">Mobile-first UI</span></div>
           </div>
 
           <div class="mt-3 text-xs text-white/60">
@@ -262,11 +176,12 @@
             <span class="text-white/30">•</span>
             <a class="link" href="mailto:invest@voicesafe.ai">invest@voicesafe.ai</a>
           </div>
+
+          <div id="debugBox" class="hidden mt-4 pill rounded-2xl p-3 text-xs text-white/70"></div>
         </div>
       </div>
     </section>
 
-    <!-- Tabs -->
     <section id="app" class="mt-6">
       <div class="flex flex-wrap gap-2">
         <button class="btn pill rounded-2xl px-4 py-2 font-semibold" data-tab="analyzer" id="tabAnalyzer">Analyzer</button>
@@ -275,7 +190,6 @@
       </div>
 
       <div class="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        <!-- Left -->
         <div class="glass rounded-3xl p-5 sm:p-6">
           <div id="viewAnalyzer">
             <div class="flex items-start justify-between gap-3">
@@ -287,11 +201,11 @@
             </div>
 
             <div class="mt-4 grid gap-3">
-              <input id="fileInput" type="file" accept="audio/*,video/*" class="block w-full text-sm file:mr-4 file:rounded-xl file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-white/80 file:hover:bg-white/15 file:cursor-pointer" />
-              <div class="flex gap-2 flex-wrap">
-                <button id="btnRecord" class="btn rounded-2xl px-4 py-2 font-semibold">Nahrávať</button>
-                <button id="btnStop" class="btn rounded-2xl px-4 py-2 font-semibold hidden">Stop</button>
-                <button id="btnAnalyze" class="btn btnPrimary rounded-2xl px-4 py-2 font-semibold">Analyzovať</button>
+              <input id="fileInput" type="file" accept="audio/*,video/*" class="block w-full text-sm file:mr-4 file:rounded-xl file:border-0 file:bg-white/10 file:px-4 file:py-3 file:text-white/85 file:hover:bg-white/15 file:cursor-pointer" />
+              <div class="stickyActions flex gap-2 flex-wrap">
+                <button id="btnRecord" class="btn rounded-2xl px-4 py-2 font-semibold flex-1 sm:flex-none">Nahrávať</button>
+                <button id="btnStop" class="btn rounded-2xl px-4 py-2 font-semibold hidden flex-1 sm:flex-none">Stop</button>
+                <button id="btnAnalyze" class="btn btnPrimary rounded-2xl px-4 py-2 font-semibold flex-1 sm:flex-none">Analyzovať</button>
               </div>
               <div id="statusBox" class="hidden pill rounded-2xl p-3 text-sm"></div>
             </div>
@@ -299,18 +213,9 @@
             <div class="mt-5">
               <div id="tHowBlockTitle" class="text-sm font-semibold text-white/80">Ako to funguje</div>
               <div class="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
-                <div class="pill rounded-2xl p-3">
-                  <div class="text-xs text-white/60" id="tStep1A">1. Nahraj</div>
-                  <div class="font-semibold" id="tStep1B">Záznam</div>
-                </div>
-                <div class="pill rounded-2xl p-3">
-                  <div class="text-xs text-white/60" id="tStep2A">2. AI analýza</div>
-                  <div class="font-semibold" id="tStep2B">Riziko</div>
-                </div>
-                <div class="pill rounded-2xl p-3">
-                  <div class="text-xs text-white/60" id="tStep3A">3. Report</div>
-                  <div class="font-semibold" id="tStep3B">Zdieľanie</div>
-                </div>
+                <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60" id="tStep1A">1. Nahraj</div><div class="font-semibold" id="tStep1B">Záznam</div></div>
+                <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60" id="tStep2A">2. AI analýza</div><div class="font-semibold" id="tStep2B">Riziko</div></div>
+                <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60" id="tStep3A">3. Report</div><div class="font-semibold" id="tStep3B">Zdieľanie</div></div>
               </div>
             </div>
           </div>
@@ -325,28 +230,21 @@
             </div>
 
             <div id="myCasesGate" class="mt-4 pill rounded-2xl p-4 text-sm text-white/70"></div>
-
             <div id="myCasesList" class="mt-4 grid gap-2"></div>
           </div>
 
           <div id="viewPublic" class="hidden">
             <div class="text-lg font-semibold" id="tPublicTitle">Public Report</div>
-            <div class="text-sm text-white/60 mt-1" id="tPublicSub">
-              Otvor report podľa Case ID alebo priamo cez link /case/VS-...
-            </div>
+            <div class="text-sm text-white/60 mt-1" id="tPublicSub">Otvor report podľa Case ID alebo priamo cez link /case/VS-...</div>
 
             <div class="mt-4 grid gap-2">
               <input id="publicCaseId" class="pill rounded-2xl px-4 py-3 bg-transparent outline-none" placeholder="VS-xxxxxx-..." />
               <button id="btnOpenPublic" class="btn btnPrimary rounded-2xl px-4 py-2 font-semibold">Open</button>
-              <div class="text-xs text-white/60">
-                Demo link (investor-safe):
-                <span class="kbd">/case/VS-DEMO-80617C</span>
-              </div>
+              <div class="text-xs text-white/60">Demo link: <span class="kbd">/case/VS-DEMO-80617C</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Right (Results) -->
         <div id="resultsCard" class="glass rounded-3xl p-5 sm:p-6 resultPulse">
           <div class="flex items-start justify-between gap-2">
             <div>
@@ -378,22 +276,10 @@
               <div class="mt-2 text-sm font-semibold" id="confText">—</div>
 
               <div class="mt-4 grid grid-cols-2 gap-2 text-sm">
-                <div class="pill rounded-2xl p-3">
-                  <div class="text-xs text-white/60" id="tScamScore">Scam score</div>
-                  <div class="font-semibold" id="scamScoreText">—</div>
-                </div>
-                <div class="pill rounded-2xl p-3">
-                  <div class="text-xs text-white/60" id="tAiProb">AI probability</div>
-                  <div class="font-semibold" id="aiProbText">—</div>
-                </div>
-                <div class="pill rounded-2xl p-3">
-                  <div class="text-xs text-white/60" id="tStress">Stress</div>
-                  <div class="font-semibold" id="stressText">—</div>
-                </div>
-                <div class="pill rounded-2xl p-3">
-                  <div class="text-xs text-white/60" id="tHint">Hint</div>
-                  <div class="font-semibold" id="hintText">—</div>
-                </div>
+                <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60" id="tScamScore">Scam score</div><div class="font-semibold" id="scamScoreText">—</div></div>
+                <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60" id="tAiProb">AI probability</div><div class="font-semibold" id="aiProbText">—</div></div>
+                <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60" id="tStress">Stress</div><div class="font-semibold" id="stressText">—</div></div>
+                <div class="pill rounded-2xl p-3"><div class="text-xs text-white/60" id="tHint">Hint</div><div class="font-semibold" id="hintText">—</div></div>
               </div>
             </div>
 
@@ -402,8 +288,7 @@
               <div id="recoList" class="mt-3 grid gap-2 text-sm text-white/85"></div>
 
               <div class="mt-4 text-xs text-white/55 leading-relaxed" id="disclaimer">
-                VoiceSafe poskytuje orientačné vyhodnotenie rizika na základe signálov zo zvuku.
-                Nie je to právne ani finančné poradenstvo.
+                VoiceSafe poskytuje orientačné vyhodnotenie rizika na základe signálov zo zvuku. Nie je to právne ani finančné poradenstvo.
               </div>
             </div>
           </div>
@@ -420,141 +305,45 @@
 
 <script>
 (function(){
-  // =========================
-  // PROD configuration (NO local/prod toggle)
-  // =========================
   const BRAND_URL = "https://voicesafe.ai";
   const API_BASE = "https://voicesafe-backend-1.onrender.com";
   const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
-
   const GOOGLE_CLIENT_ID = "348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com";
 
   const $ = (id)=>document.getElementById(id);
-  const LS = {
-    get(k){ try{return localStorage.getItem(k);}catch(_){return null} },
-    set(k,v){ try{localStorage.setItem(k,v);}catch(_){} },
-    del(k){ try{localStorage.removeItem(k);}catch(_){} }
-  };
+  const LS = { get(k){ try{return localStorage.getItem(k);}catch(_){return null} }, set(k,v){ try{localStorage.setItem(k,v);}catch(_){} }, del(k){ try{localStorage.removeItem(k);}catch(_){} } };
 
-  // =========================
-  // i18n (clean SK/EN, no mixing)
-  // =========================
   const I18N = {
-    sk: {
-      Upgrade:"Odomknúť Pro",
-      PrivateFirst:"Súkromie na prvom mieste",
-      Headline:"Zmeň podozrivú hlasovku na jasné rozhodnutie.",
-      Sub:"Nahraj audio alebo video klip. VoiceSafe vráti risk score, confidence a odporúčané ďalšie kroky — pripravené na zdieľanie.",
-      Analyze:"Analyzovať",
-      Demo:"Spustiť demo",
-      How:"Ako to funguje",
-      Fast:"Rýchle",
-      Fast2:"Sekundy",
-      Explain:"Vysvetliteľné",
-      Explain2:"Nie len číslo",
-      Share:"Zdieľateľné",
-      Share2:"Public report",
-      Trust:"Trust & Privacy",
-      TrustHeadline:"Vyhodnotenie bez zbytočného zdieľania dát",
-      TrustSub:"Prihlásenie je voliteľné. Pre históriu prípadov a zdieľateľné reporty sa prihlás cez Google.",
-      AuthStatusLabel:"Stav:",
-      GsiNote:"Používame Google Identity Services (GSI). Bez redirectov. Bez “invalid_client” okna.",
-      Chip1:"Shareable reports",
-      Chip2:"My Cases history",
-      Chip3:"Confidence engine",
-      Chip4:"Mobile-first UI",
-      Contact:"Kontakt:",
-      UploadTitle:"Nahraj audio/video",
-      Record:"Nahrávať",
-      Stop:"Stop",
-      MyCasesTitle:"My Cases",
-      MyCasesSub:"Tvoja história prípadov (len po prihlásení).",
-      PublicTitle:"Public Report",
-      PublicSub:"Otvor report podľa Case ID alebo priamo cez link /case/VS-...",
-      Open:"Open",
-      ResultsLabel:"AI vyhodnotenie",
-      ResultsTitle:"Výsledky",
-      CopyJson:"Kopírovať JSON",
-      CopyLink:"Kopírovať link",
-      ShareBtn:"Zdieľať",
-      Risk:"Riziko",
-      Reco:"Odporúčania",
-      Disc:"VoiceSafe poskytuje orientačné vyhodnotenie rizika na základe signálov zo zvuku. Nie je to právne ani finančné poradenstvo.",
-      Step1A:"1. Nahraj",
-      Step1B:"Záznam",
-      Step2A:"2. AI analýza",
-      Step2B:"Riziko",
-      Step3A:"3. Report",
-      Step3B:"Zdieľanie",
-      NotLogged:"Neprihlásený",
-      Logged:"Prihlásený",
-      NeedLogin:"Pre My Cases sa prihlás cez Google.",
-      Loading:"Analyzujem…",
-      Err:"Chyba",
-      DemoLoaded:"Demo načítané. Klikni Kopírovať link a otvor na mobile.",
-      Opened:"Report otvorený.",
-      NotFound:"Nenašlo sa. Skontroluj Case ID alebo použi demo link."
-    },
-    en: {
-      Upgrade:"Unlock Pro",
-      PrivateFirst:"Privacy first",
-      Headline:"Turn a suspicious voice note into a clear decision.",
-      Sub:"Upload an audio or video clip. VoiceSafe returns a risk score, confidence, and next-step recommendations — ready to share.",
-      Analyze:"Analyze",
-      Demo:"Run demo",
-      How:"How it works",
-      Fast:"Fast",
-      Fast2:"Seconds",
-      Explain:"Explainable",
-      Explain2:"Not just a number",
-      Share:"Shareable",
-      Share2:"Public report",
-      Trust:"Trust & Privacy",
-      TrustHeadline:"Evaluation without unnecessary data sharing",
-      TrustSub:"Login is optional. For case history and shareable reports, sign in with Google.",
-      AuthStatusLabel:"Status:",
-      GsiNote:"We use Google Identity Services (GSI). No redirects. No “invalid_client” popups.",
-      Chip1:"Shareable reports",
-      Chip2:"My Cases history",
-      Chip3:"Confidence engine",
-      Chip4:"Mobile-first UI",
-      Contact:"Contact:",
-      UploadTitle:"Upload audio/video",
-      Record:"Record",
-      Stop:"Stop",
-      MyCasesTitle:"My Cases",
-      MyCasesSub:"Your case history (requires login).",
-      PublicTitle:"Public Report",
-      PublicSub:"Open a report by Case ID or via /case/VS-... link.",
-      Open:"Open",
-      ResultsLabel:"AI assessment",
-      ResultsTitle:"Results",
-      CopyJson:"Copy JSON",
-      CopyLink:"Copy link",
-      ShareBtn:"Share",
-      Risk:"Risk",
-      Reco:"Recommendations",
-      Disc:"VoiceSafe provides an indicative risk evaluation based on audio signals. This is not legal or financial advice.",
-      Step1A:"1. Upload",
-      Step1B:"Recording",
-      Step2A:"2. AI analysis",
-      Step2B:"Risk",
-      Step3A:"3. Report",
-      Step3B:"Sharing",
-      NotLogged:"Not signed in",
-      Logged:"Signed in",
-      NeedLogin:"Sign in with Google to view My Cases.",
-      Loading:"Analyzing…",
-      Err:"Error",
-      DemoLoaded:"Demo loaded. Copy the link and open it on mobile.",
-      Opened:"Report opened.",
-      NotFound:"Not found. Check the Case ID or use the demo link."
-    }
+    sk:{ Upgrade:"Odomknúť Pro", PrivateFirst:"Súkromie na prvom mieste", Headline:"Zmeň podozrivú hlasovku na jasné rozhodnutie.", Sub:"Nahraj audio alebo video klip. VoiceSafe vráti risk score, confidence a odporúčané ďalšie kroky — pripravené na zdieľanie.", Analyze:"Analyzovať", Demo:"Spustiť demo", How:"Ako to funguje",
+         Fast:"Rýchle", Fast2:"Sekundy", Explain:"Vysvetliteľné", Explain2:"Nie len číslo", Share:"Zdieľateľné", Share2:"Public report",
+         Trust:"Trust & Privacy", TrustHeadline:"Vyhodnotenie bez zbytočného zdieľania dát", TrustSub:"Prihlásenie je voliteľné. Pre históriu prípadov a zdieľateľné reporty sa prihlás cez Google.",
+         AuthStatusLabel:"Stav:", GsiNote:"Používame Google Identity Services (GSI). Bez redirectov. Bez “invalid_client” okna.",
+         Chip1:"Shareable reports", Chip2:"My Cases history", Chip3:"Confidence engine", Chip4:"Mobile-first UI",
+         Contact:"Kontakt:", UploadTitle:"Nahraj audio/video", Record:"Nahrávať", Stop:"Stop", MyCasesTitle:"My Cases", MyCasesSub:"Tvoja história prípadov (len po prihlásení).",
+         PublicTitle:"Public Report", PublicSub:"Otvor report podľa Case ID alebo priamo cez link /case/VS-...", Open:"Open",
+         ResultsLabel:"AI vyhodnotenie", ResultsTitle:"Výsledky", CopyJson:"Kopírovať JSON", CopyLink:"Kopírovať link", ShareBtn:"Zdieľať",
+         Risk:"Riziko", Reco:"Odporúčania", Disc:"VoiceSafe poskytuje orientačné vyhodnotenie rizika na základe signálov zo zvuku. Nie je to právne ani finančné poradenstvo.",
+         Step1A:"1. Nahraj", Step1B:"Záznam", Step2A:"2. AI analýza", Step2B:"Riziko", Step3A:"3. Report", Step3B:"Zdieľanie",
+         NotLogged:"Neprihlásený", Logged:"Prihlásený", NeedLogin:"Pre My Cases sa prihlás cez Google.", Loading:"Načítavam…", Analyzing:"Analyzujem…", Err:"Chyba", DemoLoaded:"Demo načítané. Skopíruj link a otvor na mobile.", Opened:"Report otvorený.", NotFound:"Nenašlo sa. Skontroluj Case ID alebo použi demo link." },
+    en:{ Upgrade:"Unlock Pro", PrivateFirst:"Privacy first", Headline:"Turn a suspicious voice note into a clear decision.", Sub:"Upload an audio or video clip. VoiceSafe returns a risk score, confidence, and next-step recommendations — ready to share.", Analyze:"Analyze", Demo:"Run demo", How:"How it works",
+         Fast:"Fast", Fast2:"Seconds", Explain:"Explainable", Explain2:"Not just a number", Share:"Shareable", Share2:"Public report",
+         Trust:"Trust & Privacy", TrustHeadline:"Evaluation without unnecessary data sharing", TrustSub:"Login is optional. For case history and shareable reports, sign in with Google.",
+         AuthStatusLabel:"Status:", GsiNote:"We use Google Identity Services (GSI). No redirects. No “invalid_client” popups.",
+         Chip1:"Shareable reports", Chip2:"My Cases history", Chip3:"Confidence engine", Chip4:"Mobile-first UI",
+         Contact:"Contact:", UploadTitle:"Upload audio/video", Record:"Record", Stop:"Stop", MyCasesTitle:"My Cases", MyCasesSub:"Your case history (requires login).",
+         PublicTitle:"Public Report", PublicSub:"Open a report by Case ID or via /case/VS-... link.", Open:"Open",
+         ResultsLabel:"AI assessment", ResultsTitle:"Results", CopyJson:"Copy JSON", CopyLink:"Copy link", ShareBtn:"Share",
+         Risk:"Risk", Reco:"Recommendations", Disc:"VoiceSafe provides an indicative risk evaluation based on audio signals. This is not legal or financial advice.",
+         Step1A:"1. Upload", Step1B:"Recording", Step2A:"2. AI analysis", Step2B:"Risk", Step3A:"3. Report", Step3B:"Sharing",
+         NotLogged:"Not signed in", Logged:"Signed in", NeedLogin:"Sign in with Google to view My Cases.", Loading:"Loading…", Analyzing:"Analyzing…", Err:"Error", DemoLoaded:"Demo loaded. Copy the link and open it on mobile.", Opened:"Report opened.", NotFound:"Not found. Check the Case ID or use the demo link." }
   };
 
+  function clamp(n,a,b){ n=Number(n); if(Number.isNaN(n)) return a; return Math.max(a,Math.min(b,n)); }
+  function as01(x){ const n=Number(x); if(Number.isNaN(n)) return null; if(n<=1) return clamp(n,0,1); return clamp(n/100,0,1); }
+  function fmtPct01(x01){ const n=Number(x01); if(Number.isNaN(n)) return "—"; return Math.round(clamp(n,0,1)*100) + "%"; }
   function getLang(){ return LS.get("vs_lang") || "sk"; }
   function setLang(l){ LS.set("vs_lang", l); applyLang(l); }
-  function t(key){ return I18N[getLang()][key] || key; }
+  function t(key){ return (I18N[getLang()] && I18N[getLang()][key]) ? I18N[getLang()][key] : key; }
 
   function applyLang(l){
     document.documentElement.lang = l;
@@ -604,98 +393,19 @@
     $("tStep3A").textContent = t("Step3A");
     $("tStep3B").textContent = t("Step3B");
 
-    $("langSK").classList.toggle("btnPrimary", l === "sk");
-    $("langEN").classList.toggle("btnPrimary", l === "en");
+    $("langSK").classList.toggle("btnPrimary", l==="sk");
+    $("langEN").classList.toggle("btnPrimary", l==="en");
   }
 
-  // =========================
-  // UI helpers
-  // =========================
   function setStatus(kind, msg){
     const box = $("statusBox");
     box.classList.remove("hidden");
     box.innerHTML = `<div class="font-semibold">${kind}</div><div class="text-white/70 mt-1">${msg}</div>`;
   }
-  function clearStatus(){
-    $("statusBox").classList.add("hidden");
-    $("statusBox").textContent = "";
-  }
+  function clearStatus(){ $("statusBox").classList.add("hidden"); $("statusBox").textContent=""; }
+  function debugOn(){ return new URLSearchParams(location.search).get("debug")==="1"; }
+  function setDebug(text){ if(!debugOn()) return; const db=$("debugBox"); db.classList.remove("hidden"); db.textContent=text; }
 
-  function fmtPct01(x01){
-    const n = Number(x01);
-    if (Number.isNaN(n)) return "—";
-    return Math.round(clamp(n,0,1) * 100) + "%";
-  }
-  function clamp(n,a,b){ n=Number(n); if(Number.isNaN(n)) return a; return Math.max(a,Math.min(b,n)); }
-  function as01(x){
-    const n = Number(x);
-    if(Number.isNaN(n)) return null;
-    if(n<=1) return clamp(n,0,1);
-    return clamp(n/100,0,1);
-  }
-
-  function riskStyles(level){
-    const L = String(level||"").toUpperCase();
-    if(L==="HIGH") return { label:"HIGH", color:"rgba(255,77,109,.22)", border:"rgba(255,77,109,.45)", glow:true };
-    if(L==="MEDIUM") return { label:"MEDIUM", color:"rgba(245,185,66,.18)", border:"rgba(245,185,66,.45)", glow:false };
-    if(L==="LOW") return { label:"LOW", color:"rgba(49,209,124,.18)", border:"rgba(49,209,124,.45)", glow:false };
-    return { label:"—", color:"rgba(255,255,255,.06)", border:"rgba(255,255,255,.18)", glow:false };
-  }
-
-  function setRiskBadge(level){
-    const st = riskStyles(level);
-    const el = $("riskBadge");
-    el.textContent = st.label;
-    el.style.background = st.color;
-    el.style.borderColor = st.border;
-
-    const small = $("riskBadgeSmall");
-    small.classList.toggle("hidden", st.label==="—");
-    small.textContent = st.label;
-    small.style.background = st.color;
-    small.style.borderColor = st.border;
-
-    // pulse on HIGH
-    $("riskCard").classList.toggle("pulseHigh", !!st.glow);
-  }
-
-  function setConfidence(conf01){
-    const v = as01(conf01);
-    const pct = v===null ? "—" : fmtPct01(v);
-    $("confText").textContent = pct;
-    $("confBar").style.width = v===null ? "0%" : (Math.round(v*100) + "%");
-  }
-
-  function setMetrics({scam, aiP, stress, hint}){
-    $("scamScoreText").textContent = scam==null ? "—" : fmtPct01(as01(scam));
-    $("aiProbText").textContent = aiP==null ? "—" : fmtPct01(as01(aiP));
-    $("stressText").textContent = stress==null ? "—" : fmtPct01(as01(stress));
-    $("hintText").textContent = hint || "—";
-  }
-
-  function setRecommendations(arr){
-    const list = $("recoList");
-    list.innerHTML = "";
-    const a = Array.isArray(arr) ? arr : [];
-    if(!a.length){
-      list.innerHTML = `<div class="text-white/60">—</div>`;
-      return;
-    }
-    a.slice(0,6).forEach((x)=>{
-      const div = document.createElement("div");
-      div.className = "pill rounded-2xl p-3";
-      div.textContent = x;
-      list.appendChild(div);
-    });
-  }
-
-  function showLoading(on){
-    $("loadingRow").classList.toggle("hidden", !on);
-  }
-
-  // =========================
-  // Tabs
-  // =========================
   function showTab(name){
     $("viewAnalyzer").classList.toggle("hidden", name!=="analyzer");
     $("viewMyCases").classList.toggle("hidden", name!=="mycases");
@@ -710,170 +420,148 @@
         if(btn.dataset.tab==="mycases") loadMyCases();
       });
     });
-    // default
     $("tabAnalyzer").classList.add("btnPrimary");
     showTab("analyzer");
   }
 
-  // =========================
-  // Auth state (JWT)
-  // =========================
   function getJwt(){ return LS.get("vs_jwt") || ""; }
   function setJwt(tkn){ if(tkn) LS.set("vs_jwt", tkn); }
   function clearJwt(){ LS.del("vs_jwt"); LS.del("vs_user"); }
-
   function setUserUI(user){
-    const chip = $("userChip");
-    const mobileLogout = $("logoutBtnMobile");
-
+    const chip=$("userChip"), mobileLogout=$("logoutBtnMobile");
     if(!user){
-      chip.classList.add("hidden");
-      mobileLogout.classList.add("hidden");
-      $("authStatus").textContent = t("NotLogged");
+      chip.classList.add("hidden"); mobileLogout.classList.add("hidden");
+      $("authStatus").textContent = t("NotLogged"); $("authDetail").textContent="";
       $("myCasesGate").textContent = t("NeedLogin");
       return;
     }
     $("authStatus").textContent = t("Logged");
+    $("authDetail").textContent = user.email ? user.email : "";
     $("myCasesGate").textContent = "";
-
     $("userPic").src = user.picture || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='18' fill='%2310182f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='22'%3EU%3C/text%3E%3C/svg%3E";
     $("userName").textContent = user.name || "User";
     $("userEmail").textContent = user.email || "";
-
-    chip.classList.remove("hidden");
-    mobileLogout.classList.remove("hidden");
+    chip.classList.remove("hidden"); mobileLogout.classList.remove("hidden");
   }
-
   async function loadMe(){
-    const jwt = getJwt();
+    const jwt=getJwt();
     if(!jwt){ setUserUI(null); return; }
     try{
-      const r = await fetch(API_BASE + "/me", { headers: { Authorization: "Bearer " + jwt }});
-      if(!r.ok) throw new Error("me failed");
-      const j = await r.json();
-      if(!j.ok) throw new Error("me not ok");
-      const user = j.user;
-      LS.set("vs_user", JSON.stringify(user));
-      setUserUI(user);
-    }catch(_){
-      clearJwt();
-      setUserUI(null);
-    }
-  }
-
-  function logout(){
-    clearJwt();
-    setUserUI(null);
-  }
-
-  // =========================
-  // Google Identity Services (GSI)
-  // =========================
-  function initGsi(){
-    if(!window.google || !google.accounts || !google.accounts.id){
-      // try later
-      setTimeout(initGsi, 300);
-      return;
-    }
-    try{
-      google.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
-        callback: async (resp)=>{
-          try{
-            clearStatus();
-            const cred = resp.credential;
-            const r = await fetch(API_BASE + "/auth/google", {
-              method:"POST",
-              headers:{ "Content-Type":"application/json" },
-              body: JSON.stringify({ credential: cred })
-            });
-            const j = await r.json();
-            if(!j.ok) throw new Error(j.error || "auth failed");
-
-            setJwt(j.token);
-            LS.set("vs_user", JSON.stringify(j.user));
-            setUserUI(j.user);
-            // optional: refresh my cases if opened
-            const isMyCases = !$("viewMyCases").classList.contains("hidden");
-            if(isMyCases) loadMyCases();
-          }catch(e){
-            setStatus(t("Err"), e.message || "Auth failed");
-          }
-        }
-      });
-
-      // render button
-      const wrap = $("gsiBtnWrap");
-      wrap.innerHTML = "";
-      google.accounts.id.renderButton(wrap, {
-        theme: "outline",
-        size: "large",
-        text: "continue_with",
-        shape: "pill",
-        width: 260
-      });
+      const r = await fetch(API_BASE + "/me", { headers:{ Authorization:"Bearer " + jwt } });
+      const j = await r.json().catch(()=>null);
+      if(!r.ok || !j || !j.ok) throw new Error(j?.error || "me failed");
+      LS.set("vs_user", JSON.stringify(j.user));
+      setUserUI(j.user);
+      setDebug("ME ok");
     }catch(e){
-      setStatus(t("Err"), "GSI init failed");
+      setDebug("ME failed: " + (e.message||""));
+      // only wipe if explicitly unauthorized
+      if(String(e.message||"").includes("401")){
+        clearJwt(); setUserUI(null);
+      }
     }
   }
+  function logout(){ clearJwt(); setUserUI(null); }
 
-  // =========================
-  // Upload / Analyze
-  // =========================
-  let lastJson = null;
-  let lastCaseId = null;
+  function initGsi(){
+    if(!window.google || !google.accounts || !google.accounts.id){ setTimeout(initGsi, 250); return; }
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: async (resp)=>{
+        try{
+          clearStatus();
+          setStatus("OK", "Signing in…");
+          const r = await fetch(API_BASE + "/auth/google", {
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify({ credential: resp.credential })
+          });
+          const j = await r.json().catch(()=>null);
+          if(!r.ok || !j || !j.ok) throw new Error(j?.error || "auth failed");
+          setJwt(j.token);
+          LS.set("vs_user", JSON.stringify(j.user));
+          setUserUI(j.user);
+          setStatus("OK", "Signed in.");
+          await loadMe();
+        }catch(e){
+          setStatus(t("Err"), e.message || "Auth failed");
+          setDebug("AUTH failed: " + (e.message||""));
+        }
+      }
+    });
+    const wrap=$("gsiBtnWrap"); wrap.innerHTML="";
+    google.accounts.id.renderButton(wrap, { theme:"outline", size:"large", text:"continue_with", shape:"pill", width:260 });
+  }
 
+  function riskStyles(level){
+    const L=String(level||"").toUpperCase();
+    if(L==="HIGH") return { label:"HIGH", color:"rgba(255,77,109,.22)", border:"rgba(255,77,109,.45)", glow:true };
+    if(L==="MEDIUM") return { label:"MEDIUM", color:"rgba(245,185,66,.18)", border:"rgba(245,185,66,.45)", glow:false };
+    if(L==="LOW") return { label:"LOW", color:"rgba(49,209,124,.18)", border:"rgba(49,209,124,.45)", glow:false };
+    return { label:"—", color:"rgba(255,255,255,.06)", border:"rgba(255,255,255,.18)", glow:false };
+  }
+  function setRiskBadge(level){
+    const st=riskStyles(level);
+    const el=$("riskBadge");
+    el.textContent=st.label; el.style.background=st.color; el.style.borderColor=st.border;
+    const small=$("riskBadgeSmall");
+    small.classList.toggle("hidden", st.label==="—");
+    small.textContent=st.label; small.style.background=st.color; small.style.borderColor=st.border;
+    $("riskCard").classList.toggle("pulseHigh", !!st.glow);
+  }
+  function setConfidence(conf01){
+    const v=as01(conf01);
+    $("confText").textContent = v===null ? "—" : fmtPct01(v);
+    $("confBar").style.width = v===null ? "0%" : (Math.round(v*100) + "%");
+  }
+  function setMetrics({scam, aiP, stress, hint}){
+    $("scamScoreText").textContent = scam==null ? "—" : fmtPct01(as01(scam));
+    $("aiProbText").textContent = aiP==null ? "—" : fmtPct01(as01(aiP));
+    $("stressText").textContent = stress==null ? "—" : fmtPct01(as01(stress));
+    $("hintText").textContent = hint || "—";
+  }
+  function setRecommendations(arr){
+    const list=$("recoList"); list.innerHTML="";
+    const a=Array.isArray(arr)?arr:[];
+    if(!a.length){ list.innerHTML=`<div class="text-white/60">—</div>`; return; }
+    a.slice(0,6).forEach(x=>{ const div=document.createElement("div"); div.className="pill rounded-2xl p-3"; div.textContent=x; list.appendChild(div); });
+  }
+  function showLoading(on){ $("loadingRow").classList.toggle("hidden", !on); }
+
+  let lastJson=null, lastCaseId=null;
   function setCaseId(cid){
-    lastCaseId = cid;
+    lastCaseId=cid;
     $("caseIdLabel").classList.toggle("hidden", !cid);
     $("caseIdText").classList.toggle("hidden", !cid);
     $("caseIdText").textContent = cid || "";
   }
-
-  function makePublicLink(caseId){
-    return BRAND_URL.replace(/\/$/,"") + "/case/" + encodeURIComponent(caseId);
-  }
+  function makePublicLink(caseId){ return BRAND_URL.replace(/\/$/,"") + "/case/" + encodeURIComponent(caseId); }
 
   async function analyzeFile(file){
     clearStatus();
-    if(!file){
-      setStatus(t("Err"), "No file selected.");
-      return;
-    }
-
-    showLoading(true);
-    setCaseId(null);
-
+    if(!file){ setStatus(t("Err"), "No file selected."); return; }
+    showLoading(true); setCaseId(null);
     try{
-      const form = new FormData();
+      setStatus("OK", t("Analyzing"));
+      const form=new FormData();
       form.append("file", file, file.name || "upload.bin");
-
-      const headers = {};
-      const jwt = getJwt();
-      if(jwt) headers["Authorization"] = "Bearer " + jwt;
-
+      const headers={};
+      const jwt=getJwt();
+      if(jwt) headers["Authorization"]="Bearer " + jwt;
       const r = await fetch(API_BASE + "/upload", { method:"POST", body: form, headers });
-      const j = await r.json();
-      if(!r.ok || j.status !== "success") throw new Error(j.detail || j.message || "Upload failed");
-
-      lastJson = j;
-      setCaseId(j.case_id);
-
+      const j = await r.json().catch(()=>null);
+      if(!r.ok || !j || j.status!=="success") throw new Error(j?.detail || j?.message || "Upload failed");
+      lastJson=j; setCaseId(j.case_id);
       const scores = j.ai?.scores || j.ai || {};
-      const scam = scores.scam_score ?? scores.scamScore ?? null;
-      const aiP = scores.ai_probability ?? scores.aiProbability ?? null;
-      const stress = scores.stress_level ?? scores.stressLevel ?? null;
-      const risk = scores.risk_level ?? scores.riskLevel ?? "—";
-      const conf = scores.confidence ?? null;
-
+      const scam=scores.scam_score ?? scores.scamScore ?? null;
+      const aiP=scores.ai_probability ?? scores.aiProbability ?? null;
+      const stress=scores.stress_level ?? scores.stressLevel ?? null;
+      const risk=scores.risk_level ?? scores.riskLevel ?? "—";
+      const conf=scores.confidence ?? null;
       setRiskBadge(risk);
       setConfidence(conf);
       setMetrics({ scam, aiP, stress, hint: (String(risk||"").toUpperCase()==="HIGH") ? "Action recommended" : "Review" });
-
-      const rec = j.ai?.recommendations || j.ai?.ai_json?.recommendations || j.ai?.scores?.recommendations || j.ai?.recommendations;
-      const rec2 = j.ai?.ai_json?.recommendations;
-      setRecommendations(rec || rec2 || []);
-
+      setRecommendations(j.ai?.recommendations || j.ai?.ai_json?.recommendations || []);
       setStatus("OK", t("Opened"));
     }catch(e){
       setStatus(t("Err"), e.message || "Analyze failed");
@@ -882,52 +570,60 @@
     }
   }
 
-  // =========================
-  // Recording
-  // =========================
-  let mediaRec = null;
-  let recChunks = [];
-  async function startRecording(){
+  async function openCase(caseId){
+    clearStatus(); showLoading(true);
     try{
-      clearStatus();
-      const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
-      recChunks = [];
-      mediaRec = new MediaRecorder(stream);
-      mediaRec.ondataavailable = (ev)=>{ if(ev.data && ev.data.size) recChunks.push(ev.data); };
-      mediaRec.onstop = ()=>{
-        stream.getTracks().forEach(t=>t.stop());
-        const blob = new Blob(recChunks, { type: "audio/webm" });
-        const file = new File([blob], "recording.webm", { type: "audio/webm" });
-        analyzeFile(file);
-      };
-      mediaRec.start();
-      $("btnRecord").classList.add("hidden");
-      $("btnStop").classList.remove("hidden");
-      setStatus("REC", "Recording…");
+      const r = await fetch(API_BASE + "/cases/" + encodeURIComponent(caseId));
+      const j = await r.json().catch(()=>null);
+      if(!r.ok || !j || !j.ok) throw new Error(t("NotFound"));
+      const item=j.item;
+      setCaseId(item.case_id);
+      setRiskBadge(item.risk_level || item.ai_json?.scores?.risk_level || "—");
+      setConfidence(item.confidence || item.ai_json?.scores?.confidence || null);
+      setMetrics({ scam:item.scam_score, aiP:item.ai_probability, stress:item.stress_level, hint:"Review" });
+      setRecommendations(item.ai_json?.recommendations || []);
+      lastJson={ ok:true, item };
+      setStatus("OK", t("Opened"));
     }catch(e){
-      setStatus(t("Err"), e.message || "Mic denied");
-    }
+      setRiskBadge("—"); setConfidence(null);
+      setMetrics({ scam:null, aiP:null, stress:null, hint:null });
+      setRecommendations([]);
+      setStatus(t("Err"), e.message || t("NotFound"));
+    }finally{ showLoading(false); }
   }
-  function stopRecording(){
+
+  function detectCaseIdFromUrl(){
+    const p=location.pathname||"";
+    const m=p.match(/\/case\/(VS-[A-Za-z0-9\-_.]+)/);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
+  async function copyText(txt){
     try{
-      if(mediaRec && mediaRec.state !== "inactive") mediaRec.stop();
-    }catch(_){}
-    $("btnRecord").classList.remove("hidden");
-    $("btnStop").classList.add("hidden");
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(txt);
+      }else{
+        const ta=document.createElement("textarea");
+        ta.value=txt; ta.style.position="fixed"; ta.style.top="-1000px";
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        document.execCommand("copy"); ta.remove();
+      }
+      setStatus("OK","Copied.");
+    }catch(_){ setStatus(t("Err"),"Copy failed."); }
+  }
+  function shareLink(link){
+    if(navigator.share){ navigator.share({ title:"VoiceSafe Report", url: link }).catch(()=>{}); return; }
+    window.open(link, "_blank", "noopener,noreferrer");
   }
 
-  // =========================
-  // My Cases (BLOCK 2)
-  // =========================
   function renderMyCaseRow(item){
-    const wrap = document.createElement("button");
-    wrap.className = "pill rounded-2xl p-4 text-left hover:bg-white/10 transition";
-    const d = new Date(item.created_at);
-    const when = isFinite(d.getTime()) ? d.toLocaleString() : item.created_at;
-
-    const risk = String(item.risk_level || "—").toUpperCase();
-    const conf = item.confidence != null ? fmtPct01(as01(item.confidence)) : "—";
-
+    const wrap=document.createElement("button");
+    wrap.type="button";
+    wrap.className="pill rounded-2xl p-4 text-left hover:bg-white/10 transition";
+    const d=new Date(item.created_at);
+    const when=isFinite(d.getTime()) ? d.toLocaleString() : (item.created_at||"");
+    const risk=String(item.risk_level||"—").toUpperCase();
+    const conf=item.confidence!=null ? fmtPct01(as01(item.confidence)) : "—";
     wrap.innerHTML = `
       <div class="flex items-center justify-between gap-2">
         <div class="font-semibold">${item.case_id}</div>
@@ -939,158 +635,86 @@
         ${item.platform ? `<span class="kbd">${item.platform}</span>` : ""}
         ${item.country ? `<span class="kbd">${item.country}</span>` : ""}
         ${item.language ? `<span class="kbd">${item.language}</span>` : ""}
-      </div>
-    `;
+      </div>`;
     wrap.addEventListener("click", ()=>{
-      openCase(item.case_id);
-      // switch to analyzer results (public report render is same)
+      const cid=item.case_id;
+      $("publicCaseId").value=cid;
       document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("btnPrimary"));
       $("tabPublic").classList.add("btnPrimary");
       showTab("public");
-      $("publicCaseId").value = item.case_id;
+      openCase(cid);
     });
     return wrap;
   }
 
   async function loadMyCases(){
-    const jwt = getJwt();
+    const jwt=getJwt();
     if(!jwt){
-      $("myCasesGate").textContent = t("NeedLogin");
-      $("myCasesList").innerHTML = "";
+      $("myCasesGate").textContent=t("NeedLogin");
+      $("myCasesList").innerHTML="";
       return;
     }
-    $("myCasesGate").textContent = "";
+    $("myCasesGate").textContent="";
     $("myCasesList").innerHTML = `<div class="pill rounded-2xl p-4 text-sm text-white/70">${t("Loading")}</div>`;
-
     try{
-      const r = await fetch(API_BASE + "/my-cases?limit=50", { headers: { Authorization: "Bearer " + jwt }});
-      const j = await r.json();
-      if(!r.ok || !j.ok) throw new Error(j.error || "my-cases failed");
-      const items = j.items || [];
-      $("myCasesList").innerHTML = "";
+      const r = await fetch(API_BASE + "/my-cases?limit=50", { headers:{ Authorization:"Bearer " + jwt } });
+      const j = await r.json().catch(()=>null);
+      if(!r.ok || !j || !j.ok) throw new Error(j?.error || "my-cases failed");
+      const items=j.items||[];
+      $("myCasesList").innerHTML="";
       if(!items.length){
         $("myCasesList").innerHTML = `<div class="pill rounded-2xl p-4 text-sm text-white/70">No cases yet.</div>`;
         return;
       }
       items.forEach(it => $("myCasesList").appendChild(renderMyCaseRow(it)));
     }catch(e){
-      $("myCasesList").innerHTML = "";
+      $("myCasesList").innerHTML="";
       $("myCasesGate").textContent = e.message || "Failed";
     }
   }
 
-  // =========================
-  // Public Case Page (BLOCK 3)
-  // =========================
-  async function openCase(caseId){
-    clearStatus();
-    showLoading(true);
+  let mediaRec=null, recChunks=[];
+  async function startRecording(){
     try{
-      const r = await fetch(API_BASE + "/cases/" + encodeURIComponent(caseId));
-      const j = await r.json();
-      if(!r.ok || !j.ok) throw new Error(t("NotFound"));
-      const item = j.item;
-
-      setCaseId(item.case_id);
-
-      // normalize fields
-      const scam = item.scam_score ?? item.ai_json?.scores?.scam_score;
-      const aiP = item.ai_probability ?? item.ai_json?.scores?.ai_probability;
-      const stress = item.stress_level ?? item.ai_json?.scores?.stress_level;
-      const risk = item.risk_level ?? item.ai_json?.scores?.risk_level ?? "—";
-      const conf = item.confidence ?? item.ai_json?.scores?.confidence;
-
-      setRiskBadge(risk);
-      setConfidence(conf);
-      setMetrics({ scam, aiP, stress, hint: (String(risk||"").toUpperCase()==="HIGH") ? "Action recommended" : "Review" });
-
-      const rec = item.ai_json?.recommendations || item.ai_json?.scores?.recommendations || [];
-      setRecommendations(rec);
-
-      lastJson = { ok:true, item };
-      setStatus("OK", t("Opened"));
-    }catch(e){
-      setRiskBadge("—");
-      setConfidence(null);
-      setMetrics({ scam:null, aiP:null, stress:null, hint:null });
-      setRecommendations([]);
-      setStatus(t("Err"), e.message || t("NotFound"));
-    }finally{
-      showLoading(false);
-    }
+      clearStatus();
+      const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+      recChunks=[];
+      mediaRec = new MediaRecorder(stream);
+      mediaRec.ondataavailable = (ev)=>{ if(ev.data && ev.data.size) recChunks.push(ev.data); };
+      mediaRec.onstop = ()=>{
+        stream.getTracks().forEach(t=>t.stop());
+        const blob = new Blob(recChunks, { type:"audio/webm" });
+        analyzeFile(new File([blob],"recording.webm",{type:"audio/webm"}));
+      };
+      mediaRec.start();
+      $("btnRecord").classList.add("hidden");
+      $("btnStop").classList.remove("hidden");
+      setStatus("REC","Recording…");
+    }catch(e){ setStatus(t("Err"), e.message || "Mic denied"); }
+  }
+  function stopRecording(){
+    try{ if(mediaRec && mediaRec.state!=="inactive") mediaRec.stop(); }catch(_){}
+    $("btnRecord").classList.remove("hidden");
+    $("btnStop").classList.add("hidden");
   }
 
-  function detectCaseIdFromUrl(){
-    const p = location.pathname || "";
-    // /case/VS-...
-    const m = p.match(/\/case\/(VS-[A-Za-z0-9\-_.]+)/);
-    if(m) return decodeURIComponent(m[1]);
-    return null;
-  }
-
-  function switchToPublicStandalone(caseId){
-    // hide hero for investor clean look
-    $("hero").classList.add("hidden");
-    // set tab
-    document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("btnPrimary"));
-    $("tabPublic").classList.add("btnPrimary");
-    showTab("public");
-    $("publicCaseId").value = caseId;
-    openCase(caseId);
-    // scroll to results
-    setTimeout(()=>window.scrollTo({ top: $("resultsCard").offsetTop - 12, behavior:"smooth" }), 50);
-  }
-
-  // =========================
-  // Share buttons
-  // =========================
-  async function copyText(txt){
-    try{
-      await navigator.clipboard.writeText(txt);
-      setStatus("OK", "Copied.");
-    }catch(_){
-      // fallback
-      const ta = document.createElement("textarea");
-      ta.value = txt;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
-      setStatus("OK", "Copied.");
-    }
-  }
-
-  function shareLink(link){
-    if(navigator.share){
-      navigator.share({ title:"VoiceSafe Report", url: link }).catch(()=>{});
-      return;
-    }
-    // fallback: open mail composer
-    window.location.href = "mailto:?subject=" + encodeURIComponent("VoiceSafe Report") + "&body=" + encodeURIComponent(link);
-  }
-
-  // =========================
-  // Bind UI
-  // =========================
   function bindUI(){
     $("langSK").addEventListener("click", ()=>setLang("sk"));
     $("langEN").addEventListener("click", ()=>setLang("en"));
-
-    $("upgradeBtn").addEventListener("click", ()=> window.location.href = STRIPE_CHECKOUT_URL);
+    $("upgradeBtn").addEventListener("click", ()=> location.href = STRIPE_CHECKOUT_URL);
 
     $("btnAnalyzeScroll").addEventListener("click", ()=> $("app").scrollIntoView({ behavior:"smooth", block:"start" }));
     $("btnHow").addEventListener("click", ()=> $("app").scrollIntoView({ behavior:"smooth", block:"start" }));
 
     $("btnDemo").addEventListener("click", ()=>{
-      // Demo shareable case (server fallback ensures mobile works)
-      const demoId = "VS-DEMO-80617C";
-      $("publicCaseId").value = demoId;
+      const demoId="VS-DEMO-80617C";
+      $("publicCaseId").value=demoId;
       openCase(demoId);
       setStatus("OK", t("DemoLoaded"));
     });
 
     $("btnAnalyze").addEventListener("click", ()=>{
-      const f = $("fileInput").files && $("fileInput").files[0];
+      const f=$("fileInput").files && $("fileInput").files[0];
       analyzeFile(f);
     });
 
@@ -1098,27 +722,14 @@
     $("btnStop").addEventListener("click", stopRecording);
 
     $("btnOpenPublic").addEventListener("click", ()=>{
-      const cid = ($("publicCaseId").value || "").trim();
+      const cid=($("publicCaseId").value||"").trim();
       if(!cid) return setStatus(t("Err"), "Missing Case ID");
       openCase(cid);
     });
 
-    $("btnCopyJson").addEventListener("click", ()=>{
-      if(!lastJson) return setStatus(t("Err"), "Nothing to copy.");
-      copyText(JSON.stringify(lastJson, null, 2));
-    });
-
-    $("btnCopyLink").addEventListener("click", ()=>{
-      const cid = lastCaseId || ($("publicCaseId").value || "").trim();
-      if(!cid) return setStatus(t("Err"), "No Case ID.");
-      copyText(makePublicLink(cid));
-    });
-
-    $("btnShare").addEventListener("click", ()=>{
-      const cid = lastCaseId || ($("publicCaseId").value || "").trim();
-      if(!cid) return setStatus(t("Err"), "No Case ID.");
-      shareLink(makePublicLink(cid));
-    });
+    $("btnCopyJson").addEventListener("click", ()=>{ if(!lastJson) return setStatus(t("Err"), "Nothing to copy."); copyText(JSON.stringify(lastJson,null,2)); });
+    $("btnCopyLink").addEventListener("click", ()=>{ const cid=lastCaseId || ($("publicCaseId").value||"").trim(); if(!cid) return setStatus(t("Err"), "No Case ID."); copyText(makePublicLink(cid)); });
+    $("btnShare").addEventListener("click", ()=>{ const cid=lastCaseId || ($("publicCaseId").value||"").trim(); if(!cid) return setStatus(t("Err"), "No Case ID."); shareLink(makePublicLink(cid)); });
 
     $("btnRefreshMyCases").addEventListener("click", loadMyCases);
 
@@ -1126,25 +737,25 @@
     $("logoutBtnMobile").addEventListener("click", logout);
   }
 
-  // =========================
-  // Init
-  // =========================
   function init(){
     applyLang(getLang());
     bindTabs();
     bindUI();
     initGsi();
 
-    // user from cache then validate
-    try{
-      const u = JSON.parse(LS.get("vs_user") || "null");
-      if(u) setUserUI(u); else setUserUI(null);
-    }catch(_){ setUserUI(null); }
+    try{ const u=JSON.parse(LS.get("vs_user")||"null"); setUserUI(u||null); }catch(_){ setUserUI(null); }
     loadMe();
 
-    // Public route
     const cid = detectCaseIdFromUrl();
-    if(cid) switchToPublicStandalone(cid);
+    if(cid){
+      $("hero").classList.add("hidden");
+      document.querySelectorAll("[data-tab]").forEach(b=>b.classList.remove("btnPrimary"));
+      $("tabPublic").classList.add("btnPrimary");
+      showTab("public");
+      $("publicCaseId").value=cid;
+      openCase(cid);
+      setTimeout(()=>window.scrollTo({ top: $("resultsCard").offsetTop - 12, behavior:"smooth" }), 80);
+    }
   }
 
   init();
