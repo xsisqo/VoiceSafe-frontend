@@ -647,7 +647,7 @@ Results
               </div>
             </div>
 
-            <div class="mt-4 grid sm:grid-cols-3 gap-3">
+            <div class="mt-4 grid sm:grid-cols-4 gap-3">
               <div class="glass2 rounded-2xl p-4">
                 <div class="text-xs text-white/60" data-i18n="scamScore">Scam score</div>
                 <div class="mt-1 text-2xl font-semibold"><span id="scamScore">—</span><span class="text-white/60 text-sm">%</span></div>
@@ -670,6 +670,22 @@ Results
                 </div>
               </div>
             </div>
+
+            <div class="glass2 rounded-2xl p-4">
+  <div class="text-xs text-white/60">Trust Score</div>
+
+  <div class="mt-1 text-2xl font-semibold">
+    <span id="trustScore">—</span>
+    <span class="text-white/60 text-sm">/100</span>
+  </div>
+
+  <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+    <div id="trustBar"
+      class="h-2 rounded-full bg-emerald-400/80"
+      style="width:0%">
+    </div>
+  </div>
+</div>
 
             <div class="mt-4 grid sm:grid-cols-2 gap-3">
               <div class="glass2 rounded-2xl p-4">
@@ -1459,6 +1475,35 @@ if (btn) {
     }
   }
 
+  function calculateTrust(norm){
+
+  const scam = norm.scamPct ?? 0
+  const ai = norm.aiPct ?? 0
+  const stress = norm.stressPct ?? 0
+
+  // weighted fraud risk
+  const risk = (scam*0.5 + ai*0.3 + stress*0.2)
+
+  const trust = Math.max(0, Math.round(100 - risk))
+
+  const el = document.getElementById("trustScore")
+  const bar = document.getElementById("trustBar")
+
+  if(el) el.textContent = trust
+
+  if(bar){
+    bar.style.transition = "width 1s ease"
+    bar.style.width = trust + "%"
+
+    bar.classList.remove("bg-emerald-400/80","bg-amber-400/80","bg-red-400/80")
+
+    if(trust >= 70) bar.classList.add("bg-emerald-400/80")
+    else if(trust >= 40) bar.classList.add("bg-amber-400/80")
+    else bar.classList.add("bg-red-400/80")
+  }
+
+}
+
   function setResultUI(payload){
     const l = lang();
     const norm = normalizePayload(payload);
@@ -1476,6 +1521,7 @@ if (btn) {
 
     setRiskVisual(norm.level);
     setBars(norm);
+    calculateTrust(norm);
 
     qs("caseId").textContent = norm.caseId ? String(norm.caseId) : "—";
     window.__VS_LAST_RESULT__ = norm.raw;
