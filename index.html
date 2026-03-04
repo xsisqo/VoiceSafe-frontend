@@ -176,17 +176,7 @@
             <option value="en">English</option>
           </select>
         </div>
-
-        <button id="modeProd" class="chip" title="Use PROD">
-          <span class="w-2 h-2 rounded-full" style="background: var(--good)"></span>
-          <span class="mono">PROD</span>
-        </button>
-        <button id="modeLocal" class="chip" title="Use LOCAL">
-          <span class="w-2 h-2 rounded-full" style="background: rgba(255,255,255,.35)"></span>
-          <span class="mono">LOCAL</span>
-        </button>
-
-        <button id="upgradeBtn" class="btn btn-warn">
+<button id="upgradeBtn" class="btn btn-warn">
           <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z"/></svg>
           <span id="upgradeTxt">Pro</span>
         </button>
@@ -577,8 +567,8 @@
   (function(){
     window.GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || "YOUR_CLIENT_ID.apps.googleusercontent.com";
     window.URLS = {
-      PROD: "https://voicesafe-backend-1.onrender.com",
-      LOCAL: "http://127.0.0.1:10000"
+      : "https://voicesafe-backend-1.onrender.com",
+      : "http://127.0.0.1:10000"
     };
     window.STRIPE_CHECKOUT_URL = window.STRIPE_CHECKOUT_URL || "";
 
@@ -620,7 +610,7 @@
     }
 
     const state = {
-      mode: localStorage.getItem("vs_mode") || "PROD",
+      // production-only
       apiKey: localStorage.getItem("vs_api_key") || "",
       bearer: localStorage.getItem("vs_token") || "",
       user: safeParse(localStorage.getItem("vs_user")),
@@ -631,9 +621,8 @@
       chunks: []
     };
 
-    function baseUrl(){
-      return state.mode === "LOCAL" ? window.URLS.LOCAL : window.URLS.PROD;
-    }
+    function baseUrl(){ return window.BACKEND_URL; }
+
     function authHeaders(){
       const h = {};
       if (state.apiKey) h["x-api-key"] = state.apiKey;
@@ -753,28 +742,8 @@
 
     const caseIdFromRoute = detectCaseRoute();
     if (caseIdFromRoute){
-      setModeFromStorage();
-      enterCasePage(caseIdFromRoute);
+enterCasePage(caseIdFromRoute);
       return;
-    }
-
-    function setModeFromStorage(){
-      const m = localStorage.getItem("vs_mode");
-      if (m === "LOCAL" || m === "PROD") state.mode = m;
-      $("baseUrlLbl").textContent = baseUrl();
-      $("modeProd").style.opacity = (state.mode==="PROD") ? "1" : ".65";
-      $("modeLocal").style.opacity = (state.mode==="LOCAL") ? "1" : ".65";
-    }
-
-    function setMode(m){
-      state.mode = m;
-      localStorage.setItem("vs_mode", m);
-      $("baseUrlLbl").textContent = baseUrl();
-      $("modeProd").style.opacity = (m==="PROD") ? "1" : ".65";
-      $("modeLocal").style.opacity = (m==="LOCAL") ? "1" : ".65";
-      healthCheck();
-      listCases();
-      loadStats();
     }
 
     function updateAuthStatus(){
@@ -798,10 +767,7 @@
     }
 
     function bindUI(){
-      $("modeProd").addEventListener("click", () => setMode("PROD"));
-      $("modeLocal").addEventListener("click", () => setMode("LOCAL"));
-
-      $("apiKeyInput").value = state.apiKey;
+$("apiKeyInput").value = state.apiKey;
       $("btnSaveKey").addEventListener("click", () => {
         state.apiKey = ($("apiKeyInput").value || "").trim();
         if (state.apiKey) localStorage.setItem("vs_api_key", state.apiKey);
@@ -1215,14 +1181,13 @@
     $("langSelect").addEventListener("change", (e)=> applyLang(e.target.value));
 
     // init
-    setModeFromStorage();
-    updateAuthStatus();
+updateAuthStatus();
     bindUI();
 
     const lang = localStorage.getItem("vs_lang") || "sk";
     $("langSelect").value = lang;
     applyLang(lang);
-
+    $("baseUrlLbl").textContent = baseUrl();
     healthCheck();
     listCases();
     loadStats();
