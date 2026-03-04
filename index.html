@@ -628,6 +628,14 @@ Results
               <div class="mt-2 text-lg font-semibold" id="riskTitle">—</div>
               <div class="mt-1 text-sm text-white/65" id="riskText">—</div>
 
+              <div id="scamAlert"
+     class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
+  <div class="flex items-center gap-2 font-semibold">⚠️ Possible Scam Call Detected</div>
+  <div class="text-sm mt-1 text-red-200/80">
+    Do not send money. Verify caller identity through an official number.
+  </div>
+</div>
+
               <div class="mt-4 glass2 rounded-xl p-4">
   <div class="text-xs text-white/60">AI Risk Explanation</div>
 
@@ -1543,33 +1551,19 @@ function generateExplanation(norm){
 
 function updateScamAlert(norm){
 
-  const scam = norm.scamPct ?? 0
-  const stress = norm.stressPct ?? 0
-
   const alert = document.getElementById("scamAlert")
-
   if(!alert) return
 
-  if(scam > 75 && stress > 70){
+  const scam = Number(norm.scamPct ?? 0)
+  const stress = Number(norm.stressPct ?? 0)
+
+  if (scam > 75 && stress > 70) {
     alert.classList.remove("hidden")
   } else {
     alert.classList.add("hidden")
   }
 
 }
-
-<div id="scamAlert"
-     class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
-
-  <div class="flex items-center gap-2 font-semibold">
-    ⚠️ Possible Scam Call Detected
-  </div>
-
-  <div class="text-sm mt-1 text-red-200/80">
-    Do not send money. Verify caller identity through an official number.
-  </div>
-
-</div>
 
   function setResultUI(payload){
     const l = lang();
