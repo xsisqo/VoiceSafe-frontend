@@ -126,24 +126,7 @@
 /* Icon styles */
 .btn-icon{display:inline-flex;align-items:center;gap:10px}
 .btn-icon svg{width:18px;height:18px;flex:0 0 18px}
-
-    /* PRO MAX patch: transparent navbar + safe area */
-    .topbar, .navBar, header.stickyTop, .stickyTop, .navSticky {
-      background: rgba(0,0,0,0) !important;
-      backdrop-filter: blur(10px);
-    }
-    @supports(padding: max(0px)){
-      .safe-top { padding-top: max(0.75rem, env(safe-area-inset-top)); }
-    }
-    /* Results pulse */
-    .pulseSoft { animation: pulseSoft 2.2s ease-in-out infinite; }
-    @keyframes pulseSoft {
-      0% { box-shadow: 0 0 0 rgba(59,130,246,.15); }
-      50% { box-shadow: 0 0 24px rgba(59,130,246,.35); }
-      100% { box-shadow: 0 0 0 rgba(59,130,246,.15); }
-    }
-
-  </style>
+</style>
 </head>
 
 <body class="min-h-screen">
@@ -254,12 +237,18 @@
           <div class="glass rounded-3xl p-6">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-sm text-white/60">Enterprise status</div>
-                <div class="mt-1 font-semibold" id="backendStatus">Operational</div>
+                <div class="text-sm text-white/60" data-i18n="statusTitle">Service status</div>
+                <div class="mt-1 font-semibold" id="backendStatus">—</div>
               </div>
+              <div class="text-xs text-white/60 mono">
+                <span data-i18n="modeLabel">Mode</span>: <span id="modeLabel">PROD</span>
               </div>
+            </div>
 
-            <div class="text-xs text-white/60" data-i18n="modeProdDesc">Render backend</div>
+            <div class="mt-4 grid grid-cols-2 gap-3">
+              <button class="btn rounded-2xl px-4 py-3 text-left" id="modeProd" type="button">
+                <div class="font-semibold">PROD</div>
+                <div class="text-xs text-white/60" data-i18n="modeProdDesc">Render backend</div>
               </button>
               <button class="btn rounded-2xl px-4 py-3 text-left" id="modeLocal" type="button">
                 <div class="font-semibold">LOCAL</div>
@@ -277,7 +266,7 @@
 
             <div class="mt-4 flex items-center gap-3">
               <div class="w-2.5 h-2.5 rounded-full bg-emerald-400/80" id="statusDot"></div>
-              
+              <div class="text-xs text-white/60 mono" id="backendUrlLabel">—</div>
             </div>
           </div>
         </div>
@@ -700,7 +689,8 @@
           <div>
             <div class="text-white/80 font-semibold mb-2" data-i18n="footerLinks">Links</div>
             <a class="block text-white/60 hover:text-white/80" href="https://voicesafe.ai" target="_blank" rel="noreferrer">voicesafe.ai</a>
-            </div>
+            <a class="block text-white/60 hover:text-white/80" href="https://voicesafe-backend-1.onrender.com" target="_blank" rel="noreferrer">Backend</a>
+          </div>
         </div>
       </div>
 
@@ -728,7 +718,8 @@
   // CONFIG
   // ===========================
   window.URLS = {
-    PROD: "https://voicesafe-backend-1.onrender.com"
+    PROD: "https://voicesafe-backend-1.onrender.com",
+    LOCAL: "http://127.0.0.1:10000"
   };
 
   window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
@@ -736,7 +727,7 @@
 
   // Google Identity Services (GSI) — set your Client ID here
   // Example: "1234567890-abcdefg.apps.googleusercontent.com"
-  window.GOOGLE_CLIENT_ID = "348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com";
+  window.GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || "PASTE_YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
 
   function setUserBadgeFromStorage(){
     const badge = document.getElementById("userBadge");
@@ -1217,17 +1208,9 @@
     const pill = qs("riskPill");
     const riskLevelEl = qs("riskLevel");
 
-    // pulse: soft on any result, strong on HIGH
-    if (resultsCard){
-      const has = (level === "LOW" || level === "MEDIUM" || level === "HIGH");
-      resultsCard.classList.toggle("pulseSoft", has);
-      resultsCard.classList.toggle("pulseHigh", level === "HIGH");
-    }
-    if (actionCard){
-      const has = (level === "LOW" || level === "MEDIUM" || level === "HIGH");
-      actionCard.classList.toggle("pulseSoft", has);
-      actionCard.classList.toggle("pulseHigh", level === "HIGH");
-    }
+    // pulse only on HIGH
+    if (resultsCard) resultsCard.classList.toggle("pulseHigh", level === "HIGH");
+    if (actionCard) actionCard.classList.toggle("pulseHigh", level === "HIGH");
 
     // gradients
     if (actionCard){
@@ -1308,10 +1291,12 @@
   let backendBase = window.URLS.PROD;
   let MODE = "PROD";
 
-  function setMode(_mode){
-    MODE = "PROD";
-    backendBase = window.URLS.PROD;
-    // production locked
+  function setMode(mode){
+    MODE = mode;
+    backendBase = window.URLS[mode] || backendBase;
+    qs("modeLabel").textContent = mode;
+    qs("backendUrlLabel").textContent = backendBase;
+    toast("Mode: " + mode);
     checkBackend();
   }
 
@@ -1787,7 +1772,8 @@
     qs("howBtnHero").addEventListener("click", how);
     qs("howBtnTop").addEventListener("click", how);
 
-    setMode("LOCAL"); });
+    qs("modeProd").addEventListener("click", ()=> { localStorage.setItem("vs_mode","PROD"); setMode("PROD"); });
+    qs("modeLocal").addEventListener("click", ()=> { localStorage.setItem("vs_mode","LOCAL"); setMode("LOCAL"); });
 
     qs("upgradeBtn").addEventListener("click", ()=> { window.location.href = window.STRIPE_CHECKOUT_URL; });
     const manage = qs("manageBillingBtn");
