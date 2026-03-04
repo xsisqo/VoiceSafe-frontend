@@ -1,1198 +1,1803 @@
 <!doctype html>
-<html lang="sk">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>VoiceSafe – Enterprise Anti‑Scam Voice Analyzer</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>VoiceSafe — AI Voice Scam Risk</title>
 
-  <!-- Tailwind (CDN) -->
+  <!-- Tailwind (CDN prototype). For production: compile Tailwind. -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Font -->
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
   <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="description" content="VoiceSafe analyzes voice/audio for scam-risk signals and provides a clear, actionable risk assessment." />
+
   <style>
     :root{
-      --bg0:#070B14;
-      --bg1:#0B1220;
+      --bg0:#070b14;
+      --bg1:#0b1220;
       --card: rgba(255,255,255,.06);
-      --stroke: rgba(255,255,255,.12);
+      --card2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
       --muted2: rgba(255,255,255,.55);
-      --shadow: 0 18px 60px rgba(0,0,0,.50);
-      --good:#22c55e;
-      --med:#f59e0b;
-      --high:#ef4444;
-      --brand1:#4f46e5;
-      --brand2:#06b6d4;
-      --radius: 22px;
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
     }
-    html,body{height:100%}
-    body{
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    html,body{
       background:
-        radial-gradient(1200px 700px at 15% 10%, rgba(79,70,229,.33), transparent 55%),
-        radial-gradient(900px 520px at 85% 20%, rgba(6,182,212,.22), transparent 55%),
-        radial-gradient(900px 520px at 60% 92%, rgba(16,185,129,.16), transparent 55%),
+        radial-gradient(1200px 700px at 20% 10%, rgba(34,197,94,.14), transparent 55%),
+        radial-gradient(900px 600px at 85% 20%, rgba(59,130,246,.14), transparent 55%),
+        radial-gradient(900px 600px at 70% 85%, rgba(245,158,11,.12), transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
-      color: rgba(255,255,255,.93);
+      color:var(--text);
     }
-    .glass{
-      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
+    .glass{background: var(--card); border: 1px solid var(--stroke); box-shadow: var(--shadow); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
+    .glass2{background: var(--card2); border: 1px solid var(--stroke); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
+    .chip{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);}
+    .btn{border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);}
+    .btn:hover{background: rgba(255,255,255,.10);}
+    .btnPrimary{background: linear-gradient(135deg, rgba(245,158,11,.95), rgba(245,158,11,.55)); border:1px solid rgba(245,158,11,.60);}
+    .btnPrimary:hover{filter: brightness(1.03);}
+    .btnDark{background: rgba(0,0,0,.20); border:1px solid rgba(255,255,255,.12);}
+    .ringGlow{box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 20px 80px rgba(34,197,94,.18);}
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+
+    /* Dropdown */
+    .dd{position: relative;}
+    .ddMenu{position:absolute; right:0; top:calc(100% + 8px); min-width: 240px; z-index: 50;}
+    .ddItem{display:flex; gap:.5rem; align-items:center; padding:.65rem .75rem; border-radius:.75rem;}
+    .ddItem:hover{background: rgba(255,255,255,.08);}
+    .ddBackdrop{position: fixed; inset: 0; z-index: 40;}
+
+    html{scroll-behavior:smooth;}
+
+    /* Loading overlay */
+    .loadingOverlay{
+      position:absolute; inset:0;
+      background: rgba(7, 11, 20, .55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 1.5rem;
+      z-index: 20;
     }
-    .chip{
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
+    .spinner{
+      width: 22px; height: 22px;
       border-radius: 999px;
-      padding: .35rem .7rem;
-      font-size: .85rem;
-      color: rgba(255,255,255,.80);
-      display:inline-flex; align-items:center; gap:.5rem;
-      white-space: nowrap;
+      border: 2px solid rgba(255,255,255,.22);
+      border-top-color: rgba(255,255,255,.75);
+      animation: spin 900ms linear infinite;
     }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
-      border-radius: 16px;
-      padding: .9rem 1rem;
-      font-weight: 650;
-      transition: transform .12s ease, filter .12s ease, background .12s ease, border-color .12s ease;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.08);
-      color: rgba(255,255,255,.92);
-      user-select:none;
-    }
-    .btn:hover{ transform: translateY(-1px); filter: brightness(1.04); background: rgba(255,255,255,.11);}
-    .btn:active{ transform: translateY(0); filter: brightness(.98); }
-    .btn-primary{
-      border-color: rgba(79,70,229,.40);
-      background: linear-gradient(90deg, rgba(79,70,229,.95), rgba(6,182,212,.86));
-      color: #06101c;
-    }
-    .btn-ghost{
-      background: rgba(255,255,255,.05);
-      border-color: rgba(255,255,255,.10);
-      color: rgba(255,255,255,.82);
-    }
-    .btn-warn{
-      border-color: rgba(245,158,11,.40);
-      background: rgba(245,158,11,.14);
-    }
-    .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;}
-    .muted{ color: var(--muted); }
-    .muted2{ color: var(--muted2); }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .shimmer{ position:relative; overflow:hidden; }
-    .shimmer:before{
-      content:""; position:absolute; inset:0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-      transform: translateX(-60%);
-      animation: shimmer 1.25s infinite;
-    }
-    @keyframes shimmer{ 0%{transform:translateX(-60%)} 100%{transform:translateX(160%)} }
-
-    .bar{ height: 10px; border-radius:999px; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.10); overflow:hidden; }
-    .bar > div{
-      height: 100%; width:0%;
-      border-radius:999px;
-      transition: width .9s cubic-bezier(.2,.8,.2,1);
-      background: linear-gradient(90deg, rgba(34,197,94,.95), rgba(245,158,11,.92), rgba(239,68,68,.92));
-    }
-
-    .riskCard{
-      border-radius: calc(var(--radius) + 2px);
-      border: 1px solid rgba(255,255,255,.14);
-      background: radial-gradient(900px 280px at 20% 0%, rgba(79,70,229,.22), transparent 55%),
-                  radial-gradient(900px 280px at 80% 0%, rgba(6,182,212,.18), transparent 55%),
-                  rgba(255,255,255,.05);
-      transition: transform .15s ease, box-shadow .2s ease;
-      box-shadow: 0 10px 40px rgba(0,0,0,.35);
-      position:relative;
-    }
-    .riskCard.high{ animation: pulseGlow 1.25s infinite; border-color: rgba(239,68,68,.35); }
+    /* Pulse for HIGH risk */
+    .pulseHigh{ animation: pulseGlow 1.25s ease-in-out infinite; }
     @keyframes pulseGlow{
-      0%{ box-shadow: 0 10px 40px rgba(0,0,0,.35), 0 0 0 rgba(239,68,68,0); }
-      50%{ box-shadow: 0 10px 40px rgba(0,0,0,.35), 0 0 32px rgba(239,68,68,.25); }
-      100%{ box-shadow: 0 10px 40px rgba(0,0,0,.35), 0 0 0 rgba(239,68,68,0); }
+      0%, 100% { box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 22px 70px rgba(239,68,68,.12); }
+      50% { box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 26px 90px rgba(239,68,68,.22); }
     }
 
-    .toast{
-      position: fixed; right: 16px; bottom: 16px; z-index: 60;
-      min-width: 280px; max-width: 460px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(10,16,28,.86);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      padding: 12px 12px;
-      transform: translateY(12px);
-      opacity: 0;
-      pointer-events:none;
-      transition: opacity .18s ease, transform .18s ease;
+    /* Bar shimmer */
+    .barAnim{ position: relative; overflow: hidden; }
+    .barAnim::after{
+      content:"";
+      position:absolute; inset:0;
+      transform: translateX(-60%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.20), transparent);
+      animation: shimmer 1.6s ease-in-out infinite;
     }
-    .toast.show{ opacity: 1; transform: translateY(0); pointer-events:auto; }
-
-    .ico{ width:18px; height:18px; display:inline-block; vertical-align:-3px; }
-    .ico-lg{ width:22px; height:22px; display:inline-block; vertical-align:-4px; }
-
-    @media print{
-      body{ background:white !important; color:#111 !important; }
-      .noPrint{ display:none !important; }
-      .glass, .riskCard{ box-shadow:none !important; border: 1px solid #e5e7eb !important; backdrop-filter:none !important; }
-      .muted, .muted2{ color:#374151 !important; }
+    @keyframes shimmer{
+      0% { transform: translateX(-60%); }
+      100% { transform: translateX(60%); }
     }
+
+    /* Risk gradients */
+    .gradLow { background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(59,130,246,.12)); }
+    .gradMedium { background: linear-gradient(135deg, rgba(245,158,11,.18), rgba(59,130,246,.10)); }
+    .gradHigh { background: linear-gradient(135deg, rgba(239,68,68,.18), rgba(245,158,11,.12)); }
+
+    /* Button loading */
+    .btnLoading{opacity:.92; cursor:not-allowed; filter:saturate(.9);}
+    .btnInlineSpinner{
+      width: 16px; height: 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,.15);
+      border-top-color: rgba(0,0,0,.55);
+      animation: spin 900ms linear infinite;
+      display:inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    /* Nice scrollbars for desktop */
+    *::-webkit-scrollbar{height:10px;width:10px}
+    *::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:999px}
+    *::-webkit-scrollbar-track{background:rgba(255,255,255,.04)}
+
+    /* Public page mode (case route) */
+    .publicMode #leftCol{display:none;}
+    .publicMode #heroSection{display:none;}
+    .publicMode #resultsCard{margin-top: 1rem;}
   </style>
 </head>
 
-<body>
-  <div id="appRoot" class="max-w-7xl mx-auto px-4 py-6">
-    <div class="glass px-4 py-3 flex flex-wrap items-center justify-between gap-3 noPrint">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl grid place-items-center"
-             style="background: linear-gradient(135deg, rgba(79,70,229,.95), rgba(6,182,212,.90)); color:#06101c; font-weight:900;">
-          VS
-        </div>
-        <div class="leading-tight">
-          <div class="font-semibold text-white/95">VoiceSafe</div>
-          <div class="text-sm muted2" id="subTitle">Enterprise Anti‑Scam Voice Analyzer</div>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 flex-wrap justify-end">
-        <a href="#how" class="chip" id="navHow">Ako to funguje</a>
-        <a href="#cases" class="chip" id="navCases">Cases</a>
-        <a href="#admin" class="chip" id="navAdmin">Investor</a>
-
-        <div class="chip">
-          <span>🌐</span>
-          <select id="langSelect" class="bg-transparent outline-none text-sm text-white/80">
-            <option value="sk" selected>Slovenčina</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-<button id="upgradeBtn" class="btn btn-warn">
-          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z"/></svg>
-          <span id="upgradeTxt">Pro</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="grid lg:grid-cols-5 gap-4 mt-4">
-      <div class="glass p-6 lg:col-span-3">
-        <div class="chip mb-3">
-          <span>🛡️</span>
-          <span id="heroChip">Enterprise pre-processing (audio/video → WAV mono 16kHz) + risk scoring</span>
-        </div>
-
-        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight" id="heroTitle">
-          Vyhodnoť riziko podvodu z hlasu – okamžite, vysvetliteľne, bezpečne.
-        </h1>
-        <p class="mt-3 muted" id="heroDesc">
-          Nahraj audio alebo video. Ak je to video, backend automaticky extrahuje audio (ffmpeg), všetko konvertuje na WAV mono 16kHz a až potom analyzuje.
-        </p>
-
-        <div class="mt-5 flex flex-wrap gap-2 noPrint">
-          <button id="btnAnalyze" class="btn btn-primary">
-            <svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 19V5"/><path d="M4 19h16"/><path d="M7 15l3-3 3 2 5-6"/>
-            </svg>
-            <span id="analyzeTxt">Analyze</span>
-          </button>
-
-          <button id="btnRecord" class="btn btn-ghost">
-            <svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 14a3 3 0 0 0 3-3V7a3 3 0 0 0-6 0v4a3 3 0 0 0 3 3Z"/>
-              <path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 19v3"/><path d="M8 22h8"/>
-            </svg>
-            <span id="recordTxt">Record</span>
-          </button>
-
-          <button id="btnStop" class="btn btn-ghost" disabled>
-            <svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="7" y="7" width="10" height="10" rx="2"/>
-            </svg>
-            <span id="stopTxt">Stop</span>
-          </button>
-
-          <button id="btnDemo" class="btn btn-ghost">
-            <svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span id="demoTxt">Demo</span>
-          </button>
-        </div>
-
-        <div class="mt-5 grid sm:grid-cols-3 gap-3">
-          <div class="glass p-4">
-            <div class="text-sm muted2" id="feat1a">Stabilita</div>
-            <div class="font-semibold mt-1" id="feat1b">Fallback + jasné chyby</div>
+<body class="min-h-screen">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-40">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
+      <div class="glass rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl glass2 flex items-center justify-center ringGlow" aria-hidden="true">
+            <span class="text-lg">🛡️</span>
           </div>
-          <div class="glass p-4">
-            <div class="text-sm muted2" id="feat2a">Štandard</div>
-            <div class="font-semibold mt-1" id="feat2b">WAV mono 16kHz normalizácia</div>
+          <div class="leading-tight">
+            <div class="font-semibold tracking-tight">VoiceSafe</div>
+            <div class="text-xs text-white/60" data-i18n="tagline">AI voice scam risk assessment</div>
           </div>
-          <div class="glass p-4">
-            <div class="text-sm muted2" id="feat3a">Prezentácia</div>
-            <div class="font-semibold mt-1" id="feat3b">Pulse HIGH + risk badge</div>
-          </div>
-        </div>
+        </a>
 
-        <div class="mt-4 text-xs muted2">
-          <span class="font-semibold">Disclaimer:</span>
-          VoiceSafe je orientačný nástroj. Nikdy neposielaj kódy, údaje z karty ani neautorizuj platby na základe hlasovej správy.
-          Pri podozrení kontaktuj banku/políciu cez oficiálne kanály.
-        </div>
-      </div>
+        <nav class="hidden md:flex items-center gap-2 text-sm">
+          <a class="btn rounded-xl px-3 py-2" href="#how" data-i18n="navHow">How it works</a>
+          <a class="btn rounded-xl px-3 py-2" href="#services" data-i18n="navServices">Services</a>
+          <a class="btn rounded-xl px-3 py-2" href="#contact" data-i18n="navContact">Contact</a>
+          <a class="btn rounded-xl px-3 py-2" href="#terms" data-i18n="navTerms">Terms</a>
+        </nav>
 
-      <div class="glass p-6 lg:col-span-2">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <div class="text-sm muted2" id="statusLbl">Endpoint</div>
-            <div class="font-semibold mono" id="baseUrlLbl">—</div>
-          </div>
-          <span class="chip" id="healthChip"><span class="w-2 h-2 rounded-full" style="background: rgba(255,255,255,.35)"></span><span id="healthTxt">Checking…</span></span>
-        </div>
-
-        <div class="mt-4">
-          <div class="text-sm font-semibold" id="uploadLbl">Upload (audio/video)</div>
-          <div class="text-sm muted2 mt-1" id="uploadSub">mp3, wav, m4a, mp4, mov… (backend to normalizuje)</div>
-
-          <input id="fileInput" type="file" accept="audio/*,video/*" class="mt-3 block w-full text-sm text-white/80
-            file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0
-            file:bg-white/10 file:text-white/90 hover:file:bg-white/15" />
-
-          <div class="mt-3 glass p-3 noPrint">
-            <div class="flex items-center justify-between">
-              <div class="text-sm font-semibold" id="authLbl">Access</div>
-              <div class="text-xs muted2" id="authStatus">Not set</div>
-            </div>
-            <div class="mt-2 flex gap-2">
-              <input id="apiKeyInput" class="w-full px-3 py-2 rounded-xl bg-black/25 border border-white/10 text-sm outline-none"
-                     placeholder="x-api-key (optional)"/>
-              <button id="btnSaveKey" class="btn btn-ghost py-2 px-3">
-                <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11l5 5v9a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 5v5h8"/></svg>
-                <span id="saveTxt">Save</span>
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-2">
+            <div id="googleBtn" class="min-w-[210px]"></div>
+            <div class="dd">
+              <button id="userBtn" class="btn rounded-xl px-3 py-2 text-sm hidden" type="button" aria-haspopup="menu" aria-expanded="false">
+                <span class="text-white/70">👤</span>
+                <span id="userLabel" class="font-medium">—</span>
+                <span class="text-white/60">▾</span>
               </button>
-            </div>
-
-            <div class="mt-2 border-t border-white/10"></div>
-
-            <div class="mt-3">
-              <div class="text-sm font-semibold" id="loginLbl">Login</div>
-              <div class="text-sm muted2" id="loginSub">Google sign‑in (GSI) + backend verification</div>
-              <div class="mt-2" id="googleBtn"></div>
-              <div class="mt-2 flex items-center justify-between">
-                <div class="text-sm muted2" id="userBadge"></div>
-                <button id="btnLogout" class="btn btn-ghost py-2 px-3 hidden">
-                  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
-                  <span id="logoutTxt">Logout</span>
+              <div id="userBackdrop" class="ddBackdrop hidden"></div>
+              <div id="userMenu" class="ddMenu glass rounded-2xl p-2 hidden" role="menu" aria-label="User menu">
+                <button id="myCasesTop" class="ddItem w-full text-left" type="button" role="menuitem">
+                  <span>📁</span><span class="flex-1" data-i18n="myCases">My Cases</span>
+                </button>
+                <button id="logoutBtn" class="ddItem w-full text-left" type="button" role="menuitem">
+                  <span>🚪</span><span class="flex-1" data-i18n="logout">Sign out</span>
                 </button>
               </div>
             </div>
           </div>
 
-          <div class="mt-4 text-xs muted2" id="noteLbl">
-            Tip: ak je OAuth app v režime Testing, pridaj email do "Test users" (Google Cloud → Audience).
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid lg:grid-cols-3 gap-4 mt-4">
-      <div class="riskCard p-6 lg:col-span-1" id="riskCard">
-        <div class="flex items-center justify-between">
-          <div class="text-sm muted2" id="resultLbl">Result</div>
-          <span class="chip" id="riskPill">—</span>
-        </div>
-
-        <div class="mt-3">
-          <div class="text-5xl font-extrabold tracking-tight" id="riskScore">—</div>
-          <div class="mt-2 text-sm muted" id="riskSummary">Nahraj súbor a klikni Analyze.</div>
-        </div>
-
-        <div class="mt-5 space-y-3">
-          <div>
-            <div class="flex items-center justify-between text-sm">
-              <span class="muted2" id="bar1lbl">Scam score</span>
-              <span class="mono" id="bar1val">—</span>
+          <div class="dd">
+            <button id="langBtn" class="btn rounded-xl px-3 py-2 text-sm inline-flex items-center gap-2" type="button" aria-haspopup="menu" aria-expanded="false">
+              <span class="text-white/70">🌐</span>
+              <span id="langLabel" class="font-medium">English</span>
+              <span class="text-white/60">▾</span>
+            </button>
+            <div id="langBackdrop" class="ddBackdrop hidden"></div>
+            <div id="langMenu" class="ddMenu glass rounded-2xl p-2 hidden" role="menu" aria-label="Language">
+              <button class="ddItem w-full text-left" type="button" data-lang="en" role="menuitem">
+                <span>🇺🇸</span><span class="flex-1">English</span><span class="text-xs text-white/50 mono">EN</span>
+              </button>
+              <button class="ddItem w-full text-left" type="button" data-lang="sk" role="menuitem">
+                <span>🇸🇰</span><span class="flex-1">Slovenčina</span><span class="text-xs text-white/50 mono">SK</span>
+              </button>
             </div>
-            <div class="bar mt-2"><div id="bar1"></div></div>
           </div>
-          <div>
-            <div class="flex items-center justify-between text-sm">
-              <span class="muted2" id="bar2lbl">AI probability</span>
-              <span class="mono" id="bar2val">—</span>
+
+          <button id="upgradeBtn" class="btnPrimary rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="ctaPro">Unlock Pro</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+    <!-- Hero -->
+    <section id="heroSection" class="pt-10 pb-6">
+      <div class="grid lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-7">
+          <div class="glass rounded-3xl p-6 sm:p-8">
+            <div class="inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs text-white/80">
+              <span>⚡</span><span data-i18n="heroPill">Privacy-first. Instant risk signals. Built for real-world calls.</span>
             </div>
-            <div class="bar mt-2"><div id="bar2"></div></div>
-          </div>
-          <div>
-            <div class="flex items-center justify-between text-sm">
-              <span class="muted2" id="bar3lbl">Stress level</span>
-              <span class="mono" id="bar3val">—</span>
+
+            <h1 class="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">
+              <span data-i18n="heroTitleA">Turn a suspicious</span>
+              <span class="text-white/90" data-i18n="heroTitleB">voice message</span>
+              <span data-i18n="heroTitleC">into a clear decision.</span>
+            </h1>
+
+            <p class="mt-4 text-white/70 max-w-2xl" data-i18n="heroDesc">
+              Upload audio/video or record a short clip. VoiceSafe returns a structured risk assessment with recommended actions.
+            </p>
+
+            <div class="mt-6 flex flex-col sm:flex-row gap-3">
+              <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" href="#analyze">
+                <span>🔎</span><span data-i18n="heroCtaAnalyze">Analyze now</span>
+              </a>
+              <button id="demoBtnHero" class="btn rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
+                <span>🧪</span><span data-i18n="heroCtaDemo">Run demo</span>
+              </button>
+              <button id="howBtnHero" class="btnDark rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
+                <span>▶</span><span data-i18n="heroCtaHow">How it works</span>
+              </button>
             </div>
-            <div class="bar mt-2"><div id="bar3"></div></div>
-          </div>
-          <div>
-            <div class="flex items-center justify-between text-sm">
-              <span class="muted2" id="bar4lbl">Confidence</span>
-              <span class="mono" id="bar4val">—</span>
+
+            <div class="mt-6 grid sm:grid-cols-3 gap-3 text-sm">
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-white/80 font-semibold" data-i18n="heroStat1Title">Fast</div>
+                <div class="text-white/60 mt-1" data-i18n="heroStat1Desc">Typical analysis in seconds.</div>
+              </div>
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-white/80 font-semibold" data-i18n="heroStat2Title">Explainable</div>
+                <div class="text-white/60 mt-1" data-i18n="heroStat2Desc">Action-oriented guidance, not just a score.</div>
+              </div>
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-white/80 font-semibold" data-i18n="heroStat3Title">Private</div>
+                <div class="text-white/60 mt-1" data-i18n="heroStat3Desc">Prototype stores no voice permanently.</div>
+              </div>
             </div>
-            <div class="bar mt-2"><div id="bar4"></div></div>
+
           </div>
         </div>
 
-        <div class="mt-5 flex flex-wrap gap-2 noPrint">
-          <button class="btn btn-ghost py-2 px-3" id="btnCopyJson">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span id="copyJsonTxt">Copy JSON</span>
-          </button>
-          <button class="btn btn-ghost py-2 px-3" id="btnShareReport">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v14"/></svg>
-            <span id="shareReportTxt">Share Report</span>
-          </button>
-          <button class="btn btn-ghost py-2 px-3" id="btnPrint">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-            <span>Print</span>
-          </button>
+        <div class="lg:col-span-5">
+          <div class="glass rounded-3xl p-6">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <div class="text-sm text-white/60" data-i18n="statusTitle">Service status</div>
+                <div class="mt-1 font-semibold" id="backendStatus">—</div>
+              </div>
+              <div class="text-xs text-white/60 mono">
+                <span data-i18n="modeLabel">Mode</span>: <span class="font-semibold">PROD</span>
+              </div>
+            </div>
+
+            <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
+              <div class="font-semibold text-white/80" data-i18n="investorNoteTitle">Investor note</div>
+              <div class="mt-1" data-i18n="investorNoteBody">
+                This prototype demonstrates end-to-end UX with enterprise-grade preprocessing (audio normalization), authenticated history,
+                and shareable reports.
+              </div>
+            </div>
+
+            <div class="mt-4 flex items-center gap-3">
+              <div class="w-2.5 h-2.5 rounded-full bg-emerald-400/80" id="statusDot" aria-hidden="true"></div>
+              <div class="text-xs text-white/60 mono" id="backendUrlLabel">—</div>
+            </div>
+
+            <div class="mt-4 glass2 rounded-2xl p-4 text-xs text-white/60 leading-relaxed" id="authHint">
+              —
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="glass p-6 lg:col-span-2">
-        <div class="flex flex-wrap items-start justify-between gap-3">
+    <!-- App grid -->
+    <section id="analyze" class="pt-2 sm:pt-6">
+      <div class="grid lg:grid-cols-12 gap-6">
+        <!-- Left -->
+        <div id="leftCol" class="lg:col-span-5">
+          <div class="glass rounded-3xl p-6">
+
+            <!-- Tabs -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              <button id="tabAnalyze" class="btnPrimary rounded-2xl px-4 py-2 text-sm font-semibold" type="button" data-i18n="tabAnalyze">Analyze</button>
+              <button id="tabMyCases" class="btn rounded-2xl px-4 py-2 text-sm font-semibold" type="button" data-i18n="tabMyCases">My Cases</button>
+              <button id="tabInvestor" class="btn rounded-2xl px-4 py-2 text-sm font-semibold" type="button" data-i18n="tabInvestor">Investor</button>
+            </div>
+
+            <!-- Analyze Panel -->
+            <div id="panelAnalyze">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <div class="text-sm text-white/60" data-i18n="analyzeTitleSmall">Analyze a sample</div>
+                  <div class="text-xl font-semibold mt-1" data-i18n="analyzeTitle">Upload or record</div>
+                </div>
+                <button id="demoBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="demoBtn">Demo</button>
+              </div>
+
+              <div class="mt-4">
+                <label class="text-xs text-white/60" data-i18n="uploadLabel">Upload file</label>
+                <div class="mt-2 glass2 rounded-2xl p-3">
+                  <input id="fileInput" type="file" class="block w-full text-sm text-white/80 file:mr-3 file:rounded-xl file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-white/80 hover:file:bg-white/15"
+                         accept="audio/*,video/*" />
+                  <div id="fileHint" class="mt-2 text-xs text-white/60">—</div>
+                </div>
+              </div>
+
+              <div class="mt-4 flex gap-3">
+                <button id="recordBtn" class="btn rounded-2xl px-4 py-3 font-semibold flex-1" type="button" data-i18n="recordBtn">Record</button>
+                <button id="analyzeBtn" class="btnPrimary rounded-2xl px-4 py-3 font-semibold flex-1" type="button" data-i18n="analyzeBtn">Analyze</button>
+              </div>
+
+              <div class="mt-4 text-xs text-white/60 leading-relaxed">
+                <div>• <span data-i18n="note1">Privacy-first • No permanent voice storage (prototype)</span></div>
+                <div>• <span data-i18n="note2">Shareable report link after analysis</span></div>
+                <div>• <span data-i18n="note3">Advisory signals only — verify via official channels</span></div>
+              </div>
+
+              <hr class="my-5 border-white/10" />
+
+              <div class="text-sm font-semibold text-white/80" data-i18n="caseTitle">Case details (optional)</div>
+
+              <div class="mt-3 grid grid-cols-2 gap-3">
+                <input id="titleEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Title" />
+                <input id="platformEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Platform" />
+                <input id="countryEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Country" />
+                <input id="languageEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Language" />
+              </div>
+
+              <input id="tagsEl" class="mt-3 glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Tags (comma separated)" />
+              <textarea id="notesEl" class="mt-3 glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40 min-h-[110px]" placeholder="Notes (what happened)"></textarea>
+
+              <div class="mt-3 text-xs text-white/50" data-i18n="privacyTip">Tip: Keep personal data out of notes.</div>
+            </div>
+
+            <!-- My Cases Panel -->
+            <div id="panelMyCases" class="hidden">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <div class="text-sm text-white/60" data-i18n="myCasesSmall">History</div>
+                  <div class="text-xl font-semibold mt-1" data-i18n="myCasesTitle">My Cases</div>
+                </div>
+                <button id="myCasesRefreshBtn" class="btnPrimary rounded-2xl px-4 py-3 text-sm font-semibold" type="button" data-i18n="refresh">Refresh</button>
+              </div>
+
+              <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70" id="myCasesHint">
+                —
+              </div>
+
+              <div class="mt-4 glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="casesList">Cases</div>
+                <div id="myCasesList" class="mt-3 space-y-2 max-h-[52vh] overflow-auto"></div>
+              </div>
+            </div>
+
+            <!-- Investor Panel -->
+            <div id="panelInvestor" class="hidden">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <div class="text-sm text-white/60" data-i18n="investorSmall">Investor demo</div>
+                  <div class="text-xl font-semibold mt-1" data-i18n="investorTitle">Dashboard</div>
+                </div>
+                <button id="investorLoadBtn" class="btnPrimary rounded-2xl px-4 py-3 text-sm font-semibold" type="button" data-i18n="load">Load</button>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div class="glass2 rounded-2xl p-4">
+                  <div class="text-xs text-white/60" data-i18n="invMetric1">Total cases (last 50)</div>
+                  <div class="mt-1 text-2xl font-semibold" id="invTotal">—</div>
+                </div>
+                <div class="glass2 rounded-2xl p-4">
+                  <div class="text-xs text-white/60" data-i18n="invMetric2">High risk share</div>
+                  <div class="mt-1 text-2xl font-semibold" id="invHighShare">—</div>
+                </div>
+              </div>
+
+              <div class="mt-4 glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="invRecent">Recent cases</div>
+                <div id="invRecentList" class="mt-3 space-y-2 max-h-[44vh] overflow-auto"></div>
+              </div>
+
+              <div class="mt-4 text-xs text-white/55" data-i18n="invNote">
+                Note: Investor dashboard uses aggregated data from the backend. In production you add org-level RBAC, audit logs, and export.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: Results -->
+        <div class="lg:col-span-7">
+          <div id="resultsCard" class="glass rounded-3xl p-6 relative overflow-hidden">
+            <div id="resultsLoading" class="loadingOverlay hidden" aria-hidden="true">
+              <div class="flex items-center gap-3 glass2 px-4 py-3 rounded-2xl">
+                <div class="spinner"></div>
+                <div class="text-sm text-white/80" id="loadingText">Analyzing…</div>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div>
+                <div class="text-sm text-white/60" data-i18n="resultsTitleSmall">AI risk assessment</div>
+                <div class="text-2xl font-semibold mt-1" data-i18n="resultsTitle">Results</div>
+                <div class="text-sm text-white/60 mt-2" id="summaryText" data-i18n="resultsHint">Upload or record to generate a report.</div>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <button id="copyJsonBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="copyJson">Copy JSON</button>
+                <button id="copyLinkBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="copyLink">Copy link</button>
+                <button id="shareBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="share">Share</button>
+                <button id="shareCardBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="shareCard">Share card</button>
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-2 items-center">
+              <span class="chip rounded-full px-3 py-1 text-xs text-white/80">
+                <span data-i18n="riskLevelLabel">Risk level</span>: <span id="riskLevel" class="font-semibold">—</span>
+              </span>
+              <span class="chip rounded-full px-3 py-1 text-xs text-white/80">
+                <span data-i18n="confidenceLabel">Confidence</span>: <span id="confidence" class="font-semibold">—</span>
+              </span>
+              <span id="proBadge" class="hidden chip rounded-full px-3 py-1 text-xs text-white/80">PRO</span>
+            </div>
+
+            <div class="mt-4 glass2 rounded-2xl p-5 gradLow" id="actionCard">
+              <div class="flex items-center justify-between">
+                <div class="text-xs text-white/60" data-i18n="recommendedAction">Recommended action</div>
+                <div id="riskPill" class="chip rounded-full px-3 py-1 text-xs font-semibold">—</div>
+              </div>
+              <div class="mt-2 text-lg font-semibold" id="riskTitle">—</div>
+              <div class="mt-1 text-sm text-white/65" id="riskText">—</div>
+
+              <div class="mt-4 grid sm:grid-cols-3 gap-3">
+                <div class="glass rounded-2xl p-4">
+                  <div class="text-xs text-white/60" data-i18n="step1Label">1) Pause</div>
+                  <div class="mt-1 text-sm font-semibold" data-i18n="step1Title">Stop sensitive steps</div>
+                  <div class="mt-1 text-xs text-white/60" data-i18n="step1Desc">Don’t send money or codes.</div>
+                </div>
+                <div class="glass rounded-2xl p-4">
+                  <div class="text-xs text-white/60" data-i18n="step2Label">2) Verify</div>
+                  <div class="mt-1 text-sm font-semibold" data-i18n="step2Title">Use official channels</div>
+                  <div class="mt-1 text-xs text-white/60" data-i18n="step2Desc">Call a verified number.</div>
+                </div>
+                <div class="glass rounded-2xl p-4">
+                  <div class="text-xs text-white/60" data-i18n="step3Label">3) Escalate</div>
+                  <div class="mt-1 text-sm font-semibold" data-i18n="step3Title">Share report</div>
+                  <div class="mt-1 text-xs text-white/60" data-i18n="step3Desc">Keep evidence & report.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Confidence bar -->
+            <div class="mt-4 glass2 rounded-2xl p-4">
+              <div class="flex items-center justify-between">
+                <div class="text-xs text-white/60" data-i18n="confEngine">Confidence engine</div>
+                <div class="text-xs text-white/70 mono"><span id="confLabel">—</span></div>
+              </div>
+              <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div id="confBar" class="h-2 rounded-full barAnim" style="width:0%"></div>
+              </div>
+              <div class="mt-2 text-xs text-white/55" id="confExplain">—</div>
+            </div>
+
+            <div class="mt-4 grid sm:grid-cols-3 gap-3">
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="scamScore">Scam score</div>
+                <div class="mt-1 text-2xl font-semibold"><span id="scamScore">—</span><span class="text-white/60 text-sm">%</span></div>
+                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div id="scamBar" class="h-2 rounded-full barAnim" style="width:0%"></div>
+                </div>
+              </div>
+
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="aiProb">AI voice probability</div>
+                <div class="mt-1 text-2xl font-semibold"><span id="aiProb">—</span><span class="text-white/60 text-sm">%</span></div>
+                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div id="aiBar" class="h-2 rounded-full barAnim" style="width:0%"></div>
+                </div>
+              </div>
+
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="stressLevel">Stress level</div>
+                <div class="mt-1 text-2xl font-semibold"><span id="stress">—</span><span class="text-white/60 text-sm">%</span></div>
+                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div id="stressBar" class="h-2 rounded-full barAnim" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 grid sm:grid-cols-2 gap-3">
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="rawJson">Raw JSON</div>
+                <pre id="rawJson" class="mt-2 text-xs text-white/70 whitespace-pre-wrap break-words mono max-h-56 overflow-auto"></pre>
+              </div>
+
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="cases">Case</div>
+                <div class="mt-2 grid gap-3">
+                  <div class="glass rounded-2xl p-3">
+                    <div class="text-xs text-white/60" data-i18n="savedCase">Saved case</div>
+                    <div class="mt-1 text-sm"><span class="text-white/60" data-i18n="caseId">Case ID</span>: <span id="caseId" class="font-semibold">—</span></div>
+                    <div class="mt-2 flex gap-2">
+                      <button id="loadCaseBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="loadCase">Load</button>
+                      <button id="openCaseBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="openCase">Open</button>
+                    </div>
+                  </div>
+
+                  <div class="glass rounded-2xl p-3">
+                    <div class="text-xs text-white/60" data-i18n="searchCases">Search public cases</div>
+                    <div class="mt-2 flex gap-2">
+                      <input id="searchQuery" class="glass2 rounded-xl px-3 py-2 text-xs outline-none placeholder:text-white/40 flex-1" placeholder="Search title / notes..." />
+                      <button id="searchBtn" class="btnPrimary rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="searchBtn">Search</button>
+                    </div>
+                    <div id="searchOut" class="mt-2 text-xs text-white/60 max-h-32 overflow-auto"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 text-xs text-white/50" id="debugLine"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="pt-10">
+      <div class="glass rounded-3xl p-6 sm:p-8">
+        <div class="flex items-start justify-between gap-4">
           <div>
-            <div class="text-sm muted2" id="detailsLbl">Details</div>
-            <div class="text-xl font-bold" id="detailsTitle">Explainable output</div>
-            <div class="text-sm muted2 mt-1" id="detailsSub">Signály + odporúčania + raw JSON</div>
+            <div class="text-sm text-white/60" data-i18n="howSmall">How it works</div>
+            <div class="text-2xl font-semibold mt-1" data-i18n="howTitle">From audio to action</div>
+            <p class="text-white/70 mt-3 max-w-3xl" data-i18n="howDesc">
+              VoiceSafe produces a structured risk report designed for fast, safe decisions — especially when money or identity is involved.
+            </p>
           </div>
-
-          <div class="flex items-center gap-2 noPrint">
-            <span class="chip" id="caseChip">case: —</span>
-          </div>
+          <a href="#analyze" class="btn rounded-2xl px-4 py-3 text-sm font-semibold hidden sm:inline-flex" data-i18n="howCta">Try it</a>
         </div>
 
-        <div class="mt-4 grid md:grid-cols-2 gap-3">
-          <div class="glass p-4">
-            <div class="text-sm font-semibold" id="signalsLbl">Signals</div>
-            <ul class="mt-2 text-sm muted space-y-1 list-disc pl-5" id="signalsList"></ul>
+        <div class="mt-6 grid md:grid-cols-3 gap-4">
+          <div class="glass2 rounded-2xl p-5">
+            <div class="text-xs text-white/60">01</div>
+            <div class="mt-2 font-semibold" data-i18n="howStep1Title">Upload or record</div>
+            <div class="mt-1 text-sm text-white/65" data-i18n="howStep1Desc">Short clips work best. We extract audio features and metadata.</div>
           </div>
-          <div class="glass p-4">
-            <div class="text-sm font-semibold" id="recoLbl">Recommendations</div>
-            <ul class="mt-2 text-sm muted space-y-1 list-disc pl-5" id="recoList"></ul>
+          <div class="glass2 rounded-2xl p-5">
+            <div class="text-xs text-white/60">02</div>
+            <div class="mt-2 font-semibold" data-i18n="howStep2Title">Analyze signals</div>
+            <div class="mt-1 text-sm text-white/65" data-i18n="howStep2Desc">Models output scam-risk, synthetic-voice likelihood, and stress indicators.</div>
           </div>
-        </div>
-
-        <div class="mt-3 glass p-4">
-          <div class="flex items-center justify-between">
-            <div class="text-sm font-semibold">Raw JSON</div>
-            <span class="text-xs muted2 mono" id="rawHint">/upload → ai</span>
+          <div class="glass2 rounded-2xl p-5">
+            <div class="text-xs text-white/60">03</div>
+            <div class="mt-2 font-semibold" data-i18n="howStep3Title">Get guidance</div>
+            <div class="mt-1 text-sm text-white/65" data-i18n="howStep3Desc">A clear risk level with recommended next steps and exportable JSON.</div>
           </div>
-          <pre class="mt-2 text-xs mono muted overflow-auto p-3 rounded-xl bg-black/25 border border-white/10" id="rawJson" style="min-height: 180px;"></pre>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="cases" class="glass p-6 mt-4">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <div class="text-sm muted2" id="casesLbl">Cases</div>
-          <div class="text-xl font-bold" id="casesTitle">History & search</div>
-          <div class="text-sm muted2 mt-1" id="casesSub">/cases list (DB musí byť zapnutá). Klikni Open → verejný report.</div>
+    <!-- Services -->
+    <section id="services" class="pt-10">
+      <div class="glass rounded-3xl p-6 sm:p-8">
+        <div class="text-sm text-white/60" data-i18n="servicesSmall">Services</div>
+        <div class="text-2xl font-semibold mt-1" data-i18n="servicesTitle">Enterprise-ready roadmap</div>
+        <div class="mt-3 grid md:grid-cols-3 gap-4 text-sm text-white/70">
+          <div class="glass2 rounded-2xl p-5">
+            <div class="font-semibold text-white/85" data-i18n="svc1Title">API + SDK</div>
+            <div class="mt-1" data-i18n="svc1Desc">Stable endpoints, versioning, and client SDKs for web & mobile.</div>
+          </div>
+          <div class="glass2 rounded-2xl p-5">
+            <div class="font-semibold text-white/85" data-i18n="svc2Title">Model calibration</div>
+            <div class="mt-1" data-i18n="svc2Desc">Country/language calibration, false-positive control, and confidence scoring.</div>
+          </div>
+          <div class="glass2 rounded-2xl p-5">
+            <div class="font-semibold text-white/85" data-i18n="svc3Title">Compliance & audit</div>
+            <div class="mt-1" data-i18n="svc3Desc">Retention controls, consent flows, and compliance-ready audit logs.</div>
+          </div>
         </div>
-        <div class="flex gap-2 flex-wrap noPrint">
-          <input id="qInput" class="px-3 py-2 rounded-xl bg-black/25 border border-white/10 text-sm outline-none w-56"
-                 placeholder="search…"/>
-          <button id="btnSearch" class="btn btn-ghost py-2 px-3">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-            <span id="searchTxt">Search</span>
-          </button>
-          <button id="btnRefreshCases" class="btn btn-ghost py-2 px-3">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v7h-7"/></svg>
-            <span id="refreshTxt">Refresh</span>
-          </button>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="pt-10">
+      <div class="glass rounded-3xl p-6 sm:p-8">
+        <div class="text-sm text-white/60" data-i18n="contactSmall">Contact</div>
+        <div class="text-2xl font-semibold mt-1" data-i18n="contactTitle">Let’s talk</div>
+        <p class="text-white/70 mt-3 max-w-3xl" data-i18n="contactDesc">
+          Interested in pilots with banks, marketplaces, or call centers? Reach out for a private demo and roadmap.
+        </p>
+        <div class="mt-4 flex flex-col sm:flex-row gap-3">
+          <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" href="mailto:hello@voicesafe.ai">
+            <span>✉️</span><span data-i18n="contactEmail">Email</span>
+          </a>
+          <button id="copyContactBtn" class="btn rounded-2xl px-5 py-3 font-semibold" type="button" data-i18n="contactCopy">Copy email</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terms -->
+    <section id="terms" class="pt-10">
+      <div class="glass rounded-3xl p-6 sm:p-8">
+        <div class="text-sm text-white/60" data-i18n="termsSmall">Terms</div>
+        <div class="text-2xl font-semibold mt-1" data-i18n="termsTitle">Safety note</div>
+        <p class="text-white/70 mt-3" data-i18n="termsDesc">
+          VoiceSafe provides advisory signals only. If money is involved, verify via official channels. Keep personal data out of notes.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+        <div class="max-w-md">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl glass2 flex items-center justify-center">🛡️</div>
+            <div>
+              <div class="font-semibold">VoiceSafe</div>
+              <div class="text-xs text-white/60" data-i18n="footerTagline">AI voice scam risk assessment</div>
+            </div>
+          </div>
+          <div class="mt-3 text-sm text-white/65" data-i18n="footerDesc">
+            Fast, explainable risk guidance for suspicious voice calls and messages.
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+          <div>
+            <div class="text-white/80 font-semibold mb-2" data-i18n="footerProduct">Product</div>
+            <a class="block text-white/60 hover:text-white/80" href="#how" data-i18n="footerHow">How it works</a>
+            <a class="block text-white/60 hover:text-white/80" href="#analyze" data-i18n="footerAnalyze">Analyze</a>
+          </div>
+          <div>
+            <div class="text-white/80 font-semibold mb-2" data-i18n="footerService">Service</div>
+            <a class="block text-white/60 hover:text-white/80" href="#services" data-i18n="footerServices">Services</a>
+            <a class="block text-white/60 hover:text-white/80" href="#contact" data-i18n="footerContact">Contact</a>
+          </div>
+          <div>
+            <div class="text-white/80 font-semibold mb-2" data-i18n="footerLegal">Legal</div>
+            <a class="block text-white/60 hover:text-white/80" href="#terms" data-i18n="footerTerms">Terms</a>
+            <a class="block text-white/60 hover:text-white/80" href="#terms" data-i18n="footerPrivacy">Privacy</a>
+          </div>
+          <div>
+            <div class="text-white/80 font-semibold mb-2" data-i18n="footerLinks">Links</div>
+            <a class="block text-white/60 hover:text-white/80" href="https://voicesafe.ai" target="_blank" rel="noreferrer">voicesafe.ai</a>
+            <a class="block text-white/60 hover:text-white/80" href="https://voicesafe-backend-1.onrender.com" target="_blank" rel="noreferrer">Backend</a>
+          </div>
         </div>
       </div>
 
-      <div class="mt-4 overflow-auto">
-        <table class="w-full text-sm">
-          <thead class="text-white/75">
-            <tr class="text-left">
-              <th class="py-2 pr-3">Time</th>
-              <th class="py-2 pr-3">Case</th>
-              <th class="py-2 pr-3">Title</th>
-              <th class="py-2 pr-3">Risk</th>
-              <th class="py-2 pr-3">Confidence</th>
-              <th class="py-2 pr-3">Open</th>
-            </tr>
-          </thead>
-          <tbody id="casesTbody" class="text-white/80"></tbody>
-        </table>
+      <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-white/45">
+        <div>© <span id="year"></span> VoiceSafe</div>
+        <div class="mono">v<span id="buildId">—</span></div>
       </div>
     </div>
+  </footer>
 
-    <div id="admin" class="glass p-6 mt-4">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <div class="text-sm muted2">Investor Dashboard</div>
-          <div class="text-xl font-bold">Metrics (demo)</div>
-          <div class="text-sm muted2 mt-1">Zobrazí sa, ak backend poskytuje /stats. Inak použijeme demo metriky.</div>
-        </div>
-        <button id="btnRefreshStats" class="btn btn-ghost py-2 px-3 noPrint">
-          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v7h-7"/></svg>
-          Refresh
-        </button>
-      </div>
-
-      <div class="mt-4 grid md:grid-cols-4 gap-3" id="statsGrid"></div>
-    </div>
-
-    <div id="how" class="glass p-6 mt-4">
-      <div class="text-xl font-bold" id="howTitle">Ako to funguje</div>
-      <div class="mt-3 grid md:grid-cols-3 gap-3 text-sm">
-        <div class="glass p-4">
-          <div class="font-semibold">1) Upload</div>
-          <div class="muted2 mt-1" id="how1">Audio aj video. Video → extrahuje sa audio (ffmpeg).</div>
-        </div>
-        <div class="glass p-4">
-          <div class="font-semibold">2) Normalize</div>
-          <div class="muted2 mt-1" id="how2">Konverzia na WAV mono 16kHz (enterprise štandard).</div>
-        </div>
-        <div class="glass p-4">
-          <div class="font-semibold">3) Analyze</div>
-          <div class="muted2 mt-1" id="how3">AI scoring + vysvetlenie + odporúčania + uloženie case.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass p-6 mt-4 mb-10">
-      <div class="text-xl font-bold" id="privacyTitle">Privacy</div>
-      <p class="muted mt-2 text-sm" id="privacyTxt">
-        Prototyp môže ukladať metadáta a výsledky do DB. Audio súbory môžeš na backende po analýze automaticky mazať.
-        Pri produkcii doplň: retention policy, audit log, šifrovanie v pokoji, DPA.
-      </p>
-    </div>
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden">
+    <div class="glass rounded-2xl px-4 py-3 text-sm text-white/85 max-w-[92vw]" id="toastText">—</div>
   </div>
 
-  <!-- PUBLIC CASE PAGE ROOT -->
-  <div id="caseRoot" class="max-w-5xl mx-auto px-4 py-8 hidden">
-    <div class="flex items-center justify-between gap-3 mb-4 noPrint">
-      <a href="/" class="chip">← Back</a>
-      <div class="flex gap-2">
-        <button id="caseCopyLink" class="btn btn-ghost py-2 px-3">
-          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1"/><path d="M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 0 1-7-7l1-1"/></svg>
-          Copy link
-        </button>
-        <button id="casePrint" class="btn btn-ghost py-2 px-3">
-          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-          Print
-        </button>
-      </div>
-    </div>
+<script>
+/**
+ * VoiceSafe — PRO MAX enterprise single-file frontend
+ * ✅ Google Login (GSI) -> JWT stored in localStorage
+ * ✅ Authorization header on /upload, /my-cases, /me
+ * ✅ My Cases tab (user history)
+ * ✅ Public Case Page: /case/VS-... OR ?case=VS-...
+ * ✅ Confidence Engine: displays always (fallback computed client-side if missing)
+ * ✅ UX polish: unified %, pulsing HIGH, gradients, loading overlay, mobile-first
+ * ✅ EN/SK i18n without mixing
+ * ✅ No LOCAL/PROD switch — PROD only (voicesafe.ai)
+ */
 
-    <div class="glass p-6">
-      <div class="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <div class="text-sm muted2">VoiceSafe Case Report</div>
-          <div class="text-2xl font-extrabold" id="caseTitle">Case —</div>
-          <div class="text-sm muted2 mt-1" id="caseMeta">—</div>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="chip" id="caseRiskBadge">—</span>
-          <span class="chip" id="caseConfidence">Confidence: —</span>
-        </div>
-      </div>
+(function(){
+  // ===========================
+  // CONFIG (PROD ONLY)
+  // ===========================
+  const BACKEND_BASE = "https://voicesafe-backend-1.onrender.com";
+  const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
 
-      <div class="mt-5 grid md:grid-cols-2 gap-3">
-        <div class="riskCard p-5" id="caseRiskCard">
-          <div class="text-sm muted2">Risk score</div>
-          <div class="text-5xl font-extrabold mt-2" id="caseRiskScore">—</div>
-          <div class="text-sm muted mt-2" id="caseSummary">—</div>
+  // Set your Google Client ID here (from Google Cloud Console -> OAuth 2.0 Client IDs)
+  window.GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || "PASTE_YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
 
-          <div class="mt-4 space-y-3">
-            <div>
-              <div class="flex items-center justify-between text-sm">
-                <span class="muted2">Scam score</span>
-                <span class="mono" id="caseBar1Val">—</span>
-              </div>
-              <div class="bar mt-2"><div id="caseBar1"></div></div>
-            </div>
-            <div>
-              <div class="flex items-center justify-between text-sm">
-                <span class="muted2">AI probability</span>
-                <span class="mono" id="caseBar2Val">—</span>
-              </div>
-              <div class="bar mt-2"><div id="caseBar2"></div></div>
-            </div>
-            <div>
-              <div class="flex items-center justify-between text-sm">
-                <span class="muted2">Stress level</span>
-                <span class="mono" id="caseBar3Val">—</span>
-              </div>
-              <div class="bar mt-2"><div id="caseBar3"></div></div>
-            </div>
-          </div>
+  const BUILD_ID = (Math.random().toString(16).slice(2,8) + "-" + Date.now().toString(16).slice(-6)).toUpperCase();
 
-          <div class="mt-4 text-xs muted2">
-            Disclaimer: výsledok je orientačný. Over identitu mimo kanála, neplať bez verifikácie.
-          </div>
-        </div>
+  // ===========================
+  // Utilities
+  // ===========================
+  function qs(id){ return document.getElementById(id); }
+  function clamp01(v){
+    const n = Number(v);
+    if (Number.isNaN(n)) return null;
+    if (n <= 1 && n >= 0) return n;
+    if (n <= 100 && n >= 0) return n / 100;
+    return Math.max(0, Math.min(1, n));
+  }
+  function pct(v01){
+    const n = clamp01(v01);
+    if (n === null) return null;
+    return Math.round(n * 100);
+  }
+  function safeJson(v){ try { return JSON.stringify(v, null, 2); } catch { return String(v); } }
+  function escapeHtml(s){
+    return String(s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
 
-        <div class="glass p-5">
-          <div class="text-sm font-semibold">Recommendations</div>
-          <ul class="mt-2 text-sm muted list-disc pl-5 space-y-1" id="caseReco"></ul>
+  function toast(msg){
+    const el = qs("toast");
+    const t = qs("toastText");
+    if (!el || !t) return;
+    t.textContent = msg;
+    el.classList.remove("hidden");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(()=> el.classList.add("hidden"), 2400);
+  }
 
-          <div class="mt-4 text-sm font-semibold">Details</div>
-          <pre class="mt-2 text-xs mono muted overflow-auto p-3 rounded-xl bg-black/25 border border-white/10" id="caseRaw" style="min-height: 220px;"></pre>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="toast" class="toast">
-    <div class="flex items-start justify-between gap-3">
-      <div>
-        <div class="text-sm font-semibold" id="toastTitle">Info</div>
-        <div class="text-sm muted2 mt-1" id="toastMsg">—</div>
-      </div>
-      <button id="toastClose" class="btn btn-ghost py-2 px-3">OK</button>
-    </div>
-  </div>
-
-  <script>
-  (function(){
-    window.GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || "YOUR_CLIENT_ID.apps.googleusercontent.com";
-    window.URLS = {
-      : "https://voicesafe-backend-1.onrender.com",
-      : "http://127.0.0.1:10000"
-    };
-    window.STRIPE_CHECKOUT_URL = window.STRIPE_CHECKOUT_URL || "";
-
-    const $ = (id) => document.getElementById(id);
-    const toast = $("toast");
-    function showToast(title, msg){
-      $("toastTitle").textContent = title;
-      $("toastMsg").textContent = msg;
-      toast.classList.add("show");
+  async function copyText(txt){
+    try{
+      await navigator.clipboard.writeText(txt);
+      toast(lang()==="sk" ? "Skopírované" : "Copied");
+    }catch{
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      toast(lang()==="sk" ? "Skopírované" : "Copied");
     }
-    $("toastClose").addEventListener("click", () => toast.classList.remove("show"));
+  }
 
-    function safeParse(s){ try{ return s ? JSON.parse(s) : null; } catch{ return null; } }
-    function clamp(n,a,b){ n = Number(n); if (Number.isNaN(n)) return a; return Math.max(a, Math.min(b,n)); }
-    function pct(v){
-      if (v === null || v === undefined) return null;
-      const x = Number(v);
-      if (Number.isNaN(x)) return null;
-      if (x <= 1) return Math.round(clamp(x,0,1)*100);
-      return Math.round(clamp(x,0,100));
-    }
-    function riskFromScam(scamPct){
-      if (scamPct === null) return "UNKNOWN";
-      if (scamPct >= 70) return "HIGH";
-      if (scamPct >= 40) return "MEDIUM";
-      return "LOW";
-    }
-    function fmtTime(iso){
-      try{
-        const d = new Date(iso);
-        if (Number.isNaN(d.getTime())) return iso || "";
-        return d.toLocaleString();
-      } catch { return iso || ""; }
-    }
-    function escapeHtml(s){
-      return String(s ?? "").replace(/[&<>"']/g, (c)=>({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-      }[c]));
-    }
+  function setLoading(on, label){
+    const overlay = qs("resultsLoading");
+    const lt = qs("loadingText");
+    if (lt && label) lt.textContent = label;
+    if (overlay) overlay.classList.toggle("hidden", !on);
 
-    const state = {
-      // production-only
-      apiKey: localStorage.getItem("vs_api_key") || "",
-      bearer: localStorage.getItem("vs_token") || "",
-      user: safeParse(localStorage.getItem("vs_user")),
-      last: null,
-      lastCaseId: null,
-      recBlob: null,
-      recorder: null,
-      chunks: []
-    };
-
-    function baseUrl(){ return window.BACKEND_URL; }
-
-    function authHeaders(){
-      const h = {};
-      if (state.apiKey) h["x-api-key"] = state.apiKey;
-      if (state.bearer) h["Authorization"] = "Bearer " + state.bearer;
-      return h;
+    const btn = qs("analyzeBtn");
+    if (btn){
+      btn.disabled = !!on;
+      btn.classList.toggle("btnLoading", !!on);
+      const txt = I18N[lang()]?.analyzeBtn || I18N.en.analyzeBtn;
+      btn.innerHTML = on ? `<span class="btnInlineSpinner"></span>${lang()==="sk" ? "Analyzujem…" : "Analyzing…"}`
+                         : txt;
     }
+    const rbtn = qs("recordBtn");
+    if (rbtn) rbtn.disabled = !!on;
+  }
 
-    function detectCaseRoute(){
-      const p = window.location.pathname || "/";
-      const m = p.match(/\/case\/(VS-[A-Za-z0-9\-]+)/i);
-      return m ? m[1] : null;
+  // ===========================
+  // Auth (JWT)
+  // ===========================
+  const LS_TOKEN = "vs_token";
+  const LS_USER = "vs_user";
+
+  function getToken(){ return localStorage.getItem(LS_TOKEN) || ""; }
+  function setToken(t){ if (t) localStorage.setItem(LS_TOKEN, t); else localStorage.removeItem(LS_TOKEN); }
+  function getUser(){
+    try{ return JSON.parse(localStorage.getItem(LS_USER) || "null"); }catch{ return null; }
+  }
+  function setUser(u){ if (u) localStorage.setItem(LS_USER, JSON.stringify(u)); else localStorage.removeItem(LS_USER); }
+
+  function authHeaders(){
+    const h = { };
+    const t = getToken();
+    if (t) h["Authorization"] = "Bearer " + t;
+    return h;
+  }
+
+  function setUserUI(){
+    const u = getUser();
+    const googleMount = qs("googleBtn");
+    const userBtn = qs("userBtn");
+    const userLabel = qs("userLabel");
+    const hint = qs("authHint");
+    if (u?.email){
+      if (googleMount) googleMount.style.display = "none";
+      if (userBtn) userBtn.classList.remove("hidden");
+      if (userLabel) userLabel.textContent = u.email;
+      if (hint) hint.textContent = (lang()==="sk")
+        ? ("Prihlásený: " + u.email + " • História prípadov je dostupná v „Moje prípady“.")
+        : ("Signed in: " + u.email + " • Case history is available in “My Cases”.");
+    } else {
+      if (googleMount) googleMount.style.display = "";
+      if (userBtn) userBtn.classList.add("hidden");
+      if (userLabel) userLabel.textContent = "—";
+      if (hint) hint.textContent = (lang()==="sk")
+        ? "Pre plnú históriu prípadov sa prihlás cez Google."
+        : "Sign in with Google to unlock your case history.";
     }
+  }
 
-    async function fetchJson(url, options){
-      const res = await fetch(url, options);
-      const txt = await res.text();
-      let data = null;
-      try { data = txt ? JSON.parse(txt) : null; } catch(_){}
-      if (!res.ok){
-        throw new Error((data && (data.error || data.message)) || txt || ("HTTP " + res.status));
+  async function gsiExchange(idToken){
+    const r = await fetch(BACKEND_BASE + "/auth/google", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id_token: idToken })
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data?.ok) throw new Error(data?.error || ("Auth failed (" + r.status + ")"));
+    setToken(data.token);
+    setUser(data.user || {});
+    setUserUI();
+    return data;
+  }
+
+  async function validateMe(){
+    const t = getToken();
+    if (!t) return;
+    try{
+      const r = await fetch(BACKEND_BASE + "/me", { headers: { ...authHeaders() } });
+      if (r.status === 401){
+        setToken("");
+        setUser(null);
+        setUserUI();
+        toast(lang()==="sk" ? "Prihlásenie vypršalo" : "Session expired");
       }
-      return data;
-    }
+    }catch{}
+  }
 
-    async function loadCaseReport(caseId){
-      const url1 = baseUrl() + "/cases/" + encodeURIComponent(caseId);
-      const url2 = baseUrl() + "/case/" + encodeURIComponent(caseId);
-      try{
-        return await fetchJson(url1, { headers: { ...authHeaders() } });
-      } catch(e1){
-        return await fetchJson(url2, { headers: { ...authHeaders() } });
-      }
-    }
+  function initGoogleLogin(){
+    const clientId = (window.GOOGLE_CLIENT_ID || "").trim();
+    if (!clientId || clientId.includes("PASTE_YOUR_GOOGLE_CLIENT_ID")) return;
 
-    function setBadge(el, level){
-      const L = (level || "UNKNOWN").toUpperCase();
-      if (L === "HIGH") {
-        el.innerHTML = '<span class="w-2 h-2 rounded-full" style="background: var(--high)"></span><span>HIGH</span>';
-      } else if (L === "MEDIUM") {
-        el.innerHTML = '<span class="w-2 h-2 rounded-full" style="background: var(--med)"></span><span>MEDIUM</span>';
-      } else if (L === "LOW") {
-        el.innerHTML = '<span class="w-2 h-2 rounded-full" style="background: var(--good)"></span><span>LOW</span>';
-      } else {
-        el.innerHTML = '<span class="w-2 h-2 rounded-full" style="background: rgba(255,255,255,.45)"></span><span>UNKNOWN</span>';
-      }
-    }
+    const mount = qs("googleBtn");
+    if (!mount) return;
 
-    function renderPublicCase(item){
-      const row = item?.item || item;
-      const caseId = row?.case_id || "—";
-      $("caseTitle").textContent = row?.title ? row.title : ("Case " + caseId);
-      $("caseMeta").textContent = `ID: ${caseId} • ${fmtTime(row?.created_at || "")}`.trim();
-
-      const scam = pct(row?.scam_score ?? row?.ai_json?.scores?.scam_score ?? row?.ai_json?.scam_score);
-      const aiP  = pct(row?.ai_probability ?? row?.ai_json?.scores?.ai_probability ?? row?.ai_json?.ai_probability);
-      const stress = pct(row?.stress_level ?? row?.ai_json?.scores?.stress_level ?? row?.ai_json?.stress_level);
-      const conf = pct(row?.confidence ?? row?.ai_json?.scores?.confidence ?? row?.ai_json?.confidence);
-
-      const riskLevel = (row?.risk_level || row?.ai_json?.scores?.risk_level || row?.ai_json?.risk_level || riskFromScam(scam)).toUpperCase();
-      setBadge($("caseRiskBadge"), riskLevel);
-      $("caseConfidence").textContent = "Confidence: " + (conf===null ? "—" : (conf + "%"));
-      $("caseRiskCard").classList.toggle("high", riskLevel === "HIGH");
-
-      $("caseRiskScore").textContent = scam===null ? "—" : String(scam);
-      $("caseSummary").textContent = riskLevel==="HIGH"
-        ? "Vysoké riziko. Stopni interakciu, over identitu mimo kanálu, neplať."
-        : riskLevel==="MEDIUM"
-          ? "Stredné riziko. Over si identitu, nenechaj sa tlačiť do rýchlej platby."
-          : riskLevel==="LOW"
-            ? "Nízke riziko. Stále buď opatrný – overuj citlivé požiadavky."
-            : "Výsledok je orientačný.";
-
-      $("caseBar1").style.width = (scam===null ? "0%" : scam + "%");
-      $("caseBar2").style.width = (aiP===null ? "0%" : aiP + "%");
-      $("caseBar3").style.width = (stress===null ? "0%" : stress + "%");
-      $("caseBar1Val").textContent = scam===null ? "—" : (scam + "%");
-      $("caseBar2Val").textContent = aiP===null ? "—" : (aiP + "%");
-      $("caseBar3Val").textContent = stress===null ? "—" : (stress + "%");
-
-      const rec = row?.ai_json?.recommendations || row?.ai_json?.actions || [];
-      const list = $("caseReco");
-      list.innerHTML = "";
-      (Array.isArray(rec) ? rec : []).slice(0, 10).forEach(x=>{
-        const li = document.createElement("li");
-        li.textContent = typeof x === "string" ? x : (x?.text || x?.title || JSON.stringify(x));
-        list.appendChild(li);
-      });
-      if (!list.children.length){
-        ["Nezadávaj kódy/SMS.", "Over identitu cez oficiálne číslo.", "Neautorizuj platbu bez verifikácie."].forEach(t=>{
-          const li = document.createElement("li"); li.textContent = t; list.appendChild(li);
-        });
-      }
-
-      $("caseRaw").textContent = JSON.stringify(row, null, 2);
-    }
-
-    async function enterCasePage(caseId){
-      $("appRoot").classList.add("hidden");
-      $("caseRoot").classList.remove("hidden");
-
-      $("caseCopyLink").addEventListener("click", async () => {
-        await navigator.clipboard.writeText(window.location.href);
-        showToast("Copied", "Link skopírovaný.");
-      });
-      $("casePrint").addEventListener("click", () => window.print());
-
-      try{
-        showToast("Loading", "Načítavam report…");
-        const data = await loadCaseReport(caseId);
-        renderPublicCase(data);
-        toast.classList.remove("show");
-      } catch(e){
-        console.error(e);
-        showToast("Case load failed", e.message || String(e));
-      }
-    }
-
-    const caseIdFromRoute = detectCaseRoute();
-    if (caseIdFromRoute){
-enterCasePage(caseIdFromRoute);
+    // wait for GSI
+    if (!window.google?.accounts?.id){
+      setTimeout(initGoogleLogin, 350);
       return;
     }
 
-    function updateAuthStatus(){
-      const st = $("authStatus");
-      const badge = $("userBadge");
-      const logout = $("btnLogout");
-
-      if (state.bearer) {
-        st.textContent = "Bearer OK";
-        st.className = "text-xs text-emerald-300";
-      } else if (state.apiKey) {
-        st.textContent = "API key set";
-        st.className = "text-xs text-emerald-300";
-      } else {
-        st.textContent = "Not set";
-        st.className = "text-xs muted2";
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: async (resp) => {
+        try{
+          await gsiExchange(resp.credential);
+          toast(lang()==="sk" ? "Prihlásenie OK ✅" : "Login OK ✅");
+        }catch(e){
+          console.error(e);
+          toast(lang()==="sk" ? "Prihlásenie zlyhalo" : "Login failed");
+          alert((lang()==="sk" ? "Google login failed: " : "Google login failed: ") + (e?.message || e));
+        }
       }
+    });
 
-      badge.textContent = state.user?.email ? state.user.email : "";
-      logout.classList.toggle("hidden", !state.bearer);
+    window.google.accounts.id.renderButton(mount, {
+      theme: "outline",
+      size: "large",
+      text: "continue_with"
+    });
+  }
+
+  function logout(){
+    setToken("");
+    setUser(null);
+    setUserUI();
+    toast(lang()==="sk" ? "Odhlásené" : "Signed out");
+  }
+
+  // ===========================
+  // i18n
+  // ===========================
+  const LS_LANG = "vs_lang";
+  function lang(){ return localStorage.getItem(LS_LANG) || "en"; }
+
+  const I18N = window.I18N = {
+    en: {
+      tagline: "AI voice scam risk assessment",
+      navHow:"How it works", navServices:"Services", navContact:"Contact", navTerms:"Terms",
+      ctaPro:"Unlock Pro",
+      heroPill:"Privacy-first. Instant risk signals. Built for real-world calls.",
+      heroTitleA:"Turn a suspicious", heroTitleB:"voice message", heroTitleC:"into a clear decision.",
+      heroDesc:"Upload audio/video or record a short clip. VoiceSafe returns a structured risk assessment with recommended actions.",
+      heroCtaAnalyze:"Analyze now", heroCtaDemo:"Run demo", heroCtaHow:"How it works",
+      heroStat1Title:"Fast", heroStat1Desc:"Typical analysis in seconds.",
+      heroStat2Title:"Explainable", heroStat2Desc:"Action-oriented guidance, not just a score.",
+      heroStat3Title:"Private", heroStat3Desc:"Prototype stores no voice permanently.",
+      statusTitle:"Service status", modeLabel:"Mode",
+      investorNoteTitle:"Investor note",
+      investorNoteBody:"This prototype demonstrates end-to-end UX with enterprise-grade preprocessing (audio normalization), authenticated history, and shareable reports.",
+      tabAnalyze:"Analyze", tabMyCases:"My Cases", tabInvestor:"Investor",
+      analyzeTitleSmall:"Analyze a sample", analyzeTitle:"Upload or record",
+      demoBtn:"Demo", uploadLabel:"Upload file", recordBtn:"Record", analyzeBtn:"Analyze",
+      note1:"Privacy-first • No permanent voice storage (prototype)",
+      note2:"Shareable report link after analysis",
+      note3:"Advisory signals only — verify via official channels",
+      caseTitle:"Case details (optional)", privacyTip:"Tip: Keep personal data out of notes.",
+      resultsTitleSmall:"AI risk assessment", resultsTitle:"Results", resultsHint:"Upload or record to generate a report.",
+      copyJson:"Copy JSON", copyLink:"Copy link", share:"Share", shareCard:"Share card",
+      riskLevelLabel:"Risk level", confidenceLabel:"Confidence", recommendedAction:"Recommended action",
+      step1Label:"1) Pause", step1Title:"Stop sensitive steps", step1Desc:"Don’t send money or codes.",
+      step2Label:"2) Verify", step2Title:"Use official channels", step2Desc:"Call a verified number.",
+      step3Label:"3) Escalate", step3Title:"Share report", step3Desc:"Keep evidence & report.",
+      confEngine:"Confidence engine",
+      scamScore:"Scam score", aiProb:"AI voice probability", stressLevel:"Stress level",
+      rawJson:"Raw JSON",
+      cases:"Case", savedCase:"Saved case", caseId:"Case ID", loadCase:"Load", openCase:"Open",
+      searchCases:"Search public cases", searchBtn:"Search",
+      myCases:"My Cases", logout:"Sign out",
+      myCasesSmall:"History", myCasesTitle:"My Cases", refresh:"Refresh", casesList:"Cases",
+      investorSmall:"Investor demo", investorTitle:"Dashboard", load:"Load",
+      invMetric1:"Total cases (last 50)", invMetric2:"High risk share", invRecent:"Recent cases",
+      invNote:"Note: Investor dashboard uses aggregated data from the backend. In production you add org-level RBAC, audit logs, and export.",
+      howSmall:"How it works", howTitle:"From audio to action",
+      howDesc:"VoiceSafe produces a structured risk report designed for fast, safe decisions — especially when money or identity is involved.",
+      howCta:"Try it",
+      howStep1Title:"Upload or record", howStep1Desc:"Short clips work best. We extract audio features and metadata.",
+      howStep2Title:"Analyze signals", howStep2Desc:"Models output scam-risk, synthetic-voice likelihood, and stress indicators.",
+      howStep3Title:"Get guidance", howStep3Desc:"A clear risk level with recommended next steps and exportable JSON.",
+      servicesSmall:"Services", servicesTitle:"Enterprise-ready roadmap",
+      svc1Title:"API + SDK", svc1Desc:"Stable endpoints, versioning, and client SDKs for web & mobile.",
+      svc2Title:"Model calibration", svc2Desc:"Country/language calibration, false-positive control, and confidence scoring.",
+      svc3Title:"Compliance & audit", svc3Desc:"Retention controls, consent flows, and compliance-ready audit logs.",
+      contactSmall:"Contact", contactTitle:"Let’s talk",
+      contactDesc:"Interested in pilots with banks, marketplaces, or call centers? Reach out for a private demo and roadmap.",
+      contactEmail:"Email", contactCopy:"Copy email",
+      termsSmall:"Terms", termsTitle:"Safety note",
+      termsDesc:"VoiceSafe provides advisory signals only. If money is involved, verify via official channels. Keep personal data out of notes.",
+      footerTagline:"AI voice scam risk assessment",
+      footerDesc:"Fast, explainable risk guidance for suspicious voice calls and messages.",
+      footerProduct:"Product", footerHow:"How it works", footerAnalyze:"Analyze",
+      footerService:"Service", footerServices:"Services", footerContact:"Contact",
+      footerLegal:"Legal", footerTerms:"Terms", footerPrivacy:"Privacy", footerLinks:"Links",
+    },
+    sk: {
+      tagline: "AI vyhodnotenie rizika podvodu z hlasu",
+      navHow:"Ako to funguje", navServices:"Služby", navContact:"Kontakt", navTerms:"Podmienky",
+      ctaPro:"Odomknúť Pro",
+      heroPill:"Súkromie na prvom mieste. Okamžité signály rizika. Pre reálne hovory.",
+      heroTitleA:"Zmeň podozrivú", heroTitleB:"hlasovú správu", heroTitleC:"na jasné rozhodnutie.",
+      heroDesc:"Nahraj audio/video alebo nahraj krátky klip. VoiceSafe vráti štruktúrované vyhodnotenie rizika a odporúčaný postup.",
+      heroCtaAnalyze:"Analyzovať", heroCtaDemo:"Spustiť demo", heroCtaHow:"Ako to funguje",
+      heroStat1Title:"Rýchle", heroStat1Desc:"Typicky v sekundách.",
+      heroStat2Title:"Vysvetliteľné", heroStat2Desc:"Odporúčania, nie len číslo.",
+      heroStat3Title:"Súkromné", heroStat3Desc:"Prototyp neukladá hlas natrvalo.",
+      statusTitle:"Stav služby", modeLabel:"Režim",
+      investorNoteTitle:"Poznámka pre investora",
+      investorNoteBody:"Tento prototyp ukazuje end-to-end UX s enterprise pre-processingom (normalizácia audia), prihlásenou históriou a zdieľateľnými reportmi.",
+      tabAnalyze:"Analýza", tabMyCases:"Moje prípady", tabInvestor:"Investor",
+      analyzeTitleSmall:"Analyzovať vzorku", analyzeTitle:"Nahraj alebo nahrávaj",
+      demoBtn:"Demo", uploadLabel:"Nahrať súbor", recordBtn:"Nahrávať", analyzeBtn:"Analyzovať",
+      note1:"Súkromie • Bez trvalého ukladania hlasu (prototyp)",
+      note2:"Zdieľateľný link na report po analýze",
+      note3:"Len odporúčacie signály — over cez oficiálne kanály",
+      caseTitle:"Detaily prípadu (voliteľné)", privacyTip:"Tip: Do poznámok nedávaj osobné údaje.",
+      resultsTitleSmall:"AI vyhodnotenie rizika", resultsTitle:"Výsledky", resultsHint:"Nahraj alebo nahrávaj pre report.",
+      copyJson:"Kopírovať JSON", copyLink:"Kopírovať link", share:"Zdieľať", shareCard:"Zdieľať kartu",
+      riskLevelLabel:"Riziko", confidenceLabel:"Istota", recommendedAction:"Odporúčaný postup",
+      step1Label:"1) Pauza", step1Title:"Zastav citlivé kroky", step1Desc:"Neposielaj peniaze ani kódy.",
+      step2Label:"2) Over", step2Title:"Použi oficiálne kanály", step2Desc:"Zavolaj na overené číslo.",
+      step3Label:"3) Eskaluj", step3Title:"Zdieľaj report", step3Desc:"Ulož dôkazy a nahlás.",
+      confEngine:"Confidence engine",
+      scamScore:"Skóre podvodu", aiProb:"Pravdepodobnosť AI hlasu", stressLevel:"Stres",
+      rawJson:"Surový JSON",
+      cases:"Prípad", savedCase:"Uložený prípad", caseId:"ID prípadu", loadCase:"Načítať", openCase:"Otvoriť",
+      searchCases:"Hľadať verejné prípady", searchBtn:"Hľadať",
+      myCases:"Moje prípady", logout:"Odhlásiť",
+      myCasesSmall:"História", myCasesTitle:"Moje prípady", refresh:"Obnoviť", casesList:"Prípady",
+      investorSmall:"Investor demo", investorTitle:"Dashboard", load:"Načítať",
+      invMetric1:"Počet prípadov (posl. 50)", invMetric2:"Podiel HIGH", invRecent:"Posledné prípady",
+      invNote:"Poznámka: Investor dashboard používa agregované dáta z backendu. V produkcii doplníš RBAC, audit logy a export.",
+      howSmall:"Ako to funguje", howTitle:"Od audia k odporúčaniu",
+      howDesc:"VoiceSafe dáva štruktúrovaný report pre rýchle a bezpečné rozhodnutia — najmä keď ide o peniaze alebo identitu.",
+      howCta:"Vyskúšať",
+      howStep1Title:"Nahraj alebo nahrávaj", howStep1Desc:"Krátke klipy fungujú najlepšie. Vyťažíme audio signály a metadáta.",
+      howStep2Title:"Vyhodnoť signály", howStep2Desc:"Model dá scam-risk, pravdepodobnosť syntetického hlasu a stres.",
+      howStep3Title:"Dostaneš postup", howStep3Desc:"Jasná úroveň rizika, odporúčané kroky a export JSON.",
+      servicesSmall:"Služby", servicesTitle:"Enterprise roadmap",
+      svc1Title:"API + SDK", svc1Desc:"Stabilné endpointy, verzovanie a SDK pre web/mobil.",
+      svc2Title:"Kalibrácia modelu", svc2Desc:"Kalibrácia podľa krajiny/jazyka, kontrola false-positive a confidence.",
+      svc3Title:"Compliance & audit", svc3Desc:"Retention, consent flow a audit logy pripravené na reguláciu.",
+      contactSmall:"Kontakt", contactTitle:"Ozvi sa",
+      contactDesc:"Zaujíma pilot pre banky, marketplaces alebo call centrá? Ozvi sa na privátnu demo ukážku a roadmap.",
+      contactEmail:"Email", contactCopy:"Skopírovať email",
+      termsSmall:"Podmienky", termsTitle:"Bezpečnostná poznámka",
+      termsDesc:"VoiceSafe poskytuje len odporúčacie signály. Ak ide o peniaze, over si to cez oficiálne kanály. Do poznámok nedávaj osobné údaje.",
+      footerTagline:"AI vyhodnotenie rizika podvodu z hlasu",
+      footerDesc:"Rýchle a vysvetliteľné odporúčania pri podozrivých hlasových správach.",
+      footerProduct:"Produkt", footerHow:"Ako to funguje", footerAnalyze:"Analýza",
+      footerService:"Služby", footerServices:"Služby", footerContact:"Kontakt",
+      footerLegal:"Právne", footerTerms:"Podmienky", footerPrivacy:"Súkromie", footerLinks:"Odkazy",
+    }
+  };
+
+  function applyLang(l){
+    const L = I18N[l] || I18N.en;
+    document.documentElement.lang = l;
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+      const k = el.getAttribute("data-i18n");
+      if (L[k] != null) el.textContent = L[k];
+    });
+    qs("langLabel").textContent = (l === "sk" ? "Slovenčina" : "English");
+
+    // placeholders
+    const ph = {
+      titleEl: l === "sk" ? "Názov (napr. Telegram investor)" : "Title (e.g. Telegram investor)",
+      platformEl: l === "sk" ? "Platforma (Telegram)" : "Platform (Telegram)",
+      countryEl: l === "sk" ? "Krajina (SK)" : "Country (US)",
+      languageEl: l === "sk" ? "Jazyk (SK)" : "Language (EN)",
+      tagsEl: l === "sk" ? "Tagy (oddelené čiarkou)" : "Tags (comma separated)",
+      notesEl: l === "sk" ? "Poznámky (čo sa stalo)" : "Notes (what happened)",
+      searchQuery: l === "sk" ? "Hľadať názov / poznámky..." : "Search title / notes..."
+    };
+    Object.entries(ph).forEach(([id, val])=>{
+      const el = qs(id);
+      if (el) el.setAttribute("placeholder", val);
+    });
+
+    // keep buttons correct after translation
+    const rb = qs("recordBtn"); if (rb) rb.textContent = L.recordBtn;
+    const ab = qs("analyzeBtn"); if (ab) ab.textContent = L.analyzeBtn;
+
+    // refresh auth hint
+    setUserUI();
+  }
+
+  // ===========================
+  // Risk + Confidence
+  // ===========================
+  function normalizePayload(payload){
+    const p = payload || {};
+    const aiWrapped = (p.ai && typeof p.ai === "object") ? p.ai : null;
+    const r0 = aiWrapped || p.scores || p.result || p.analysis || p.ai_result || p.data || p;
+
+    const scam = r0.scam_score ?? r0.scamScore ?? r0.scam_probability ?? r0.scamProb ?? r0.scam;
+    const ai = r0.ai_probability ?? r0.aiProb ?? r0.ai_voice_probability ?? r0.aiVoiceProb ?? r0.ai;
+    const stress = r0.stress_level ?? r0.stress ?? r0.stressLevel;
+
+    const riskLevel = (r0.risk_level ?? r0.riskLevel ?? r0.risk)?.toString().toUpperCase();
+    const conf = r0.confidence ?? r0.conf;
+
+    const summary = r0.summary ?? r0.message ?? r0.explanation ?? p.summary ?? "";
+    const riskText = r0.riskText ?? r0.risk_text ?? r0.reason ?? r0.details ?? p.riskText ?? "";
+
+    const scamPct = pct(scam);
+    const aiPct = pct(ai);
+    const stressPct = pct(stress);
+
+    let level = riskLevel;
+    if (!level || level === "UNDEFINED" || level === "NULL" || level === "UNKNOWN") {
+      if (scamPct == null) level = "—";
+      else if (scamPct >= 70) level = "HIGH";
+      else if (scamPct >= 35) level = "MEDIUM";
+      else level = "LOW";
     }
 
-    function bindUI(){
-$("apiKeyInput").value = state.apiKey;
-      $("btnSaveKey").addEventListener("click", () => {
-        state.apiKey = ($("apiKeyInput").value || "").trim();
-        if (state.apiKey) localStorage.setItem("vs_api_key", state.apiKey);
-        else localStorage.removeItem("vs_api_key");
-        updateAuthStatus();
-        showToast("Saved", "API key stored locally.");
-      });
+    let confidencePct = pct(conf);
+    if (confidencePct == null){
+      // Client fallback confidence engine v1:
+      // More confidence when signals are strong and consistent.
+      const s = (scamPct ?? 0) / 100;
+      const a = (aiPct ?? 0) / 100;
+      const t = (stressPct ?? 0) / 100;
 
-      $("btnLogout").addEventListener("click", () => {
-        state.bearer = "";
-        state.user = null;
-        localStorage.removeItem("vs_token");
-        localStorage.removeItem("vs_user");
-        updateAuthStatus();
-        showToast("Logout", "Signed out.");
-        try { window.google?.accounts?.id?.disableAutoSelect?.(); } catch(_) {}
-      });
-
-      $("upgradeBtn").addEventListener("click", () => {
-        if (window.STRIPE_CHECKOUT_URL) window.location.href = window.STRIPE_CHECKOUT_URL;
-        else showToast("Pro", "Stripe URL not set (optional).");
-      });
-
-      $("btnPrint").addEventListener("click", () => window.print());
-
-      $("btnCopyJson").addEventListener("click", async () => {
-        if (!state.last) return showToast("Copy", "Najprv sprav analýzu.");
-        await navigator.clipboard.writeText(JSON.stringify(state.last, null, 2));
-        showToast("Copied", "JSON skopírované.");
-      });
-
-      $("btnShareReport").addEventListener("click", async () => {
-        if (!state.lastCaseId) return showToast("Share", "Najprv sprav analýzu (case_id).");
-        const link = window.location.origin + "/case/" + encodeURIComponent(state.lastCaseId);
-        await navigator.clipboard.writeText(link);
-        showToast("Share Report", "Link skopírovaný: " + state.lastCaseId);
-      });
-
-      $("btnSearch").addEventListener("click", () => listCases());
-      $("btnRefreshCases").addEventListener("click", () => listCases());
-      $("btnRefreshStats").addEventListener("click", () => loadStats());
-
-      $("btnRecord").addEventListener("click", startRecording);
-      $("btnStop").addEventListener("click", stopRecording);
-      $("btnDemo").addEventListener("click", runDemo);
-      $("btnAnalyze").addEventListener("click", onAnalyze);
+      // signal strength
+      const strength = 0.55*s + 0.25*a + 0.20*t;
+      // agreement: scam + stress generally move together; penalize contradictions
+      const contradiction = Math.min(1, Math.abs(s - t) * 1.1 + Math.abs(s - a) * 0.6);
+      const conf01 = Math.max(0, Math.min(1, (0.35 + 0.65*strength) * (1 - 0.35*contradiction)));
+      confidencePct = Math.round(conf01 * 100);
     }
 
-    async function healthCheck(){
-      const chip = $("healthChip");
-      const dot = chip.querySelector("span");
-      try{
-        $("healthTxt").textContent = "Checking…";
-        dot.style.background = "rgba(255,255,255,.35)";
-        const data = await fetchJson(baseUrl()+"/health", { headers: { ...authHeaders() } });
-        $("healthTxt").textContent = data?.db ? "OK (DB)" : "OK";
-        dot.style.background = "var(--good)";
-      } catch(e){
-        $("healthTxt").textContent = "Offline";
-        dot.style.background = "var(--high)";
-      }
+    return {
+      raw: (aiWrapped || payload),
+      scamPct, aiPct, stressPct,
+      level,
+      confidencePct,
+      summary: summary || "",
+      riskText: riskText || ""
+    };
+  }
+
+  function actionFromLevel(level){
+    const isSK = lang() === "sk";
+    if (level === "HIGH"){
+      return {
+        pill: isSK ? "VYSOKÉ RIZIKO" : "HIGH RISK",
+        title: isSK ? "Vysoké riziko. Najprv over." : "High risk. Verify first.",
+        text: isSK
+          ? "Zastav citlivé kroky. Over totožnosť cez oficiálny kontakt (nie cez číslo z hovoru)."
+          : "Pause sensitive steps. Verify identity via an official channel (not the number provided in the call)."
+      };
+    }
+    if (level === "MEDIUM"){
+      return {
+        pill: isSK ? "STREDNÉ RIZIKO" : "MEDIUM RISK",
+        title: isSK ? "Zvýšené riziko. Postupuj opatrne." : "Elevated risk. Proceed cautiously.",
+        text: isSK
+          ? "Over aspoň 2 nezávislé signály (web, známy kontakt, oficiálne číslo)."
+          : "Verify via at least two independent signals (website, known contact, official number)."
+      };
+    }
+    if (level === "LOW"){
+      return {
+        pill: isSK ? "NÍZKE RIZIKO" : "LOW RISK",
+        title: isSK ? "Nízke riziko. Zostaň ostražitý." : "Low risk. Stay alert.",
+        text: isSK
+          ? "Neznamená to, že je to bezpečné. Pri peniazoch vždy over."
+          : "Low risk doesn't guarantee safety. Always verify when money is involved."
+      };
+    }
+    return {
+      pill: "—",
+      title: isSK ? "Spusť analýzu pre odporúčanie." : "Run an analysis to get guidance.",
+      text: ""
+    };
+  }
+
+  function setRiskVisual(level){
+    const resultsCard = qs("resultsCard");
+    const actionCard = qs("actionCard");
+    const pill = qs("riskPill");
+    const riskLevelEl = qs("riskLevel");
+
+    if (resultsCard) resultsCard.classList.toggle("pulseHigh", level === "HIGH");
+    if (actionCard) actionCard.classList.toggle("pulseHigh", level === "HIGH");
+
+    if (actionCard){
+      actionCard.classList.remove("gradLow","gradMedium","gradHigh");
+      actionCard.classList.add(level === "HIGH" ? "gradHigh" : level === "MEDIUM" ? "gradMedium" : "gradLow");
     }
 
-    async function startRecording(){
-      try{
-        state.chunks = [];
-        state.recBlob = null;
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const mr = new MediaRecorder(stream);
-        state.recorder = mr;
-        mr.ondataavailable = (ev) => { if (ev.data && ev.data.size) state.chunks.push(ev.data); };
-        mr.onstop = () => {
-          state.recBlob = new Blob(state.chunks, { type: "audio/webm" });
-          stream.getTracks().forEach(t => t.stop());
-          showToast("Record", "Recorded: " + Math.round(state.recBlob.size/1024) + " KB");
-        };
-        mr.start();
-        $("btnRecord").setAttribute("disabled","disabled");
-        $("btnStop").removeAttribute("disabled");
-        showToast("Record", "Recording…");
-      } catch(e){
-        console.error(e);
-        showToast("Mic error", e.message || String(e));
-      }
+    const map = {
+      HIGH: {pillBg:"rgba(239,68,68,.20)", pillStroke:"rgba(239,68,68,.35)", label:"HIGH"},
+      MEDIUM: {pillBg:"rgba(245,158,11,.20)", pillStroke:"rgba(245,158,11,.35)", label:"MEDIUM"},
+      LOW: {pillBg:"rgba(34,197,94,.18)", pillStroke:"rgba(34,197,94,.35)", label:"LOW"},
+      "—": {pillBg:"rgba(255,255,255,.06)", pillStroke:"rgba(255,255,255,.12)", label:"—"},
+    };
+    const v = map[level] || map["—"];
+    if (pill){
+      pill.style.background = v.pillBg;
+      pill.style.border = "1px solid " + v.pillStroke;
+    }
+    if (riskLevelEl) riskLevelEl.textContent = v.label;
+
+    // bars color by risk
+    const barMap = {
+      HIGH: "bg-red-400/80",
+      MEDIUM: "bg-amber-400/80",
+      LOW: "bg-emerald-400/80",
+      "—": "bg-white/20",
+    };
+    const cls = barMap[level] || barMap["—"];
+    ["scamBar","aiBar","stressBar","confBar"].forEach(id=>{
+      const el = qs(id);
+      if (!el) return;
+      el.classList.remove("bg-amber-400/80","bg-red-400/80","bg-emerald-400/80","bg-white/20");
+      el.classList.add(cls);
+    });
+  }
+
+  function setBars(scamPct, aiPct, stressPct){
+    const pairs = [
+      ["scamScore","scamBar", scamPct],
+      ["aiProb","aiBar", aiPct],
+      ["stress","stressBar", stressPct],
+    ];
+    pairs.forEach(([valId, barId, v])=>{
+      const valEl = qs(valId);
+      const bar = qs(barId);
+      const pctVal = (v == null) ? 0 : Math.max(0, Math.min(100, v));
+      if (valEl) valEl.textContent = (v == null) ? "0" : String(pctVal);
+      if (bar) bar.style.width = pctVal + "%";
+    });
+  }
+
+  function setConfidenceUI(confPct, scamPct, aiPct, stressPct){
+    const confEl = qs("confidence");
+    const confBar = qs("confBar");
+    const confLabel = qs("confLabel");
+    const confExplain = qs("confExplain");
+
+    const v = Math.max(0, Math.min(100, Number(confPct || 0)));
+    if (confEl) confEl.textContent = v + "%";
+    if (confLabel) confLabel.textContent = v + "%";
+    if (confBar) confBar.style.width = v + "%";
+
+    const isSK = lang() === "sk";
+    const s = scamPct ?? 0;
+    const a = aiPct ?? 0;
+    const t = stressPct ?? 0;
+
+    if (confExplain){
+      confExplain.textContent = isSK
+        ? ("Confidence je stabilita signálov (scam/stres/AI). S=" + s + "%, T=" + t + "%, AI=" + a + "%.")
+        : ("Confidence reflects signal strength + consistency (scam/stress/AI). S=" + s + "%, T=" + t + "%, AI=" + a + "%.");
+    }
+  }
+
+  function setResultUI(payload){
+    const n = normalizePayload(payload || {});
+    const a = actionFromLevel(n.level);
+
+    qs("summaryText").textContent = n.summary || (lang()==="sk" ? "Report pripravený." : "Report ready.");
+    qs("riskPill").textContent = a.pill;
+    qs("riskTitle").textContent = a.title;
+    qs("riskText").textContent = n.riskText || a.text;
+
+    setRiskVisual(n.level);
+    setBars(n.scamPct, n.aiPct, n.stressPct);
+    setConfidenceUI(n.confidencePct, n.scamPct, n.aiPct, n.stressPct);
+
+    qs("rawJson").textContent = safeJson(n.raw || payload || {});
+    const caseId = payload?.case_id || payload?.caseId || payload?.id || payload?.ai?.case_id || "";
+    if (caseId) qs("caseId").textContent = caseId;
+
+    window.__VS_LAST_RESULT__ = payload || {};
+  }
+
+  // ===========================
+  // Case routing (Public page)
+  // ===========================
+  function detectCaseRoute(){
+    const path = window.location.pathname || "/";
+    // /case/VS-xxxx
+    const m = path.match(/\/case\/(VS-[A-Za-z0-9\-]+)/);
+    if (m && m[1]) return m[1];
+
+    // fallback: ?case=VS-...
+    const url = new URL(window.location.href);
+    const q = url.searchParams.get("case");
+    if (q && q.startsWith("VS-")) return q;
+
+    return null;
+  }
+
+  function buildShareLink(caseId){
+    const url = new URL(window.location.href);
+    url.searchParams.set("case", caseId);
+    // also prefer /case/ route if hosted with routing support
+    return url.toString();
+  }
+
+  async function fetchCase(caseId){
+    // try /cases/:id then /case/:id
+    let r = await fetch(BACKEND_BASE + "/cases/" + encodeURIComponent(caseId), { headers: { ...authHeaders() } }).catch(()=>null);
+    if (!r || !r.ok){
+      r = await fetch(BACKEND_BASE + "/case/" + encodeURIComponent(caseId), { headers: { ...authHeaders() } }).catch(()=>null);
+    }
+    if (!r) throw new Error("Network error");
+    const j = await r.json().catch(()=> ({}));
+    if (!r.ok) throw new Error(j.error || j.message || ("HTTP " + r.status));
+    return j.item || j;
+  }
+
+  async function loadCase(){
+    const id = (qs("caseId")?.textContent || "").trim();
+    if (!id || id === "—"){
+      toast(lang()==="sk" ? "Najprv vyber Case ID" : "Pick a Case ID first");
+      return;
+    }
+    setLoading(true, lang()==="sk" ? "Načítavam…" : "Loading…");
+    try{
+      const item = await fetchCase(id);
+      // backend returns row: risk_level/confidence etc + ai_json
+      const ai = item.ai_json || item.ai || item;
+      const payload = { ai, case_id: item.case_id || id, meta: item };
+      setResultUI(payload);
+      toast(lang()==="sk" ? "Načítané" : "Loaded");
+    }catch(e){
+      console.error(e);
+      toast((lang()==="sk" ? "Chyba: " : "Error: ") + (e?.message || e));
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  function openCase(){
+    const id = (qs("caseId")?.textContent || "").trim();
+    if (!id || id === "—") return;
+    // use query param so it works on any static hosting
+    window.location.href = "/?case=" + encodeURIComponent(id);
+  }
+
+  // ===========================
+  // Upload + Analyze
+  // ===========================
+  let mediaRecorder = null;
+  let mediaStream = null;
+  let recordedChunks = [];
+
+  async function recordToggle(){
+    const btn = qs("recordBtn");
+    if (!btn) return;
+
+    if (mediaRecorder && mediaRecorder.state !== "inactive"){
+      mediaRecorder.stop();
+      return;
     }
 
-    function stopRecording(){
-      try{
-        if (state.recorder && state.recorder.state !== "inactive") state.recorder.stop();
-      } finally {
-        $("btnRecord").removeAttribute("disabled");
-        $("btnStop").setAttribute("disabled","disabled");
-      }
+    recordedChunks = [];
+    try{
+      mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(mediaStream, { mimeType: "audio/webm" });
+      mediaRecorder.ondataavailable = (e)=> { if (e.data && e.data.size) recordedChunks.push(e.data); };
+      mediaRecorder.onstop = ()=>{
+        mediaStream?.getTracks()?.forEach(t=>t.stop());
+        mediaStream = null;
+        const blob = new Blob(recordedChunks, { type: "audio/webm" });
+        const file = new File([blob], "recording.webm", { type: "audio/webm" });
+        const input = qs("fileInput");
+        if (input){
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          input.files = dt.files;
+          qs("fileHint").textContent = (lang()==="sk") ? ("Nahrávka pripravená: " + file.name) : ("Recording ready: " + file.name);
+        }
+        btn.textContent = I18N[lang()]?.recordBtn || I18N.en.recordBtn;
+      };
+      mediaRecorder.start();
+      btn.textContent = (lang()==="sk") ? "Stop" : "Stop";
+      toast(lang()==="sk" ? "Nahrávam…" : "Recording…");
+    }catch(e){
+      console.error(e);
+      toast(lang()==="sk" ? "Mikrofón nie je dostupný" : "Microphone not available");
+    }
+  }
+
+  function getFile(){
+    const input = qs("fileInput");
+    const f = input?.files?.[0] || null;
+    return f;
+  }
+
+  function collectMeta(){
+    const meta = {
+      title: (qs("titleEl")?.value || "").trim(),
+      platform: (qs("platformEl")?.value || "").trim(),
+      country: (qs("countryEl")?.value || "").trim(),
+      language: (qs("languageEl")?.value || "").trim(),
+      tags: (qs("tagsEl")?.value || "").trim(),
+      notes: (qs("notesEl")?.value || "").trim(),
+    };
+    return meta;
+  }
+
+  async function analyze(){
+    const f = getFile();
+    if (!f){
+      toast(lang()==="sk" ? "Najprv vyber súbor" : "Choose a file first");
+      return;
     }
 
-    function setLoading(on){
-      const b = $("btnAnalyze");
-      if (on){
-        b.classList.add("shimmer");
-        b.setAttribute("disabled","disabled");
-      } else {
-        b.classList.remove("shimmer");
-        b.removeAttribute("disabled");
-      }
-    }
+    setLoading(true, lang()==="sk" ? "Analyzujem…" : "Analyzing…");
+    try{
+      const form = new FormData();
+      form.append("audio", f);
+      const meta = collectMeta();
+      Object.entries(meta).forEach(([k,v])=> { if (v) form.append(k,v); });
 
-    async function uploadAndAnalyze(blob, filename){
-      const fd = new FormData();
-      fd.append("audio", blob, filename);
-      const res = await fetch(baseUrl()+"/upload", {
+      const r = await fetch(BACKEND_BASE + "/upload", {
         method: "POST",
         headers: { ...authHeaders() },
-        body: fd
+        body: form
       });
-      const txt = await res.text();
-      let data = null;
-      try { data = txt ? JSON.parse(txt) : null; } catch(_){}
-      if (!res.ok){
-        throw new Error((data && (data.detail || data.message || data.error)) || txt || ("HTTP "+res.status));
-      }
-      return data;
-    }
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok) throw new Error(j.detail?.error || j.error || j.message || ("HTTP " + r.status));
 
-    function renderResult(data){
-      state.last = data;
-      state.lastCaseId = data?.case_id || null;
-      $("caseChip").textContent = "case: " + (state.lastCaseId || "—");
+      // backend returns {status, case_id, ai, ...}
+      const caseId = j.case_id || j.caseId || j.id || j.ai?.case_id || "";
+      if (caseId) qs("caseId").textContent = caseId;
 
-      const ai = data?.ai || data || {};
-      const s = ai?.scores || ai || {};
+      setResultUI(j);
 
-      const scam = pct(s.scam_score ?? ai.scam_score);
-      const aiP  = pct(s.ai_probability ?? ai.ai_probability);
-      const stress = pct(s.stress_level ?? ai.stress_level);
-
-      let conf = pct(s.confidence ?? ai.confidence);
-      if (conf === null){
-        const scam01 = (scam===null ? 0.5 : scam/100);
-        const stress01 = (stress===null ? 0.5 : stress/100);
-        const ai01 = (aiP===null ? 0.5 : aiP/100);
-        const calc = 0.15 + 0.55*scam01 + 0.25*stress01 + 0.05*(1-ai01);
-        conf = Math.round(clamp(calc,0.05,0.98)*100);
+      // update URL with case id
+      if (caseId){
+        const url = new URL(window.location.href);
+        url.searchParams.set("case", caseId);
+        window.history.replaceState({}, "", url.toString());
       }
 
-      const level = String(s.risk_level ?? ai.risk_level ?? riskFromScam(scam)).toUpperCase();
-      setBadge($("riskPill"), level);
-      $("riskCard").classList.toggle("high", level==="HIGH");
+      toast(lang()==="sk" ? "Hotovo ✅" : "Done ✅");
+      scrollToResults();
+      // best-effort refresh my cases
+      if (getToken()) loadMyCases(true).catch(()=>{});
+    }catch(e){
+      console.error(e);
+      toast((lang()==="sk" ? "Chyba: " : "Error: ") + (e?.message || e));
+    }finally{
+      setLoading(false);
+    }
+  }
 
-      $("riskScore").textContent = scam===null ? "—" : String(scam);
+  // ===========================
+  // My Cases
+  // ===========================
+  function renderCaseRow(item){
+    const cid = item.case_id || item.caseId || "";
+    const risk = (item.risk_level || item.riskLevel || "—").toString().toUpperCase();
+    const conf = (item.confidence != null) ? (pct(item.confidence) ?? item.confidence) : (item.confidencePct || null);
+    const confStr = (conf == null) ? "—" : (String(Math.round(Number(conf))) + "%");
+    const title = item.title || "(untitled)";
+    const when = item.created_at ? new Date(item.created_at).toLocaleString() : "";
 
-      $("bar1").style.width = (scam===null ? "0%" : scam + "%");
-      $("bar2").style.width = (aiP===null ? "0%" : aiP + "%");
-      $("bar3").style.width = (stress===null ? "0%" : stress + "%");
-      $("bar4").style.width = (conf===null ? "0%" : conf + "%");
+    const pill =
+      risk === "HIGH" ? "bg-red-400/15 border-red-400/30" :
+      risk === "MEDIUM" ? "bg-amber-400/15 border-amber-400/30" :
+      risk === "LOW" ? "bg-emerald-400/15 border-emerald-400/30" :
+      "bg-white/5 border-white/10";
 
-      $("bar1val").textContent = scam===null ? "—" : (scam + "%");
-      $("bar2val").textContent = aiP===null ? "—" : (aiP + "%");
-      $("bar3val").textContent = stress===null ? "—" : (stress + "%");
-      $("bar4val").textContent = conf===null ? "—" : (conf + "%");
+    return `
+      <button class="w-full text-left glass rounded-2xl p-3 hover:bg-white/5 transition" data-case="${escapeHtml(cid)}">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-sm font-semibold truncate">${escapeHtml(title)}</div>
+            <div class="text-xs text-white/60 mono truncate">${escapeHtml(cid)} ${when ? "• " + escapeHtml(when) : ""}</div>
+          </div>
+          <div class="flex flex-col items-end gap-2">
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full border ${pill}">${escapeHtml(risk)}</span>
+            <span class="text-xs text-white/70 mono">${escapeHtml(confStr)}</span>
+          </div>
+        </div>
+      </button>
+    `;
+  }
 
-      $("riskSummary").textContent = level==="HIGH"
-        ? "Vysoké riziko. Stopni interakciu, over identitu mimo kanálu, neplať."
-        : level==="MEDIUM"
-          ? "Stredné riziko. Over identitu, vyžiadaj kontrolné informácie."
-          : level==="LOW"
-            ? "Nízke riziko. Základná opatrnosť ostáva."
-            : "Výsledok je orientačný.";
-
-      const sig = ai?.signals || [];
-      const rec = ai?.recommendations || ai?.actions || [];
-
-      const sigList = $("signalsList");
-      const recList = $("recoList");
-      sigList.innerHTML = "";
-      recList.innerHTML = "";
-
-      (Array.isArray(sig) ? sig : []).slice(0, 10).forEach(x=>{
-        const li = document.createElement("li");
-        li.textContent = typeof x === "string" ? x : (x?.name ? x.name : JSON.stringify(x));
-        sigList.appendChild(li);
-      });
-      (Array.isArray(rec) ? rec : []).slice(0, 10).forEach(x=>{
-        const li = document.createElement("li");
-        li.textContent = typeof x === "string" ? x : (x?.text || x?.title || JSON.stringify(x));
-        recList.appendChild(li);
-      });
-
-      $("rawJson").textContent = JSON.stringify(data, null, 2);
+  async function loadMyCases(silent){
+    const hint = qs("myCasesHint");
+    const list = qs("myCasesList");
+    if (!silent){
+      if (hint) hint.textContent = (lang()==="sk") ? "Načítavam…" : "Loading…";
+      if (list) list.innerHTML = "";
     }
 
-    async function onAnalyze(){
+    if (!getToken()){
+      if (hint) hint.textContent = (lang()==="sk") ? "Prihlás sa cez Google, aby si videl svoju históriu." : "Sign in with Google to see your history.";
+      return;
+    }
+
+    try{
+      // prefer /my-cases, fallback to /cases
+      let r = await fetch(BACKEND_BASE + "/my-cases?limit=50", { headers: { ...authHeaders() } });
+      if (r.status === 404){
+        r = await fetch(BACKEND_BASE + "/cases?limit=50", { headers: { ...authHeaders() } });
+      }
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok) throw new Error(j.error || j.message || ("HTTP " + r.status));
+      const items = j.items || j.cases || j.data || [];
+      if (hint) hint.textContent = (lang()==="sk")
+        ? ("Nájdené: " + items.length + " prípadov")
+        : ("Found: " + items.length + " cases");
+
+      if (list){
+        list.innerHTML = items.length ? items.map(renderCaseRow).join("") : `<div class="text-sm text-white/60">${lang()==="sk" ? "Zatiaľ žiadne prípady." : "No cases yet."}</div>`;
+        list.querySelectorAll("[data-case]").forEach(btn=>{
+          btn.addEventListener("click", async ()=>{
+            const cid = btn.getAttribute("data-case");
+            qs("caseId").textContent = cid;
+            await loadCase();
+          });
+        });
+      }
+    }catch(e){
+      console.error(e);
+      if (hint) hint.textContent = (lang()==="sk") ? ("Chyba: " + (e?.message||e)) : ("Error: " + (e?.message||e));
+    }
+  }
+
+  // ===========================
+  // Investor dashboard (public aggregate)
+  // ===========================
+  async function loadInvestor(){
+    const total = qs("invTotal");
+    const highShare = qs("invHighShare");
+    const recent = qs("invRecentList");
+    if (total) total.textContent = "—";
+    if (highShare) highShare.textContent = "—";
+    if (recent) recent.innerHTML = "";
+
+    try{
+      const r = await fetch(BACKEND_BASE + "/cases?limit=50", { headers: { ...authHeaders() } });
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok) throw new Error(j.error || j.message || ("HTTP " + r.status));
+      const items = j.items || [];
+      if (total) total.textContent = String(items.length);
+
+      const highs = items.filter(x => String(x.risk_level || x.riskLevel || "").toUpperCase() === "HIGH").length;
+      const share = items.length ? Math.round((highs / items.length) * 100) : 0;
+      if (highShare) highShare.textContent = share + "%";
+
+      if (recent){
+        recent.innerHTML = items.slice(0, 12).map(renderCaseRow).join("") || `<div class="text-sm text-white/60">${lang()==="sk" ? "Žiadne dáta." : "No data."}</div>`;
+        recent.querySelectorAll("[data-case]").forEach(btn=>{
+          btn.addEventListener("click", async ()=>{
+            const cid = btn.getAttribute("data-case");
+            qs("caseId").textContent = cid;
+            await loadCase();
+          });
+        });
+      }
+      toast(lang()==="sk" ? "Dashboard načítaný" : "Dashboard loaded");
+    }catch(e){
+      console.error(e);
+      toast((lang()==="sk" ? "Chyba: " : "Error: ") + (e?.message||e));
+    }
+  }
+
+  // ===========================
+  // Search public cases
+  // ===========================
+  async function doSearch(){
+    const q = (qs("searchQuery")?.value || "").trim();
+    if (!q){
+      toast(lang()==="sk" ? "Zadaj hľadaný text" : "Enter a search query");
+      return;
+    }
+    const out = qs("searchOut");
+    if (out) out.textContent = (lang()==="sk") ? "Hľadám…" : "Searching…";
+    try{
+      const r = await fetch(BACKEND_BASE + "/cases?q=" + encodeURIComponent(q) + "&limit=30", { headers: { ...authHeaders() } });
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok) throw new Error(j.error || j.message || ("HTTP " + r.status));
+      const items = j.items || [];
+      if (!items.length){
+        out.innerHTML = `<div class="text-xs text-white/60">${lang()==="sk" ? "Nič sa nenašlo." : "No results."}</div>`;
+        return;
+      }
+      out.innerHTML = items.map(it=>{
+        const cid = it.case_id || "";
+        const t = it.title || "(untitled)";
+        const rlv = String(it.risk_level||"—").toUpperCase();
+        const pill =
+          rlv === "HIGH" ? "bg-red-400/15 border-red-400/30" :
+          rlv === "MEDIUM" ? "bg-amber-400/15 border-amber-400/30" :
+          rlv === "LOW" ? "bg-emerald-400/15 border-emerald-400/30" :
+          "bg-white/5 border-white/10";
+        return `
+          <button class="w-full text-left glass rounded-xl p-2.5 hover:bg-white/5 transition" data-case="${escapeHtml(cid)}">
+            <div class="flex items-center justify-between gap-2">
+              <div class="min-w-0">
+                <div class="text-xs font-semibold truncate">${escapeHtml(t)}</div>
+                <div class="text-[11px] text-white/60 mono truncate">${escapeHtml(cid)}</div>
+              </div>
+              <span class="text-[11px] font-semibold px-2 py-1 rounded-full border ${pill}">${escapeHtml(rlv)}</span>
+            </div>
+          </button>
+        `;
+      }).join("");
+
+      out.querySelectorAll("[data-case]").forEach(btn=>{
+        btn.addEventListener("click", async ()=>{
+          const cid = btn.getAttribute("data-case");
+          qs("caseId").textContent = cid;
+          await loadCase();
+        });
+      });
+
+    }catch(e){
+      console.error(e);
+      if (out) out.textContent = (lang()==="sk") ? ("Chyba: " + (e?.message||e)) : ("Error: " + (e?.message||e));
+    }
+  }
+
+  // ===========================
+  // Share / Buttons
+  // ===========================
+  function currentCaseId(){
+    const last = window.__VS_LAST_RESULT__ || {};
+    return last.case_id || last.caseId || last.id || last.ai?.case_id || (qs("caseId")?.textContent || "").trim();
+  }
+
+  function scrollToResults(){
+    const card = qs("resultsCard");
+    if (!card) return;
+    card.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  async function shareNative(){
+    const cid = currentCaseId();
+    const link = cid ? buildShareLink(cid) : window.location.href;
+    try{
+      if (navigator.share){
+        await navigator.share({title:"VoiceSafe", text:"VoiceSafe report", url: link});
+      } else {
+        await copyText(link);
+      }
+    }catch{}
+  }
+
+  // ===========================
+  // Tabs
+  // ===========================
+  function setTab(which){
+    const a = qs("tabAnalyze");
+    const m = qs("tabMyCases");
+    const i = qs("tabInvestor");
+    const pA = qs("panelAnalyze");
+    const pM = qs("panelMyCases");
+    const pI = qs("panelInvestor");
+
+    const primary = "btnPrimary";
+    const normal = "btn";
+
+    function makeActive(btn){
+      btn.classList.add(primary);
+      btn.classList.remove(normal);
+    }
+    function makeInactive(btn){
+      btn.classList.add(normal);
+      btn.classList.remove(primary);
+    }
+
+    [pA,pM,pI].forEach(x=> x && x.classList.add("hidden"));
+    [a,m,i].forEach(x=> x && makeInactive(x));
+
+    if (which === "my"){
+      pM.classList.remove("hidden");
+      makeActive(m);
+      loadMyCases(false).catch(()=>{});
+      return;
+    }
+    if (which === "inv"){
+      pI.classList.remove("hidden");
+      makeActive(i);
+      return;
+    }
+    pA.classList.remove("hidden");
+    makeActive(a);
+  }
+
+  // ===========================
+  // Status / boot
+  // ===========================
+  async function ping(){
+    const el = qs("backendStatus");
+    const dot = qs("statusDot");
+    const urlLabel = qs("backendUrlLabel");
+    if (urlLabel) urlLabel.textContent = BACKEND_BASE;
+
+    try{
+      const r = await fetch(BACKEND_BASE + "/health");
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      if (el) el.textContent = j.db ? "Online (DB OK)" : "Online";
+      if (dot) dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400/80";
+    }catch{
+      if (el) el.textContent = "Offline";
+      if (dot) dot.className = "w-2.5 h-2.5 rounded-full bg-red-400/80";
+    }
+  }
+
+  function toggleMenu(btnId, menuId, backId, force){
+    const btn = qs(btnId);
+    const menu = qs(menuId);
+    const back = qs(backId);
+    const open = force != null ? !!force : menu.classList.contains("hidden");
+    menu.classList.toggle("hidden", !open);
+    back.classList.toggle("hidden", !open);
+    if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  function bootDropdowns(){
+    qs("langBtn").addEventListener("click", ()=> toggleMenu("langBtn","langMenu","langBackdrop"));
+    qs("langBackdrop").addEventListener("click", ()=> toggleMenu("langBtn","langMenu","langBackdrop", false));
+    qs("langMenu").querySelectorAll("[data-lang]").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        const l = b.getAttribute("data-lang");
+        localStorage.setItem(LS_LANG, l);
+        applyLang(l);
+        toggleMenu("langBtn","langMenu","langBackdrop", false);
+        toast(l === "sk" ? "Jazyk: SK" : "Language: EN");
+      });
+    });
+
+    qs("userBtn").addEventListener("click", ()=> toggleMenu("userBtn","userMenu","userBackdrop"));
+    qs("userBackdrop").addEventListener("click", ()=> toggleMenu("userBtn","userMenu","userBackdrop", false));
+  }
+
+  function setInitialUI(){
+    qs("year").textContent = new Date().getFullYear();
+    qs("buildId").textContent = BUILD_ID;
+    qs("backendUrlLabel").textContent = BACKEND_BASE;
+
+    // baseline placeholders
+    qs("fileHint").textContent = lang()==="sk"
+      ? "Podporované: audio/video. Video sa na backende automaticky konvertuje na WAV 16kHz."
+      : "Supported: audio/video. Video is automatically converted to WAV 16kHz on the backend.";
+
+    setResultUI({ ai: { scam_score: 0, ai_probability: 0, stress_level: 0, risk_level: "—", confidence: 0 }, case_id: "" });
+
+    // buttons
+    qs("upgradeBtn").addEventListener("click", ()=> { window.location.href = STRIPE_CHECKOUT_URL; });
+    qs("copyJsonBtn").addEventListener("click", ()=> copyText(safeJson(window.__VS_LAST_RESULT__ || {})));
+    qs("copyLinkBtn").addEventListener("click", ()=> {
+      const cid = currentCaseId();
+      if (!cid){ toast(lang()==="sk" ? "Najprv vytvor prípad" : "Create a case first"); return; }
+      copyText(buildShareLink(cid));
+    });
+    qs("shareBtn").addEventListener("click", shareNative);
+    qs("shareCardBtn").addEventListener("click", ()=> {
+      toast(lang()==="sk"
+        ? "Share card: pripoj share-card.js pre PNG export."
+        : "Share card: plug in share-card.js for PNG export.");
+    });
+
+    qs("searchBtn").addEventListener("click", doSearch);
+    qs("loadCaseBtn").addEventListener("click", loadCase);
+    qs("openCaseBtn").addEventListener("click", openCase);
+
+    qs("copyContactBtn").addEventListener("click", ()=> copyText("hello@voicesafe.ai"));
+
+    qs("recordBtn").addEventListener("click", recordToggle);
+    qs("analyzeBtn").addEventListener("click", analyze);
+
+    qs("demoBtn").addEventListener("click", ()=> demo());
+    qs("demoBtnHero").addEventListener("click", ()=> demo());
+    qs("howBtnHero").addEventListener("click", ()=> document.getElementById("how")?.scrollIntoView({behavior:"smooth", block:"start"}));
+
+    // tabs
+    qs("tabAnalyze").addEventListener("click", ()=> setTab("an"));
+    qs("tabMyCases").addEventListener("click", ()=> setTab("my"));
+    qs("tabInvestor").addEventListener("click", ()=> setTab("inv"));
+    qs("myCasesRefreshBtn").addEventListener("click", ()=> loadMyCases(false));
+    qs("investorLoadBtn").addEventListener("click", loadInvestor);
+
+    qs("logoutBtn").addEventListener("click", ()=> { toggleMenu("userBtn","userMenu","userBackdrop", false); logout(); });
+    qs("myCasesTop").addEventListener("click", ()=> { toggleMenu("userBtn","userMenu","userBackdrop", false); setTab("my"); document.getElementById("analyze")?.scrollIntoView({behavior:"smooth"}); });
+
+    // file hint updates
+    qs("fileInput").addEventListener("change", ()=>{
+      const f = getFile();
+      if (!f){ qs("fileHint").textContent = "—"; return; }
+      qs("fileHint").textContent = (lang()==="sk" ? "Vybraný súbor: " : "Selected: ") + f.name + " • " + Math.round(f.size/1024) + " KB";
+    });
+  }
+
+  function demo(){
+    // purely local demo payload (no upload)
+    const fake = {
+      case_id: "VS-DEMO-" + Math.random().toString(16).slice(2,8).toUpperCase(),
+      ai: {
+        scam_score: 0.78,
+        ai_probability: 0.22,
+        stress_level: 0.64,
+        risk_level: "HIGH",
+        confidence: 0.83,
+        summary: (lang()==="sk" ? "DEMO: vysoké riziko" : "DEMO: high risk"),
+        riskText: (lang()==="sk"
+          ? "DEMO: Tento výstup je ukážka UX. V produkcii ide výsledok z reálneho modelu."
+          : "DEMO: This output shows UX only. In production this comes from the real model.")
+      }
+    };
+    setResultUI(fake);
+    qs("caseId").textContent = fake.case_id;
+    const url = new URL(window.location.href);
+    url.searchParams.set("case", fake.case_id);
+    window.history.replaceState({}, "", url.toString());
+    toast(lang()==="sk" ? "Demo pripravené" : "Demo ready");
+    scrollToResults();
+  }
+
+  async function boot(){
+    // language first
+    applyLang(lang());
+
+    bootDropdowns();
+    setInitialUI();
+    setUserUI();
+    initGoogleLogin();
+    await ping();
+    await validateMe();
+
+    // route detection: if /case/VS-... or ?case=
+    const caseId = detectCaseRoute();
+    if (caseId){
+      document.body.classList.add("publicMode");
+      qs("caseId").textContent = caseId;
       try{
-        const f = $("fileInput").files?.[0] || null;
-        const blob = f || state.recBlob;
-        const name = f ? f.name : "recording.webm";
-        if (!blob) return showToast("Upload", "Najprv vyber súbor alebo sprav Record.");
-
-        setLoading(true);
-        showToast("Analyze", "Spracúvam…");
-        const data = await uploadAndAnalyze(blob, name);
-        renderResult(data);
-        toast.classList.remove("show");
-        await listCases();
-      } catch(e){
+        setLoading(true, lang()==="sk" ? "Načítavam report…" : "Loading report…");
+        const item = await fetchCase(caseId);
+        const ai = item.ai_json || item.ai || item;
+        setResultUI({ ai, case_id: item.case_id || caseId, meta: item });
+        qs("summaryText").textContent = (lang()==="sk") ? "Verejný report" : "Public report";
+        toast(lang()==="sk" ? "Report načítaný" : "Report loaded");
+      }catch(e){
         console.error(e);
-        showToast("Analyze failed", e.message || String(e));
-      } finally {
+        toast((lang()==="sk" ? "Chyba: " : "Error: ") + (e?.message || e));
+      }finally{
         setLoading(false);
       }
     }
 
-    function runDemo(){
-      const demo = {
-        case_id: "VS-DEMO",
-        ai: {
-          scores: {
-            scam_score: 0.78,
-            ai_probability: 0.22,
-            stress_level: 0.64,
-            confidence: 0.86,
-            risk_level: "HIGH"
-          },
-          signals: ["Urgentnosť", "Nátlak", "Žiadosť o citlivé údaje"],
-          recommendations: ["Nezadávaj SMS kódy ani údaje z karty.", "Over identitu cez oficiálne číslo.", "Kontaktuj banku pri podozrení."]
-        }
-      };
-      renderResult(demo);
-      state.lastCaseId = demo.case_id;
-      $("caseChip").textContent = "case: " + demo.case_id;
-      showToast("Demo", "Ukážkový výsledok zobrazený.");
-    }
+    // default tab
+    setTab("an");
+  }
 
-    async function listCases(){
-      const tbody = $("casesTbody");
-      tbody.innerHTML = "";
-      try{
-        const q = ($("qInput").value || "").trim();
-        const url = new URL(baseUrl() + "/cases");
-        url.searchParams.set("limit", "50");
-        if (q) url.searchParams.set("q", q);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
 
-        const data = await fetchJson(url.toString(), { headers: { ...authHeaders() } });
-        const items = data?.items || [];
-        if (!items.length){
-          const tr = document.createElement("tr");
-          tr.innerHTML = '<td class="py-3 muted2" colspan="6">No cases (DB off?)</td>';
-          tbody.appendChild(tr);
-          return;
-        }
-
-        items.forEach(it=>{
-          const tr = document.createElement("tr");
-          const t = fmtTime(it.created_at || "");
-          const risk = (it.risk_level || "—");
-          const conf = pct(it.confidence);
-          tr.innerHTML = `
-            <td class="py-2 pr-3 muted2">${escapeHtml(t)}</td>
-            <td class="py-2 pr-3 mono">${escapeHtml(it.case_id || "")}</td>
-            <td class="py-2 pr-3">${escapeHtml(it.title || "")}</td>
-            <td class="py-2 pr-3">${escapeHtml(risk)}</td>
-            <td class="py-2 pr-3">${conf===null ? "—" : (conf+"%")}</td>
-            <td class="py-2 pr-3">
-              <button class="btn btn-ghost py-2 px-3" data-open="${escapeHtml(it.case_id || "")}">Open</button>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-        tbody.querySelectorAll("button[data-open]").forEach(btn=>{
-          btn.addEventListener("click", () => {
-            const id = btn.getAttribute("data-open");
-            if (!id) return;
-            window.location.href = "/case/" + encodeURIComponent(id);
-          });
-        });
-      } catch(e){
-        console.error(e);
-        const tr = document.createElement("tr");
-        tr.innerHTML = '<td class="py-3 text-red-200" colspan="6">Failed to load cases: '+escapeHtml(e.message||String(e))+'</td>';
-        tbody.appendChild(tr);
-      }
-    }
-
-    function renderStatsCards(stats){
-      const grid = $("statsGrid");
-      const cards = [
-        { label:"Total cases", val: stats?.total_cases ?? 128 },
-        { label:"HIGH (7d)", val: stats?.high_risk_7d ?? 14 },
-        { label:"Avg confidence", val: (pct(stats?.avg_confidence) ?? 82) + "%" },
-        { label:"Median latency", val: (stats?.median_latency_ms ?? 980) + " ms" },
-      ];
-
-      grid.innerHTML = "";
-      cards.forEach(c=>{
-        const el = document.createElement("div");
-        el.className = "glass p-4";
-        el.innerHTML = `
-          <div class="text-sm muted2">${escapeHtml(c.label)}</div>
-          <div class="text-2xl font-extrabold mt-2">${escapeHtml(c.val)}</div>
-          <div class="text-xs muted2 mt-1">demo</div>
-        `;
-        grid.appendChild(el);
-      });
-    }
-
-    async function loadStats(){
-      try{
-        const data = await fetchJson(baseUrl()+"/stats", { headers: { ...authHeaders() } });
-        renderStatsCards(data);
-      } catch(e){
-        renderStatsCards(null);
-      }
-    }
-
-    // Google login UI init (will work only if backend has /auth/google)
-    function initGoogle(){
-      const clientId = String(window.GOOGLE_CLIENT_ID || "").trim();
-      if (!clientId || clientId.includes("YOUR_CLIENT_ID")) return;
-      const t = setInterval(() => {
-        if (!window.google?.accounts?.id) return;
-        clearInterval(t);
-        window.google.accounts.id.initialize({
-          client_id: clientId,
-          callback: async (resp) => {
-            try{
-              const data = await fetchJson(baseUrl()+"/auth/google", {
-                method:"POST",
-                headers:{ "Content-Type":"application/json" },
-                body: JSON.stringify({ credential: resp.credential })
-              });
-              if (data?.token){
-                state.bearer = data.token;
-                localStorage.setItem("vs_token", state.bearer);
-              }
-              if (data?.user){
-                state.user = data.user;
-                localStorage.setItem("vs_user", JSON.stringify(state.user));
-              }
-              updateAuthStatus();
-              showToast("Login OK", state.user?.email || "Signed in");
-            } catch(e){
-              showToast("Google login failed", e.message || String(e));
-            }
-          }
-        });
-        window.google.accounts.id.renderButton($("googleBtn"), {
-          theme: "filled_black",
-          size: "large",
-          shape: "pill",
-          text: "continue_with",
-          width: 320
-        });
-      }, 200);
-    }
-
-    // I18N minimal
-    const I18N = {
-      sk: { subTitle:"Enterprise Anti‑Scam Voice Analyzer", navHow:"Ako to funguje", navCases:"Cases", navAdmin:"Investor",
-        heroChip:"Enterprise pre-processing (audio/video → WAV mono 16kHz) + risk scoring",
-        heroTitle:"Vyhodnoť riziko podvodu z hlasu – okamžite, vysvetliteľne, bezpečne.",
-        heroDesc:"Nahraj audio alebo video. Ak je to video, backend automaticky extrahuje audio (ffmpeg), všetko konvertuje na WAV mono 16kHz a až potom analyzuje.",
-        analyzeTxt:"Analyze", recordTxt:"Record", stopTxt:"Stop", demoTxt:"Demo",
-        feat1a:"Stabilita", feat1b:"Fallback + jasné chyby", feat2a:"Štandard", feat2b:"WAV mono 16kHz normalizácia", feat3a:"Prezentácia", feat3b:"Pulse HIGH + risk badge",
-        statusLbl:"Endpoint", uploadLbl:"Upload (audio/video)", uploadSub:"mp3, wav, m4a, mp4, mov… (backend to normalizuje)",
-        authLbl:"Access", saveTxt:"Save", loginLbl:"Login", loginSub:"Google sign‑in (GSI) + backend verification", logoutTxt:"Logout",
-        noteLbl:'Tip: ak je OAuth app v režime Testing, pridaj email do "Test users" (Google Cloud → Audience).',
-        resultLbl:"Result", bar1lbl:"Scam score", bar2lbl:"AI probability", bar3lbl:"Stress level", bar4lbl:"Confidence",
-        copyJsonTxt:"Copy JSON", shareReportTxt:"Share Report",
-        detailsLbl:"Details", detailsTitle:"Explainable output", detailsSub:"Signály + odporúčania + raw JSON",
-        casesLbl:"Cases", casesTitle:"History & search", casesSub:"/cases list (DB musí byť zapnutá). Klikni Open → verejný report.",
-        searchTxt:"Search", refreshTxt:"Refresh",
-        howTitle:"Ako to funguje", privacyTitle:"Privacy", upgradeTxt:"Pro" },
-      en: { subTitle:"Enterprise Anti‑Scam Voice Analyzer", navHow:"How it works", navCases:"Cases", navAdmin:"Investor",
-        heroChip:"Enterprise pre-processing (audio/video → WAV mono 16kHz) + risk scoring",
-        heroTitle:"Detect voice scam risk — fast, explainable, secure.",
-        heroDesc:"Upload audio or video. If video, backend extracts audio (ffmpeg), converts everything to WAV mono 16kHz, then analyzes.",
-        analyzeTxt:"Analyze", recordTxt:"Record", stopTxt:"Stop", demoTxt:"Demo",
-        feat1a:"Stability", feat1b:"Fallback + clear errors", feat2a:"Standard", feat2b:"WAV mono 16kHz normalization", feat3a:"Presentation", feat3b:"HIGH pulse + risk badge",
-        statusLbl:"Endpoint", uploadLbl:"Upload (audio/video)", uploadSub:"mp3, wav, m4a, mp4, mov… (backend normalizes)",
-        authLbl:"Access", saveTxt:"Save", loginLbl:"Login", loginSub:"Google sign‑in (GSI) + backend verification", logoutTxt:"Logout",
-        noteLbl:'Tip: If OAuth app is in Testing, add yourself to "Test users" (Google Cloud → Audience).',
-        resultLbl:"Result", bar1lbl:"Scam score", bar2lbl:"AI probability", bar3lbl:"Stress level", bar4lbl:"Confidence",
-        copyJsonTxt:"Copy JSON", shareReportTxt:"Share Report",
-        detailsLbl:"Details", detailsTitle:"Explainable output", detailsSub:"Signals + recommendations + raw JSON",
-        casesLbl:"Cases", casesTitle:"History & search", casesSub:"/cases list (DB must be enabled). Click Open → public report.",
-        searchTxt:"Search", refreshTxt:"Refresh",
-        howTitle:"How it works", privacyTitle:"Privacy", upgradeTxt:"Pro" },
-    };
-
-    function applyLang(lang){
-      const t = I18N[lang] || I18N.sk;
-      localStorage.setItem("vs_lang", lang);
-      const map = {
-        subTitle:"subTitle", navHow:"navHow", navCases:"navCases", navAdmin:"navAdmin",
-        heroChip:"heroChip", heroTitle:"heroTitle", heroDesc:"heroDesc",
-        analyzeTxt:"analyzeTxt", recordTxt:"recordTxt", stopTxt:"stopTxt", demoTxt:"demoTxt",
-        feat1a:"feat1a", feat1b:"feat1b", feat2a:"feat2a", feat2b:"feat2b", feat3a:"feat3a", feat3b:"feat3b",
-        statusLbl:"statusLbl", uploadLbl:"uploadLbl", uploadSub:"uploadSub", authLbl:"authLbl", saveTxt:"saveTxt",
-        loginLbl:"loginLbl", loginSub:"loginSub", logoutTxt:"logoutTxt",
-        noteLbl:"noteLbl", resultLbl:"resultLbl",
-        bar1lbl:"bar1lbl", bar2lbl:"bar2lbl", bar3lbl:"bar3lbl", bar4lbl:"bar4lbl",
-        copyJsonTxt:"copyJsonTxt", shareReportTxt:"shareReportTxt",
-        detailsLbl:"detailsLbl", detailsTitle:"detailsTitle", detailsSub:"detailsSub",
-        casesLbl:"casesLbl", casesTitle:"casesTitle", casesSub:"casesSub",
-        searchTxt:"searchTxt", refreshTxt:"refreshTxt",
-        howTitle:"howTitle", privacyTitle:"privacyTitle", upgradeTxt:"upgradeTxt"
-      };
-      Object.entries(map).forEach(([k,id])=>{ const el=$(id); if(el) el.textContent = t[k]; });
-    }
-
-    $("langSelect").addEventListener("change", (e)=> applyLang(e.target.value));
-
-    // init
-updateAuthStatus();
-    bindUI();
-
-    const lang = localStorage.getItem("vs_lang") || "sk";
-    $("langSelect").value = lang;
-    applyLang(lang);
-    $("baseUrlLbl").textContent = baseUrl();
-    healthCheck();
-    listCases();
-    loadStats();
-    initGoogle();
-  })();
-  </script>
+})();
+</script>
 </body>
 </html>
