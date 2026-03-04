@@ -547,9 +547,33 @@ class="btn rounded-xl px-3 py-2 text-sm font-semibold btn-icon">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div>
                 <div class="text-sm text-white/60" data-i18n="resultsTitleSmall">AI risk assessment</div>
-                <div class="text-2xl font-semibold mt-1" data-i18n="resultsTitle">Results</div>
-                <div class="text-sm text-white/60 mt-2" id="summaryText" data-i18n="resultsHint">Upload or record to generate a report.</div>
-              </div>
+
+<div class="text-2xl font-semibold mt-1" data-i18n="resultsTitle">
+Results
+</div>
+
+<div id="riskMeter" class="mt-5">
+
+  <div class="text-xs text-white/60">
+    SCAM PROBABILITY
+  </div>
+
+  <div class="w-full bg-gray-800 rounded-full h-3 mt-2 overflow-hidden">
+
+    <div id="riskBar"
+         class="h-3 bg-red-500 transition-all duration-700"
+         style="width:0%">
+    </div>
+
+  </div>
+
+  <div id="riskPercent" class="text-lg font-bold mt-2">
+    0%
+  </div>
+
+</div>
+
+<div class="text-sm text-white/60 mt-2" id="summaryText"></div>
 
               <div class="flex flex-wrap gap-2">
                 <button id="copyJsonBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="copyJson">Copy JSON</button>
@@ -2032,6 +2056,40 @@ if (btn) {
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
 })();
+
+function updateRisk(score){
+  if(score == null) return;
+
+  const percent = score <= 1 ? Math.round(score * 100) : Math.round(score);
+
+  const el = document.getElementById("riskPercent");
+  const bar = document.getElementById("riskBar");
+
+  if(el) el.innerText = percent + "%";
+  if(bar) bar.style.width = percent + "%";
+}
+
+function updateRiskFromPayload(payload){
+  const ai = payload?.ai || payload?.scores || payload || {};
+  const score =
+    ai.risk_score ??
+    ai.scam_score ??
+    ai.scamProbability ??
+    ai.scam_prob ??
+    ai.scam ??
+    null;
+
+  if(score == null) return;
+
+  const pct = score <= 1 ? Math.round(score * 100) : Math.round(score);
+
+  const el = document.getElementById("riskPercent");
+  const bar = document.getElementById("riskBar");
+
+  if(el) el.textContent = pct + "%";
+  if(bar) bar.style.width = pct + "%";
+}
+
 </script>
 </body>
 </html>
