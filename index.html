@@ -593,7 +593,7 @@
           Interested in pilots with banks, marketplaces, or call centers? Reach out for a private demo and roadmap.
         </p>
         <div class="mt-4 flex flex-col sm:flex-row gap-3">
-          <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" href="mailto:hello@voicesafe.ai">
+          <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" id="contactEmailBtn" href="mailto:hello@voicesafe.ai" data-gmail="https://mail.google.com/mail/?view=cm&fs=1&to=hello@voicesafe.ai">
             <span>✉️</span><span data-i18n="contactEmail">Email</span>
           </a>
           <button id="copyContactBtn" class="btn rounded-2xl px-5 py-3 font-semibold" type="button" data-i18n="contactCopy">Copy email</button>
@@ -1798,6 +1798,23 @@
   else boot();
 
 })();
+
+// ---- Contact email: desktop Gmail fallback ----
+(function () {
+  const btn = document.getElementById("contactEmailBtn");
+  if (!btn) return;
+  const gmail = btn.getAttribute("data-gmail");
+  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+  btn.addEventListener("click", (e) => {
+    // On many desktops, mailto can do nothing if no default mail app is configured.
+    // Keep mailto on mobile, open Gmail compose in a new tab on desktop.
+    if (!isMobile && gmail) {
+      e.preventDefault();
+      window.open(gmail, "_blank", "noopener,noreferrer");
+    }
+  });
+})();
+
 </script>
 </body>
 </html>
