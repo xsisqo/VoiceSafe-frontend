@@ -1,6 +1,8 @@
 /* file: frontend/config.js */
 "use strict";
 
+window.GOOGLE_CLIENT_ID = "348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com";
+
 /**
  * Global runtime config (loaded by index.html if you want).
  * NOTE: Keep URLs CLEAN (no markdown, no brackets).
@@ -16,6 +18,7 @@ window.VOICESAFE_CONFIG = Object.freeze({
       AI: "http://127.0.0.1:8000"
     }
   },
+
 
   STRIPE: {
     CHECKOUT_URL: "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800",
