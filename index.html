@@ -1,1108 +1,1854 @@
 <!doctype html>
-<html lang="sk">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>VoiceSafe — AI Anti‑Scam Voice Analyzer</title>
+  <title>VoiceSafe — AI Voice Scam Risk</title>
 
-  <meta name="description" content="Bank‑grade voice risk signals. Upload or record a clip and get a structured report with recommended next steps." />
-  <meta name="theme-color" content="#0b1220" />
-
+  <!-- Tailwind (CDN for prototype). For production, compile Tailwind. -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="description" content="VoiceSafe analyzes voice/audio for scam-risk signals and provides a clear, actionable risk assessment." />
+
   <style>
-    :root {
-      --bg0: #070a12;
-      --bg1: #0b1220;
-      --line: rgba(255,255,255,.10);
+    :root{
+      --bg0:#070b14;
+      --bg1:#0b1220;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.10);
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.65);
-      --accent: #7c3aed; /* violet */
-      --accent2: #22d3ee; /* cyan */
-      --good: #22c55e;
-      --warn: #f59e0b;
-      --bad: #ef4444;
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.55);
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+    }
+    html,body{
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(34,197,94,.14), transparent 55%),
+        radial-gradient(900px 600px at 85% 20%, rgba(59,130,246,.14), transparent 55%),
+        radial-gradient(900px 600px at 70% 85%, rgba(245,158,11,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color:var(--text);
+    }
+    .glass{background: var(--card); border: 1px solid var(--stroke); box-shadow: var(--shadow); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
+    .glass2{background: var(--card2); border: 1px solid var(--stroke); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
+    .chip{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);}
+    .btn{border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);}
+    .btn:hover{background: rgba(255,255,255,.10);}
+    .btnPrimary{background: linear-gradient(135deg, rgba(245,158,11,.95), rgba(245,158,11,.55)); border:1px solid rgba(245,158,11,.60);}
+    .btnPrimary:hover{filter: brightness(1.03);}
+    .btnDark{background: rgba(0,0,0,.20); border:1px solid rgba(255,255,255,.12);}
+    .ringGlow{box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 20px 80px rgba(34,197,94,.18);}
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    /* Custom dropdown */
+    .dd{position: relative;}
+    .ddMenu{position:absolute; right:0; top:calc(100% + 8px); min-width: 220px; z-index: 50;}
+    .ddItem{display:flex; gap:.5rem; align-items:center; padding:.65rem .75rem; border-radius:.75rem;}
+    .ddItem:hover{background: rgba(255,255,255,.08);}
+    .ddBackdrop{position: fixed; inset: 0; z-index: 40;}
+    /* Smooth scroll */
+    html{scroll-behavior:smooth;}
+
+    /* ===== Enterprise UI upgrades ===== */
+
+    /* Loading overlay (Results card) */
+    .loadingOverlay{
+      position:absolute; inset:0;
+      background: rgba(7, 11, 20, .55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 1.5rem;
+      z-index: 20;
+    }
+    .spinner{
+      width: 22px; height: 22px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.22);
+      border-top-color: rgba(255,255,255,.75);
+      animation: spin 900ms linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Pulse for HIGH risk card */
+    .pulseHigh{
+      animation: pulseGlow 1.35s ease-in-out infinite;
+    }
+    @keyframes pulseGlow{
+      0%, 100% { box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 22px 70px rgba(239,68,68,.12); }
+      50% { box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 26px 90px rgba(239,68,68,.22); }
     }
 
-    html, body { height: 100%; background:
-      radial-gradient(1200px 700px at 20% 0%, rgba(124,58,237,.22), transparent 60%),
-      radial-gradient(1200px 700px at 90% 30%, rgba(34,211,238,.18), transparent 55%),
-      linear-gradient(180deg, var(--bg0), var(--bg1));
-      color: var(--text);
+    /* Subtle bar animation */
+    .barAnim{
+      position: relative;
+      overflow: hidden;
+    }
+    .barAnim::after{
+      content:"";
+      position:absolute; inset:0;
+      transform: translateX(-60%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.20), transparent);
+      animation: shimmer 1.6s ease-in-out infinite;
+    }
+    @keyframes shimmer{
+      0% { transform: translateX(-60%); }
+      100% { transform: translateX(60%); }
     }
 
-    .glass {
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-      border: 1px solid var(--line);
-      box-shadow: 0 18px 60px rgba(0,0,0,.45);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-radius: 18px;
-    }
-    .chip {
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 9999px;
-    }
-    .btn {
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-    }
-    .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.18); }
-    .btn-primary {
-      background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(34,211,238,.70));
-      border: 1px solid rgba(255,255,255,.18);
-      box-shadow: 0 10px 30px rgba(124,58,237,.25);
-    }
-    .btn-primary:hover { background: linear-gradient(90deg, rgba(124,58,237,1), rgba(34,211,238,.85)); }
+    /* Risk gradients (applied inline via JS too) */
+    .gradLow { background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(59,130,246,.12)); }
+    .gradMedium { background: linear-gradient(135deg, rgba(245,158,11,.18), rgba(59,130,246,.10)); }
+    .gradHigh { background: linear-gradient(135deg, rgba(239,68,68,.18), rgba(245,158,11,.12)); }
 
-    .tab {
-      border-radius: 9999px;
-      padding: .55rem .9rem;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.75);
+    /* Loading state for Analyze button */
+    .btnLoading{
+      opacity: .9;
+      cursor: not-allowed;
+      filter: saturate(.9);
     }
-    .tab[aria-selected="true"] {
-      color: white;
-      background: linear-gradient(90deg, rgba(124,58,237,.65), rgba(34,211,238,.30));
-      border-color: rgba(255,255,255,.18);
+    .btnInlineSpinner{
+      width: 16px; height: 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,.15);
+      border-top-color: rgba(0,0,0,.55);
+      animation: spin 900ms linear infinite;
+      display:inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
     }
+  
+/* Icon styles */
+.btn-icon{display:inline-flex;align-items:center;gap:10px}
+.btn-icon svg{width:18px;height:18px;flex:0 0 18px}
 
-    @keyframes pulseGlow {
-      0%   { box-shadow: 0 0 0 rgba(0,0,0,0), 0 0 0 rgba(0,0,0,0); }
-      50%  { box-shadow: 0 0 40px rgba(124,58,237,.25), 0 0 70px rgba(34,211,238,.18); }
-      100% { box-shadow: 0 0 0 rgba(0,0,0,0), 0 0 0 rgba(0,0,0,0); }
+    /* PRO MAX patch: transparent navbar + safe area */
+    .topbar, .navBar, header.stickyTop, .stickyTop, .navSticky {
+      background: rgba(0,0,0,0) !important;
+      backdrop-filter: blur(10px);
     }
-    @keyframes pulseDanger {
-      0%   { box-shadow: 0 0 0 rgba(239,68,68,0), 0 0 0 rgba(245,158,11,0); }
-      50%  { box-shadow: 0 0 44px rgba(239,68,68,.30), 0 0 90px rgba(245,158,11,.22); }
-      100% { box-shadow: 0 0 0 rgba(239,68,68,0), 0 0 0 rgba(245,158,11,0); }
+    @supports(padding: max(0px)){
+      .safe-top { padding-top: max(0.75rem, env(safe-area-inset-top)); }
     }
-    .pulse-soft { animation: pulseGlow 2.2s ease-in-out infinite; }
-    .pulse-danger { animation: pulseDanger 1.35s ease-in-out infinite; }
-
-    .kbd {
-      font-size: 12px;
-      padding: .1rem .45rem;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.75);
+    /* Results pulse */
+    .pulseSoft { animation: pulseSoft 2.2s ease-in-out infinite; }
+    @keyframes pulseSoft {
+      0% { box-shadow: 0 0 0 rgba(59,130,246,.15); }
+      50% { box-shadow: 0 0 24px rgba(59,130,246,.35); }
+      100% { box-shadow: 0 0 0 rgba(59,130,246,.15); }
     }
 
-    .safe-top { padding-top: env(safe-area-inset-top); }
-    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
 
 <body class="min-h-screen">
-  <div class="safe-top"></div>
-
-  <header class="sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 pt-3">
-      <div class="glass px-4 py-3 flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="w-9 h-9 rounded-2xl grid place-items-center" style="background: rgba(124,58,237,.22); border: 1px solid rgba(255,255,255,.12);">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-40">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
+      <div class="glass rounded-2xl px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl glass2 flex items-center justify-center ringGlow">
             <span class="text-lg">🛡️</span>
           </div>
-          <div class="min-w-0">
-            <div class="flex items-center gap-2">
-              <div class="font-semibold leading-tight truncate">VoiceSafe</div>
-              <span class="chip text-xs px-2 py-1 text-white/80">PRODUCTION</span>
-            </div>
-            <div class="text-xs text-white/60">AI Anti‑Scam Voice Analyzer — bank‑grade report</div>
+          <div class="leading-tight">
+            <div class="font-semibold tracking-tight">VoiceSafe</div>
+            <div class="text-xs text-white/60" data-i18n="tagline">AI voice scam risk assessment</div>
           </div>
         </div>
 
-        <div class="flex items-center gap-2">
-          <button id="langSK" class="btn px-3 py-2 text-sm text-white/85">SK</button>
-          <button id="langEN" class="btn px-3 py-2 text-sm text-white/85">EN</button>
-          <div class="w-px h-8 bg-white/10 mx-1 hidden sm:block"></div>
+        <nav class="hidden md:flex items-center gap-2 text-sm">
+          <a class="btn rounded-xl px-3 py-2" href="#how" data-i18n="navHow">How it works</a>
+          <a class="btn rounded-xl px-3 py-2" href="#services" data-i18n="navServices">Services</a>
+          <a class="btn rounded-xl px-3 py-2" href="#contact" data-i18n="navContact">Contact</a>
+          <a class="btn rounded-xl px-3 py-2" href="#terms" data-i18n="navTerms">Terms</a>
+        </nav>
 
-          <div id="userPill" class="hidden sm:flex items-center gap-2 chip px-3 py-2">
-            <img id="userPic" class="w-6 h-6 rounded-full hidden" alt="User" />
-            <div class="min-w-0">
-              <div id="userName" class="text-sm leading-tight truncate max-w-[160px]">—</div>
-              <div id="userEmail" class="text-xs text-white/60 leading-tight truncate max-w-[160px]">—</div>
-            </div>
-            <button id="logoutBtn" class="btn px-2 py-1 text-xs">Logout</button>
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-2 mr-1">
+            <div id="googleBtn" class="googleBtnWrap"></div>
+            <div id="userBadge" class="text-xs text-white/70"></div>
           </div>
 
-          <button id="loginBtn" class="btn btn-primary px-4 py-2 text-sm font-semibold">Continue with Google</button>
+          <button id="howBtnTop" class="hidden sm:inline-flex btn rounded-xl px-3 py-2 text-sm" type="button" data-i18n="howBtn">How it works</button>
+
+          <div class="dd">
+            <button id="langBtn" class="btn rounded-xl px-3 py-2 text-sm inline-flex items-center gap-2" type="button" aria-haspopup="menu" aria-expanded="false">
+              <span class="text-white/70">🌐</span>
+              <span id="langLabel" class="font-medium">English</span>
+              <span class="text-white/60">▾</span>
+            </button>
+            <div id="langBackdrop" class="ddBackdrop hidden"></div>
+            <div id="langMenu" class="ddMenu glass rounded-2xl p-2 hidden" role="menu" aria-label="Language">
+              <button class="ddItem w-full text-left" type="button" data-lang="en" role="menuitem">
+                <span>🇺🇸</span><span class="flex-1">English</span><span class="text-xs text-white/50 mono">EN</span>
+              </button>
+              <button class="ddItem w-full text-left" type="button" data-lang="sk" role="menuitem">
+                <span>🇸🇰</span><span class="flex-1">Slovenčina</span><span class="text-xs text-white/50 mono">SK</span>
+              </button>
+            </div>
+          </div>
+
+          <button id="upgradeBtn" class="btnPrimary rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="ctaPro">Unlock Pro</button>
         </div>
       </div>
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-6">
-    <section id="hero" class="grid lg:grid-cols-2 gap-4">
-      <div class="glass p-6">
-        <div class="inline-flex items-center gap-2 chip px-3 py-2 text-xs text-white/80 mb-4">
-          <span class="w-2 h-2 rounded-full" style="background: var(--good)"></span>
-          <span id="heroTag">Súkromie na prvom mieste. Okamžité signály rizika. Pre reálne hovory.</span>
-        </div>
+  <!-- Main -->
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+    <!-- Hero -->
+    <section class="pt-10 pb-6">
+      <div class="grid lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-7">
+          <div class="glass rounded-3xl p-6 sm:p-8">
+            <div class="inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs text-white/80">
+              <span>⚡</span><span data-i18n="heroPill">Privacy-first. Instant risk signals. Built for real-world calls.</span>
+            </div>
 
-        <h1 id="heroTitle" class="text-3xl sm:text-4xl font-semibold leading-tight">
-          Zmeň podozrivú hlasovku na jasné rozhodnutie.
-        </h1>
-        <p id="heroDesc" class="mt-3 text-white/70">
-          Nahraj audio alebo video klip. VoiceSafe vráti štruktúrované hodnotenie rizika s odporúčanými krokmi — pripravené na zdieľanie.
-        </p>
+            <h1 class="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">
+              <span data-i18n="heroTitleA">Turn a suspicious</span>
+              <span class="text-white/90" data-i18n="heroTitleB">voice message</span>
+              <span data-i18n="heroTitleC">into a clear decision.</span>
+            </h1>
 
-        <div class="mt-5 flex flex-wrap gap-3">
-          <button id="ctaAnalyze" class="btn btn-primary px-5 py-3 font-semibold">Analyzovať</button>
-          <button id="ctaDemo" class="btn px-5 py-3 font-semibold">Spustiť demo</button>
-          <button id="ctaHow" class="btn px-5 py-3">Ako to funguje</button>
-        </div>
-
-        <div class="mt-5 grid sm:grid-cols-3 gap-3">
-          <div class="glass p-4" style="background: rgba(255,255,255,.04);">
-            <div class="text-sm font-semibold">Fast</div>
-            <div class="text-xs text-white/60 mt-1">Typical analysis in seconds.</div>
-          </div>
-          <div class="glass p-4" style="background: rgba(255,255,255,.04);">
-            <div class="text-sm font-semibold">Explainable</div>
-            <div class="text-xs text-white/60 mt-1">Action‑oriented guidance, not just a score.</div>
-          </div>
-          <div class="glass p-4" style="background: rgba(255,255,255,.04);">
-            <div class="text-sm font-semibold">Private</div>
-            <div class="text-xs text-white/60 mt-1">Prototype stores no voice permanently.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="glass p-6">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <div class="text-xs text-white/60">Trust &amp; Privacy</div>
-            <div id="trustTitle" class="text-xl font-semibold mt-1">Bankový report — bez zbytočného zdieľania dát</div>
-            <p id="trustDesc" class="text-sm text-white/70 mt-2">
-              Prihlásenie je voliteľné. Pre históriu prípadov a zdieľateľné reporty sa prihlás cez Google. JWT ostáva len v prehliadači.
+            <p class="mt-4 text-white/70 max-w-2xl" data-i18n="heroDesc">
+              Upload audio/video or record a short clip. VoiceSafe returns a structured risk assessment with recommended actions.
             </p>
+
+            <div class="mt-6 flex flex-col sm:flex-row gap-3">
+              <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" href="#analyze">
+                <span>🔎</span><span data-i18n="heroCtaAnalyze">Analyze now</span>
+              </a>
+              <button id="demoBtnHero" class="btn rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
+                <span>🧪</span><span data-i18n="heroCtaDemo">Run demo</span>
+              </button>
+              <button id="howBtnHero" class="btnDark rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
+                <span>▶</span><span data-i18n="heroCtaHow">How it works</span>
+              </button>
+            </div>
+
+            <div class="mt-6 grid sm:grid-cols-3 gap-3 text-sm">
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-white/80 font-semibold" data-i18n="heroStat1Title">Fast</div>
+                <div class="text-white/60 mt-1" data-i18n="heroStat1Desc">Typical analysis in seconds.</div>
+              </div>
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-white/80 font-semibold" data-i18n="heroStat2Title">Explainable</div>
+                <div class="text-white/60 mt-1" data-i18n="heroStat2Desc">Action-oriented guidance, not just a score.</div>
+              </div>
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-white/80 font-semibold" data-i18n="heroStat3Title">Private</div>
+                <div class="text-white/60 mt-1" data-i18n="heroStat3Desc">Prototype stores no voice permanently.</div>
+              </div>
+            </div>
+
           </div>
-          <div class="kbd hidden sm:inline-flex">v2026.03.04</div>
         </div>
 
-        <div class="mt-4 glass p-4" style="background: rgba(34,211,238,.05); border-color: rgba(34,211,238,.18);">
-          <div class="flex items-center justify-between gap-2">
-            <div class="text-sm font-semibold">Session</div>
-            <div id="sessionState" class="chip px-3 py-1 text-xs text-white/75">Neprihlásený</div>
-          </div>
-          <div class="mt-3 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
-            <div class="text-xs text-white/60">Backend</div>
-            <a class="text-xs text-white/85 underline break-all" href="https://voicesafe-backend-1.onrender.com" target="_blank" rel="noreferrer">https://voicesafe-backend-1.onrender.com</a>
-          </div>
+        <div class="lg:col-span-5">
+          <div class="glass rounded-3xl p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm text-white/60">Enterprise status</div>
+                <div class="mt-1 font-semibold" id="backendStatus">Operational</div>
+              </div>
+              </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
-            <div class="chip px-3 py-2">✅ Shareable reports</div>
-            <div class="chip px-3 py-2">✅ My Cases history</div>
-            <div class="chip px-3 py-2">✅ Confidence engine</div>
-            <div class="chip px-3 py-2">✅ Mobile‑first UI</div>
-          </div>
+            <div class="text-xs text-white/60" data-i18n="modeProdDesc">Render backend</div>
+              </button>
+              <button class="btn rounded-2xl px-4 py-3 text-left" id="modeLocal" type="button">
+                <div class="font-semibold">LOCAL</div>
+                <div class="text-xs text-white/60" data-i18n="modeLocalDesc">127.0.0.1</div>
+              </button>
+            </div>
 
-          <div class="mt-4">
-            <div id="gsiMount" class="min-h-[44px]"></div>
-            <div id="loginHint" class="text-xs text-white/60 mt-2">
-              Uses Google Identity Services (no redirects). If you see “invalid_client”, check GOOGLE_CLIENT_ID on backend.
+            <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
+              <div class="font-semibold text-white/80" data-i18n="investorNoteTitle">Investor note</div>
+              <div class="mt-1" data-i18n="investorNoteBody">
+                This prototype demonstrates the end-to-end UX and structured outputs. Production hardening includes model calibration,
+                audio pre-processing, and compliance-ready audit logs.
+              </div>
+            </div>
+
+            <div class="mt-4 flex items-center gap-3">
+              <div class="w-2.5 h-2.5 rounded-full bg-emerald-400/80" id="statusDot"></div>
+              
             </div>
           </div>
         </div>
 
-        <div class="mt-4 text-xs text-white/60">
-          Contact:
-          <a id="emailLink" class="underline" href="mailto:voicesafe.app@gmail.com">voicesafe.app@gmail.com</a>
-          <button id="copyEmail" class="btn px-3 py-2 ml-2 text-xs">Copy</button>
-          <span class="mx-2">·</span>
-          <a class="underline" href="mailto:invest@voicesafe.ai">invest@voicesafe.ai</a>
-        </div>
       </div>
     </section>
 
-    <section class="mt-5">
-      <div class="glass p-3 flex flex-wrap items-center gap-2">
-        <button class="tab" data-tab="analyzer" aria-selected="true">Analyzer</button>
-        <button class="tab" data-tab="mycases" aria-selected="false">My Cases</button>
-        <button class="tab" data-tab="public" aria-selected="false">Public Report</button>
+    <!-- App grid -->
+    <section id="analyze" class="pt-6">
+      <div class="grid lg:grid-cols-12 gap-6">
+        <!-- Left: Analyze / Live / Admin -->
+        <div class="lg:col-span-5">
+          <div class="glass rounded-3xl p-6">
 
-        <div class="ml-auto flex gap-2">
-          <button id="btnOpenHow" class="btn px-4 py-2 text-sm">How it works</button>
-          <button id="btnOpenTerms" class="btn px-4 py-2 text-sm">Terms</button>
-        </div>
-      </div>
-
-      <div id="tab-analyzer" class="mt-4 grid lg:grid-cols-2 gap-4">
-        <div class="glass p-6">
-          <div class="flex items-center justify-between gap-2">
-            <div>
-              <div class="text-xs text-white/60">Analyze a sample</div>
-              <div class="text-xl font-semibold">Upload or record</div>
-              <div class="text-sm text-white/60 mt-1">Short clips work best (mp3, wav, m4a, mp4).</div>
-            </div>
-            <button id="btnDemoSmall" class="btn px-4 py-2 text-sm">Demo</button>
-          </div>
-
-          <div class="mt-4 glass p-4" style="background: rgba(255,255,255,.04);">
-            <input id="fileInput" type="file" accept="audio/*,video/*" class="block w-full text-sm text-white/80 file:btn file:px-4 file:py-2 file:mr-3 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-white/10 hover:file:bg-white/15" />
-            <div class="mt-3 flex gap-3">
-              <button id="btnRecord" class="btn px-5 py-3 font-semibold w-full sm:w-auto">Record</button>
-              <button id="btnAnalyze" class="btn btn-primary px-5 py-3 font-semibold flex-1">Analyze</button>
-            </div>
-            <div id="uploadHint" class="text-xs text-white/60 mt-2">
-              Tip: For best fidelity, keep the clip under 60 seconds.
-            </div>
-          </div>
-
-          <div class="mt-4 grid sm:grid-cols-2 gap-3">
-            <input id="metaTitle" class="btn px-4 py-3 text-sm text-left" placeholder="Title (e.g., Telegram investor)" />
-            <input id="metaPlatform" class="btn px-4 py-3 text-sm text-left" placeholder="Platform (e.g., Telegram)" />
-            <input id="metaCountry" class="btn px-4 py-3 text-sm text-left" placeholder="Country (e.g., US)" />
-            <input id="metaLanguage" class="btn px-4 py-3 text-sm text-left" placeholder="Language (e.g., EN)" />
-            <input id="metaTags" class="btn px-4 py-3 text-sm text-left sm:col-span-2" placeholder="Tags (comma-separated)" />
-            <textarea id="metaNotes" class="btn px-4 py-3 text-sm text-left sm:col-span-2 min-h-[90px]" placeholder="Notes (optional) — do not include sensitive personal data."></textarea>
-          </div>
-
-          <div class="mt-4 text-xs text-white/60">
-            <span class="kbd">Optional</span> Login enables <b>My Cases</b> and <b>shareable links</b>.
-          </div>
-
-          <div id="statusBox" class="mt-4 hidden glass p-4" style="background: rgba(255,255,255,.04);"></div>
-        </div>
-
-        <div class="glass p-6" id="resultsCard">
-          <div class="flex items-start justify-between gap-2">
-            <div>
-              <div class="text-xs text-white/60">AI risk assessment</div>
-              <div class="text-2xl font-semibold">Results</div>
-              <div id="resultsSub" class="text-sm text-white/60 mt-1">Upload or record to generate a report.</div>
-            </div>
-            <div class="flex flex-wrap gap-2 justify-end">
-              <button id="btnCopyJson" class="btn px-4 py-2 text-sm">Copy JSON</button>
-              <button id="btnCopyLink" class="btn px-4 py-2 text-sm">Copy link</button>
-              <button id="btnShare" class="btn px-4 py-2 text-sm">Share</button>
-              <button id="btnShareCard" class="btn px-4 py-2 text-sm">Share card</button>
-            </div>
-          </div>
-
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span id="badgeRisk" class="chip px-3 py-1 text-xs text-white/80">Risk: —</span>
-            <span id="badgeConf" class="chip px-3 py-1 text-xs text-white/80">Confidence: —</span>
-            <span id="badgeAI" class="chip px-3 py-1 text-xs text-white/80">AI probability: —</span>
-          </div>
-
-          <div class="mt-4 glass p-5" id="palette" style="background: rgba(255,255,255,.04);">
-            <div class="text-sm font-semibold mb-2">Recommended action</div>
-            <div id="recTitle" class="text-lg font-semibold">—</div>
-            <div id="recDesc" class="text-sm text-white/70 mt-1">—</div>
-
-            <div class="mt-4 grid sm:grid-cols-3 gap-3">
-              <div class="glass p-4" style="background: rgba(255,255,255,.04);">
-                <div class="text-xs text-white/60">Scam score</div>
-                <div class="text-2xl font-semibold" id="metricScam">—</div>
-                <div class="h-2 rounded-full bg-white/10 mt-2 overflow-hidden"><div id="barScam" class="h-2 rounded-full" style="width:0%; background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(34,211,238,.70));"></div></div>
+            <!-- Enterprise auth -->
+            <div class="glass2 rounded-2xl p-4 mb-4">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-xs text-white/60">Enterprise access</div>
+                  <div class="text-sm font-semibold text-white/85">API Key</div>
+                  <div class="text-xs text-white/55 mt-1">Stored locally in your browser (localStorage). Required for upload, cases, live streaming, admin.</div>
+                </div>
+                <div id="apiKeyState" class="chip rounded-full px-3 py-1 text-xs font-semibold">Not set</div>
               </div>
-              <div class="glass p-4" style="background: rgba(255,255,255,.04);">
-                <div class="text-xs text-white/60">AI voice probability</div>
-                <div class="text-2xl font-semibold" id="metricAI">—</div>
-                <div class="h-2 rounded-full bg-white/10 mt-2 overflow-hidden"><div id="barAI" class="h-2 rounded-full" style="width:0%; background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(34,211,238,.70));"></div></div>
+              <div class="mt-3 flex gap-2">
+                <input id="apiKeyInput" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40 flex-1" placeholder="Paste x-api-key…" />
+                <button id="saveApiKeyBtn" class="btnPrimary rounded-2xl px-4 py-3 text-sm font-semibold" type="button">Save</button>
               </div>
-              <div class="glass p-4" style="background: rgba(255,255,255,.04);">
-                <div class="text-xs text-white/60">Stress level</div>
-                <div class="text-2xl font-semibold" id="metricStress">—</div>
-                <div class="h-2 rounded-full bg-white/10 mt-2 overflow-hidden"><div id="barStress" class="h-2 rounded-full" style="width:0%; background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(34,211,238,.70));"></div></div>
+              <div class="mt-2 flex gap-2">
+                <button id="clearApiKeyBtn" class="btn rounded-2xl px-4 py-2 text-xs font-semibold" type="button">Clear</button>
+                <button id="testKeyBtn" class="btn rounded-2xl px-4 py-2 text-xs font-semibold" type="button">Test</button>
               </div>
+              <div class="mt-2 text-xs text-white/55 mono" id="apiKeyHint">—</div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex gap-2 mb-4">
+              <button id="tabAnalyze" class="btnPrimary rounded-2xl px-4 py-2 text-sm font-semibold" type="button">Analyze</button>
+              <button id="tabLive" class="btn rounded-2xl px-4 py-2 text-sm font-semibold" type="button">Live</button>
+              <button id="tabAdmin" class="btn rounded-2xl px-4 py-2 text-sm font-semibold" type="button">Admin</button>
+            </div>
+
+            <!-- Panels -->
+            <div id="panelAnalyze">
+<div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm text-white/60" data-i18n="analyzeTitleSmall">Analyze a sample</div>
+                <div class="text-xl font-semibold mt-1" data-i18n="analyzeTitle">Upload or record</div>
+              </div>
+              <button id="demoBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button">
+                <span data-i18n="demoBtn">Demo</span>
+              </button>
             </div>
 
             <div class="mt-4">
-              <div class="text-xs text-white/60">Confidence</div>
-              <div class="h-3 rounded-full bg-white/10 mt-2 overflow-hidden"><div id="barConf" class="h-3 rounded-full" style="width:0%; background: linear-gradient(90deg, rgba(34,211,238,.80), rgba(124,58,237,.90));"></div></div>
-              <div id="confHint" class="text-xs text-white/60 mt-2">—</div>
+              <label class="text-xs text-white/60" data-i18n="uploadLabel">Upload file</label>
+              <div class="mt-2 glass2 rounded-2xl p-3">
+                <input id="fileInput" type="file" class="block w-full text-sm text-white/80 file:mr-3 file:rounded-xl file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-white/80 hover:file:bg-white/15"
+                       accept="audio/*,video/*" />
+                <div id="fileHint" class="mt-2 text-xs text-white/60">—</div>
+              </div>
             </div>
-          </div>
 
-          <div class="mt-4 grid lg:grid-cols-2 gap-3">
-            <div class="glass p-4" style="background: rgba(255,255,255,.04);">
-              <div class="text-sm font-semibold">Raw JSON</div>
-              <pre id="rawJson" class="mt-2 text-xs text-white/70 overflow-auto max-h-[220px] whitespace-pre-wrap"></pre>
+            <div class="mt-4 flex gap-3">
+              <button id="recordBtn" class="btn rounded-2xl px-4 py-3 font-semibold flex-1" type="button" data-i18n="recordBtn">Record</button>
+              <button id="analyzeBtn" class="btnPrimary rounded-2xl px-4 py-3 font-semibold flex-1" type="button" data-i18n="analyzeBtn">Analyze</button>
             </div>
-            <div class="glass p-4" style="background: rgba(255,255,255,.04);">
-              <div class="text-sm font-semibold">Case</div>
-              <div class="mt-2 text-xs text-white/70">
-                <div><span class="text-white/60">Case ID:</span> <span id="caseId">—</span></div>
-                <div class="mt-1"><span class="text-white/60">Share URL:</span> <span id="caseUrl" class="break-all">—</span></div>
-              </div>
-              <div class="mt-3 flex gap-2">
-                <button id="btnOpenCase" class="btn px-4 py-2 text-sm">Open</button>
-                <button id="btnLoadCase" class="btn px-4 py-2 text-sm">Load</button>
-              </div>
-              <div class="mt-4 text-xs text-white/60">
-                Share links work without login (public report). My Cases requires login.
-              </div>
-            </div>
-          </div>
 
-          <div class="mt-4 text-xs text-white/60">
-            VoiceSafe provides advisory signals only. If money is involved, verify via official channels. Keep sensitive data out of notes.
+            <div class="mt-4 text-xs text-white/60 leading-relaxed">
+              <div>• <span data-i18n="note1">Free 3 analyses • No signup required • Privacy-first</span></div>
+              <div>• <span data-i18n="note2">No permanent voice storage (prototype)</span></div>
+              <div>• <span data-i18n="note3">EU GDPR-ready posture</span></div>
+            </div>
+
+            <hr class="my-5 border-white/10" />
+
+            <div class="text-sm font-semibold text-white/80" data-i18n="caseTitle">Case details (optional)</div>
+
+            <div class="mt-3 grid grid-cols-2 gap-3">
+              <input id="titleEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Title" />
+              <input id="platformEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Platform" />
+              <input id="countryEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Country" />
+              <input id="languageEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Language" />
+            </div>
+
+            <input id="tagsEl" class="mt-3 glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Tags (comma separated)" />
+            <textarea id="notesEl" class="mt-3 glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40 min-h-[110px]" placeholder="Notes (what happened)"></textarea>
+
+            <div class="mt-3 text-xs text-white/50" data-i18n="privacyTip">Tip: Keep personal data out of notes.</div>
+            </div>
+
+            <div id="panelLive" class="hidden">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-sm text-white/60">Live streaming</div>
+                  <div class="text-xl font-semibold mt-1">Real-time risk (2s chunks)</div>
+                </div>
+              </div>
+
+              <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
+                <div class="font-semibold text-white/85">How it works</div>
+                <div class="mt-1">We record from your microphone and send short chunks to the backend: <span class="mono">/stream/start</span> then <span class="mono">/stream/chunk</span>. You get rolling EMA + peak risk.</div>
+              </div>
+
+              <div class="mt-4 flex gap-3">
+                <button id="liveStartBtn" class="btnPrimary rounded-2xl px-4 py-3 font-semibold flex-1" type="button">Start live</button>
+                <button id="liveStopBtn" class="btn rounded-2xl px-4 py-3 font-semibold flex-1" type="button" disabled>Stop</button>
+              </div>
+
+              <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div class="glass2 rounded-2xl p-4">
+                  <div class="text-xs text-white/60">Session</div>
+                  <div class="mt-1 mono font-semibold" id="liveSessionId">—</div>
+                </div>
+                <div class="glass2 rounded-2xl p-4">
+                  <div class="text-xs text-white/60">Status</div>
+                  <div class="mt-1 font-semibold" id="liveStatus">Idle</div>
+                </div>
+              </div>
+
+              <div class="mt-4 glass2 rounded-2xl p-5" id="liveRollingCard">
+                <div class="flex items-center justify-between">
+                  <div class="text-xs text-white/60">Rolling risk</div>
+                  <div id="liveRiskPill" class="chip rounded-full px-3 py-1 text-xs font-semibold">—</div>
+                </div>
+                <div class="mt-2 text-lg font-semibold" id="liveRiskTitle">—</div>
+                <div class="mt-1 text-sm text-white/65" id="liveRiskText">Start live to see streaming results.</div>
+
+                <div class="mt-4 grid grid-cols-3 gap-3">
+                  <div class="glass rounded-2xl p-4">
+                    <div class="text-xs text-white/60">Now</div>
+                    <div class="mt-1 text-2xl font-semibold"><span id="liveRiskNow">—</span><span class="text-white/60 text-sm">%</span></div>
+                  </div>
+                  <div class="glass rounded-2xl p-4">
+                    <div class="text-xs text-white/60">EMA</div>
+                    <div class="mt-1 text-2xl font-semibold"><span id="liveRiskEma">—</span><span class="text-white/60 text-sm">%</span></div>
+                  </div>
+                  <div class="glass rounded-2xl p-4">
+                    <div class="text-xs text-white/60">Peak</div>
+                    <div class="mt-1 text-2xl font-semibold"><span id="liveRiskPeak">—</span><span class="text-white/60 text-sm">%</span></div>
+                  </div>
+                </div>
+
+                <div class="mt-4 text-xs text-white/55 mono" id="liveDebug">—</div>
+              </div>
+            </div>
+
+            <div id="panelAdmin" class="hidden">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-sm text-white/60">Admin</div>
+                  <div class="text-xl font-semibold mt-1">Audit logs</div>
+                </div>
+                <button id="adminLoadBtn" class="btnPrimary rounded-2xl px-4 py-3 text-sm font-semibold" type="button">Load recent</button>
+              </div>
+
+              <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
+                Requires the <b>admin key</b> (first key in <span class="mono">VS_API_KEYS</span> on backend).
+              </div>
+
+              <div class="mt-4 glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60">Output</div>
+                <pre id="adminOut" class="mt-2 text-xs text-white/70 whitespace-pre-wrap break-words mono max-h-72 overflow-auto"></pre>
+              </div>
+            </div>
+
           </div>
         </div>
-      </div>
 
-      <div id="tab-mycases" class="mt-4 hidden">
-        <div class="glass p-6">
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <div class="text-xs text-white/60">History</div>
-              <div class="text-2xl font-semibold">My Cases</div>
-              <div class="text-sm text-white/60 mt-1">Your private list of reports (requires login).</div>
+        <!-- Right: Results -->
+        <div class="lg:col-span-7">
+          <div id="resultsCard" class="glass rounded-3xl p-6 relative overflow-hidden">
+            <!-- Loading overlay -->
+            <div id="resultsLoading" class="loadingOverlay hidden">
+              <div class="flex items-center gap-3 glass2 px-4 py-3 rounded-2xl">
+                <div class="spinner"></div>
+                <div class="text-sm text-white/80" id="loadingText">Analyzing…</div>
+              </div>
             </div>
-            <div class="flex gap-2">
-              <input id="myCasesLimit" class="btn px-4 py-2 text-sm w-24 text-left" value="50" />
-              <button id="btnRefreshMyCases" class="btn btn-primary px-4 py-2 text-sm font-semibold">Refresh</button>
+
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div>
+                <div class="text-sm text-white/60" data-i18n="resultsTitleSmall">AI risk assessment</div>
+                <div class="text-2xl font-semibold mt-1" data-i18n="resultsTitle">Results</div>
+                <div class="text-sm text-white/60 mt-2" id="summaryText" data-i18n="resultsHint">Upload or record to generate a report.</div>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <button id="copyJsonBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="copyJson">Copy JSON</button>
+                <button id="copyLinkBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="copyLink">Copy link</button>
+                <button id="shareBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="share">Share</button>
+                <button id="shareCardBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="shareCard">Share card</button>
+              </div>
             </div>
+
+            <div class="mt-4 flex flex-wrap gap-2 items-center">
+              <span class="chip rounded-full px-3 py-1 text-xs text-white/80">
+                <span data-i18n="riskLevelLabel">Risk level</span>: <span id="riskLevel" class="font-semibold">—</span>
+              </span>
+              <span class="chip rounded-full px-3 py-1 text-xs text-white/80">
+                <span data-i18n="confidenceLabel">Confidence</span>: <span id="confidence" class="font-semibold">—</span>
+              </span>
+              <button id="manageBillingBtn" class="btn rounded-full px-3 py-1 text-xs font-semibold hidden" type="button" data-i18n="manageSub">Manage subscription</button>
+              <span id="proBadge" class="hidden chip rounded-full px-3 py-1 text-xs text-white/80">PRO</span>
+            </div>
+
+            <div class="mt-4 glass2 rounded-2xl p-5 gradLow" id="actionCard">
+              <div class="flex items-center justify-between">
+                <div class="text-xs text-white/60" data-i18n="recommendedAction">Recommended action</div>
+                <div id="riskPill" class="chip rounded-full px-3 py-1 text-xs font-semibold">—</div>
+              </div>
+              <div class="mt-2 text-lg font-semibold" id="riskTitle">—</div>
+              <div class="mt-1 text-sm text-white/65" id="riskText">—</div>
+
+              <div class="mt-4 grid sm:grid-cols-3 gap-3">
+                <div class="glass rounded-2xl p-4">
+                  <div class="text-xs text-white/60" data-i18n="step1Label">1) Pause</div>
+                  <div class="mt-1 text-sm font-semibold" data-i18n="step1Title">Stop sensitive steps</div>
+                  <div class="mt-1 text-xs text-white/60" data-i18n="step1Desc">Don’t send money or codes.</div>
+                </div>
+                <div class="glass rounded-2xl p-4">
+                  <div class="text-xs text-white/60" data-i18n="step2Label">2) Verify</div>
+                  <div class="mt-1 text-sm font-semibold" data-i18n="step2Title">Use official channels</div>
+                  <div class="mt-1 text-xs text-white/60" data-i18n="step2Desc">Call a verified number.</div>
+                </div>
+                <div class="glass rounded-2xl p-4">
+                  <div class="text-xs text-white/60" data-i18n="step3Label">3) Escalate</div>
+                  <div class="mt-1 text-sm font-semibold" data-i18n="step3Title">Share case & export</div>
+                  <div class="mt-1 text-xs text-white/60" data-i18n="step3Desc">Keep evidence & report.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 grid sm:grid-cols-3 gap-3">
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="scamScore">Scam score</div>
+                <div class="mt-1 flex items-end justify-between">
+                  <div class="text-2xl font-semibold"><span id="scamScore">—</span><span class="text-white/60 text-sm">%</span></div>
+                </div>
+                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div id="scamBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
+                </div>
+              </div>
+
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="aiProb">AI voice probability</div>
+                <div class="mt-1 flex items-end justify-between">
+                  <div class="text-2xl font-semibold"><span id="aiProb">—</span><span class="text-white/60 text-sm">%</span></div>
+                </div>
+                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div id="aiBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
+                </div>
+              </div>
+
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="stressLevel">Stress level</div>
+                <div class="mt-1 flex items-end justify-between">
+                  <div class="text-2xl font-semibold"><span id="stress">—</span><span class="text-white/60 text-sm">%</span></div>
+                </div>
+                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div id="stressBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 grid sm:grid-cols-2 gap-3">
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="rawJson">Raw JSON</div>
+                <pre id="rawJson" class="mt-2 text-xs text-white/70 whitespace-pre-wrap break-words mono max-h-56 overflow-auto"></pre>
+              </div>
+
+              <div class="glass2 rounded-2xl p-4">
+                <div class="text-xs text-white/60" data-i18n="cases">Cases</div>
+                <div class="mt-2 grid gap-3">
+                  <div class="glass rounded-2xl p-3">
+                    <div class="text-xs text-white/60" data-i18n="savedCase">Saved case</div>
+                    <div class="mt-1 text-sm"><span class="text-white/60" data-i18n="caseId">Case ID</span>: <span id="caseId" class="font-semibold">—</span></div>
+                    <div class="mt-2 flex gap-2">
+                      <button id="loadCaseBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="loadCase">Load</button>
+                      <button id="openCaseBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="openCase">Open</button>
+                    </div>
+                  </div>
+
+                  <div class="glass rounded-2xl p-3">
+                    <div class="text-xs text-white/60" data-i18n="searchCases">Search cases</div>
+                    <div class="mt-2 flex gap-2">
+                      <input id="searchQuery" class="glass2 rounded-xl px-3 py-2 text-xs outline-none placeholder:text-white/40 flex-1" placeholder="Search title / notes..." />
+                      <button id="searchBtn" class="btnPrimary rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="searchBtn">Search</button>
+                    </div>
+                    <div id="searchOut" class="mt-2 text-xs text-white/60 max-h-28 overflow-auto"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 text-xs text-white/50" id="debugLine"></div>
           </div>
-
-          <div id="myCasesGate" class="mt-4 glass p-4" style="background: rgba(245,158,11,.08); border-color: rgba(245,158,11,.22);">
-            <div class="text-sm font-semibold">Login required</div>
-            <div class="text-sm text-white/70 mt-1">Sign in with Google to see your history.</div>
-          </div>
-
-          <div id="myCasesList" class="mt-4 hidden"></div>
-        </div>
-      </div>
-
-      <div id="tab-public" class="mt-4 hidden">
-        <div class="glass p-6">
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <div class="text-xs text-white/60">Shareable page</div>
-              <div class="text-2xl font-semibold">Public Report</div>
-              <div class="text-sm text-white/60 mt-1">Open a shared case link or paste a Case ID.</div>
-            </div>
-            <div class="flex gap-2">
-              <input id="publicCaseId" class="btn px-4 py-2 text-sm w-[240px] text-left" placeholder="VS-..." />
-              <button id="btnOpenPublic" class="btn btn-primary px-4 py-2 text-sm font-semibold">Open</button>
-            </div>
-          </div>
-
-          <div id="publicWrap" class="mt-4"></div>
         </div>
       </div>
     </section>
 
-    <footer class="mt-10 mb-8 safe-bottom">
-      <div class="glass p-6">
-        <div class="grid md:grid-cols-3 gap-6">
+    <!-- How it works -->
+    <section id="how" class="pt-10">
+      <div class="glass rounded-3xl p-6 sm:p-8">
+        <div class="flex items-start justify-between gap-4">
           <div>
-            <div class="font-semibold">VoiceSafe</div>
-            <div class="text-sm text-white/60 mt-1">Fast, explainable risk guidance for suspicious voice calls and messages.</div>
-            <div class="text-xs text-white/50 mt-3">© 2026 VoiceSafe</div>
+            <div class="text-sm text-white/60" data-i18n="howSmall">How it works</div>
+            <div class="text-2xl font-semibold mt-1" data-i18n="howTitle">From audio to action</div>
+            <p class="text-white/70 mt-3 max-w-3xl" data-i18n="howDesc">
+              VoiceSafe produces a structured risk report designed for fast, safe decisions — especially when money or identity is involved.
+            </p>
           </div>
-          <div>
-            <div class="text-sm font-semibold">Product</div>
-            <div class="mt-2 space-y-2 text-sm text-white/70">
-              <button class="underline" id="footerHow">How it works</button><br/>
-              <button class="underline" id="footerAnalyze">Analyze</button>
-            </div>
-          </div>
-          <div>
-            <div class="text-sm font-semibold">Legal</div>
-            <div class="mt-2 space-y-2 text-sm text-white/70">
-              <button class="underline" id="footerTerms">Terms</button><br/>
-              <span class="text-white/60">Privacy: prototype does not store voice permanently.</span>
-            </div>
-          </div>
+          <a href="#analyze" class="btn rounded-2xl px-4 py-3 text-sm font-semibold hidden sm:inline-flex" data-i18n="howCta">Try it</a>
         </div>
-        <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs text-white/55">
-          <div>Backend: <a class="underline" href="https://voicesafe-backend-1.onrender.com" target="_blank" rel="noreferrer">https://voicesafe-backend-1.onrender.com</a></div>
-          <div class="flex gap-2">
-            <span class="kbd">Share card</span>
-            <span class="kbd">Public report</span>
-            <span class="kbd">My cases</span>
+
+        <div class="mt-6 grid md:grid-cols-3 gap-4">
+          <div class="glass2 rounded-2xl p-5">
+            <div class="text-xs text-white/60">01</div>
+            <div class="mt-2 font-semibold" data-i18n="howStep1Title">Upload or record</div>
+            <div class="mt-1 text-sm text-white/65" data-i18n="howStep1Desc">Short clips work best. We extract audio features and metadata.</div>
+          </div>
+          <div class="glass2 rounded-2xl p-5">
+            <div class="text-xs text-white/60">02</div>
+            <div class="mt-2 font-semibold" data-i18n="howStep2Title">Analyze signals</div>
+            <div class="mt-1 text-sm text-white/65" data-i18n="howStep2Desc">Models output scam-risk, synthetic-voice likelihood, and stress indicators.</div>
+          </div>
+          <div class="glass2 rounded-2xl p-5">
+            <div class="text-xs text-white/60">03</div>
+            <div class="mt-2 font-semibold" data-i18n="howStep3Title">Get guidance</div>
+            <div class="mt-1 text-sm text-white/65" data-i18n="howStep3Desc">A clear risk level with recommended next steps and exportable JSON.</div>
           </div>
         </div>
       </div>
-    </footer>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="pt-10">
+      <div class="glass rounded-3xl p-6 sm:p-8">
+        <div class="text-sm text-white/60" data-i18n="servicesSmall">Services</div>
+        <div class="text-2xl font-semibold mt-1" data-i18n="servicesTitle">Enterprise-ready roadmap</div>
+        <div class="mt-3 grid md:grid-cols-3 gap-4 text-sm text-white/70">
+          <div class="glass2 rounded-2xl p-5">
+            <div class="font-semibold text-white/85" data-i18n="svc1Title">API + SDK</div>
+            <div class="mt-1" data-i18n="svc1Desc">Stable endpoints, versioning, and client SDKs for web & mobile.</div>
+          </div>
+          <div class="glass2 rounded-2xl p-5">
+            <div class="font-semibold text-white/85" data-i18n="svc2Title">Model calibration</div>
+            <div class="mt-1" data-i18n="svc2Desc">Country/language calibration, false-positive control, and confidence scoring.</div>
+          </div>
+          <div class="glass2 rounded-2xl p-5">
+            <div class="font-semibold text-white/85" data-i18n="svc3Title">Compliance & audit</div>
+            <div class="mt-1" data-i18n="svc3Desc">Retention controls, consent flows, and compliance-ready audit logs.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="pt-10">
+      <div class="glass rounded-3xl p-6 sm:p-8">
+        <div class="text-sm text-white/60" data-i18n="contactSmall">Contact</div>
+        <div class="text-2xl font-semibold mt-1" data-i18n="contactTitle">Let’s talk</div>
+        <p class="text-white/70 mt-3 max-w-3xl" data-i18n="contactDesc">
+          Interested in pilots with banks, marketplaces, or call centers? Reach out for a private demo and roadmap.
+        </p>
+        <div class="mt-4 flex flex-col sm:flex-row gap-3">
+          <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" href="mailto:hello@voicesafe.ai">
+            <span>✉️</span><span data-i18n="contactEmail">Email</span>
+          </a>
+          <button id="copyContactBtn" class="btn rounded-2xl px-5 py-3 font-semibold" type="button" data-i18n="contactCopy">Copy email</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terms -->
+    <section id="terms" class="pt-10">
+      <div class="glass rounded-3xl p-6 sm:p-8">
+        <div class="text-sm text-white/60" data-i18n="termsSmall">Terms</div>
+        <div class="text-2xl font-semibold mt-1" data-i18n="termsTitle">Safety note</div>
+        <p class="text-white/70 mt-3" data-i18n="termsDesc">
+          VoiceSafe provides advisory signals only. If money is involved, verify via official channels. Keep personal data out of notes.
+        </p>
+      </div>
+    </section>
   </main>
 
-<script>
-(function() {
-  const BACKEND = "https://voicesafe-backend-1.onrender.com";
-  const GOOGLE_CLIENT_ID = "348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com";
-  const STORAGE_KEY = "voicesafe_jwt";
-  const LANG_KEY = "voicesafe_lang";
+  <!-- Footer -->
+  <footer class="border-t border-white/10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+        <div class="max-w-md">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl glass2 flex items-center justify-center">🛡️</div>
+            <div>
+              <div class="font-semibold">VoiceSafe</div>
+              <div class="text-xs text-white/60" data-i18n="footerTagline">AI voice scam risk assessment</div>
+            </div>
+          </div>
+          <div class="mt-3 text-sm text-white/65" data-i18n="footerDesc">
+            Fast, explainable risk guidance for suspicious voice calls and messages.
+          </div>
+        </div>
 
-  const $ = (id) => document.getElementById(id);
-  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
-  const pct = (x) => {
-    const n = Number(x);
-    if (Number.isNaN(n)) return null;
-    if (n <= 1) return Math.round(n * 100);
-    return Math.round(n);
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+          <div>
+            <div class="text-white/80 font-semibold mb-2" data-i18n="footerProduct">Product</div>
+            <a class="block text-white/60 hover:text-white/80" href="#how" data-i18n="footerHow">How it works</a>
+            <a class="block text-white/60 hover:text-white/80" href="#analyze" data-i18n="footerAnalyze">Analyze</a>
+          </div>
+          <div>
+            <div class="text-white/80 font-semibold mb-2" data-i18n="footerService">Service</div>
+            <a class="block text-white/60 hover:text-white/80" href="#services" data-i18n="footerServices">Services</a>
+            <a class="block text-white/60 hover:text-white/80" href="#contact" data-i18n="footerContact">Contact</a>
+          </div>
+          <div>
+            <div class="text-white/80 font-semibold mb-2" data-i18n="footerLegal">Legal</div>
+            <a class="block text-white/60 hover:text-white/80" href="#terms" data-i18n="footerTerms">Terms</a>
+            <a class="block text-white/60 hover:text-white/80" href="#terms" data-i18n="footerPrivacy">Privacy</a>
+          </div>
+          <div>
+            <div class="text-white/80 font-semibold mb-2" data-i18n="footerLinks">Links</div>
+            <a class="block text-white/60 hover:text-white/80" href="https://voicesafe.ai" target="_blank" rel="noreferrer">voicesafe.ai</a>
+            </div>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-white/45">
+        <div>© <span id="year"></span> VoiceSafe</div>
+        <div class="mono">v<span id="buildId">—</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden">
+    <div class="glass rounded-2xl px-4 py-3 text-sm text-white/85 max-w-[92vw]" id="toastText">—</div>
+  </div>
+
+<script>
+/**
+ * VoiceSafe — single-file frontend (enterprise-ready prototype)
+ * + Enterprise UI upgrades (loading, pulse HIGH, gradient by risk, bar animations)
+ * + Fixes: language init bug, backend status logic, response mapping (supports {ai:{...}} OR flat JSON)
+ */
+
+(function(){
+  // ===========================
+  // CONFIG
+  // ===========================
+  window.URLS = {
+    PROD: "https://voicesafe-backend-1.onrender.com"
   };
 
-  function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, (m) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[m]));
+  window.STRIPE_CHECKOUT_URL = "https://buy.stripe.com/aFa3cn42A8Iq1cC8m2gA800";
+  window.STRIPE_BILLING_PORTAL_URL = "";
+
+  // Google Identity Services (GSI) — set your Client ID here
+  // Example: "1234567890-abcdefg.apps.googleusercontent.com"
+  window.GOOGLE_CLIENT_ID = "348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com";
+
+  function setUserBadgeFromStorage(){
+    const badge = document.getElementById("userBadge");
+    if (!badge) return;
+    try{
+      const u = JSON.parse(localStorage.getItem("vs_user") || "null");
+      badge.textContent = u?.email ? ("Signed in: " + u.email) : "";
+    }catch{
+      badge.textContent = "";
+    }
   }
 
-  function toast(msg, kind) {
-    const box = $("statusBox");
-    box.classList.remove("hidden");
-    const k = kind || "info";
-    const color = (k==="error") ? "rgba(239,68,68,.10)" : (k==="warn") ? "rgba(245,158,11,.10)" : "rgba(34,211,238,.08)";
-    const border = (k==="error") ? "rgba(239,68,68,.22)" : (k==="warn") ? "rgba(245,158,11,.22)" : "rgba(34,211,238,.18)";
-    box.style.background = color;
-    box.style.borderColor = border;
-    box.innerHTML = '<div class="text-sm font-semibold">' + (k==="error" ? "Chyba" : (k==="warn" ? "Upozornenie" : "Info")) + '</div>' +
-                    '<div class="text-sm text-white/70 mt-1">' + escapeHtml(msg) + '</div>';
-  }
-
-  function getToken() { return localStorage.getItem(STORAGE_KEY) || ""; }
-  function setToken(t) { if (t) localStorage.setItem(STORAGE_KEY, t); else localStorage.removeItem(STORAGE_KEY); }
-
-  async function api(path, opts) {
-    const o = opts || {};
-    const headers = Object.assign({ "Content-Type": "application/json" }, o.headers || {});
-    const token = getToken();
-    if (token) headers["Authorization"] = "Bearer " + token;
-    const res = await fetch(BACKEND + path, Object.assign({}, o, { headers }));
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || data.message || "Request failed");
+  async function gsiExchange(idToken){
+    const base = (window.MODE === "LOCAL") ? window.URLS.LOCAL : window.URLS.PROD;
+    const r = await fetch(base + "/auth/google", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id_token: idToken })
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data?.ok) throw new Error(data?.error || ("Auth failed (" + r.status + ")"));
+    localStorage.setItem("vs_token", data.token);
+    localStorage.setItem("vs_user", JSON.stringify(data.user || {}));
+    setUserBadgeFromStorage();
     return data;
   }
 
-  function riskLabel(r) {
-    const s = String(r || "").toUpperCase();
-    if (s.indexOf("HIGH") >= 0 || s==="H") return "HIGH";
-    if (s.indexOf("MED") >= 0 || s==="M") return "MEDIUM";
-    if (s.indexOf("LOW") >= 0 || s==="L") return "LOW";
-    return s || "UNKNOWN";
+  function initGoogleLogin(){
+    // Safe no-op if not configured
+    const clientId = window.GOOGLE_CLIENT_ID || "";
+    if (!clientId || clientId.includes("PASTE_YOUR_GOOGLE_CLIENT_ID")) return;
+
+    const mount = document.getElementById("googleBtn");
+    if (!mount) return;
+
+    if (!window.google?.accounts?.id) return;
+
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: async (resp) => {
+        try{
+          await gsiExchange(resp.credential);
+          toast("Google login OK ✅");
+        }catch(e){
+          console.error(e);
+          toast("Google login failed", true);
+          alert("Google login failed: " + (e?.message || e));
+        }
+      }
+    });
+
+    window.google.accounts.id.renderButton(mount, {
+      theme: "outline",
+      size: "large",
+      text: "continue_with"
+    });
+
+    // Optional One Tap:
+    // window.google.accounts.id.prompt();
   }
 
-  const dict = {
-    sk: {
-      sessionSignedOut: "Neprihlásený",
-      sessionSignedIn: "Prihlásený",
-      copyOk: "Skopírované.",
-      shareNotSupported: "Zdieľanie nie je podporované — link je skopírovaný.",
-      loginRequired: "Prihlásenie je potrebné.",
-      recHighTitle: "Vysoké riziko. Zastav a over.",
-      recHighDesc: "Pozastav citlivé kroky. Over identitu cez oficiálne kanály (banková linka, známe číslo, interné kontakty). Nezasielaj peniaze ani kódy.",
-      recMedTitle: "Stredné riziko. Over kľúčové fakty.",
-      recMedDesc: "Vyžiadaj sekundárne overenie. Skontroluj číslo účtu, identitu, doménu a urob spätné zavolanie cez overené číslo.",
-      recLowTitle: "Nízke riziko. Pokračuj opatrne.",
-      recLowDesc: "Signály rizika sú nízke, stále však dodržuj interné pravidlá (2‑step approval, spätné overenie pri vyšších sumách).",
-    },
+
+  const BUILD_ID = (Math.random().toString(16).slice(2,8) + "-" + Date.now().toString(16).slice(-6)).toUpperCase();
+
+  // ===========================
+  // Utilities
+  // ===========================
+  function clamp01(v){
+    const n = Number(v);
+    if (Number.isNaN(n)) return null;
+    if (n <= 1 && n >= 0) return n;
+    if (n <= 100 && n >= 0) return n / 100;
+    return Math.max(0, Math.min(1, n));
+  }
+  function pct(v01){
+    const n = clamp01(v01);
+    if (n === null) return null;
+    return Math.round(n * 100);
+  }
+  function qs(id){ return document.getElementById(id); }
+
+  // ===========================
+  // Enterprise API Key
+  // ===========================
+  const API_KEY_LS = "vs_api_key";
+
+  function getApiKey(){
+    return (localStorage.getItem(API_KEY_LS) || "").trim();
+  }
+  function setApiKey(k){
+    const v = (k || "").trim();
+    if (v) localStorage.setItem(API_KEY_LS, v);
+    else localStorage.removeItem(API_KEY_LS);
+    updateApiKeyUI();
+  }
+  function getVsToken(){
+    return localStorage.getItem("vs_token") || "";
+  }
+  function authHeaders(){
+    const h = {};
+    const k = getApiKey();
+    if (k) h["x-api-key"] = k;
+    const t = getVsToken();
+    if (t) h["Authorization"] = "Bearer " + t;
+    return h;
+  }
+  function maskKey(k){
+    if (!k) return "";
+    if (k.length <= 8) return "••••••••";
+    return k.slice(0,4) + "••••••••" + k.slice(-4);
+  }
+  function updateApiKeyUI(){
+    const k = getApiKey();
+    const state = qs("apiKeyState");
+    const hint = qs("apiKeyHint");
+    const input = qs("apiKeyInput");
+    if (input && document.activeElement !== input) input.value = k;
+    if (state){
+      state.textContent = k ? "Set" : "Not set";
+      state.style.background = k ? "rgba(34,197,94,.18)" : "rgba(255,255,255,.06)";
+      state.style.border = "1px solid " + (k ? "rgba(34,197,94,.35)" : "rgba(255,255,255,.12)");
+    }
+    if (hint) hint.textContent = k ? ("Using: " + maskKey(k)) : "Set your API key to enable enterprise endpoints.";
+  }
+
+  function now(){ return Date.now(); }
+
+  function toast(msg){
+    const el = qs("toast");
+    const t = qs("toastText");
+    if (!el || !t) return;
+    t.textContent = msg;
+    el.classList.remove("hidden");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(()=> el.classList.add("hidden"), 2200);
+  }
+
+  function safeJson(v){
+    try { return JSON.stringify(v, null, 2); } catch { return String(v); }
+  }
+
+  function scrollToResults(){
+    const card = qs("resultsCard");
+    if (!card) return;
+    card.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function setLoading(on, label){
+    const overlay = qs("resultsLoading");
+    const lt = qs("loadingText");
+    if (lt && label) lt.textContent = label;
+    if (overlay) overlay.classList.toggle("hidden", !on);
+
+    const btn = qs("analyzeBtn");
+    if (btn){
+      btn.disabled = !!on;
+      btn.classList.toggle("btnLoading", !!on);
+      const lang = localStorage.getItem("vs_lang") || "en";
+      const txt = (window.I18N && window.I18N[lang]?.analyzeBtn) ? window.I18N[lang].analyzeBtn : (lang==="sk" ? "Analyzovať" : "Analyze");
+      btn.innerHTML = on ? `<span class="btnInlineSpinner"></span>${lang==="sk" ? "Analyzujem…" : "Analyzing…"}`
+                         : txt;
+    }
+    // also protect record button
+    const rbtn = qs("recordBtn");
+    if (rbtn) rbtn.disabled = !!on;
+  }
+
+  // ===========================
+  // i18n
+  // ===========================
+  const I18N = window.I18N = {
     en: {
-      sessionSignedOut: "Not signed in",
-      sessionSignedIn: "Signed in",
-      copyOk: "Copied.",
-      shareNotSupported: "Sharing not supported — link copied.",
-      loginRequired: "Login is required.",
-      recHighTitle: "High risk. Pause and verify.",
-      recHighDesc: "Stop sensitive steps. Verify identity via official channels (bank hotline, known number, internal contacts). Do not send money or codes.",
-      recMedTitle: "Medium risk. Verify key facts.",
-      recMedDesc: "Request secondary verification. Validate account details, identity and domains. Call back via a known number.",
-      recLowTitle: "Low risk. Proceed carefully.",
-      recLowDesc: "Risk signals are low. Still follow policy (two‑person approval, callback verification for larger amounts).",
+      tagline: "AI voice scam risk assessment",
+      navHow:"How it works", navServices:"Services", navContact:"Contact", navTerms:"Terms",
+      howBtn:"How it works",
+      ctaPro:"Unlock Pro",
+
+      heroPill:"Privacy-first. Instant risk signals. Built for real-world calls.",
+      heroTitleA:"Turn a suspicious", heroTitleB:"voice message", heroTitleC:"into a clear decision.",
+      heroDesc:"Upload audio/video or record a short clip. VoiceSafe returns a structured risk assessment with recommended actions.",
+      heroCtaAnalyze:"Analyze now", heroCtaDemo:"Run demo", heroCtaHow:"How it works",
+      heroStat1Title:"Fast", heroStat1Desc:"Typical analysis in seconds.",
+      heroStat2Title:"Explainable", heroStat2Desc:"Action-oriented guidance, not just a score.",
+      heroStat3Title:"Private", heroStat3Desc:"Prototype stores no voice permanently.",
+
+      statusTitle:"Service status",
+      modeLabel:"Mode", modeProdDesc:"Render backend", modeLocalDesc:"127.0.0.1",
+      investorNoteTitle:"Investor note",
+      investorNoteBody:"This prototype demonstrates the end-to-end UX and structured outputs. Production hardening includes model calibration, audio pre-processing, and compliance-ready audit logs.",
+
+      analyzeTitleSmall:"Analyze a sample",
+      analyzeTitle:"Upload or record",
+      demoBtn:"Demo",
+      uploadLabel:"Upload file",
+      recordBtn:"Record",
+      analyzeBtn:"Analyze",
+      note1:"Free 3 analyses • No signup required • Privacy-first",
+      note2:"No permanent voice storage (prototype)",
+      note3:"EU GDPR-ready posture",
+      caseTitle:"Case details (optional)",
+      privacyTip:"Tip: Keep personal data out of notes.",
+
+      resultsTitleSmall:"AI risk assessment",
+      resultsTitle:"Results",
+      resultsHint:"Upload or record to generate a report.",
+      copyJson:"Copy JSON",
+      copyLink:"Copy link",
+      share:"Share",
+      shareCard:"Share card",
+      riskLevelLabel:"Risk level",
+      confidenceLabel:"Confidence",
+      manageSub:"Manage subscription",
+      recommendedAction:"Recommended action",
+      step1Label:"1) Pause", step1Title:"Stop sensitive steps", step1Desc:"Don’t send money or codes.",
+      step2Label:"2) Verify", step2Title:"Use official channels", step2Desc:"Call a verified number.",
+      step3Label:"3) Escalate", step3Title:"Share case & export", step3Desc:"Keep evidence & report.",
+
+      scamScore:"Scam score",
+      aiProb:"AI voice probability",
+      stressLevel:"Stress level",
+      rawJson:"Raw JSON",
+      cases:"Cases",
+      savedCase:"Saved case",
+      caseId:"Case ID",
+      loadCase:"Load",
+      openCase:"Open",
+      searchCases:"Search cases",
+      searchBtn:"Search",
+
+      howSmall:"How it works",
+      howTitle:"From audio to action",
+      howDesc:"VoiceSafe produces a structured risk report designed for fast, safe decisions — especially when money or identity is involved.",
+      howCta:"Try it",
+      howStep1Title:"Upload or record",
+      howStep1Desc:"Short clips work best. We extract audio features and metadata.",
+      howStep2Title:"Analyze signals",
+      howStep2Desc:"Models output scam-risk, synthetic-voice likelihood, and stress indicators.",
+      howStep3Title:"Get guidance",
+      howStep3Desc:"A clear risk level with recommended next steps and exportable JSON.",
+
+      servicesSmall:"Services",
+      servicesTitle:"Enterprise-ready roadmap",
+      svc1Title:"API + SDK", svc1Desc:"Stable endpoints, versioning, and client SDKs for web & mobile.",
+      svc2Title:"Model calibration", svc2Desc:"Country/language calibration, false-positive control, and confidence scoring.",
+      svc3Title:"Compliance & audit", svc3Desc:"Retention controls, consent flows, and compliance-ready audit logs.",
+
+      contactSmall:"Contact",
+      contactTitle:"Let’s talk",
+      contactDesc:"Interested in pilots with banks, marketplaces, or call centers? Reach out for a private demo and roadmap.",
+      contactEmail:"Email",
+      contactCopy:"Copy email",
+
+      termsSmall:"Terms",
+      termsTitle:"Safety note",
+      termsDesc:"VoiceSafe provides advisory signals only. If money is involved, verify via official channels. Keep personal data out of notes.",
+
+      footerTagline:"AI voice scam risk assessment",
+      footerDesc:"Fast, explainable risk guidance for suspicious voice calls and messages.",
+      footerProduct:"Product",
+      footerHow:"How it works",
+      footerAnalyze:"Analyze",
+      footerService:"Service",
+      footerServices:"Services",
+      footerContact:"Contact",
+      footerLegal:"Legal",
+      footerTerms:"Terms",
+      footerPrivacy:"Privacy",
+      footerLinks:"Links",
+    },
+    sk: {
+      tagline: "AI vyhodnotenie rizika podvodu z hlasu",
+      navHow:"Ako to funguje", navServices:"Služby", navContact:"Kontakt", navTerms:"Podmienky",
+      howBtn:"Ako to funguje",
+      ctaPro:"Odomknúť Pro",
+
+      heroPill:"Súkromie na prvom mieste. Okamžité signály rizika. Pre reálne hovory.",
+      heroTitleA:"Zmeň podozrivú", heroTitleB:"hlasovú správu", heroTitleC:"na jasné rozhodnutie.",
+      heroDesc:"Nahraj audio/video alebo nahraj krátky klip. VoiceSafe vráti štruktúrované vyhodnotenie rizika a odporúčaný postup.",
+      heroCtaAnalyze:"Analyzovať", heroCtaDemo:"Spustiť demo", heroCtaHow:"Ako to funguje",
+      heroStat1Title:"Rýchle", heroStat1Desc:"Typicky v sekundách.",
+      heroStat2Title:"Vysvetliteľné", heroStat2Desc:"Odporúčania, nie len číslo.",
+      heroStat3Title:"Súkromné", heroStat3Desc:"Prototyp neukladá hlas natrvalo.",
+
+      statusTitle:"Stav služby",
+      modeLabel:"Režim", modeProdDesc:"Render backend", modeLocalDesc:"127.0.0.1",
+      investorNoteTitle:"Poznámka pre investora",
+      investorNoteBody:"Prototyp ukazuje end-to-end UX a štruktúrované výstupy. Produkčná verzia doplní kalibráciu modelu, audio pre-processing a audit logy.",
+
+      analyzeTitleSmall:"Analyzovať vzorku",
+      analyzeTitle:"Nahraj alebo nahrávaj",
+      demoBtn:"Demo",
+      uploadLabel:"Nahrať súbor",
+      recordBtn:"Nahrávať",
+      analyzeBtn:"Analyzovať",
+      note1:"Zadarmo 3 analýzy • Bez registrácie • Súkromie",
+      note2:"Bez trvalého ukladania hlasu (prototyp)",
+      note3:"Pripravené na GDPR (EÚ)",
+      caseTitle:"Detaily prípadu (voliteľné)",
+      privacyTip:"Tip: Do poznámok nedávaj osobné údaje.",
+
+      resultsTitleSmall:"AI vyhodnotenie rizika",
+      resultsTitle:"Výsledky",
+      resultsHint:"Nahraj alebo nahraj záznam pre report.",
+      copyJson:"Kopírovať JSON",
+      copyLink:"Kopírovať link",
+      share:"Zdieľať",
+      shareCard:"Zdieľať kartu",
+      riskLevelLabel:"Riziko",
+      confidenceLabel:"Istota",
+      manageSub:"Spravovať predplatné",
+      recommendedAction:"Odporúčaný postup",
+      step1Label:"1) Pauza", step1Title:"Zastav citlivé kroky", step1Desc:"Neposielaj peniaze ani kódy.",
+      step2Label:"2) Over", step2Title:"Použi oficiálne kanály", step2Desc:"Zavolaj na overené číslo.",
+      step3Label:"3) Eskaluj", step3Title:"Zdieľaj prípad", step3Desc:"Ulož dôkazy a nahlás.",
+
+      scamScore:"Skóre podvodu",
+      aiProb:"Pravdepodobnosť AI hlasu",
+      stressLevel:"Stres",
+      rawJson:"Surový JSON",
+      cases:"Prípady",
+      savedCase:"Uložený prípad",
+      caseId:"ID prípadu",
+      loadCase:"Načítať",
+      openCase:"Otvoriť",
+      searchCases:"Hľadať prípady",
+      searchBtn:"Hľadať",
+
+      howSmall:"Ako to funguje",
+      howTitle:"Od audia k odporúčaniu",
+      howDesc:"VoiceSafe dáva štruktúrovaný report pre rýchle a bezpečné rozhodnutia — najmä keď ide o peniaze alebo identitu.",
+      howCta:"Vyskúšať",
+      howStep1Title:"Nahraj alebo nahrávaj",
+      howStep1Desc:"Krátke klipy fungujú najlepšie. Vyťažíme audio signály a metadáta.",
+      howStep2Title:"Vyhodnoť signály",
+      howStep2Desc:"Model dá scam-risk, pravdepodobnosť syntetického hlasu a stres.",
+      howStep3Title:"Dostaneš postup",
+      howStep3Desc:"Jasná úroveň rizika, odporúčané kroky a export JSON.",
+
+      servicesSmall:"Služby",
+      servicesTitle:"Enterprise roadmap",
+      svc1Title:"API + SDK", svc1Desc:"Stabilné endpointy, verzovanie a SDK pre web/mobil.",
+      svc2Title:"Kalibrácia modelu", svc2Desc:"Kalibrácia podľa krajiny/jazyka, kontrola false-positive a confidence.",
+      svc3Title:"Compliance & audit", svc3Desc:"Retention, consent flow a audit logy pripravené na reguláciu.",
+
+      contactSmall:"Kontakt",
+      contactTitle:"Ozvi sa",
+      contactDesc:"Zaujíma pilot pre banky, marketplaces alebo call centrá? Ozvi sa na privátnu demo ukážku a roadmap.",
+      contactEmail:"Email",
+      contactCopy:"Skopírovať email",
+
+      termsSmall:"Podmienky",
+      termsTitle:"Bezpečnostná poznámka",
+      termsDesc:"VoiceSafe poskytuje len odporúčacie signály. Ak ide o peniaze, over si to cez oficiálne kanály. Do poznámok nedávaj osobné údaje.",
+
+      footerTagline:"AI vyhodnotenie rizika podvodu z hlasu",
+      footerDesc:"Rýchle a vysvetliteľné odporúčania pri podozrivých hlasových správach.",
+      footerProduct:"Produkt",
+      footerHow:"Ako to funguje",
+      footerAnalyze:"Analýza",
+      footerService:"Služby",
+      footerServices:"Služby",
+      footerContact:"Kontakt",
+      footerLegal:"Právne",
+      footerTerms:"Podmienky",
+      footerPrivacy:"Súkromie",
+      footerLinks:"Odkazy",
     }
   };
 
-  function getLang() {
-    const v = localStorage.getItem(LANG_KEY);
-    return (v === "en" || v === "sk") ? v : "sk";
-  }
-  function setLang(v) { localStorage.setItem(LANG_KEY, v); applyLang(); }
-  function t(key) {
-    const lang = getLang();
-    return (dict[lang] && dict[lang][key]) || dict.sk[key] || key;
-  }
-
-  function applyLang() {
-    const lang = getLang();
+  function applyLang(lang){
+    const L = I18N[lang] || I18N.en;
     document.documentElement.lang = lang;
-    $("sessionState").textContent = getToken() ? t("sessionSignedIn") : t("sessionSignedOut");
-  }
 
-  function setTab(name) {
-    document.querySelectorAll("[data-tab]").forEach((b) => {
-      const on = (b.dataset.tab === name);
-      b.setAttribute("aria-selected", on ? "true" : "false");
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+      const k = el.getAttribute("data-i18n");
+      if (L[k] != null) el.textContent = L[k];
     });
-    $("tab-analyzer").classList.toggle("hidden", name !== "analyzer");
-    $("tab-mycases").classList.toggle("hidden", name !== "mycases");
-    $("tab-public").classList.toggle("hidden", name !== "public");
-  }
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-tab]");
-    if (btn) setTab(btn.dataset.tab);
-  });
 
-  // Google sign-in
-  function renderGsiButton() {
-    if (!window.google || !google.accounts || !google.accounts.id) return;
-    const mount = $("gsiMount");
-    mount.innerHTML = "";
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: async (resp) => {
-        try {
-          const out = await api("/auth/google", { method: "POST", body: JSON.stringify({ id_token: resp.credential }) });
-          setToken(out.token);
-          await refreshMe();
-          toast(getLang()==="sk" ? "Prihlásenie úspešné." : "Signed in.", "info");
-        } catch (err) {
-          toast(err.message || "Login failed", "error");
-        }
-      },
-      auto_select: false,
-      cancel_on_tap_outside: true
+    const ph = {
+      titleEl: lang === "sk" ? "Názov (napr. Telegram investor)" : "Title (e.g. Telegram investor)",
+      platformEl: lang === "sk" ? "Platforma (Telegram)" : "Platform (Telegram)",
+      countryEl: lang === "sk" ? "Krajina (SK)" : "Country (US)",
+      languageEl: lang === "sk" ? "Jazyk (SK)" : "Language (EN)",
+      tagsEl: lang === "sk" ? "Tagy (oddelené čiarkou)" : "Tags (comma separated)",
+      notesEl: lang === "sk" ? "Poznámky (čo sa stalo)" : "Notes (what happened)",
+      searchQuery: lang === "sk" ? "Hľadať názov / poznámky..." : "Search title / notes..."
+    };
+    Object.entries(ph).forEach(([id, val])=>{
+      const el = qs(id);
+      if (el) el.setAttribute("placeholder", val);
     });
-    google.accounts.id.renderButton(mount, { theme: "outline", size: "large", shape: "pill", text: "continue_with", width: 260 });
+
+    qs("langLabel").textContent = (lang === "sk" ? "Slovenčina" : "English");
   }
 
-  async function refreshMe() {
-    const logged = !!getToken();
-    $("sessionState").textContent = logged ? t("sessionSignedIn") : t("sessionSignedOut");
-    $("loginBtn").classList.toggle("hidden", logged);
-    $("userPill").classList.toggle("hidden", !logged);
+  // ===========================
+  // Result mapping + UI
+  // ===========================
+  function normalizePayload(payload){
+    const p = payload || {};
 
-    if (!logged) {
-      $("userName").textContent = "—";
-      $("userEmail").textContent = "—";
-      $("userPic").classList.add("hidden");
+    // Support backend shape: { ai: {...}, filename, status, ... }
+    const aiWrapped = (p.ai && typeof p.ai === "object") ? p.ai : null;
+
+    const r0 = aiWrapped || p.scores || p.result || p.analysis || p.ai_result || p.data || p;
+
+    // Candidate field names
+    const scam = r0.scam_score ?? r0.scamScore ?? r0.scam_probability ?? r0.scamProb ?? r0.scam;
+    const ai = r0.ai_probability ?? r0.aiProb ?? r0.ai_voice_probability ?? r0.aiVoiceProb ?? r0.ai;
+    const stress = r0.stress_level ?? r0.stress ?? r0.stressLevel;
+
+    const riskLevel = (r0.risk_level ?? r0.riskLevel ?? r0.risk)?.toString().toUpperCase();
+    const conf = r0.confidence ?? r0.conf;
+
+    const summary = r0.summary ?? r0.message ?? r0.explanation ?? p.summary ?? "";
+    const riskText = r0.riskText ?? r0.risk_text ?? r0.reason ?? r0.details ?? p.riskText ?? "";
+
+    const scamPct = pct(scam);
+    const aiPct = pct(ai);
+    const stressPct = pct(stress);
+
+    let level = riskLevel;
+    if (!level || level === "UNDEFINED" || level === "NULL") {
+      if (scamPct == null) level = "—";
+      else if (scamPct >= 70) level = "HIGH";
+      else if (scamPct >= 35) level = "MEDIUM";
+      else level = "LOW";
+    }
+
+    const confidencePct = pct(conf);
+
+    return {
+      raw: (aiWrapped || payload),
+      scamPct, aiPct, stressPct,
+      level,
+      confidencePct,
+      summary: summary || "",
+      riskText: riskText || ""
+    };
+  }
+
+  function actionFromLevel(level, lang){
+    const isSK = lang === "sk";
+    if (level === "HIGH"){
+      return {
+        pill: isSK ? "VYSOKÉ RIZIKO" : "HIGH RISK",
+        title: isSK ? "Vysoké riziko. Najprv over." : "High risk. Verify first.",
+        text: isSK ? "Zastav citlivé kroky. Over totožnosť cez oficiálny kontakt (nie cez číslo z hovoru)." :
+                     "Pause sensitive steps. Verify identity via an official channel (not the number provided in the call)."
+      };
+    }
+    if (level === "MEDIUM"){
+      return {
+        pill: isSK ? "STREDNÉ RIZIKO" : "MEDIUM RISK",
+        title: isSK ? "Zvýšené riziko. Postupuj opatrne." : "Elevated risk. Proceed cautiously.",
+        text: isSK ? "Over aspoň 2 nezávislé signály (web, známy kontakt, oficiálne číslo)." :
+                     "Verify via at least two independent signals (website, known contact, official number)."
+      };
+    }
+    if (level === "LOW"){
+      return {
+        pill: isSK ? "NÍZKE RIZIKO" : "LOW RISK",
+        title: isSK ? "Nízke riziko. Zostaň ostražitý." : "Low risk. Stay alert.",
+        text: isSK ? "Neznamená to, že je to bezpečné. Pri peniazoch vždy over." :
+                     "Low risk doesn't guarantee safety. Always verify when money is involved."
+      };
+    }
+    return {
+      pill: "—",
+      title: isSK ? "Spusť analýzu pre odporúčanie." : "Run an analysis to get guidance.",
+      text: ""
+    };
+  }
+
+  function setRiskVisual(level){
+    const resultsCard = qs("resultsCard");
+    const actionCard = qs("actionCard");
+    const pill = qs("riskPill");
+    const riskLevelEl = qs("riskLevel");
+
+    // pulse: soft on any result, strong on HIGH
+    if (resultsCard){
+      const has = (level === "LOW" || level === "MEDIUM" || level === "HIGH");
+      resultsCard.classList.toggle("pulseSoft", has);
+      resultsCard.classList.toggle("pulseHigh", level === "HIGH");
+    }
+    if (actionCard){
+      const has = (level === "LOW" || level === "MEDIUM" || level === "HIGH");
+      actionCard.classList.toggle("pulseSoft", has);
+      actionCard.classList.toggle("pulseHigh", level === "HIGH");
+    }
+
+    // gradients
+    if (actionCard){
+      actionCard.classList.remove("gradLow","gradMedium","gradHigh");
+      actionCard.classList.add(level === "HIGH" ? "gradHigh" : level === "MEDIUM" ? "gradMedium" : "gradLow");
+    }
+
+    const map = {
+      HIGH: {pillBg:"rgba(239,68,68,.20)", pillStroke:"rgba(239,68,68,.35)", label:"HIGH"},
+      MEDIUM: {pillBg:"rgba(245,158,11,.20)", pillStroke:"rgba(245,158,11,.35)", label:"MEDIUM"},
+      LOW: {pillBg:"rgba(34,197,94,.18)", pillStroke:"rgba(34,197,94,.35)", label:"LOW"},
+      "—": {pillBg:"rgba(255,255,255,.06)", pillStroke:"rgba(255,255,255,.12)", label:"—"},
+    };
+    const v = map[level] || map["—"];
+    if (pill){
+      pill.style.background = v.pillBg;
+      pill.style.border = "1px solid " + v.pillStroke;
+    }
+    if (riskLevelEl) riskLevelEl.textContent = v.label;
+
+    // bar color by risk (nice but subtle)
+    const barIds = ["scamBar","aiBar","stressBar"];
+    barIds.forEach(id=>{
+      const el = qs(id);
+      if (!el) return;
+      el.classList.remove("bg-amber-400/80","bg-red-400/80","bg-emerald-400/80");
+      if (level === "HIGH") el.classList.add("bg-red-400/80");
+      else if (level === "MEDIUM") el.classList.add("bg-amber-400/80");
+      else if (level === "LOW") el.classList.add("bg-emerald-400/80");
+      else el.classList.add("bg-amber-400/80");
+    });
+  }
+
+  function setBars({scamPct, aiPct, stressPct}){
+    const pairs = [
+      ["scamScore","scamBar", scamPct],
+      ["aiProb","aiBar", aiPct],
+      ["stress","stressBar", stressPct]
+    ];
+    for (const [txtId, barId, val] of pairs){
+      const t = qs(txtId);
+      const b = qs(barId);
+      if (t) t.textContent = (val == null ? "—" : String(val));
+      if (b) b.style.width = (val == null ? "0%" : Math.max(0, Math.min(100, val)) + "%");
+    }
+  }
+
+  function setResultUI(payload){
+    const lang = localStorage.getItem("vs_lang") || "en";
+    const norm = normalizePayload(payload);
+
+    qs("rawJson").textContent = safeJson(norm.raw);
+    qs("debugLine").textContent = "Build " + BUILD_ID;
+
+    qs("confidence").textContent = (norm.confidencePct == null ? "—" : (norm.confidencePct + "%"));
+
+    const summary = norm.summary?.trim();
+    qs("summaryText").textContent = summary || (I18N[lang]?.resultsHint || I18N.en.resultsHint);
+
+    const action = actionFromLevel(norm.level, lang);
+    qs("riskPill").textContent = action.pill;
+    qs("riskTitle").textContent = action.title;
+    qs("riskText").textContent = norm.riskText?.trim() ? norm.riskText.trim() : action.text;
+
+    setRiskVisual(norm.level);
+    setBars(norm);
+
+    // Case id if present
+    const caseId = payload?.case_id || payload?.caseId || payload?.id || payload?.meta?.case_id;
+    qs("caseId").textContent = caseId ? String(caseId) : "—";
+
+    window.__VS_LAST_RESULT__ = norm.raw;
+  }
+
+  // ===========================
+  // Backend
+  // ===========================
+  let backendBase = window.URLS.PROD;
+  let MODE = "PROD";
+
+  function setMode(_mode){
+    MODE = "PROD";
+    backendBase = window.URLS.PROD;
+    // production locked
+    checkBackend();
+  }
+
+  async function checkBackend(){
+    const dot = qs("statusDot");
+    const label = qs("backendStatus");
+    try{
+      const r = await fetch(backendBase + "/health", {cache:"no-store"});
+      const j = await r.json().catch(()=> ({}));
+      // FIX: Object.keys(j).length >= 0 was always true; now require a meaningful ok/healthy or non-empty payload with 2xx
+      const ok = r.ok && (j.ok === true || j.status === "ok" || j.healthy === true || Object.keys(j).length > 0);
+      if (ok){
+        label.textContent = "Online";
+        dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400/80";
+      } else {
+        label.textContent = "Degraded";
+        dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400/80";
+      }
+    }catch(e){
+      label.textContent = "Offline";
+      dot.className = "w-2.5 h-2.5 rounded-full bg-red-400/80";
+    }
+  }
+
+  // ===========================
+  // Analyze / Demo / Record
+  // ===========================
+  let recording = null;
+  let recordedBlob = null;
+
+  function setFileHint(file){
+    const hint = qs("fileHint");
+    if (!hint) return;
+    if (!file){
+      hint.textContent = "—";
       return;
     }
-
-    try {
-      const me = await api("/me");
-      $("userName").textContent = me.user && me.user.name ? me.user.name : "—";
-      $("userEmail").textContent = me.user && me.user.email ? me.user.email : "—";
-      if (me.user && me.user.picture) {
-        $("userPic").src = me.user.picture;
-        $("userPic").classList.remove("hidden");
-      } else {
-        $("userPic").classList.add("hidden");
-      }
-    } catch (e) {
-      setToken("");
-      $("loginBtn").classList.remove("hidden");
-      $("userPill").classList.add("hidden");
-      $("sessionState").textContent = t("sessionSignedOut");
-    }
+    hint.textContent = `Selected: ${file.name} (${Math.round(file.size/1024)} KB)`;
   }
 
-  $("loginBtn").addEventListener("click", () => {
-    document.querySelector("#gsiMount").scrollIntoView({ behavior: "smooth", block: "center" });
-  });
-  $("logoutBtn").addEventListener("click", () => {
-    setToken("");
-    refreshMe();
-    toast(getLang()==="sk" ? "Odhlásené." : "Signed out.", "info");
-  });
-
-  // Analyzer
-  let lastAi = null;
-  let lastCaseId = null;
-
-  function setPalettePulse(risk) {
-    const r = riskLabel(risk);
-    const el = $("palette");
-    el.classList.remove("pulse-soft", "pulse-danger");
-    if (r === "HIGH") el.classList.add("pulse-danger");
-    else if (r === "MEDIUM") el.classList.add("pulse-soft");
-  }
-
-  function recommend(risk) {
-    const r = riskLabel(risk);
-    if (r === "HIGH") return { title: t("recHighTitle"), desc: t("recHighDesc") };
-    if (r === "MEDIUM") return { title: t("recMedTitle"), desc: t("recMedDesc") };
-    return { title: t("recLowTitle"), desc: t("recLowDesc") };
-  }
-
-  function renderResults(ai, caseId) {
-    lastAi = ai;
-    lastCaseId = caseId || null;
-
-    const scores = ai && ai.scores ? ai.scores : (ai || {});
-    const scam = pct(scores.scam_score != null ? scores.scam_score : scores.scamScore);
-    const aip = pct(scores.ai_probability != null ? scores.ai_probability : scores.aiProbability);
-    const stress = pct(scores.stress_level != null ? scores.stress_level : scores.stressLevel);
-    const conf = pct(scores.confidence);
-
-    const risk = riskLabel(scores.risk_level != null ? scores.risk_level : scores.riskLevel);
-
-    $("resultsSub").textContent = (getLang()==="sk") ? "Report je pripravený na zdieľanie." : "Report is ready to share.";
-    $("badgeRisk").textContent = "Risk: " + (risk || "—");
-    $("badgeConf").textContent = "Confidence: " + (conf != null ? conf + "%" : "—");
-    $("badgeAI").textContent = "AI probability: " + (aip != null ? aip + "%" : "—");
-
-    $("metricScam").textContent = (scam != null ? scam + "%" : "—");
-    $("metricAI").textContent = (aip != null ? aip + "%" : "—");
-    $("metricStress").textContent = (stress != null ? stress + "%" : "—");
-
-    $("barScam").style.width = ((scam != null ? clamp(scam,0,100) : 0) + "%");
-    $("barAI").style.width = ((aip != null ? clamp(aip,0,100) : 0) + "%");
-    $("barStress").style.width = ((stress != null ? clamp(stress,0,100) : 0) + "%");
-    $("barConf").style.width = ((conf != null ? clamp(conf,0,100) : 0) + "%");
-
-    const rec = recommend(risk);
-    $("recTitle").textContent = rec.title;
-    $("recDesc").textContent = rec.desc;
-
-    $("confHint").textContent = (conf != null)
-      ? ((getLang()==="sk") ? ("Confidence = " + conf + "%. Vyjadruje stabilitu signálu (nie právnu istotu).")
-                            : ("Confidence = " + conf + "%. Indicates signal stability (not legal certainty)."))
-      : "—";
-
-    setPalettePulse(risk);
-    $("rawJson").textContent = JSON.stringify(ai, null, 2);
-
-    $("caseId").textContent = caseId || "—";
-    const shareUrl = caseId ? (location.origin + "/case/" + caseId) : "—";
-    $("caseUrl").textContent = shareUrl;
-
-    if (caseId) localStorage.setItem("voicesafe_last_case", caseId);
-  }
-
-  async function analyzeFile(file, meta) {
-    const fd = new FormData();
-    fd.append("audio", file, file.name || "upload");
-    Object.keys(meta).forEach((k) => { if (meta[k]) fd.append(k, meta[k]); });
-
-    const headers = {};
-    const token = getToken();
-    if (token) headers["Authorization"] = "Bearer " + token;
-
-    const res = await fetch(BACKEND + "/upload", { method: "POST", headers, body: fd });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error((data.detail && (data.detail.error || data.detail)) || data.message || "Analyze failed");
-    return data;
-  }
-
-  $("btnAnalyze").addEventListener("click", async () => {
-    try {
-      const f = $("fileInput").files && $("fileInput").files[0];
-      if (!f) return toast(getLang()==="sk" ? "Vyber súbor." : "Select a file.", "warn");
-
-      $("btnAnalyze").disabled = true;
-      $("btnAnalyze").textContent = (getLang()==="sk") ? "Analyzujem..." : "Analyzing...";
-      toast(getLang()==="sk" ? "Nahrávam a analyzujem..." : "Uploading and analyzing...", "info");
-
-      const meta = {
-        title: $("metaTitle").value.trim(),
-        platform: $("metaPlatform").value.trim(),
-        country: $("metaCountry").value.trim(),
-        language: $("metaLanguage").value.trim(),
-        tags: $("metaTags").value.trim(),
-        notes: $("metaNotes").value.trim(),
-      };
-
-      const out = await analyzeFile(f, meta);
-      renderResults(out.ai || out, out.case_id);
-      toast(getLang()==="sk" ? "Hotovo." : "Done.", "info");
-    } catch (e) {
-      toast(e.message || "Error", "error");
-    } finally {
-      $("btnAnalyze").disabled = false;
-      $("btnAnalyze").textContent = "Analyze";
-    }
-  });
-
-  // Demo
-  function demoPayload() {
+  function demoPayload(){
     return {
-      scores: { scam_score: 0.82, ai_probability: 0.91, stress_level: 0.67, risk_level: "HIGH", confidence: 0.78 },
+      scores: {
+        scam_score: 0.82,
+        ai_probability: 0.91,
+        stress_level: 0.67,
+        risk_level: "HIGH",
+        confidence: 0.78,
+        risk_text: "High risk signals detected. Pause and verify via official channels."
+      },
       meta: { demo: true, ts: new Date().toISOString() }
     };
   }
-  function setDemo() {
-    const cid = "VS-DEMO-" + Math.floor(Date.now()/1000);
-    renderResults(demoPayload(), cid);
-  }
-  $("ctaDemo").addEventListener("click", () => { setDemo(); setTab("analyzer"); });
-  $("btnDemoSmall").addEventListener("click", () => setDemo());
-  $("ctaAnalyze").addEventListener("click", () => { setTab("analyzer"); $("fileInput").scrollIntoView({ behavior: "smooth", block: "center" }); });
-  $("ctaHow").addEventListener("click", () => {
-    toast(getLang()==="sk"
-      ? "1) Nahraj alebo nahraj klip. 2) AI vypočíta signály. 3) Dostaneš odporúčané kroky + zdieľateľný report."
-      : "1) Upload/record a clip. 2) AI computes signals. 3) Get recommended steps + shareable report.", "info");
-  });
 
-  async function copyText(s) {
-    await navigator.clipboard.writeText(String(s));
-    toast(t("copyOk"), "info");
-  }
+  async function analyzeCurrent(){
+    const fileInput = qs("fileInput");
+    const f =
+      recordedBlob ? new File([recordedBlob], "recording.webm", {type: recordedBlob.type || "audio/webm"}) :
+      (fileInput && fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
 
-  $("btnCopyJson").addEventListener("click", async () => {
-    if (!lastAi) return toast(getLang()==="sk" ? "Najprv sprav analýzu." : "Run analysis first.", "warn");
-    await copyText(JSON.stringify(lastAi));
-  });
-  $("btnCopyLink").addEventListener("click", async () => {
-    const cid = lastCaseId || localStorage.getItem("voicesafe_last_case") || "";
-    if (!cid) return toast(getLang()==="sk" ? "Chýba Case ID." : "Missing Case ID.", "warn");
-    await copyText(location.origin + "/case/" + cid);
-  });
-  $("btnShare").addEventListener("click", async () => {
-    const cid = lastCaseId || localStorage.getItem("voicesafe_last_case") || "";
-    if (!cid) return toast(getLang()==="sk" ? "Chýba Case ID." : "Missing Case ID.", "warn");
-    const url = location.origin + "/case/" + cid;
-    try {
-      if (navigator.share) await navigator.share({ title: "VoiceSafe Report", url });
-      else { await copyText(url); toast(t("shareNotSupported"), "info"); }
-    } catch (e) {
-      await copyText(url);
-      toast(t("shareNotSupported"), "info");
-    }
-  });
-
-  // Share card
-  function roundRect(ctx, x, y, w, h, r, fill, stroke) {
-    ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.arcTo(x+w, y, x+w, y+h, r);
-    ctx.arcTo(x+w, y+h, x, y+h, r);
-    ctx.arcTo(x, y+h, x, y, r);
-    ctx.arcTo(x, y, x+w, y, r);
-    ctx.closePath();
-    ctx.fillStyle = fill;
-    ctx.fill();
-    if (stroke && stroke !== "rgba(255,255,255,0)") {
-      ctx.strokeStyle = stroke;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-  }
-  function drawMetric(ctx, x, y, label, value) {
-    ctx.fillStyle = "rgba(255,255,255,0.60)";
-    ctx.font = "500 18px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText(label, x, y);
-    ctx.fillStyle = "rgba(255,255,255,0.92)";
-    ctx.font = "800 34px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText(value, x, y+44);
-  }
-  function makeShareCard(ai, cid) {
-    const scores = ai && ai.scores ? ai.scores : (ai || {});
-    const scam = pct(scores.scam_score != null ? scores.scam_score : scores.scamScore) || 0;
-    const aip = pct(scores.ai_probability != null ? scores.ai_probability : scores.aiProbability) || 0;
-    const stress = pct(scores.stress_level != null ? scores.stress_level : scores.stressLevel) || 0;
-    const conf = pct(scores.confidence) || 0;
-    const risk = riskLabel(scores.risk_level != null ? scores.risk_level : scores.riskLevel);
-    const url = location.origin + "/case/" + cid;
-
-    const canvas = document.createElement("canvas");
-    canvas.width = 1200; canvas.height = 628;
-    const ctx = canvas.getContext("2d");
-
-    const grd = ctx.createLinearGradient(0,0,1200,628);
-    grd.addColorStop(0, "#070a12");
-    grd.addColorStop(1, "#0b1220");
-    ctx.fillStyle = grd;
-    ctx.fillRect(0,0,1200,628);
-
-    ctx.globalAlpha = 0.35;
-    const g1 = ctx.createRadialGradient(260,120,20,260,120,520);
-    g1.addColorStop(0, "rgba(124,58,237,0.8)");
-    g1.addColorStop(1, "rgba(124,58,237,0)");
-    ctx.fillStyle = g1;
-    ctx.fillRect(0,0,1200,628);
-
-    const g2 = ctx.createRadialGradient(980,220,20,980,220,520);
-    g2.addColorStop(0, "rgba(34,211,238,0.7)");
-    g2.addColorStop(1, "rgba(34,211,238,0)");
-    ctx.fillStyle = g2;
-    ctx.fillRect(0,0,1200,628);
-    ctx.globalAlpha = 1;
-
-    roundRect(ctx, 70, 70, 1060, 488, 26, "rgba(255,255,255,0.06)", "rgba(255,255,255,0.14)");
-
-    ctx.fillStyle = "rgba(255,255,255,0.92)";
-    ctx.font = "700 44px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText("VoiceSafe Report", 120, 155);
-
-    ctx.fillStyle = "rgba(255,255,255,0.65)";
-    ctx.font = "500 22px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText("AI Anti‑Scam Voice Analyzer — bank‑grade risk signals", 120, 190);
-
-    const badge = "RISK: " + risk;
-    const badgeW = ctx.measureText(badge).width + 46;
-    const fill = (risk==="HIGH") ? "rgba(239,68,68,0.18)" : (risk==="MEDIUM") ? "rgba(245,158,11,0.16)" : "rgba(34,197,94,0.16)";
-    roundRect(ctx, 120, 210, badgeW, 44, 22, fill, "rgba(255,255,255,0.14)");
-    ctx.fillStyle = "rgba(255,255,255,0.92)";
-    ctx.font = "700 20px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText(badge, 142, 240);
-
-    roundRect(ctx, 120, 280, 980, 150, 20, "rgba(255,255,255,0.04)", "rgba(255,255,255,0.10)");
-    drawMetric(ctx, 160, 320, "Scam score", scam + "%");
-    drawMetric(ctx, 480, 320, "AI probability", aip + "%");
-    drawMetric(ctx, 800, 320, "Stress level", stress + "%");
-
-    ctx.fillStyle = "rgba(255,255,255,0.75)";
-    ctx.font = "600 18px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText("Confidence", 120, 475);
-    roundRect(ctx, 120, 495, 700, 16, 10, "rgba(255,255,255,0.10)", "rgba(255,255,255,0)");
-    const barW = Math.round(700 * clamp(conf,0,100)/100);
-    const grd2 = ctx.createLinearGradient(120,0,820,0);
-    grd2.addColorStop(0, "rgba(34,211,238,0.9)");
-    grd2.addColorStop(1, "rgba(124,58,237,0.95)");
-    roundRect(ctx, 120, 495, barW, 16, 10, grd2, "rgba(255,255,255,0)");
-
-    ctx.fillStyle = "rgba(255,255,255,0.65)";
-    ctx.font = "500 18px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText(conf + "%", 830, 509);
-
-    ctx.fillStyle = "rgba(255,255,255,0.65)";
-    ctx.font = "500 18px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText(url, 120, 545);
-
-    return canvas.toDataURL("image/png");
-  }
-
-  $("btnShareCard").addEventListener("click", async () => {
-    const cid = lastCaseId || localStorage.getItem("voicesafe_last_case") || "";
-    if (!cid || !lastAi) return toast(getLang()==="sk" ? "Najprv sprav analýzu." : "Run analysis first.", "warn");
-    try {
-      const url = makeShareCard(lastAi, cid);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "voicesafe-" + cid + ".png";
-      a.click();
-      toast(getLang()==="sk" ? "Share card uložená." : "Share card saved.", "info");
-    } catch (e) {
-      toast(e.message || "Share card failed", "error");
-    }
-  });
-
-  $("btnOpenCase").addEventListener("click", () => {
-    const cid = lastCaseId || localStorage.getItem("voicesafe_last_case") || "";
-    if (!cid) return toast(getLang()==="sk" ? "Chýba Case ID." : "Missing Case ID.", "warn");
-    openPublic(cid);
-    setTab("public");
-  });
-  $("btnLoadCase").addEventListener("click", async () => {
-    const cid = lastCaseId || localStorage.getItem("voicesafe_last_case") || "";
-    if (!cid) return toast(getLang()==="sk" ? "Chýba Case ID." : "Missing Case ID.", "warn");
-    await openPublic(cid, true);
-    setTab("public");
-  });
-
-  // My cases
-  function renderMyCases(items) {
-    const wrap = $("myCasesList");
-    wrap.classList.remove("hidden");
-    $("myCasesGate").classList.add("hidden");
-
-    if (!items || !items.length) {
-      wrap.innerHTML = '<div class="text-sm text-white/70">No cases yet.</div>';
+    if (!f){
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Najprv vyber súbor alebo nahraj." : "Select a file or record first.");
       return;
     }
 
-    let rows = "";
-    items.forEach((it) => {
-      const d = new Date(it.created_at);
-      const risk = riskLabel(it.risk_level);
-      const conf = pct(it.confidence);
-      rows += '<tr class="border-t border-white/10">' +
-                '<td class="py-2 text-white/70">' + (isFinite(d) ? d.toLocaleString() : "") + '</td>' +
-                '<td class="py-2 font-mono text-xs text-white/80">' + escapeHtml(it.case_id) + '</td>' +
-                '<td class="py-2 text-white/80">' + escapeHtml(it.title || "") + '</td>' +
-                '<td class="py-2"><span class="chip px-3 py-1 text-xs">' + risk + '</span></td>' +
-                '<td class="py-2 text-white/80">' + (conf != null ? (conf + "%") : "—") + '</td>' +
-                '<td class="py-2">' +
-                  '<button class="btn px-3 py-2 text-xs" data-open="' + escapeHtml(it.case_id) + '">Open</button> ' +
-                  '<button class="btn px-3 py-2 text-xs" data-copy="' + escapeHtml(it.case_id) + '">Copy link</button>' +
-                '</td>' +
-              '</tr>';
-    });
+    const t0 = now();
+    setLoading(true, (localStorage.getItem("vs_lang")==="sk") ? "Analyzujem…" : "Analyzing…");
 
-    wrap.innerHTML =
-      '<div class="overflow-auto">' +
-        '<table class="w-full text-sm">' +
-          '<thead class="text-white/60">' +
-            '<tr><th class="text-left py-2">Date</th><th class="text-left py-2">Case ID</th><th class="text-left py-2">Title</th><th class="text-left py-2">Risk</th><th class="text-left py-2">Confidence</th><th class="text-left py-2">Actions</th></tr>' +
-          '</thead>' +
-          '<tbody>' + rows + '</tbody>' +
-        '</table>' +
-      '</div>';
+    try{
+      const form = new FormData();
+      // IMPORTANT: backend expects "audio"
+      form.append("audio", f);
+      form.append("title", qs("titleEl")?.value || "");
+      form.append("platform", qs("platformEl")?.value || "");
+      form.append("country", qs("countryEl")?.value || "");
+      form.append("language", qs("languageEl")?.value || "");
+      form.append("tags", qs("tagsEl")?.value || "");
+      form.append("notes", qs("notesEl")?.value || "");
 
-    wrap.querySelectorAll("[data-open]").forEach((b) => b.addEventListener("click", () => {
-      const cid = b.getAttribute("data-open");
-      openPublic(cid);
-      setTab("public");
-    }));
-    wrap.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", async () => {
-      const cid = b.getAttribute("data-copy");
-      await copyText(location.origin + "/case/" + cid);
-    }));
-  }
+      const resp = await fetch(backendBase + "/upload", { method:"POST", headers: authHeaders(), body: form });
+      const data = await resp.json().catch(()=> null);
 
-  async function refreshMyCases() {
-    if (!getToken()) {
-      $("myCasesGate").classList.remove("hidden");
-      $("myCasesList").classList.add("hidden");
-      return toast(t("loginRequired"), "warn");
-    }
-    try {
-      const limit = clamp(Number($("myCasesLimit").value || 50), 1, 200);
-      const out = await api("/my-cases?limit=" + limit);
-      renderMyCases(out.items || []);
-    } catch (e) {
-      toast(e.message || "My cases failed", "error");
-    }
-  }
-  $("btnRefreshMyCases").addEventListener("click", refreshMyCases);
-
-  // Public report
-  function detectCaseIdFromPath() {
-    const p = location.pathname || "";
-    const m = p.match(/\/case\/(VS-[A-Za-z0-9\-]+)$/);
-    return m ? m[1] : "";
-  }
-
-  async function openPublic(cid, alsoRenderResults) {
-    const id = (cid || "").trim();
-    if (!id) return;
-
-    $("publicCaseId").value = id;
-
-    try {
-      if (id.indexOf("VS-DEMO") === 0) {
-        renderPublicCard(demoPayload(), id);
-        if (alsoRenderResults) renderResults(demoPayload(), id);
+      if (!resp.ok || !data){
+        const msg = (data && (data.message || data.error || data.detail)) ? (data.message || data.error || data.detail) : `HTTP ${resp.status}`;
+        qs("summaryText").textContent = (localStorage.getItem("vs_lang")==="sk") ? "Analýza zlyhala." : "Analyze failed.";
+        toast(((localStorage.getItem("vs_lang")==="sk") ? "Analýza zlyhala: " : "Analyze failed: ") + msg);
+        console.error("UPLOAD ERROR:", data);
         return;
       }
 
-      const out = await api("/cases/" + encodeURIComponent(id), { method: "GET" });
-      const item = out.item || {};
-      const ai = item.ai_json || item.ai || item;
-      renderPublicCard(ai, id);
-      if (alsoRenderResults) renderResults(ai, id);
-    } catch (e) {
-      $("publicWrap").innerHTML =
-        '<div class="glass p-4" style="background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.22);">' +
-          '<div class="text-sm font-semibold">Not found</div>' +
-          '<div class="text-sm text-white/70 mt-1">' + escapeHtml(e.message) + '</div>' +
-        '</div>';
+      // SUPPORT: backend can return {ai:{...}} OR flat
+      setResultUI(data.ai ? data.ai : data);
+      toast(((localStorage.getItem("vs_lang")==="sk") ? "Hotovo (" : "Done (") + (Math.round((now()-t0)/10)/100) + "s)");
+      scrollToResults();
+    }catch(e){
+      console.error(e);
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Sieťová chyba. Skontroluj URL/CORS." : "Network error. Check CORS/URL.");
+      qs("summaryText").textContent = (localStorage.getItem("vs_lang")==="sk") ? "Sieťová chyba." : "Network error.";
+    }finally{
+      setLoading(false);
     }
   }
 
-  function renderPublicCard(ai, cid) {
-    const scores = ai && ai.scores ? ai.scores : (ai || {});
-    const risk = riskLabel(scores.risk_level != null ? scores.risk_level : scores.riskLevel);
-    const conf = pct(scores.confidence);
-    const aip = pct(scores.ai_probability != null ? scores.ai_probability : scores.aiProbability);
-    const rec = recommend(risk);
-
-    const pulseClass = (risk==="HIGH") ? "pulse-danger" : (risk==="MEDIUM" ? "pulse-soft" : "");
-    const url = location.origin + "/case/" + cid;
-
-    $("publicWrap").innerHTML =
-      '<div class="glass p-6 ' + pulseClass + '" style="background: rgba(255,255,255,.04);">' +
-        '<div class="text-xs text-white/60">Public Report</div>' +
-        '<div class="text-2xl font-semibold mt-1">VoiceSafe Report</div>' +
-        '<div class="text-sm text-white/60 mt-1 font-mono">' + escapeHtml(cid) + ' · <span class="break-all">' + escapeHtml(url) + '</span></div>' +
-
-        '<div class="mt-4 flex flex-wrap gap-2">' +
-          '<span class="chip px-3 py-1 text-xs">RISK: ' + risk + '</span>' +
-          '<span class="chip px-3 py-1 text-xs">Confidence: ' + (conf!=null ? (conf+"%") : "—") + '</span>' +
-          '<span class="chip px-3 py-1 text-xs">AI probability: ' + (aip!=null ? (aip+"%") : "—") + '</span>' +
-        '</div>' +
-
-        '<div class="mt-4 glass p-5" style="background: rgba(255,255,255,.04);">' +
-          '<div class="text-sm font-semibold">Recommended action</div>' +
-          '<div class="text-lg font-semibold mt-1">' + escapeHtml(rec.title) + '</div>' +
-          '<div class="text-sm text-white/70 mt-1">' + escapeHtml(rec.desc) + '</div>' +
-        '</div>' +
-
-        '<div class="mt-4 flex flex-wrap gap-2">' +
-          '<button class="btn px-4 py-2 text-sm" id="pubCopy">Copy link</button>' +
-          '<button class="btn btn-primary px-4 py-2 text-sm font-semibold" id="pubShare">Share</button>' +
-          '<button class="btn px-4 py-2 text-sm" id="pubJson">Copy JSON</button>' +
-        '</div>' +
-
-        '<div class="mt-4 text-xs text-white/60">VoiceSafe provides advisory signals only. If money is involved, verify via official channels.</div>' +
-      '</div>';
-
-    $("pubCopy").addEventListener("click", () => copyText(url));
-    $("pubJson").addEventListener("click", () => copyText(JSON.stringify(ai)));
-    $("pubShare").addEventListener("click", async () => {
-      try {
-        if (navigator.share) await navigator.share({ title: "VoiceSafe Report", url: url });
-        else { await copyText(url); toast(t("shareNotSupported"), "info"); }
-      } catch (e) {
-        await copyText(url);
-        toast(t("shareNotSupported"), "info");
-      }
-    });
+  function runDemo(){
+    const p = demoPayload();
+    setResultUI(p);
+    toast((localStorage.getItem("vs_lang")==="sk") ? "Demo načítané" : "Demo loaded");
+    scrollToResults();
   }
 
-  $("btnOpenPublic").addEventListener("click", () => openPublic($("publicCaseId").value, false));
+  async function toggleRecord(){
+    const btn = qs("recordBtn");
+    const lang = localStorage.getItem("vs_lang") || "en";
 
-  // Record (simple)
-  let mediaRec = null;
-  let recChunks = [];
-  $("btnRecord").addEventListener("click", async () => {
-    try {
-      if (mediaRec && mediaRec.state === "recording") {
-        mediaRec.stop();
-        $("btnRecord").textContent = "Record";
-        return;
-      }
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      recChunks = [];
-      mediaRec = new MediaRecorder(stream);
-      mediaRec.ondataavailable = (e) => { if (e.data) recChunks.push(e.data); };
-      mediaRec.onstop = async () => {
-        const blob = new Blob(recChunks, { type: "audio/webm" });
-        const file = new File([blob], "recording.webm", { type: "audio/webm" });
-        toast(getLang()==="sk" ? "Nahrávka pripravená, analyzujem..." : "Recording ready, analyzing...", "info");
-        const meta = {
-          title: $("metaTitle").value.trim(),
-          platform: $("metaPlatform").value.trim(),
-          country: $("metaCountry").value.trim(),
-          language: $("metaLanguage").value.trim(),
-          tags: $("metaTags").value.trim(),
-          notes: $("metaNotes").value.trim(),
-        };
-        const out = await analyzeFile(file, meta);
-        renderResults(out.ai || out, out.case_id);
+    if (recording){
+      recording.stop();
+      return;
+    }
+
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      const chunks = [];
+      const rec = new MediaRecorder(stream);
+      recording = rec;
+      recordedBlob = null;
+
+      btn.textContent = "Stop";
+
+      rec.ondataavailable = (e)=> { if (e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop = ()=>{
+        recording = null;
+        stream.getTracks().forEach(t=> t.stop());
+        recordedBlob = new Blob(chunks, {type: chunks[0]?.type || "audio/webm"});
+        btn.textContent = (I18N[lang]?.recordBtn || I18N.en.recordBtn);
+        toast((lang==="sk") ? "Nahraté. Pripravené na analýzu." : "Recorded. Ready to analyze.");
+        setFileHint({name:"recording.webm", size: recordedBlob.size});
       };
-      mediaRec.start();
-      $("btnRecord").textContent = "Stop";
-      toast(getLang()==="sk" ? "Nahrávam..." : "Recording...", "info");
-    } catch (e) {
-      toast(e.message || "Record failed", "error");
+
+      rec.start();
+      toast((lang==="sk") ? "Nahrávam…" : "Recording…");
+    }catch(e){
+      console.error(e);
+      toast((lang==="sk") ? "Mikrofón zablokovaný. Povoľ mikrofón." : "Mic blocked. Allow microphone.");
+      if (btn) btn.textContent = (I18N[lang]?.recordBtn || I18N.en.recordBtn);
+      recording = null;
     }
-  });
-
-  // Misc
-  $("copyEmail").addEventListener("click", async () => copyText("voicesafe.app@gmail.com"));
-  $("footerHow").addEventListener("click", () => $("ctaHow").click());
-  $("footerAnalyze").addEventListener("click", () => $("ctaAnalyze").click());
-  $("footerTerms").addEventListener("click", () => $("btnOpenTerms").click());
-
-  $("btnOpenTerms").addEventListener("click", () => {
-    toast(getLang()==="sk"
-      ? "Terms: VoiceSafe poskytuje orientačné signály rizika. Nie je to právne ani finančné poradenstvo. Pri prevodoch peňazí vždy over cez oficiálne kanály."
-      : "Terms: VoiceSafe provides advisory risk signals only. Not legal/financial advice. For money transfers, always verify via official channels.", "info");
-  });
-  $("btnOpenHow").addEventListener("click", () => $("ctaHow").click());
-
-  $("langSK").addEventListener("click", () => setLang("sk"));
-  $("langEN").addEventListener("click", () => setLang("en"));
-
-  // Init
-  applyLang();
-  renderGsiButton();
-  refreshMe();
-
-  const cid = detectCaseIdFromPath();
-  if (cid) {
-    setTab("public");
-    openPublic(cid, false);
   }
+
+
+
+  // ===========================
+  // Live streaming (MAX)
+  // ===========================
+  let liveSessionId = null;
+  let liveStream = null;
+  let liveRecorder = null;
+  let liveSeq = 0;
+
+  function setActiveTab(name){
+    const btnA = qs("tabAnalyze"), btnL = qs("tabLive"), btnAd = qs("tabAdmin");
+    const pA = qs("panelAnalyze"), pL = qs("panelLive"), pAd = qs("panelAdmin");
+
+    const on = (b)=>{ b.classList.add("btnPrimary"); b.classList.remove("btn"); };
+    const off = (b)=>{ b.classList.remove("btnPrimary"); b.classList.add("btn"); };
+
+    [pA,pL,pAd].forEach(p=> p && p.classList.add("hidden"));
+    if (name==="analyze"){ pA && pA.classList.remove("hidden"); on(btnA); off(btnL); off(btnAd); }
+    if (name==="live"){ pL && pL.classList.remove("hidden"); on(btnL); off(btnA); off(btnAd); }
+    if (name==="admin"){ pAd && pAd.classList.remove("hidden"); on(btnAd); off(btnA); off(btnL); }
+  }
+
+  function liveSetStatus(s){
+    const el = qs("liveStatus");
+    if (el) el.textContent = s;
+  }
+  function liveSetSession(id){
+    const el = qs("liveSessionId");
+    if (el) el.textContent = id || "—";
+  }
+  function liveSetRolling(rolling, risk_level){
+    const nowEl = qs("liveRiskNow"), emaEl = qs("liveRiskEma"), peakEl = qs("liveRiskPeak");
+    if (nowEl) nowEl.textContent = rolling?.risk_now ?? "—";
+    if (emaEl) emaEl.textContent = rolling?.risk_ema ?? "—";
+    if (peakEl) peakEl.textContent = rolling?.risk_peak ?? "—";
+
+    const pill = qs("liveRiskPill");
+    const title = qs("liveRiskTitle");
+    const text = qs("liveRiskText");
+
+    const lvl = (risk_level || "").toUpperCase();
+    if (pill) pill.textContent = lvl || "—";
+
+    const lang = localStorage.getItem("vs_lang") || "en";
+    const a = actionFromLevel(lvl || "—", lang);
+    if (title) title.textContent = a.title;
+    if (text) text.textContent = a.text;
+
+    // subtle gradient + pulse reuse
+    const card = qs("liveRollingCard");
+    if (card){
+      card.classList.toggle("pulseHigh", lvl==="HIGH");
+      card.classList.remove("gradLow","gradMedium","gradHigh");
+      card.classList.add(lvl==="HIGH" ? "gradHigh" : lvl==="MEDIUM" ? "gradMedium" : "gradLow");
+    }
+  }
+
+  async function liveStart(){
+    if (!getApiKey()){
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Nastav API key." : "Set API key first.");
+      return;
+    }
+
+    liveSetStatus("Starting…");
+    qs("liveStartBtn").disabled = true;
+
+    try{
+      // 1) start session
+      const r = await fetch(backendBase + "/stream/start", { method:"POST", headers: { ...authHeaders() } });
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok || !j.session_id){
+        throw new Error(j.message || ("HTTP " + r.status));
+      }
+      liveSessionId = j.session_id;
+      liveSeq = 0;
+      liveSetSession(liveSessionId);
+
+      // 2) mic + recorder
+      liveStream = await navigator.mediaDevices.getUserMedia({ audio:true });
+      liveRecorder = new MediaRecorder(liveStream, { mimeType: liveStream.getAudioTracks().length ? undefined : undefined });
+
+      liveRecorder.ondataavailable = async (e)=>{
+        if (!e.data || !e.data.size || !liveSessionId) return;
+        try{
+          const fd = new FormData();
+          fd.append("audio", e.data, `chunk-${(++liveSeq)}.webm`);
+          const rr = await fetch(backendBase + "/stream/chunk?session_id=" + encodeURIComponent(liveSessionId), {
+            method:"POST",
+            headers: { ...authHeaders() },
+            body: fd
+          });
+          const jj = await rr.json().catch(()=> ({}));
+          if (rr.ok && jj.ok){
+            liveSetRolling(jj.rolling, jj.risk_level);
+            const dbg = qs("liveDebug");
+            if (dbg) dbg.textContent = `chunks=${jj.rolling?.chunks ?? "?"} runtime_ms=${jj.runtime_ms ?? "?"}`;
+          } else {
+            const dbg = qs("liveDebug");
+            if (dbg) dbg.textContent = `chunk failed: ${jj.message || rr.status}`;
+          }
+        }catch(err){
+          const dbg = qs("liveDebug");
+          if (dbg) dbg.textContent = "chunk error: " + (err?.message || String(err));
+        }
+      };
+
+      liveRecorder.onstop = ()=>{
+        try{ liveStream?.getTracks()?.forEach(t=>t.stop()); }catch{}
+        liveStream = null;
+        liveRecorder = null;
+      };
+
+      // start chunks every 2 seconds
+      liveRecorder.start(2000);
+
+      liveSetStatus("Live");
+      qs("liveStopBtn").disabled = false;
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Live spustené" : "Live started");
+
+    }catch(err){
+      liveSetStatus("Error");
+      toast((localStorage.getItem("vs_lang")==="sk") ? ("Live chyba: " + (err?.message||"")) : ("Live error: " + (err?.message||"")));
+      qs("liveStartBtn").disabled = false;
+    }
+  }
+
+  function liveStop(){
+    try{ liveRecorder?.stop(); }catch{}
+    try{ liveStream?.getTracks()?.forEach(t=>t.stop()); }catch{}
+    liveRecorder = null;
+    liveStream = null;
+    liveSessionId = null;
+    liveSetSession(null);
+    liveSetStatus("Idle");
+    qs("liveStopBtn").disabled = true;
+    qs("liveStartBtn").disabled = false;
+    toast((localStorage.getItem("vs_lang")==="sk") ? "Live zastavené" : "Live stopped");
+  }
+
+  // ===========================
+  // Admin
+  // ===========================
+  async function loadAudit(){
+    if (!getApiKey()){
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Nastav admin API key." : "Set admin API key.");
+      return;
+    }
+    const out = qs("adminOut");
+    if (out) out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Načítavam…" : "Loading…";
+    try{
+      const r = await fetch(backendBase + "/audit/recent", { headers: { ...authHeaders() } });
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok){
+        throw new Error(j.message || ("HTTP " + r.status));
+      }
+      if (out) out.textContent = safeJson(j.items || j);
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Audit načítaný" : "Audit loaded");
+    }catch(err){
+      if (out) out.textContent = "Error: " + (err?.message || String(err));
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Audit chyba" : "Audit error");
+    }
+  }
+
+  // ===========================
+  // Share / Copy / Cases
+  // ===========================
+  async function copyText(txt){
+    try{
+      await navigator.clipboard.writeText(txt);
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Skopírované" : "Copied");
+    }catch{
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Skopírované" : "Copied");
+    }
+  }
+
+  function buildShareLink(){
+    const caseId = (window.__VS_LAST_RESULT__ && (window.__VS_LAST_RESULT__.case_id || window.__VS_LAST_RESULT__.caseId || window.__VS_LAST_RESULT__.id)) || "";
+    const url = new URL(window.location.href);
+    if (caseId) url.searchParams.set("case", caseId);
+    return url.toString();
+  }
+
+  function escapeHtml(s){
+    return String(s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  async function doSearch(){
+    const q = (qs("searchQuery")?.value || "").trim();
+    if (!q){ toast((localStorage.getItem("vs_lang")==="sk") ? "Zadaj hľadaný text" : "Enter a search query"); return; }
+    const out = qs("searchOut");
+    out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Hľadám…" : "Searching…";
+    try{
+      const r = await fetch(backendBase + "/cases/search?q=" + encodeURIComponent(q), { headers: authHeaders() });
+      const j = await r.json().catch(()=> ({}));
+      if (!r.ok){ out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Hľadanie zlyhalo." : "Search failed."; return; }
+      const items = j.items || j.results || j.cases || [];
+      out.innerHTML = "";
+      if (!items.length){ out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Bez výsledkov." : "No results."; return; }
+      items.slice(0,20).forEach(it=>{
+        const id = it.id || it.case_id || it.caseId || it._id || "—";
+        const title = it.title || it.name || "";
+        const div = document.createElement("div");
+        div.className = "py-1 border-b border-white/10 last:border-0";
+        div.innerHTML = `<span class="mono text-white/80">${String(id)}</span> <span class="text-white/55">— ${escapeHtml(title)}</span>`;
+        out.appendChild(div);
+      });
+    }catch(e){
+      console.error(e);
+      out.textContent = (localStorage.getItem("vs_lang")==="sk") ? "Sieťová chyba." : "Network error.";
+    }
+  }
+
+  async function loadCase(){
+    const caseId = qs("caseId")?.textContent;
+    if (!caseId || caseId === "—"){ toast((localStorage.getItem("vs_lang")==="sk") ? "Nemáš Case ID" : "No case id"); return; }
+    try{
+      const r = await fetch(backendBase + "/cases/" + encodeURIComponent(caseId), { headers: authHeaders() });
+      const j = await r.json().catch(()=> null);
+      if (!r.ok || !j){ toast((localStorage.getItem("vs_lang")==="sk") ? "Načítanie zlyhalo" : "Load failed"); return; }
+      setResultUI(j);
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Prípad načítaný" : "Case loaded");
+      scrollToResults();
+    }catch(e){
+      console.error(e);
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Sieťová chyba" : "Network error");
+    }
+  }
+
+  function openCase(){
+    const link = buildShareLink();
+    window.open(link, "_blank");
+  }
+
+  // ===========================
+  // Language dropdown UI
+  // ===========================
+  function toggleLangMenu(force){
+    const menu = qs("langMenu");
+    const back = qs("langBackdrop");
+    const btn = qs("langBtn");
+    const open = force != null ? force : menu.classList.contains("hidden");
+    if (open){
+      menu.classList.remove("hidden");
+      back.classList.remove("hidden");
+      btn.setAttribute("aria-expanded","true");
+    } else {
+      menu.classList.add("hidden");
+      back.classList.add("hidden");
+      btn.setAttribute("aria-expanded","false");
+    }
+  }
+
+  // ===========================
+  // Wiring
+  // ===========================
+  function boot(){
+    qs("year").textContent = String(new Date().getFullYear());
+    qs("buildId").textContent = BUILD_ID;
+
+
+    // Google login UI
+    setUserBadgeFromStorage();
+    initGoogleLogin();
+
+    // FIX: correct precedence (previously could mis-evaluate)
+    const savedLang =
+      localStorage.getItem("vs_lang") ||
+      (((navigator.language || "en").toLowerCase().startsWith("sk")) ? "sk" : "en");
+
+    localStorage.setItem("vs_lang", savedLang);
+    applyLang(savedLang);
+
+    // Enterprise API key UI
+    updateApiKeyUI();
+    const saveBtn = qs("saveApiKeyBtn");
+    const clearBtn = qs("clearApiKeyBtn");
+    const testBtn = qs("testKeyBtn");
+    if (saveBtn) saveBtn.addEventListener("click", ()=> setApiKey(qs("apiKeyInput")?.value || ""));
+    if (clearBtn) clearBtn.addEventListener("click", ()=> setApiKey(""));
+    if (testBtn) testBtn.addEventListener("click", async ()=>{
+      try{
+        const r = await fetch(backendBase + "/health", { headers: { ...authHeaders() }, cache:"no-store" });
+        const j = await r.json().catch(()=> ({}));
+        if (r.ok){ toast((savedLang==="sk") ? "OK" : "OK"); qs("apiKeyHint").textContent = "Health: " + safeJson(j); }
+        else toast((savedLang==="sk") ? "Neplatný kľúč" : "Invalid key");
+      }catch(e){ toast((savedLang==="sk") ? "Chyba" : "Error"); }
+    });
+
+    // Tabs
+    setActiveTab("analyze");
+    qs("tabAnalyze")?.addEventListener("click", ()=> setActiveTab("analyze"));
+    qs("tabLive")?.addEventListener("click", ()=> setActiveTab("live"));
+    qs("tabAdmin")?.addEventListener("click", ()=> setActiveTab("admin"));
+
+    // Live
+    qs("liveStartBtn")?.addEventListener("click", liveStart);
+    qs("liveStopBtn")?.addEventListener("click", liveStop);
+
+    // Admin
+    qs("adminLoadBtn")?.addEventListener("click", loadAudit);
+
+    setMode(localStorage.getItem("vs_mode") || "PROD");
+
+    qs("fileInput").addEventListener("change", (e)=>{
+      recordedBlob = null;
+      const f = e.target.files && e.target.files[0];
+      setFileHint(f);
+    });
+
+    qs("analyzeBtn").addEventListener("click", analyzeCurrent);
+
+    qs("demoBtn").addEventListener("click", runDemo);
+    qs("demoBtnHero").addEventListener("click", runDemo);
+
+    qs("recordBtn").addEventListener("click", toggleRecord);
+
+    const how = ()=> document.getElementById("how")?.scrollIntoView({behavior:"smooth", block:"start"});
+    qs("howBtnHero").addEventListener("click", how);
+    qs("howBtnTop").addEventListener("click", how);
+
+    setMode("LOCAL"); });
+
+    qs("upgradeBtn").addEventListener("click", ()=> { window.location.href = window.STRIPE_CHECKOUT_URL; });
+    const manage = qs("manageBillingBtn");
+    if (window.STRIPE_BILLING_PORTAL_URL){
+      manage.classList.remove("hidden");
+      manage.addEventListener("click", ()=> window.open(window.STRIPE_BILLING_PORTAL_URL, "_blank"));
+    }
+
+    qs("copyJsonBtn").addEventListener("click", ()=> {
+      const p = window.__VS_LAST_RESULT__ || {};
+      copyText(safeJson(p));
+    });
+    qs("copyLinkBtn").addEventListener("click", ()=> copyText(buildShareLink()));
+    qs("shareBtn").addEventListener("click", async ()=> {
+      const link = buildShareLink();
+      try{
+        if (navigator.share){
+          await navigator.share({title:"VoiceSafe", text:"VoiceSafe report", url: link});
+        } else {
+          await copyText(link);
+        }
+      }catch{}
+    });
+
+    qs("shareCardBtn").addEventListener("click", ()=> {
+      toast((localStorage.getItem("vs_lang")==="sk") ? "Share card: pripoj share-card.js pre PNG export." : "Share card: connect share-card.js for PNG export.");
+    });
+
+    qs("searchBtn").addEventListener("click", doSearch);
+    qs("loadCaseBtn").addEventListener("click", loadCase);
+    qs("openCaseBtn").addEventListener("click", openCase);
+
+    qs("copyContactBtn").addEventListener("click", ()=> copyText("hello@voicesafe.ai"));
+
+    qs("langBtn").addEventListener("click", ()=> toggleLangMenu());
+    qs("langBackdrop").addEventListener("click", ()=> toggleLangMenu(false));
+    qs("langMenu").querySelectorAll("[data-lang]").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        const lang = b.getAttribute("data-lang");
+        localStorage.setItem("vs_lang", lang);
+        applyLang(lang);
+        toggleLangMenu(false);
+        toast(lang === "sk" ? "Jazyk: SK" : "Language: EN");
+        qs("recordBtn").textContent = I18N[lang]?.recordBtn || I18N.en.recordBtn;
+        qs("analyzeBtn").textContent = I18N[lang]?.analyzeBtn || I18N.en.analyzeBtn;
+      });
+    });
+
+    const url = new URL(window.location.href);
+    const caseParam = url.searchParams.get("case");
+    if (caseParam){
+      qs("caseId").textContent = caseParam;
+      loadCase().catch(()=>{});
+    }
+
+    setResultUI({});
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+
 })();
 </script>
 </body>
