@@ -1541,6 +1541,36 @@ function generateExplanation(norm){
 
 }
 
+function updateScamAlert(norm){
+
+  const scam = norm.scamPct ?? 0
+  const stress = norm.stressPct ?? 0
+
+  const alert = document.getElementById("scamAlert")
+
+  if(!alert) return
+
+  if(scam > 75 && stress > 70){
+    alert.classList.remove("hidden")
+  } else {
+    alert.classList.add("hidden")
+  }
+
+}
+
+<div id="scamAlert"
+     class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
+
+  <div class="flex items-center gap-2 font-semibold">
+    ⚠️ Possible Scam Call Detected
+  </div>
+
+  <div class="text-sm mt-1 text-red-200/80">
+    Do not send money. Verify caller identity through an official number.
+  </div>
+
+</div>
+
   function setResultUI(payload){
     const l = lang();
     const norm = normalizePayload(payload);
@@ -1560,6 +1590,7 @@ function generateExplanation(norm){
     setBars(norm);
     calculateTrust(norm);
     generateExplanation(norm);
+    updateScamAlert(norm);
 
     qs("caseId").textContent = norm.caseId ? String(norm.caseId) : "—";
     window.__VS_LAST_RESULT__ = norm.raw;
