@@ -1275,12 +1275,12 @@ Results
   async function initGoogleLogin(){
     const mount = qs("googleBtn");
     if (!mount) return;
-    if (!GOOGLE_CLIENT_ID) return;
+    if (!window.GOOGLE_CLIENT_ID) return;
 
     try{
       await waitForGoogle(7000);
       window.google.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
+        client_id: window.GOOGLE_CLIENT_ID,
         callback: async (resp) => {
           try{
             await gsiExchange(resp.credential);
