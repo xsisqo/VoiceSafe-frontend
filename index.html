@@ -1452,7 +1452,10 @@ if (btn) {
       const t = qs(prefix+txtId);
       const b = qs(prefix+barId);
       if (t) t.textContent = (val == null ? "—" : String(val));
-      if (b) b.style.width = (val == null ? "0%" : Math.max(0, Math.min(100, val)) + "%");
+      if (b){
+  b.style.transition = "width 1.2s ease";
+  b.style.width = (val == null ? "0%" : Math.max(0, Math.min(100, val)) + "%");
+}
     }
   }
 
