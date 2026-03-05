@@ -1718,34 +1718,60 @@ function countFreeUseOnce(payload, norm) {
     };
   }
 
-  async function analyzeCurrent(){
-
-// ===========================
-    // FREE LIMIT CHECK (anon vs logged-in)
+async function analyzeCurrent(){
+    // ===========================
+    // FREE LIMIT CHECK (daily)
+    // anon vs logged-in
     // ===========================
     const token = localStorage.getItem("vs_token");
-    const usedAnon = Number(localStorage.getItem("vs_free_used_anon") || 0);
-    const usedUser = Number(localStorage.getItem("vs_free_used_user") || 0);
 
-    // default limits
+    // daily reset
+    const today = new Date().toISOString().slice(0, 10);
+    const dayKey = token ? "vs_free_day_user" : "vs_free_day_anon";
+    const usedKey = token ? "vs_free_used_user" : "vs_free_used_anon";
+
+    const storedDay = localStorage.getItem(dayKey);
+    if (storedDay !== today) {
+      localStorage.setItem(dayKey, today);
+      localStorage.setItem(usedKey, "0");
+    }
+
+    const used = Number(localStorage.getItem(usedKey) || "0");
+
+    // defaults
     const LIMIT_ANON = 2;
     const LIMIT_USER = 10;
 
-    // allow override from config if you later want
+    // allow override from config
     const policy = window.VOICESAFE_CONFIG?.POLICY || {};
     const limitAnon = Number(policy.FREE_LIMIT_ANON ?? LIMIT_ANON);
     const limitUser = Number(policy.FREE_LIMIT_USER ?? LIMIT_USER);
 
     const limit = token ? limitUser : limitAnon;
-    const used = token ? usedUser : usedAnon;
 
     if (used >= limit) {
-      toast(token ? "Free limit reached. Upgrade to Pro." : "Free limit reached. Sign in or upgrade to Pro.");
+      // anon: NEPRESMERUJ hneď na Stripe, len vyzvi na login
+      if (!token) {
+        toast(lang()==="sk"
+          ? "Denný limit dosiahnutý. Prihlás sa cez Google pre viac pokusov."
+          : "Daily limit reached. Sign in with Google for more tries."
+        );
+        return;
+      }
+
+      // logged-in: až potom Stripe
+      toast(lang()==="sk"
+        ? "Denný limit dosiahnutý. Upgrade na Pro."
+        : "Daily limit reached. Upgrade to Pro."
+      );
       const url = window.VOICESAFE_CONFIG?.STRIPE?.CHECKOUT_URL;
       if (url) window.location.href = url;
       return;
     }
 
+    // ===========================
+    // actual analyze
+    // ===========================
     const fileInput = qs("fileInput");
     const f =
       recordedBlob ? new File([recordedBlob], "recording.webm", {type: recordedBlob.type || "audio/webm"}) :
@@ -1771,16 +1797,25 @@ function countFreeUseOnce(payload, norm) {
       const resp = await fetch(BACKEND_BASE + "/upload", { method:"POST", headers: authHeaders(), body: form });
       const data = await resp.json().catch(()=> null);
 
-      window.__voicesafe_last_result = data;
-updateRiskFromPayload(data);
+      // uloz “last result” do toho istého názvu, čo používajú copy/share funkcie
+      window.__VS_LAST_RESULT__ = (data || {});
+      window.__voicesafe_last_result = (data || {}); // nech máš aj toto, keď to niekde používaš
+
+      // aktualizuj progress bar hneď
+      updateRiskFromPayload(data || {});
 
       if (!resp.ok || !data){
-        const msg = (data && (data.message || data.error || data.detail)) ? (data.message || data.error || data.detail) : `HTTP ${resp.status}`;
+        const msg = (data && (data.message || data.error || data.detail))
+          ? (data.message || data.error || data.detail)
+          : `HTTP ${resp.status}`;
         toast((lang()==="sk" ? "Analýza zlyhala: " : "Analyze failed: ") + msg);
         return;
       }
 
-      setResultUI(data); // supports {ai:{...}} inside mapping
+      // ✅ inkrementuj denný free counter až po úspešnej analýze
+      localStorage.setItem(usedKey, String(used + 1));
+
+      setResultUI(data);
       toast(lang()==="sk" ? "Hotovo ✅" : "Done ✅");
       qs("resultsCard")?.scrollIntoView({behavior:"smooth", block:"start"});
     }catch(e){
@@ -1789,6 +1824,7 @@ updateRiskFromPayload(data);
     }finally{
       setLoading(false);
     }
+  }
   }
 
   function runDemo(){
