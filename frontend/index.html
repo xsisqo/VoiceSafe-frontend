@@ -1817,10 +1817,15 @@ async function analyzeCurrent(){
   }
 
   function runDemo(){
-    setResultUI(demoPayload());
-    toast(lang()==="sk" ? "Demo načítané" : "Demo loaded");
-    qs("resultsCard")?.scrollIntoView({behavior:"smooth", block:"start"});
-  }
+  const payload = demoPayload();
+
+  setResultUI(payload);
+
+  updateRiskFromPayload(payload); // ← pridaj tento riadok
+
+  toast(lang()==="sk" ? "Demo načítané" : "Demo loaded");
+  qs("resultsCard").scrollIntoView({behavior:"smooth", block:"start"});
+}
 
   async function toggleRecord(){
     const btn = qs("recordBtn");
