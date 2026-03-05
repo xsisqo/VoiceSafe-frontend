@@ -2348,6 +2348,10 @@ if (bar) {
 }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  try { setUserBadgeFromStorage?.(); } catch(e){}
+});
+
 </script>
 </body>
 </html>
