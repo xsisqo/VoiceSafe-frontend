@@ -1708,7 +1708,7 @@ try {
     // FREE LIMIT CHECK (only for non-Pro)
   const token = localStorage.getItem("vs_token");
   const used = Number(localStorage.getItem("vs_free_used") || 0);
-  const limit = window.VOICESAFE_CONFIG?.POLICY?.FREE_LIMIT ?? 3;
+  const limit = (window.VOICESAFE_CONFIG && window.VOICESAFE_CONFIG.POLICY && Number(window.VOICESAFE_CONFIG.POLICY.FREE_LIMIT)) || 3;
 
   // ak nie je prihlásený (token), tak limitujeme
   if (!token && used >= limit) {
