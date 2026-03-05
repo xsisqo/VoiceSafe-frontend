@@ -1696,7 +1696,14 @@ renderTimeline(payload);
         confidence: 0.78,
         risk_text: "High risk signals detected. Pause and verify via official channels."
       },
-      meta: { demo: true, ts: new Date().toISOString() }
+      meta: { demo: true, ts: new Date().toISOString() },
+    
+    timeline: [
+  { time: "00:05", label: "Urgency / pressure" },
+  { time: "00:12", label: "Request for money or codes" },
+  { time: "00:18", label: "Suspicious payment instructions" }
+]
+    
     };
   }
 
