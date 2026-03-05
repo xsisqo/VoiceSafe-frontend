@@ -1719,17 +1719,33 @@ function countFreeUseOnce(payload, norm) {
   }
 
   async function analyzeCurrent(){
-    // FREE LIMIT CHECK (only for non-Pro)
-  const token = localStorage.getItem("vs_token");
-  const used = Number(localStorage.getItem("vs_free_used") || 0);
-  const limit = (window.VOICESAFE_CONFIG && window.VOICESAFE_CONFIG.POLICY && Number(window.VOICESAFE_CONFIG.POLICY.FREE_LIMIT)) || 3;
 
-  // ak nie je prihlásený (token), tak limitujeme
-  if (!token && used >= limit) {
-  toast("Free limit reached. Sign in with Google or upgrade.");
-  showPaywall(); // otvorí modal
-  return;
-}
+// ===========================
+    // FREE LIMIT CHECK (anon vs logged-in)
+    // ===========================
+    const token = localStorage.getItem("vs_token");
+    const usedAnon = Number(localStorage.getItem("vs_free_used_anon") || 0);
+    const usedUser = Number(localStorage.getItem("vs_free_used_user") || 0);
+
+    // default limits
+    const LIMIT_ANON = 2;
+    const LIMIT_USER = 10;
+
+    // allow override from config if you later want
+    const policy = window.VOICESAFE_CONFIG?.POLICY || {};
+    const limitAnon = Number(policy.FREE_LIMIT_ANON ?? LIMIT_ANON);
+    const limitUser = Number(policy.FREE_LIMIT_USER ?? LIMIT_USER);
+
+    const limit = token ? limitUser : limitAnon;
+    const used = token ? usedUser : usedAnon;
+
+    if (used >= limit) {
+      toast(token ? "Free limit reached. Upgrade to Pro." : "Free limit reached. Sign in or upgrade to Pro.");
+      const url = window.VOICESAFE_CONFIG?.STRIPE?.CHECKOUT_URL;
+      if (url) window.location.href = url;
+      return;
+    }
+
     const fileInput = qs("fileInput");
     const f =
       recordedBlob ? new File([recordedBlob], "recording.webm", {type: recordedBlob.type || "audio/webm"}) :
