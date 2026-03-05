@@ -2379,35 +2379,6 @@ if (bar) {
 }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-
-  const btn = document.getElementById("googleBtn");
-
-  if (!btn) {
-    console.warn("Google button not found");
-    return;
-  }
-
-  btn.addEventListener("click", () => {
-    console.log("GOOGLE CLICK WORKS");
-
-    if (!window.google || !google.accounts) {
-      console.error("Google API not loaded");
-      return;
-    }
-
-    google.accounts.id.initialize({
-      client_id: window.GOOGLE_CLIENT_ID,
-      callback: (response) => {
-        console.log("Google login success:", response);
-      }
-    });
-
-    google.accounts.id.prompt();
-  });
-
-});
-
 </script>
 </body>
 </html>
