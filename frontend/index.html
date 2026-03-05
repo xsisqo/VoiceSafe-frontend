@@ -1828,37 +1828,48 @@ async function analyzeCurrent(){
 }
 
   async function toggleRecord(){
-    const btn = qs("recordBtn");
-    if (recording){ recording.stop(); return; }
-
-    try{
-      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-      const chunks = [];
-      const rec = new MediaRecorder(stream);
-      recording = rec;
-      recordedBlob = null;
-
-      btn.textContent = "Stop";
-
-      rec.ondataavailable = (e)=> { if (e.data && e.data.size) chunks.push(e.data); };
-      rec.onstop = ()=>{
-        recording = null;
-        stream.getTracks().forEach(t=> t.stop());
-        recordedBlob = new Blob(chunks, {type: chunks[0]?.type || "audio/webm"});
-        btn.textContent = (I18N[lang()]?.recordBtn || "Record");
-        toast(lang()==="sk" ? "Nahraté. Pripravené na analýzu." : "Recorded. Ready to analyze.");
-        setFileHint({name:"recording.webm", size: recordedBlob.size});
-      };
-
-      rec.start();
-      toast(lang()==="sk" ? "Nahrávam…" : "Recording…");
-    }catch(e){
-      console.error(e);
-      toast(lang()==="sk" ? "Mikrofón je blokovaný. Povoľ mikrofón." : "Mic blocked. Allow microphone.");
-      if (btn) btn.textContent = (I18N[lang()]?.recordBtn || "Record");
-      recording = null;
-    }
+  const btn = qs("recordBtn");
+  if (recording){
+    try { recording.stop(); } catch(e){}
+    return;
   }
+
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    const chunks = [];
+    const rec = new MediaRecorder(stream);
+    recording = rec;
+    recordedBlob = null;
+
+    if (btn) btn.textContent = "Stop";
+
+    rec.ondataavailable = (e) => {
+      if (e.data && e.data.size) chunks.push(e.data);
+    };
+
+    rec.onstop = () => {
+      recording = null;
+      stream.getTracks().forEach(t => t.stop());
+
+      const type = (chunks[0] && chunks[0].type) ? chunks[0].type : "audio/webm";
+      recordedBlob = new Blob(chunks, { type });
+
+      if (btn) btn.textContent = (I18N[lang()]?.recordBtn || "Record");
+      toast(lang()==="sk" ? "Nahraté. Pripravené na analýzu." : "Recorded. Ready to analyze.");
+      setFileHint({ name: "recording.webm", size: recordedBlob.size });
+    };
+
+    rec.start();
+    toast(lang()==="sk" ? "Nahrávam…" : "Recording…");
+
+  } catch(e){
+    console.error(e);
+    toast(lang()==="sk" ? "Mikrofón je blokovaný. Povoľ mikrofón." : "Mic blocked. Allow microphone.");
+    if (btn) btn.textContent = (I18N[lang()]?.recordBtn || "Record");
+    recording = null;
+  }
+}
 
   // ===========================
   // Tabs
