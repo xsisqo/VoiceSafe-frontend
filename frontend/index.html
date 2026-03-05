@@ -1237,15 +1237,18 @@ Results
   // Google Login (FIX: wait for window.google)
   // ===========================
   function setUserBadgeFromStorage(){
-    const badge = qs("userBadge");
-    if (!badge) return;
-    try{
-      const u = JSON.parse(localStorage.getItem("vs_user") || "null");
-      badge.textContent = u?.email ? ("Signed in: " + u.email) : "";
-    }catch{
-      badge.textContent = "";
-    }
+  const badge = qs("userBadge");
+  if (!badge) return;
+
+  try{
+    const u = JSON.parse(localStorage.getItem("vs_user") || "null");
+
+    badge.textContent = u?.email ? ("🟢 " + u.email) : "";
+
+  }catch{
+    badge.textContent = "";
   }
+}
 
   async function gsiExchange(idToken){
     const r = await fetch(BACKEND_BASE + "/auth/google", {
@@ -1286,29 +1289,47 @@ window.__gsiInitialized = true;
       window.google.accounts.id.initialize({
   client_id: window.GOOGLE_CLIENT_ID,
 
-  callback: async (resp) => {
+ callback: async (resp) => {
 
-    console.log("Google login success:", resp);
+  console.log("Google login success:", resp);
 
-    // uloží credential
-    if (resp?.credential) {
-      localStorage.setItem("VS_GSI_CREDENTIAL", resp.credential);
-    }
-
-    // zmeň text tlačidla
-    const b = document.getElementById("googleBtn");
-    if (b) {
-      b.innerHTML = "✅ Signed in";
-    }
-
-    try {
-      await gsiExchange(resp.credential);
-      toast("Google login OK ✅");
-    } catch(e) {
-      console.error(e);
-      toast("Google login failed");
-    }
+  // ak Google neposlal credential
+  if (!resp?.credential) {
+    console.error("No credential from Google", resp);
+    toast("Google login failed");
+    return;
   }
+
+  // uloží credential
+  localStorage.setItem("VS_GSI_CREDENTIAL", resp.credential);
+
+  // dekóduj Google JWT
+  let name = "User";
+
+  try {
+    const payload = JSON.parse(atob(resp.credential.split(".")[1]));
+    name = payload.name || payload.email || "User";
+  } catch (e) {
+    console.error("JWT decode failed", e);
+  }
+
+  // zobraz meno na tlačidle
+  const btn = document.getElementById("googleBtn");
+  if (btn) {
+    btn.innerHTML = "🟢 " + name;
+  }
+
+  // pošli token backendu
+  try {
+    await gsiExchange(resp.credential);
+    toast("Google login OK ✅");
+  } catch (e) {
+    console.error(e);
+    toast("Google login failed");
+  }
+
+}
+  
 });
 
       // 1) Skry Google default button (nech nevyrába biely štýl)
