@@ -1316,7 +1316,7 @@ try { mount.innerHTML = ""; } catch {}
 
 // 2) Použi náš vlastný button (ladí s dizajnom)
 mount.innerHTML = `
-<button id="googleLoginBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold btn-icon" type="button">
+<button id="googleBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold btn-icon" type="button">
 
 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
 <path fill="#EA4335"
@@ -1329,7 +1329,7 @@ d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.7-5.5 3.7-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.2.
 `;
 
 // 3) Klik = vyžiadať login prompt (GSI)
-const btn = document.getElementById("googleLoginBtn");
+const btn = document.getElementById("googleBtn");
 if (btn) {
   btn.addEventListener("click", () => {
   if (window.google?.accounts?.id?.prompt) {
