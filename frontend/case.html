@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VoiceSafe Case</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-3xl mx-auto p-6">
+
+<h1 class="text-3xl font-bold mb-4">VoiceSafe Result</h1>
+
+<div class="bg-white rounded-xl shadow p-6">
+
+<div class="mb-4">
+<span class="font-semibold">Risk level:</span>
+<span id="riskLevel"></span>
+</div>
+
+<div class="mb-4">
+<span class="font-semibold">Confidence:</span>
+<span id="confidence"></span>
+</div>
+
+<div class="mb-4">
+<span class="font-semibold">Summary:</span>
+<div id="summary"></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+async function loadCase(){
+
+const r = await fetch(
+"https://voicesafe-backend-1.onrender.com/case/" + id
+);
+
+const data = await r.json();
+
+document.getElementById("riskLevel").textContent = data.level;
+document.getElementById("confidence").textContent = data.confidence;
+document.getElementById("summary").textContent = data.summary;
+
+}
+
+loadCase();
+
+</script>
+
+</body>
+</html>
