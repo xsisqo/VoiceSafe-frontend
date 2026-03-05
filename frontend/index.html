@@ -1571,12 +1571,6 @@ function updateScamAlert(norm){
 
 function countFreeUseOnce(payload, norm) {
   try {
-    const token = localStorage.getItem("vs_token");
-    if (token) return;
-
-    const isDemo = !!(payload?.meta?.demo || payload?.demo || norm?.meta?.demo || norm?.raw?.meta?.demo);
-    if (isDemo) return;
-
     const id = String(
       norm?.caseId ||
       norm?.raw?.caseId ||
@@ -1585,18 +1579,19 @@ function countFreeUseOnce(payload, norm) {
       norm?.meta?.ts ||
       ""
     );
-
     if (!id) return;
 
     const last = localStorage.getItem("vs_last_counted");
     if (last === id) return;
-
     localStorage.setItem("vs_last_counted", id);
 
-    const usedNow = Number(localStorage.getItem("vs_free_used") || 0) + 1;
-    localStorage.setItem("vs_free_used", String(usedNow));
-    console.log("FREE_USED++ =", usedNow, "id=", id);
+    const token = localStorage.getItem("vs_token");
+    const usedKey = token ? "vs_free_used_user" : "vs_free_used_anon";
 
+    const usedNow = Number(localStorage.getItem(usedKey) || 0) + 1;
+    localStorage.setItem(usedKey, String(usedNow));
+
+    console.log("FREE_USED++", usedNow, "key=", usedKey, "id=", id);
   } catch (e) {
     console.warn("countFreeUseOnce failed:", e);
   }
