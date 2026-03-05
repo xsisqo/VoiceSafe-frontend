@@ -1328,6 +1328,20 @@ function handleGoogleLogin(resp){
   // toto je to, čo používaš aj v limite
   localStorage.setItem("vs_token", resp.credential);
 
+try {
+  // decode JWT (Google ID token) -> payload with email/name/sub
+  const parts = String(resp.credential || "").split(".");
+  if (parts.length === 3) {
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")));
+    // store user for badge
+    localStorage.setItem("vs_user", JSON.stringify({
+      email: payload.email || "",
+      name: payload.name || payload.given_name || "",
+      sub: payload.sub || ""
+    }));
+  }
+} catch (e) {}
+
   toast("Signed in with Google");
   setUserBadgeFromStorage?.();
 }
