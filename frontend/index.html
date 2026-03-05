@@ -1281,96 +1281,56 @@ Results
   }
 
   async function initGoogleLogin(){
+  if (window.__gsiInitialized) return;
+  window.__gsiInitialized = true;
 
-if (window.__gsiInitialized) return;
-window.__gsiInitialized = true;
+  const mount = qs("googleBtn");
+  if (!mount) return;
 
-    const mount = qs("googleBtn");
-    if (!mount) return;
-    if (!window.GOOGLE_CLIENT_ID) return;
+  const cid =
+    window.VOICESAFE_CONFIG?.GOOGLE?.CLIENT_ID ||
+    window.GOOGLE_CLIENT_ID;
 
-    try{
-      await waitForGoogle(7000);
-      window.google.accounts.id.initialize({
-  client_id: window.GOOGLE_CLIENT_ID,
+  if (!cid) {
+    console.error("Missing GOOGLE CLIENT ID");
+    return;
+  }
 
- callback: async (resp) => {
+  try{
+    await waitForGoogle(7000);
 
-  console.log("Google login success:", resp);
+    google.accounts.id.initialize({
+      client_id: cid,
+      callback: handleGoogleLogin,
+      auto_select: false,
+      cancel_on_tap_outside: true,
+      use_fedcm_for_prompt: false
+    });
 
-  // ak Google neposlal credential
-  if (!resp?.credential) {
-    console.error("No credential from Google", resp);
+    mount.addEventListener("click", () => {
+      google.accounts.id.prompt();
+    });
+
+  } catch (e){
+    console.error("GSI init failed:", e);
+    toast("Google init failed");
+  }
+}
+
+function handleGoogleLogin(resp){
+  console.log("Google login resp:", resp);
+
+  if (!resp?.credential){
     toast("Google login failed");
     return;
   }
 
-  // uloží credential
-  localStorage.setItem("VS_GSI_CREDENTIAL", resp.credential);
+  // toto je to, čo používaš aj v limite
+  localStorage.setItem("vs_token", resp.credential);
 
-  // dekóduj Google JWT
-  let name = "User";
-
-  try {
-    const payload = JSON.parse(atob(resp.credential.split(".")[1]));
-    name = payload.name || payload.email || "User";
-  } catch (e) {
-    console.error("JWT decode failed", e);
-  }
-
-  // zobraz meno na tlačidle
-  const btn = document.getElementById("googleBtn");
-  if (btn) {
-    btn.innerHTML = "🟢 " + name;
-  }
-
-  // pošli token backendu
-  try {
-    await gsiExchange(resp.credential);
-    toast("Google login OK ✅");
-  } catch (e) {
-    console.error(e);
-    toast("Google login failed");
-  }
-
+  toast("Signed in with Google");
+  setUserBadgeFromStorage?.();
 }
-  
-});
-
-      // 1) Skry Google default button (nech nevyrába biely štýl)
-try { mount.innerHTML = ""; } catch {}
-
-// 2) Použi náš vlastný button (ladí s dizajnom)
-mount.innerHTML = `
-<button id="googleBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold btn-icon" type="button">
-
-<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-<path fill="#EA4335"
-d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.7-5.5 3.7-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.2.8 3.9 1.5l2.7-2.6C16.8 3 14.6 2 12 2 6.9 2 3 5.9 3 11s3.9 9 9 9c5.2 0 8.6-3.7 8.6-8.9 0-.6-.1-1.2-.2-1.9H12z"/>
-</svg>
-
-<span>${(lang && lang()==="sk") ? "Pokračovať s Googlom" : "Continue with Google"}</span>
-
-</button>
-`;
-
-// 3) Klik = vyžiadať login prompt (GSI)
-const btn = document.getElementById("googleBtn");
-if (btn) {
-  btn.addEventListener("click", () => {
-  if (window.google?.accounts?.id?.prompt) {
-    window.google.accounts.id.prompt();
-  } else {
-    toast((lang && lang()==="sk") ? "Google skript nie je načítaný" : "Google script not loaded");
-  }
-});
-}
-
-    }catch(e){
-      // keep silent (mobile/blocked scripts etc.)
-      console.warn("GSI not available:", e?.message || e);
-    }
-  }
 
   // ===========================
   // Backend health
@@ -1752,12 +1712,26 @@ async function analyzeCurrent(){
     if (used >= limit) {
       // anon: NEPRESMERUJ hneď na Stripe, len vyzvi na login
       if (!token) {
-        toast(lang()==="sk"
-          ? "Denný limit dosiahnutý. Prihlás sa cez Google pre viac pokusov."
-          : "Daily limit reached. Sign in with Google for more tries."
-        );
-        return;
-      }
+  toast(
+    lang()==="sk"
+      ? "Denný limit dosiahnutý. Prihlás sa cez Google pre viac pokusov."
+      : "Daily limit reached. Sign in with Google for more tries."
+  );
+
+  // vyvolaj Google login prompt (ak je načítaný GSI skript)
+  try {
+    if (window.google?.accounts?.id) {
+      window.google.accounts.id.prompt();
+    }
+  } catch (e) {
+    console.warn("GSI prompt failed:", e);
+  }
+
+  // optional: posuň usera k tlačidlu
+  try { qs("googleBtn")?.scrollIntoView({ behavior: "smooth", block: "center" }); } catch {}
+
+  return;
+}
 
       // logged-in: až potom Stripe
       toast(lang()==="sk"
