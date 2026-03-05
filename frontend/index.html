@@ -2371,13 +2371,14 @@ function updateRiskFromPayload(payload){
     payload ||
     {};
 
-  let score =
-    ai.risk_score ??
-    ai.scam_score ??
-    ai.scamProbability ??
-    ai.scam_prob ??
-    ai.scam ??
-    null;
+  const scam = ai.scam_score ?? ai.scam ?? 0;
+const stress = ai.stress_level ?? 0;
+const aiVoice = ai.ai_voice_probability ?? 0;
+
+let score =
+  0.5 * scam +
+  0.3 * stress +
+  0.2 * aiVoice;
 
   if (score == null) return;
 
