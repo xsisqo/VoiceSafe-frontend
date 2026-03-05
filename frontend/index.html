@@ -2423,6 +2423,30 @@ let score =
   if (bar) {
     bar.style.width = pct + "%";
 
+    // ==========================
+// SCAM TYPES RENDER
+// ==========================
+
+const scamTypesEl = document.getElementById("scamTypes");
+
+if (scamTypesEl) {
+  scamTypesEl.innerHTML = "";
+
+  if (payload.scam_types && payload.scam_types.length) {
+
+    payload.scam_types.forEach(t => {
+      const el = document.createElement("div");
+      el.style.marginTop = "4px";
+      el.style.color = "#ffb36b";
+      el.textContent = "• " + t;
+      scamTypesEl.appendChild(el);
+    });
+
+  } else {
+    scamTypesEl.textContent = "No specific scam pattern detected.";
+  }
+}
+
 // scam phrase detection
 const text = JSON.stringify(payload).toLowerCase();
 
@@ -2485,6 +2509,8 @@ function renderTimeline(payload){
     row.textContent = e.time + " ⚠ " + e.label;
 
     timeline.appendChild(row);
+
+
 
   });
 
