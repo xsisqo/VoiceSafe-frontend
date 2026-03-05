@@ -1643,7 +1643,7 @@ function countFreeUseOnce(payload, norm) {
     qs("caseId").textContent = norm.caseId ? String(norm.caseId) : "—";
     window.__VS_LAST_RESULT__ = norm.raw;
     window.__VS_LAST_CASE_ID__ = norm.caseId || "";
-
+renderTimeline(payload);
 }
 
   // ===========================
@@ -2436,6 +2436,30 @@ if(box){
   }
 }
 
+function renderTimeline(payload){
+
+  const timeline = document.getElementById("scamTimeline");
+  if(!timeline) return;
+
+  timeline.innerHTML = "";
+
+  const events = payload?.timeline || [];
+
+  events.forEach(e => {
+
+    const row = document.createElement("div");
+
+    row.style.marginTop = "6px";
+    row.style.color = "#ffb3b3";
+    row.style.fontSize = "14px";
+
+    row.textContent = e.time + " ⚠ " + e.label;
+
+    timeline.appendChild(row);
+
+  });
+
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   try { setUserBadgeFromStorage?.(); } catch(e){}
