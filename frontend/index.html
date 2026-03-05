@@ -2491,6 +2491,7 @@ if(box){
   }
 }
 
+
 function renderTimeline(payload){
 
   const timeline = document.getElementById("scamTimeline");
@@ -2511,17 +2512,32 @@ function renderTimeline(payload){
     row.textContent = e.time + " ⚠ " + e.label;
 
     timeline.appendChild(row);
-
-
-
   });
 
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  try { setUserBadgeFromStorage?.(); } catch(e){}
-});
+  document.addEventListener("DOMContentLoaded", () => {
+    try { setUserBadgeFromStorage?.(); } catch (e) {}
 
+    const googleBtn = document.getElementById("googleBtn");
+    if (googleBtn) {
+      googleBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("GOOGLE BTN CLICK");
+
+        // Backend URL (ak máš config.js / window.__CONFIG, zoberie ho, inak fallback)
+        const BACKEND =
+          (window.__CONFIG && window.__CONFIG.BACKEND_URL) ||
+          "https://voicesafe-backend-1.onrender.com";
+
+        // návrat späť po prihlásení
+        const returnTo = encodeURIComponent(window.location.href);
+
+        // spusti Google OAuth na backende (endpoint si uprav ak máš iný)
+        window.location.href = `${BACKEND}/auth/google?returnTo=${returnTo}`;
+      });
+    }
+   }); 
 </script>
 </body>
 </html>
