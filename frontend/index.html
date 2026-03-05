@@ -1756,6 +1756,9 @@ function countFreeUseOnce(payload, norm) {
       const resp = await fetch(BACKEND_BASE + "/upload", { method:"POST", headers: authHeaders(), body: form });
       const data = await resp.json().catch(()=> null);
 
+      window.__voicesafe_last_result = data;
+updateRiskFromPayload(data);
+
       if (!resp.ok || !data){
         const msg = (data && (data.message || data.error || data.detail)) ? (data.message || data.error || data.detail) : `HTTP ${resp.status}`;
         toast((lang()==="sk" ? "Analýza zlyhala: " : "Analyze failed: ") + msg);
