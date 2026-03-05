@@ -13,21 +13,21 @@
 
 <div class="max-w-3xl mx-auto p-6">
 
-<h1 class="text-3xl font-bold mb-4">VoiceSafe Result</h1>
+<h1 class="text-3xl font-bold mb-6">VoiceSafe Result</h1>
 
-<div class="bg-white rounded-xl shadow p-6">
+<div class="bg-white shadow rounded-xl p-6 space-y-4">
 
-<div class="mb-4">
+<div>
 <span class="font-semibold">Risk level:</span>
-<span id="riskLevel"></span>
+<span id="riskLevel">Loading...</span>
 </div>
 
-<div class="mb-4">
+<div>
 <span class="font-semibold">Confidence:</span>
 <span id="confidence"></span>
 </div>
 
-<div class="mb-4">
+<div>
 <span class="font-semibold">Summary:</span>
 <div id="summary"></div>
 </div>
@@ -38,13 +38,23 @@
 
 <script>
 
+async function loadCase(){
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-async function loadCase(){
+if(!id){
+document.getElementById("riskLevel").textContent = "Invalid case id";
+return;
+}
 
 const r = await fetch(
-"https://voicesafe-backend-1.onrender.com/case/" + id
+"https://voicesafe-backend-1.onrender.com/case/" + id,
+{
+headers:{
+"x-api-key":"voicesafe-public"
+}
+}
 );
 
 const data = await r.json();
