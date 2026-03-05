@@ -1687,25 +1687,41 @@ renderTimeline(payload);
   }
 
   function demoPayload(){
-    return {
-      scores: {
-        scam_score: 0.82,
-        ai_probability: 0.91,
-        stress_level: 0.67,
-        risk_level: "HIGH",
-        confidence: 0.78,
-        risk_text: "High risk signals detected. Pause and verify via official channels."
-      },
-      meta: { demo: true, ts: new Date().toISOString() },
-    
+  return {
+    scores: {
+      scam_score: 0.82,
+      ai_probability: 0.91,
+      stress_level: 0.67,
+      risk_level: "HIGH",
+      confidence: 0.78,
+      risk_text: "High risk signals detected. Pause and verify via official channels."
+    },
+
+    // toto si doplň (aby sa malo čo vykresliť v 'Scam type detected')
+    scam_types: [
+      "Urgency / pressure",
+      "Request for money or codes",
+      "Suspicious payment instructions"
+    ],
+
+    // ak používaš skôr 'scamPhrases' v UI, pridaj aj toto
+    scam_phrases: [
+      "Send it now, don’t tell anyone.",
+      "We need a verification code.",
+      "Pay via gift cards / crypto."
+    ],
+
+    // timeline pre renderTimeline()
     timeline: [
-  { time: "00:05", label: "Urgency / pressure" },
-  { time: "00:12", label: "Request for money or codes" },
-  { time: "00:18", label: "Suspicious payment instructions" }
-]
-    
-    };
-  }
+      { time: "00:05", label: "Urgency / pressure" },
+      { time: "00:12", label: "Request for money or codes" },
+      { time: "00:18", label: "Suspicious payment instructions" }
+    ],
+
+    meta: { demo: true, ts: new Date().toISOString() }
+  };
+}
+
 
 async function analyzeCurrent(){
     // ===========================
