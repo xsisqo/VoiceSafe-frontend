@@ -56,7 +56,12 @@ const data = await r.json();
 
 const ai = data.ai || {};
 
-document.getElementById("riskLevel").textContent = ai.risk_level || "UNKNOWN";
+let level = "LOW";
+
+if(ai.scam_score > 70) level = "HIGH";
+else if(ai.scam_score > 40) level = "MEDIUM";
+
+document.getElementById("riskLevel").textContent = level;
 document.getElementById("confidence").textContent = ai.ai_probability ? ai.ai_probability + "%" : "";
 document.getElementById("summary").textContent = ai.summary || "";
 
