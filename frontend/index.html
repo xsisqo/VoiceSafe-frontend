@@ -1608,6 +1608,22 @@ function updateScamAlert(norm){
     const l = lang();
     const norm = normalizePayload(payload);
 
+// FREE LIMIT (run ASAP so it doesn't get skipped by later UI code)
+  try {
+    const token = localStorage.getItem("vs_token");
+
+    const isDemo =
+      !!(payload?.meta?.demo || payload?.demo || norm?.meta?.demo || norm?.raw?.meta?.demo);
+
+    if (!token && !isDemo) {
+      const usedNow = Number(localStorage.getItem("vs_free_used") || 0) + 1;
+      localStorage.setItem("vs_free_used", String(usedNow));
+      console.log("FREE_USED++ =", usedNow);
+    }
+  } catch (e) {
+    console.warn("FREE_LIMIT failed:", e);
+  }
+
     qs("rawJson").textContent = safeJson(norm.raw);
     qs("debugLine").textContent = "Build " + BUILD_ID;
 
