@@ -1273,6 +1273,10 @@ Results
   }
 
   async function initGoogleLogin(){
+
+if (window.__gsiInitialized) return;
+window.__gsiInitialized = true;
+
     const mount = qs("googleBtn");
     if (!mount) return;
     if (!window.GOOGLE_CLIENT_ID) return;
