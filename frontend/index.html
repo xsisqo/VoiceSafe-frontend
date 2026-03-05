@@ -1839,12 +1839,15 @@ async function analyzeCurrent(){
 
     const chunks = [];
     const rec = new MediaRecorder(stream);
+
+rec.start(2000); // každé 2 sekundy pošle audio chunk
+
     recording = rec;
     recordedBlob = null;
 
     if (btn) btn.textContent = "Stop";
 
-    rec.ondataavailable = (e) => {
+    rec.ondataavailable = async (e) => {
       if (e.data && e.data.size) chunks.push(e.data);
     };
 
@@ -1860,7 +1863,6 @@ async function analyzeCurrent(){
       setFileHint({ name: "recording.webm", size: recordedBlob.size });
     };
 
-    rec.start();
     toast(lang()==="sk" ? "Nahrávam…" : "Recording…");
 
   } catch(e){
