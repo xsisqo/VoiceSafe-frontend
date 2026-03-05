@@ -1604,9 +1604,43 @@ function updateScamAlert(norm){
 
 }
 
+function countFreeUseOnce(payload, norm) {
+  try {
+    const token = localStorage.getItem("vs_token");
+    if (token) return;
+
+    const isDemo = !!(payload?.meta?.demo || payload?.demo || norm?.meta?.demo || norm?.raw?.meta?.demo);
+    if (isDemo) return;
+
+    const id = String(
+      norm?.caseId ||
+      norm?.raw?.caseId ||
+      payload?.caseId ||
+      payload?.meta?.ts ||
+      norm?.meta?.ts ||
+      ""
+    );
+
+    if (!id) return;
+
+    const last = localStorage.getItem("vs_last_counted");
+    if (last === id) return;
+
+    localStorage.setItem("vs_last_counted", id);
+
+    const usedNow = Number(localStorage.getItem("vs_free_used") || 0) + 1;
+    localStorage.setItem("vs_free_used", String(usedNow));
+    console.log("FREE_USED++ =", usedNow, "id=", id);
+
+  } catch (e) {
+    console.warn("countFreeUseOnce failed:", e);
+  }
+}
+
   function setResultUI(payload){
     const l = lang();
     const norm = normalizePayload(payload);
+    countFreeUseOnce(payload, norm);
 
     qs("rawJson").textContent = safeJson(norm.raw);
     qs("debugLine").textContent = "Build " + BUILD_ID;
@@ -1629,14 +1663,6 @@ function updateScamAlert(norm){
     window.__VS_LAST_RESULT__ = norm.raw;
     window.__VS_LAST_CASE_ID__ = norm.caseId || "";
 
-// FREE LIMIT: count only real analyses (not demo) and only if not logged in (no token)
-  const token = localStorage.getItem("vs_token");
-  const isDemo = !!(norm?.meta?.demo || norm?.demo);
-
-  if (!token && !isDemo) {
-    const usedNow = Number(localStorage.getItem("vs_free_used") || 0) + 1;
-    localStorage.setItem("vs_free_used", String(usedNow));
-  }
 }
 
   // ===========================
