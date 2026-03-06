@@ -170,162 +170,88 @@
   >
 </div>
 
-  <!-- VoiceSafe Premium Header -->
+  <!-- VoiceSafe Header -->
 <header class="sticky top-0 z-50">
-  <div class="bg-white/[0.008] backdrop-blur-sm border-b border-white/10">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
 
-      <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="flex items-center justify-between">
 
-        <!-- Left -->
-        <div class="flex items-center justify-between gap-3">
+      <!-- Brand -->
+      <a href="/" class="flex items-center gap-3">
 
-          <!-- Brand -->
-          <a href="/" class="flex items-center gap-3 min-w-0 flex-1">
-            <div class="w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/10 shadow-lg flex items-center justify-center overflow-hidden shrink-0">
-              <img
-                src="/icons/voicesafe-192.png"
-                alt="VoiceSafe"
-                class="max-w-[78%] max-h-[78%] object-contain drop-shadow-[0_0_10px_rgba(255,200,0,0.35)]"
-              >
-            </div>
-
-            <div class="leading-tight min-w-0">
-              <div class="font-semibold tracking-tight text-white text-[18px] sm:text-[19px]">
-                VoiceSafe
-              </div>
-              <div class="hidden md:block text-white/60 text-[12px] mt-1 leading-none">
-                AI voice scam risk assessment
-              </div>
-            </div>
-          </a>
-
+        <div class="w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/10 shadow-lg flex items-center justify-center overflow-hidden">
+          <img
+            src="/icons/voicesafe-192.png"
+            alt="VoiceSafe"
+            class="max-w-[78%] max-h-[78%] object-contain"
+          >
         </div>
 
-        <!-- Center / desktop nav -->
-        <nav class="hidden lg:flex items-center gap-3">
-          <a
-            href="#how"
-            class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-          >
-            How it works
-          </a>
-
-          <a
-            href="#services"
-            class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-          >
-            Services
-          </a>
-
-          <a
-            href="#contact"
-            class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-          >
-            Contact
-          </a>
-
-          <a
-            href="#terms"
-            class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-          >
-            Terms
-          </a>
-        </nav>
-
-        <!-- Right -->
-        <div class="flex flex-wrap items-center gap-3">
-
-          <!-- Google -->
-          <button
-            id="googleLoginBtn"
-            type="button"
-            class="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-          >
-            <span class="text-[15px]">G</span>
-            <span>Google</span>
-          </button>
-
-          <!-- Language -->
-          <div class="relative">
-            <button
-              id="langBtn"
-              type="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              class="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-            >
-              <span class="text-sky-400">🌐</span>
-              <span id="langLabel">English</span>
-              <span class="text-white/40 text-[10px]">▼</span>
-            </button>
-
-            <div id="langBackdrop" class="hidden fixed inset-0 z-40"></div>
-
-            <div
-              id="langMenu"
-              class="hidden absolute right-0 top-[calc(100%+10px)] z-50 min-w-[220px] rounded-2xl border border-white/10 bg-[#0f172a]/95 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-              role="menu"
-              aria-label="Language"
-            >
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="sk" type="button">Slovenčina</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="en" type="button">English</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="de" type="button">Deutsch</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="fr" type="button">Français</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="es" type="button">Español</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="it" type="button">Italiano</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="pt" type="button">Português</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="ja" type="button">日本語</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="ko" type="button">한국어</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="zh" type="button">中文</button>
-            </div>
+        <div class="leading-tight">
+          <div class="font-semibold tracking-tight text-white text-[18px]">
+            VoiceSafe
           </div>
 
-          <!-- Unlock Pro -->
-          <button
-            id="upgradeBtn"
-            type="button"
-            class="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-black bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-[0_8px_30px_rgba(255,200,0,0.35)] hover:scale-[1.03] transition"
-          >
-            Unlock Pro
-          </button>
-
+          <div class="hidden md:block text-white/60 text-[12px]">
+            AI voice scam risk assessment
+          </div>
         </div>
 
-      </div>
+      </a>
 
-      <!-- Mobile nav -->
-      <div class="mt-3 flex flex-wrap gap-3 lg:hidden">
-        <a
-          href="#how"
-          class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-        >
+      <!-- NAV -->
+      <div class="flex items-center gap-3">
+
+        <a href="#how"
+          class="px-4 py-2 rounded-full border border-white/10 text-white/90 hover:bg-white/10 transition">
           How it works
         </a>
 
-        <a
-          href="#services"
-          class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-        >
+        <a href="#services"
+          class="px-4 py-2 rounded-full border border-white/10 text-white/90 hover:bg-white/10 transition">
           Services
         </a>
 
-        <a
-          href="#contact"
-          class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-        >
+        <a href="#contact"
+          class="px-4 py-2 rounded-full border border-white/10 text-white/90 hover:bg-white/10 transition">
           Contact
         </a>
 
-        <a
-          href="#terms"
-          class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
-        >
+        <a href="#terms"
+          class="px-4 py-2 rounded-full border border-white/10 text-white/90 hover:bg-white/10 transition">
           Terms
         </a>
+
+        <!-- Google -->
+        <button
+          id="googleLoginBtn"
+          class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-white hover:bg-white/10 transition">
+
+          <span class="text-red-500 font-bold text-[16px]">G</span>
+          <span>Google</span>
+
+        </button>
+
+        <!-- Language -->
+        <button
+          id="langBtn"
+          class="px-4 py-2 rounded-full border border-white/10 text-white hover:bg-white/10 transition">
+          🌐 English
+        </button>
+
+        <!-- Unlock -->
+        <button
+          id="upgradeBtn"
+          class="px-5 py-2 rounded-full bg-yellow-400 text-black font-semibold shadow-lg hover:scale-105 transition">
+
+          Unlock Pro
+
+        </button>
+
       </div>
 
     </div>
+
   </div>
 </header>
 
@@ -3170,6 +3096,21 @@ window.addEventListener("load", () => {
     setTimeout(() => loader.remove(), 500);
   }
 });
+</script>
+
+<script>
+
+document.getElementById("googleLoginBtn").addEventListener("click", () => {
+
+  window.location.href =
+  "https://accounts.google.com/o/oauth2/v2/auth?" +
+  "client_id=YOUR_GOOGLE_CLIENT_ID" +
+  "&redirect_uri=" + window.location.origin +
+  "&response_type=token" +
+  "&scope=email profile";
+
+});
+
 </script>
 
 </body>
