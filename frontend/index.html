@@ -2902,6 +2902,78 @@ document.addEventListener("DOMContentLoaded", () => {
   loadLanguage(savedLang);
 });
 
+
+async function loadLanguage(lang) {
+  try {
+    const res = await fetch(`/i18n/${lang}.json`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Language file not found: ${lang}`);
+
+    translations = await res.json();
+
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.dataset.i18n;
+      if (translations[key]) {
+        el.textContent = translations[key];
+      }
+    });
+
+    const langLabel = document.getElementById("langLabel");
+    if (langLabel) {
+      langLabel.textContent = translations.langName || lang;
+    }
+
+    localStorage.setItem("vs_lang", lang);
+  } catch (err) {
+    console.error("loadLanguage error:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const langBtn = document.getElementById("langBtn");
+  const langMenu = document.getElementById("langMenu");
+  const langBackdrop = document.getElementById("langBackdrop");
+
+  function openLangMenu() {
+    if (langMenu) langMenu.classList.remove("hidden");
+    if (langBackdrop) langBackdrop.classList.remove("hidden");
+    if (langBtn) langBtn.setAttribute("aria-expanded", "true");
+  }
+
+  function closeLangMenu() {
+    if (langMenu) langMenu.classList.add("hidden");
+    if (langBackdrop) langBackdrop.classList.add("hidden");
+    if (langBtn) langBtn.setAttribute("aria-expanded", "false");
+  }
+
+  if (langBtn) {
+    langBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (langMenu && langMenu.classList.contains("hidden")) openLangMenu();
+      else closeLangMenu();
+    });
+  }
+
+  if (langBackdrop) {
+    langBackdrop.addEventListener("click", closeLangMenu);
+  }
+
+  document.querySelectorAll(".langItem").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const lang = btn.dataset.lang || "en";
+      await loadLanguage(lang);
+      closeLangMenu();
+    });
+  });
+
+  const savedLang = localStorage.getItem("vs_lang") || "en";
+  loadLanguage(savedLang);
+});
+
 </script>
 </body>
 </html>
