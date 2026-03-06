@@ -926,51 +926,181 @@ Results
   </main>
 
   <!-- Footer (NO backend links) -->
-  <footer class="border-t border-white/10 appOnly">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-        <div class="max-w-md">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl glass2 flex items-center justify-center">🛡️</div>
-            <div>
-              <div class="font-semibold">VoiceSafe</div>
-              <div class="text-xs text-white/60" data-i18n="footerTagline">AI voice scam risk assessment</div>
+  <<footer class="mt-24 border-t border-white/10 pt-12 pb-14">
+
+  <div class="mx-auto max-w-7xl px-6">
+
+    <!-- Trust / security strip -->
+    <div class="rounded-[26px] border border-white/10 bg-white/[0.03] backdrop-blur-md p-6 mb-12">
+
+      <div class="flex flex-wrap items-center justify-between gap-6 text-sm text-white/60">
+
+        <div class="flex items-center gap-3">
+          <span class="text-emerald-400">●</span>
+          <span>AI-powered scam detection</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span class="text-sky-400">●</span>
+          <span>Privacy-first audio analysis</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span class="text-indigo-400">●</span>
+          <span>Structured fraud risk signals</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span class="text-orange-400">●</span>
+          <span>Designed for banks & marketplaces</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Main footer -->
+    <div class="grid md:grid-cols-4 gap-12">
+
+      <!-- Brand -->
+      <div>
+
+        <div class="flex items-center gap-3 mb-4">
+
+          <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+            🛡
+          </div>
+
+          <div>
+            <div class="text-white font-semibold text-lg">
+              VoiceSafe
+            </div>
+
+            <div class="text-white/50 text-sm">
+              AI voice scam risk assessment
             </div>
           </div>
-          <div class="mt-3 text-sm text-white/65" data-i18n="footerDesc">
-            Fast, explainable risk guidance for suspicious voice calls and messages.
-          </div>
+
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-          <div>
-            <div class="text-white/80 font-semibold mb-2" data-i18n="footerProduct">Product</div>
-            <a class="block text-white/60 hover:text-white/80" href="#how" data-i18n="footerHow">How it works</a>
-            <a class="block text-white/60 hover:text-white/80" href="#analyze" data-i18n="footerAnalyze">Analyze</a>
-          </div>
-          <div>
-            <div class="text-white/80 font-semibold mb-2" data-i18n="footerService">Service</div>
-            <a class="block text-white/60 hover:text-white/80" href="#services" data-i18n="footerServices">Services</a>
-            <a class="block text-white/60 hover:text-white/80" href="#contact" data-i18n="footerContact">Contact</a>
-          </div>
-          <div>
-            <div class="text-white/80 font-semibold mb-2" data-i18n="footerLegal">Legal</div>
-            <a class="block text-white/60 hover:text-white/80" href="#terms" data-i18n="footerTerms">Terms</a>
-            <a class="block text-white/60 hover:text-white/80" href="#terms" data-i18n="footerPrivacy">Privacy</a>
-          </div>
-          <div>
-            <div class="text-white/80 font-semibold mb-2" data-i18n="footerLinks">Links</div>
-            <a class="block text-white/60 hover:text-white/80" href="https://voicesafe.ai" target="_blank" rel="noreferrer">voicesafe.ai</a>
-          </div>
+        <p class="text-white/60 text-sm max-w-xs">
+
+          VoiceSafe analyzes suspicious voice calls and audio messages using AI risk signals,
+          helping users and organizations detect potential scams.
+
+        </p>
+
+        <div class="text-white/40 text-xs mt-6">
+          © 2026 VoiceSafe
         </div>
+
       </div>
 
-      <div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-white/45">
-        <div>© <span id="year"></span> VoiceSafe</div>
-        <div class="mono">v<span id="buildId">—</span></div>
+
+      <!-- Product -->
+      <div>
+
+        <div class="text-white font-semibold mb-4">
+          Product
+        </div>
+
+        <div class="flex flex-col gap-2 text-white/60 text-sm">
+
+          <a href="#how" class="hover:text-white transition">
+            How it works
+          </a>
+
+          <a href="#services" class="hover:text-white transition">
+            Services
+          </a>
+
+          <a href="#analyze" class="hover:text-white transition">
+            Analyze audio
+          </a>
+
+          <a href="#cases" class="hover:text-white transition">
+            Fraud cases
+          </a>
+
+        </div>
+
       </div>
+
+
+      <!-- Company -->
+      <div>
+
+        <div class="text-white font-semibold mb-4">
+          Company
+        </div>
+
+        <div class="flex flex-col gap-2 text-white/60 text-sm">
+
+          <a href="#contact" class="hover:text-white transition">
+            Contact
+          </a>
+
+          <a href="#terms" class="hover:text-white transition">
+            Terms
+          </a>
+
+          <a href="#privacy" class="hover:text-white transition">
+            Privacy
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- CTA -->
+      <div>
+
+        <div class="text-white font-semibold mb-4">
+          Start analysis
+        </div>
+
+        <p class="text-white/60 text-sm mb-4">
+
+          Upload a suspicious voice message and receive an AI-generated risk assessment in seconds.
+
+        </p>
+
+        <a href="#analyze"
+          class="inline-flex items-center justify-center rounded-[20px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold px-5 py-3 text-sm shadow-[0_10px_25px_rgba(240,181,61,0.25)] transition">
+
+          Analyze audio
+
+        </a>
+
+      </div>
+
     </div>
-  </footer>
+
+
+    <!-- Bottom strip -->
+    <div class="mt-14 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-white/40">
+
+      <div>
+        Built with AI-driven risk analysis technology
+      </div>
+
+      <div class="flex items-center gap-6">
+
+        <span>Security-focused design</span>
+
+        <span>Privacy-first architecture</span>
+
+        <span>VoiceSafe.ai</span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
 
   <!-- Toast -->
   <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden">
