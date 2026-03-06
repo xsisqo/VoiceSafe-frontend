@@ -172,65 +172,91 @@
 
   <!-- VoiceSafe Premium Header -->
 <header class="sticky top-0 z-50">
-
-  <div class="bg-white/[0.02] backdrop-blur-sm border-b border-white/5">
+  <div class="bg-white/[0.008] backdrop-blur-sm border-b border-white/10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
 
-      <div class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
-        <!-- Brand -->
-        <a href="/" class="flex items-center gap-3 min-w-0 shrink-0">
+        <!-- Left -->
+        <div class="flex items-center justify-between gap-3">
 
-          <div class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/8">
-            <img
-              src="/icons/voicesafe-192.png"
-              alt="VoiceSafe"
-              class="w-9 h-9 object-contain drop-shadow-[0_0_12px_rgba(255,210,0,0.5)]"
-            >
-          </div>
-
-          <div class="leading-tight min-w-0">
-            <div class="text-white font-semibold text-[17px] tracking-tight">
-              VoiceSafe
+          <!-- Brand -->
+          <a href="/" class="flex items-center gap-3 min-w-0 flex-1">
+            <div class="w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/10 shadow-lg flex items-center justify-center overflow-hidden shrink-0">
+              <img
+                src="/icons/voicesafe-192.png"
+                alt="VoiceSafe"
+                class="max-w-[78%] max-h-[78%] object-contain drop-shadow-[0_0_10px_rgba(255,200,0,0.35)]"
+              >
             </div>
-            <div class="hidden md:block text-white/60 text-[12px]">
-              AI voice scam risk assessment
+
+            <div class="leading-tight min-w-0">
+              <div class="font-semibold tracking-tight text-white text-[18px] sm:text-[19px]">
+                VoiceSafe
+              </div>
+              <div class="hidden md:block text-white/60 text-[12px] mt-1 leading-none">
+                AI voice scam risk assessment
+              </div>
             </div>
-          </div>
+          </a>
 
-        </a>
+        </div>
 
-        <!-- Navigation -->
-        <nav class="hidden lg:flex items-center gap-8 text-white/80 text-sm">
-          <a href="#how" class="hover:text-white transition">How it works</a>
-          <a href="#services" class="hover:text-white transition">Services</a>
-          <a href="#contact" class="hover:text-white transition">Contact</a>
-          <a href="#terms" class="hover:text-white transition">Terms</a>
+        <!-- Center / desktop nav -->
+        <nav class="hidden lg:flex items-center gap-3">
+          <a
+            href="#how"
+            class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
+          >
+            How it works
+          </a>
+
+          <a
+            href="#services"
+            class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
+          >
+            Services
+          </a>
+
+          <a
+            href="#contact"
+            class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
+          >
+            Contact
+          </a>
+
+          <a
+            href="#terms"
+            class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
+          >
+            Terms
+          </a>
         </nav>
 
-        <!-- Right side -->
-        <div class="flex items-center gap-3">
+        <!-- Right -->
+        <div class="flex flex-wrap items-center gap-3">
 
           <!-- Google -->
           <button
             id="googleLoginBtn"
             type="button"
-            class="hidden sm:inline-flex px-4 py-2 text-sm text-white border border-white/10 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] transition"
+            class="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
           >
-            Google
+            <span class="text-[15px]">G</span>
+            <span>Google</span>
           </button>
 
           <!-- Language -->
-          <div class="relative w-auto">
+          <div class="relative">
             <button
               id="langBtn"
               type="button"
               aria-haspopup="true"
               aria-expanded="false"
-              class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-white text-sm hover:bg-white/[0.06] transition"
+              class="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
             >
               <span class="text-sky-400">🌐</span>
-              <span id="langLabel">Slovenčina</span>
+              <span id="langLabel">English</span>
               <span class="text-white/40 text-[10px]">▼</span>
             </button>
 
@@ -255,11 +281,11 @@
             </div>
           </div>
 
-          <!-- Pro -->
+          <!-- Unlock Pro -->
           <button
             id="upgradeBtn"
             type="button"
-            class="inline-flex items-center justify-center rounded-xl px-5 py-2 text-sm font-semibold text-black bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-[0_8px_30px_rgba(255,200,0,0.35)] hover:scale-[1.03] transition"
+            class="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-black bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-[0_8px_30px_rgba(255,200,0,0.35)] hover:scale-[1.03] transition"
           >
             Unlock Pro
           </button>
@@ -268,9 +294,39 @@
 
       </div>
 
+      <!-- Mobile nav -->
+      <div class="mt-3 flex flex-wrap gap-3 lg:hidden">
+        <a
+          href="#how"
+          class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
+        >
+          How it works
+        </a>
+
+        <a
+          href="#services"
+          class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
+        >
+          Services
+        </a>
+
+        <a
+          href="#contact"
+          class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
+        >
+          Contact
+        </a>
+
+        <a
+          href="#terms"
+          class="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/[0.06] transition"
+        >
+          Terms
+        </a>
+      </div>
+
     </div>
   </div>
-
 </header>
 
 </a>
