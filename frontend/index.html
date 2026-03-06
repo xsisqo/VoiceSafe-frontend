@@ -3083,7 +3083,7 @@ document.getElementById("googleLoginBtn").addEventListener("click", () => {
 
   window.location.href =
   "https://accounts.google.com/o/oauth2/v2/auth?" +
-  "client_id=YOUR_GOOGLE_CLIENT_ID" +
+  "client_id=348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com" +
   "&redirect_uri=" + window.location.origin +
   "&response_type=token" +
   "&scope=email profile";
@@ -3155,6 +3155,69 @@ document.getElementById("googleLoginBtn").addEventListener("click", () => {
   }
 })();
 
+</script>
+
+<script>
+(function () {
+  const langBtn = document.getElementById("langBtn");
+  const langMenu = document.getElementById("langMenu");
+  const langBackdrop = document.getElementById("langBackdrop");
+  const langLabel = document.getElementById("langLabel");
+
+  function openLangMenu() {
+    if (!langMenu || !langBackdrop || !langBtn) return;
+    langMenu.classList.remove("hidden");
+    langBackdrop.classList.remove("hidden");
+    langBtn.setAttribute("aria-expanded", "true");
+  }
+
+  function closeLangMenu() {
+    if (!langMenu || !langBackdrop || !langBtn) return;
+    langMenu.classList.add("hidden");
+    langBackdrop.classList.add("hidden");
+    langBtn.setAttribute("aria-expanded", "false");
+  }
+
+  if (langBtn) {
+    langBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (langMenu.classList.contains("hidden")) {
+        openLangMenu();
+      } else {
+        closeLangMenu();
+      }
+    });
+  }
+
+  if (langBackdrop) {
+    langBackdrop.addEventListener("click", closeLangMenu);
+  }
+
+  document.querySelectorAll(".langItem").forEach(function (btn) {
+    btn.addEventListener("click", async function () {
+      const lang = btn.dataset.lang || "en";
+
+      if (langLabel) {
+        langLabel.textContent = btn.textContent.trim();
+      }
+
+      localStorage.setItem("vs_lang", lang);
+
+      if (typeof loadLanguage === "function") {
+        await loadLanguage(lang);
+      }
+
+      closeLangMenu();
+    });
+  });
+
+  const savedLang = localStorage.getItem("vs_lang") || "en";
+  if (typeof loadLanguage === "function") {
+    loadLanguage(savedLang);
+  }
+})();
 </script>
 
 </body>
