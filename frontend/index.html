@@ -171,9 +171,9 @@
 </div>
 
   <!-- Premium Header -->
-<header class="sticky top-0 z-40">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 pb-2">
-    <div class="rounded-[28px] border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.28)] px-4 sm:px-5 py-3 overflow-visible">
+<header class="sticky top-0 z-50">
+  <div class="bg-transparent backdrop-blur-xl border-b border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.35)] bg-gradient-to-b from-white/5 to-transparent">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 pb-3">
 
       <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 
@@ -181,25 +181,105 @@
         <div class="flex items-center justify-between gap-3">
 
           <!-- Brand -->
-<a href="/" class="flex items-center gap-3 min-w-0 flex-1">
+          <a href="/" class="flex items-center gap-3 min-w-0 flex-1">
 
-<div class="w-11 h-11 rounded-2xl bg-white/[0.04] shadow-lg flex items-center justify-center overflow-hidden shrink-0">
-  <img
-    src="/icons/voicesafe-192.png"
-    alt="VoiceSafe"
-    class="max-w-[70%] max-h-[70%] object-contain"
-  >
-</div>
+            <div class="w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/10 shadow-lg flex items-center justify-center overflow-hidden shrink-0">
+              <img
+                src="/icons/voicesafe-192.png"
+                alt="VoiceSafe"
+                class="max-w-[80%] max-h-[80%] object-contain drop-shadow-[0_0_10px_rgba(255,200,0,0.4)]"
+              >
+            </div>
 
-<div class="leading-tight min-w-0">
-  <div class="font-semibold tracking-tight text-white text-[18px] sm:text-[19px]">
-    VoiceSafe
+            <div class="leading-tight min-w-0">
+              <div class="font-semibold tracking-tight text-white text-[18px] sm:text-[19px] brandTitle">
+                VoiceSafe
+              </div>
+              <div class="hidden md:block text-white/60 text-[12px] mt-1 leading-none">
+                AI voice scam risk assessment
+              </div>
+            </div>
+
+          </a>
+
+          <!-- Mobile Pro button -->
+          <button
+            id="upgradeBtnMobile"
+            type="button"
+            class="inline-flex lg:hidden items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 px-5 py-2.5 text-[15px] font-semibold text-black shadow-[0_8px_30px_rgba(255,200,0,0.35)] transition hover:scale-[1.02]"
+          >
+            Unlock Pro
+          </button>
+
+        </div>
+
+        <!-- Bottom / right row -->
+        <div class="flex flex-col sm:flex-row gap-3 lg:items-center">
+
+          <!-- Language -->
+          <div class="relative w-full sm:w-auto">
+            <button
+              id="langBtn"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              class="inline-flex w-full sm:w-auto min-w-[220px] items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-4 py-3 text-white shadow-[0_8px_24px_rgba(0,0,0,0.22)] backdrop-blur transition hover:bg-white/[0.08]"
+            >
+              <span class="text-sky-400">🌐</span>
+              <span id="langLabel">Slovenčina</span>
+              <span class="text-white/45 text-[11px]">▼</span>
+            </button>
+
+            <div
+              id="langBackdrop"
+              class="hidden fixed inset-0 z-40"
+            ></div>
+
+            <div
+              id="langMenu"
+              class="ddMenu hidden absolute right-0 top-[calc(100%+10px)] z-50 min-w-[220px] rounded-2xl border border-white/10 bg-[#0f172a]/95 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+              role="menu"
+              aria-label="Language"
+            >
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="sk" type="button">Slovenčina</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="en" type="button">English</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="de" type="button">Deutsch</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="fr" type="button">Français</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="es" type="button">Español</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="pt" type="button">Português</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="it" type="button">Italiano</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="nl" type="button">Nederlands</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="pl" type="button">Polski</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="cs" type="button">Čeština</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="hu" type="button">Magyar</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="ro" type="button">Română</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="uk" type="button">Українська</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="ru" type="button">Русский</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="tr" type="button">Türkçe</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="ar" type="button">العربية</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="hi" type="button">हिन्दी</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="ko" type="button">한국어</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="ja" type="button">日本語</button>
+              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="zh" type="button">中文</button>
+            </div>
+          </div>
+
+          <!-- Desktop Pro button -->
+          <button
+            id="upgradeBtn"
+            type="button"
+            class="hidden lg:inline-flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-3 text-[15px] font-semibold text-black shadow-[0_8px_30px_rgba(255,200,0,0.35)] transition hover:scale-[1.02] hover:from-yellow-300 hover:to-yellow-400"
+          >
+            Unlock Pro
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
   </div>
-
-  <div class="hidden md:block text-white/60 text-[12px] mt-1 leading-none">
-    AI voice scam risk assessment
-  </div>
-</div>
+</header>
 
 </a>
 
