@@ -2466,8 +2466,11 @@ rec.start(2000); // každé 2 sekundy pošle audio chunk
   // Boot
   // ===========================
   function boot(){
-    qs("year").textContent = String(new Date().getFullYear());
-    qs("buildId").textContent = BUILD_ID;
+    const yearEl = qs("year");
+if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+const buildEl = qs("buildId");
+if (buildEl) buildEl.textContent = BUILD_ID;
 
     // lang init
     const savedLang = localStorage.getItem("vs_lang") || ((navigator.language||"en").toLowerCase().startsWith("sk") ? "sk" : "en");
