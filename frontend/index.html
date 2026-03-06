@@ -118,8 +118,19 @@
     .glass{background: var(--card); border: 1px solid var(--stroke); box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);}
     .glass2{background: var(--card2); border: 1px solid var(--stroke); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);}
     .chip{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.11);}
-    .btn{border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);}
-    .btn:hover{background: rgba(255,255,255,.10);}
+    .btn{
+border:1px solid rgba(255,255,255,.15);
+background: rgba(255,255,255,.08);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+border-radius:12px;
+transition: all .3s ease;
+}
+    .btn:hover{
+background: rgba(255,255,255,.18);
+transform: scale(1.05);
+box-shadow: 0 0 20px rgba(255,255,255,.25);
+}
     .btnPrimary{background: linear-gradient(135deg, rgba(245,158,11,.95), rgba(245,158,11,.55)); border:1px solid rgba(245,158,11,.60);}
     .btnPrimary:hover{filter: brightness(1.03);}
     .btnDark{background: rgba(0,0,0,.18); border:1px solid rgba(255,255,255,.12);}
