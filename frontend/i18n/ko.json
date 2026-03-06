@@ -1,0 +1,24 @@
+{
+  "langName": "한국어",
+  "tagline": "AI 음성 사기 위험 분석",
+  "navHow": "작동 방식",
+  "navServices": "서비스",
+  "navContact": "연락처",
+  "unlockPro": "Pro 잠금 해제",
+
+  "heroTitle": "의심스러운 음성을 명확한 판단으로.",
+  "heroDesc": "오디오 또는 비디오를 업로드하거나 녹음하세요. VoiceSafe가 위험 분석을 제공합니다.",
+
+  "fastTitle": "빠름",
+  "fastDesc": "몇 초 안에 분석.",
+  "explainTitle": "설명 가능",
+  "privateTitle": "개인정보 보호",
+
+  "uploadTitle": "오디오 또는 비디오 업로드",
+  "analyzeBtn": "분석",
+  "recordBtn": "녹음",
+
+  "reportTitle": "VoiceSafe 위험 보고서",
+  "confidence": "신뢰도",
+  "riskLevel": "위험 수준"
+}
