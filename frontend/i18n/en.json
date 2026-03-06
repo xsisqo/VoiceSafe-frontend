@@ -1,12 +1,49 @@
 {
-  "hero_title": "VoiceSafe — The Risk Intelligence Layer",
-  "hero_sub": "Know if a voice message is trying to scam you before you send money.",
-  "analyze": "Analyze",
-  "record": "Record",
-  "upload": "Upload file",
-  "results": "Results",
-  "recommended_action": "Recommended action",
-  "summary_placeholder": "Upload or record a sample to see results.",
-  "join_early": "Join Early Access",
-  "start_assessment": "Start Risk Assessment"
+  "tagline": "AI voice scam risk assessment",
+  "navHow": "How it works",
+  "navServices": "Services",
+  "navContact": "Contact",
+  "navTerms": "Terms",
+  "unlockPro": "Unlock Pro",
+
+  "heroBadge": "Privacy-first. Instant risk signals. Built for real-world calls.",
+  "heroTitle": "Turn a suspicious voice message into a clear decision.",
+  "heroDesc": "Upload audio/video or record a short clip. VoiceSafe returns a structured risk assessment with recommended actions.",
+
+  "heroAnalyze": "Analyze now",
+  "heroDemo": "Run demo",
+  "heroHow": "How it works",
+
+  "uploadTitle": "Upload audio or video",
+  "uploadDesc": "Supported: mp3, wav, m4a, mp4, mov",
+
+  "analyzeBtn": "Analyze",
+  "recordBtn": "Record",
+  "stopBtn": "Stop",
+  "liveBtn": "Live",
+
+  "reportTitle": "VoiceSafe Risk Report",
+  "confidence": "Confidence",
+  "recommendedAction": "Recommended action",
+
+  "scamScore": "Scam score",
+  "aiProbability": "AI voice probability",
+  "stressLevel": "Stress level",
+  "riskLevel": "Risk level",
+
+  "nextSteps": "Recommended next steps",
+
+  "caseId": "Case ID",
+  "country": "Country",
+  "language": "Language",
+  "platform": "Platform",
+
+  "contactTitle": "Let's talk",
+  "contactDesc": "Interested in pilots with banks, marketplaces or call centers? Reach out for a private demo and roadmap.",
+
+  "email": "Email",
+  "copyEmail": "Copy email",
+
+  "securityNote": "Safety note",
+  "securityText": "VoiceSafe provides advisory signals only. Always verify sensitive requests through official channels."
 }
