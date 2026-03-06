@@ -163,6 +163,13 @@
 
 <body class="min-h-screen">
 
+<div id="vsLoader" class="fixed inset-0 flex items-center justify-center bg-[#070b14] z-[9999]">
+  <img
+    src="/icons/voicesafe-192.png"
+    class="w-20 h-20 animate-pulse drop-shadow-[0_0_20px_rgba(255,200,0,0.6)]"
+  >
+</div>
+
   <!-- Premium Header -->
 <header class="sticky top-0 z-40">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 pb-2">
@@ -3023,5 +3030,17 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+
+<script>
+window.addEventListener("load", () => {
+  const loader = document.getElementById("vsLoader");
+  if(loader){
+    loader.style.transition = "opacity 0.5s ease";
+    loader.style.opacity = "0";
+    setTimeout(() => loader.remove(), 500);
+  }
+});
+</script>
+
 </body>
 </html>
