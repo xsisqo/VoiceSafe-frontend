@@ -1,49 +1,67 @@
 {
-  "tagline": "AI analýza podvodných hlasov",
+  "langName": "Slovenčina",
+  "tagline": "AI hodnotenie rizika podvodného hlasu",
   "navHow": "Ako to funguje",
   "navServices": "Služby",
   "navContact": "Kontakt",
   "navTerms": "Podmienky",
   "unlockPro": "Odomknúť Pro",
 
-  "heroBadge": "Súkromie na prvom mieste. Okamžité rizikové signály.",
+  "heroBadge": "Súkromie na prvom mieste. Okamžité rizikové signály. Vytvorené pre reálne hovory.",
   "heroTitle": "Premeň podozrivú hlasovú správu na jasné rozhodnutie.",
-  "heroDesc": "Nahraj audio alebo video alebo nahraj krátku nahrávku. VoiceSafe vráti štruktúrované hodnotenie rizika.",
-
-  "heroAnalyze": "Analyzovať",
+  "heroDesc": "Nahraj audio alebo video, prípadne zaznamenaj krátky klip. VoiceSafe vráti štruktúrované hodnotenie rizika s odporúčanými krokmi.",
+  "heroAnalyze": "Analyzovať teraz",
   "heroDemo": "Spustiť demo",
   "heroHow": "Ako to funguje",
 
-  "uploadTitle": "Nahrať audio alebo video",
-  "uploadDesc": "Podporované: mp3, wav, m4a, mp4, mov",
+  "fastTitle": "Rýchle",
+  "fastDesc": "Typická analýza za pár sekúnd.",
+  "explainTitle": "Vysvetliteľné",
+  "explainDesc": "Odporúčania pre akciu, nielen samotné skóre.",
+  "privateTitle": "Súkromné",
+  "privateDesc": "Prototyp neukladá hlas natrvalo.",
 
+  "uploadTitle": "Nahrať audio alebo video",
+  "uploadDesc": "Podporované formáty: mp3, wav, m4a, mp4, mov",
   "analyzeBtn": "Analyzovať",
   "recordBtn": "Nahrávať",
   "stopBtn": "Stop",
-  "liveBtn": "Live",
+  "liveBtn": "Naživo",
+  "adminBtn": "Admin",
 
+  "reportSmall": "Verejný report",
   "reportTitle": "VoiceSafe Risk Report",
   "confidence": "Istota",
+  "confidenceLabel": "Istota",
   "recommendedAction": "Odporúčaná akcia",
-
   "scamScore": "Scam skóre",
   "aiProbability": "Pravdepodobnosť AI hlasu",
   "stressLevel": "Úroveň stresu",
   "riskLevel": "Úroveň rizika",
-
   "nextSteps": "Odporúčané ďalšie kroky",
-
+  "caseMeta": "Údaje o prípade",
   "caseId": "ID prípadu",
   "country": "Krajina",
   "language": "Jazyk",
   "platform": "Platforma",
 
   "contactTitle": "Poďme sa porozprávať",
-  "contactDesc": "Máte záujem o pilotný projekt s bankami alebo call centrami? Kontaktujte nás pre demo.",
+  "contactDesc": "Máte záujem o pilot s bankami, marketplace platformami alebo call centrami? Ozvite sa pre súkromné demo a roadmapu.",
+  "emailBtn": "E-mail",
+  "copyEmailBtn": "Kopírovať e-mail",
 
-  "email": "Email",
-  "copyEmail": "Kopírovať email",
+  "termsTitle": "Bezpečnostná poznámka",
+  "termsDesc": "VoiceSafe poskytuje iba odporúčacie signály. Ak ide o peniaze alebo citlivé údaje, všetko si over cez oficiálne kanály.",
 
   "securityNote": "Bezpečnostná poznámka",
-  "securityText": "VoiceSafe poskytuje iba odporúčacie signály. Citlivé požiadavky vždy overte cez oficiálne kanály."
+  "securityText": "VoiceSafe poskytuje iba odporúčacie signály. Citlivé požiadavky vždy overte cez oficiálne kanály.",
+
+  "footerProduct": "Produkt",
+  "footerCompany": "Spoločnosť",
+  "footerStart": "Spustiť analýzu",
+  "footerAnalyze": "Analyzovať audio",
+  "footerDesc": "Rýchle a vysvetliteľné odporúčania pri podozrivých hlasových hovoroch a správach.",
+  "footerBuilt": "Vytvorené pomocou AI analýzy rizika",
+  "footerSecurity": "Dizajn zameraný na bezpečnosť",
+  "footerPrivacy": "Architektúra zameraná na súkromie"
 }
