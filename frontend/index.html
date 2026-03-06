@@ -190,11 +190,17 @@ z-index:-1;
     html{scroll-behavior:smooth;}
 
     /* Transparent top bar look */
-    header .topWrap{background: rgba(0,0,0,.0) !important; border: 0 !important; box-shadow:none !important;}
-    header .topInner{
-background: rgba(10,15,25,.55);
-border: 1px solid rgba(255,255,255,.08);
-backdrop-filter: blur(12px);
+
+header .topWrap{
+background: rgba(0,0,0,0) !important;
+border: 0 !important;
+box-shadow:none !important;
+}
+
+header .topInner{
+background: transparent;
+border: none;
+backdrop-filter: blur(10px);
 }
 
     /* Dropdown */
