@@ -1,25 +1,51 @@
-<!-- file: frontend/offline.html -->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>VoiceSafe — Offline</title>
-  <meta name="theme-color" content="#070A12" />
   <style>
-    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#070A12;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-    .card{max-width:720px;margin:24px;padding:24px;border:1px solid rgba(255,255,255,.12);border-radius:20px;background:rgba(255,255,255,.06)}
-    .muted{opacity:.78}
-    .btn{display:inline-block;margin-top:16px;padding:12px 16px;border-radius:14px;background:linear-gradient(90deg,#F7D774,#C9A24A);color:#111827;text-decoration:none;font-weight:800}
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #0b1220;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      min-height: 100%;
+    }
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      border-radius: 24px;
+      padding: 28px;
+      box-sizing: border-box;
+      backdrop-filter: blur(12px);
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+    }
+    p {
+      margin: 0;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.75);
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>You're offline</h1>
-    <p class="muted">
-      VoiceSafe needs internet to run analysis. You can still open the app shell and review previous demo data.
-    </p>
-    <a class="btn" href="/">Retry</a>
+  <div class="wrap">
+    <div class="card">
+      <h1>VoiceSafe is offline</h1>
+      <p>Your connection is currently unavailable. Reconnect to continue analyzing voice recordings and using live services.</p>
+    </div>
   </div>
 </body>
 </html>

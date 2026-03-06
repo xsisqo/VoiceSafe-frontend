@@ -1,149 +1,197 @@
-/* file: frontend/sw.js */
-"use strict";
+const SW_VERSION = "voicesafe-v1.0.0";
+const STATIC_CACHE = `${SW_VERSION}-static`;
+const RUNTIME_CACHE = `${SW_VERSION}-runtime`;
+const IMAGE_CACHE = `${SW_VERSION}-images`;
 
-/**
- * VoiceSafe SW (enterprise-grade)
- * - Versioned caches + safe cleanup
- * - Precache core shell
- * - Runtime cache for CDN assets (tailwind, fontawesome)
- * - Offline fallback for navigation
- * - NEVER cache API calls (/upload, /cases, /health, /verify-session, etc.)
- */
-
-const SW_VERSION = "2026-02-28.1";
-const CACHE_CORE = `vs-core-${SW_VERSION}`;
-const CACHE_ASSETS = `vs-assets-${SW_VERSION}`;
-const CACHE_PAGES = `vs-pages-${SW_VERSION}`;
-
-// Core shell (keep small and stable)
-const PRECACHE = [
-  "/", // index.html (if served at /)
-  "/index.html", // or directly
-  "/offline.html",
+// App shell files
+const APP_SHELL = [
+  "/",
+  "/index.html",
   "/manifest.webmanifest",
+  "/config.js",
+  "/favicon.ico",
   "/favicon.png",
-  "/og-image.png",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png",
-  "/icons/icon-192-maskable.png",
-  "/icons/icon-512-maskable.png"
-];
+  "/icon-192.png",
+  "/icon-512.png",
+  "/offline.html",
 
-// Never cache these (API + dynamic endpoints)
-const NEVER_CACHE_PATH_PREFIXES = [
-  "/upload",
-  "/health",
-  "/cases",
-  "/case/",
-  "/verify-session",
-  "/create-portal-session"
+  // i18n
+  "/i18n/en.json",
+  "/i18n/sk.json",
+  "/i18n/de.json",
+  "/i18n/fr.json",
+  "/i18n/es.json",
+  "/i18n/it.json",
+  "/i18n/pt.json",
+  "/i18n/nl.json",
+  "/i18n/pl.json",
+  "/i18n/hu.json",
+  "/i18n/ro.json",
+  "/i18n/ja.json",
+  "/i18n/ko.json",
+  "/i18n/zh.json",
+  "/i18n/hi.json"
 ];
-
-function isNeverCache(url) {
-  try {
-    const u = new URL(url);
-    return NEVER_CACHE_PATH_PREFIXES.some(p => u.pathname === p || u.pathname.startsWith(p));
-  } catch {
-    return false;
-  }
-}
 
 self.addEventListener("install", (event) => {
-  event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_CORE);
-    await cache.addAll(PRECACHE);
-    self.skipWaiting();
-  })());
+  event.waitUntil(
+    caches.open(STATIC_CACHE).then(async (cache) => {
+      for (const url of APP_SHELL) {
+        try {
+          await cache.add(url);
+        } catch (err) {
+          // some optional files may not exist yet
+          console.warn("[SW] Failed to precache:", url, err);
+        }
+      }
+    })
+  );
+
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil((async () => {
-    // cleanup old caches
-    const keys = await caches.keys();
-    await Promise.all(keys.map((k) => {
-      const keep = [CACHE_CORE, CACHE_ASSETS, CACHE_PAGES].includes(k);
-      if (!keep) return caches.delete(k);
-    }));
-    self.clients.claim();
-  })());
+  event.waitUntil(
+    (async () => {
+      const keys = await caches.keys();
+
+      await Promise.all(
+        keys.map((key) => {
+          if (
+            key !== STATIC_CACHE &&
+            key !== RUNTIME_CACHE &&
+            key !== IMAGE_CACHE
+          ) {
+            return caches.delete(key);
+          }
+          return Promise.resolve();
+        })
+      );
+
+      await self.clients.claim();
+    })()
+  );
 });
 
-// Helpers: cache strategies
-async function cacheFirst(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  const hit = await cache.match(req);
-  if (hit) return hit;
-  const res = await fetch(req);
-  // cache only successful GET responses
-  if (res && res.ok) cache.put(req, res.clone());
-  return res;
-}
-
-async function staleWhileRevalidate(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  const hit = await cache.match(req);
-  const fetchPromise = fetch(req).then((res) => {
-    if (res && res.ok) cache.put(req, res.clone());
-    return res;
-  }).catch(() => null);
-  return hit || (await fetchPromise) || Response.error();
-}
-
-async function networkFirst(req, cacheName) {
-  const cache = await caches.open(cacheName);
-  try {
-    const res = await fetch(req);
-    if (res && res.ok) cache.put(req, res.clone());
-    return res;
-  } catch {
-    const hit = await cache.match(req);
-    if (hit) return hit;
-    throw new Error("network_first_failed");
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
   }
-}
+});
 
 self.addEventListener("fetch", (event) => {
-  const req = event.request;
-  const url = new URL(req.url);
+  const { request } = event;
 
-  // Only handle GET
-  if (req.method !== "GET") return;
-
-  // Never cache API-like endpoints
-  if (isNeverCache(req.url)) return;
-
-  // Same-origin navigation -> network first + offline fallback
-  const isNavigation = req.mode === "navigate";
-  if (isNavigation) {
-    event.respondWith((async () => {
-      try {
-        // Prefer network for latest build, fallback to cache
-        return await networkFirst(req, CACHE_PAGES);
-      } catch {
-        const cache = await caches.open(CACHE_CORE);
-        const offline = await cache.match("/offline.html");
-        return offline || new Response("Offline", { status: 503, headers: { "Content-Type": "text/plain" } });
-      }
-    })());
+  if (request.method !== "GET") {
     return;
   }
 
-  // Cache CDN assets (Tailwind/FontAwesome) - SWR
-  const isCDN =
-    url.hostname.includes("cdn.tailwindcss.com") ||
-    url.hostname.includes("cdnjs.cloudflare.com");
+  const url = new URL(request.url);
 
-  if (isCDN) {
-    event.respondWith(staleWhileRevalidate(req, CACHE_ASSETS));
+  // Never cache browser extensions or non-http(s)
+  if (!url.protocol.startsWith("http")) {
     return;
   }
 
-  // Static same-origin assets -> cache-first
-  if (url.origin === self.location.origin) {
-    event.respondWith(cacheFirst(req, CACHE_ASSETS));
+  // API / backend / AI calls -> network only
+  if (
+    url.pathname.startsWith("/upload") ||
+    url.pathname.startsWith("/auth") ||
+    url.pathname.startsWith("/me") ||
+    url.pathname.startsWith("/health") ||
+    url.pathname.startsWith("/api/") ||
+    url.hostname.includes("onrender.com")
+  ) {
+    event.respondWith(networkOnly(request));
     return;
   }
 
-  // External -> SWR (safe)
-  event.respondWith(staleWhileRevalidate(req, CACHE_ASSETS));
+  // HTML navigation -> network first, fallback to cache/offline
+  if (request.mode === "navigate") {
+    event.respondWith(networkFirstPage(request));
+    return;
+  }
+
+  // Images -> cache first
+  if (request.destination === "image") {
+    event.respondWith(cacheFirst(request, IMAGE_CACHE));
+    return;
+  }
+
+  // CSS / JS / fonts / manifest / json -> stale while revalidate
+  if (
+    request.destination === "style" ||
+    request.destination === "script" ||
+    request.destination === "font" ||
+    url.pathname.endsWith(".json") ||
+    url.pathname.endsWith(".webmanifest")
+  ) {
+    event.respondWith(staleWhileRevalidate(request, RUNTIME_CACHE));
+    return;
+  }
+
+  // Default -> stale while revalidate
+  event.respondWith(staleWhileRevalidate(request, RUNTIME_CACHE));
 });
+
+// =========================
+// Strategies
+// =========================
+
+async function networkOnly(request) {
+  return fetch(request);
+}
+
+async function networkFirstPage(request) {
+  const cache = await caches.open(RUNTIME_CACHE);
+
+  try {
+    const fresh = await fetch(request);
+    cache.put(request, fresh.clone());
+    return fresh;
+  } catch (err) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+
+    const staticCache = await caches.open(STATIC_CACHE);
+    const offline = await staticCache.match("/offline.html");
+    if (offline) return offline;
+
+    return new Response("Offline", {
+      status: 503,
+      statusText: "Offline"
+    });
+  }
+}
+
+async function cacheFirst(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  if (cached) return cached;
+
+  try {
+    const fresh = await fetch(request);
+    cache.put(request, fresh.clone());
+    return fresh;
+  } catch (err) {
+    return new Response("", {
+      status: 504,
+      statusText: "Image unavailable"
+    });
+  }
+}
+
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  const fetchPromise = fetch(request)
+    .then((fresh) => {
+      cache.put(request, fresh.clone());
+      return fresh;
+    })
+    .catch(() => null);
+
+  return cached || fetchPromise || new Response("", { status: 504 });
+}

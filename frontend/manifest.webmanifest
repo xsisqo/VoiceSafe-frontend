@@ -2,47 +2,117 @@
   "id": "/",
   "name": "VoiceSafe — AI Voice Scam Detection",
   "short_name": "VoiceSafe",
-  "description": "Enterprise-grade AI voice scam detection. Analyze recordings, detect impersonation, AI cloning and fraud risk instantly.",
-  "lang": "en",
-  "dir": "ltr",
-
+  "description": "Enterprise-grade AI voice scam detection platform for analyzing suspicious calls, synthetic voice risk, impersonation attempts, and fraud indicators.",
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui", "browser"],
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "orientation": "portrait",
-
-  "background_color": "#070A12",
-  "theme_color": "#070A12",
-
-  "categories": ["security", "finance", "utilities", "productivity"],
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "finance", "security", "productivity", "utilities"],
+  "prefer_related_applications": false,
 
   "icons": [
-    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ],
-
-  "shortcuts": [
     {
-      "name": "Analyze",
-      "short_name": "Analyze",
-      "description": "Upload or record a voice sample",
-      "url": "/#analyzer",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+      "src": "/icons/voicesafe-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "name": "Investor Demo",
-      "short_name": "Demo",
-      "description": "Load a demo report",
-      "url": "/?demo=true",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+      "src": "/icons/voicesafe-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/voicesafe-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/voicesafe-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/voicesafe-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/voicesafe-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/voicesafe-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/voicesafe-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/voicesafe-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/voicesafe-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
 
   "screenshots": [
-    { "src": "/screenshots/desktop-1.png", "sizes": "1280x720", "type": "image/png", "form_factor": "wide" },
-    { "src": "/screenshots/mobile-1.png", "sizes": "750x1334", "type": "image/png" }
+    {
+      "src": "/screenshots/voicesafe-desktop-1.png",
+      "sizes": "1600x900",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "VoiceSafe desktop dashboard"
+    },
+    {
+      "src": "/screenshots/voicesafe-mobile-1.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "VoiceSafe mobile experience"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Analyze now",
+      "short_name": "Analyze",
+      "description": "Open VoiceSafe and start a new voice scam analysis.",
+      "url": "/#analyze"
+    },
+    {
+      "name": "Run demo",
+      "short_name": "Demo",
+      "description": "Open the interactive VoiceSafe demo.",
+      "url": "/#demo"
+    },
+    {
+      "name": "How it works",
+      "short_name": "How it works",
+      "description": "Learn how VoiceSafe detects voice scam risk.",
+      "url": "/#how"
+    }
   ]
 }
