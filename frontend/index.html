@@ -2980,6 +2980,25 @@ document.querySelectorAll(".langItem").forEach(btn => {
 
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".langItem").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const lang = btn.dataset.lang || "en";
+      await loadLanguage(lang);
+
+      const langLabel = document.getElementById("langLabel");
+      if (langLabel) langLabel.textContent = btn.textContent.trim();
+
+      if (typeof closeLangMenu === "function") {
+        closeLangMenu();
+      }
+    });
+  });
+
+  const savedLang = localStorage.getItem("vs_lang") || "en";
+  loadLanguage(savedLang);
+});
+
 </script>
 </body>
 </html>
