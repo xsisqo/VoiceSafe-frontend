@@ -406,7 +406,7 @@
     <section class="pt-10 pb-6 appOnly">
       <div class="grid lg:grid-cols-12 gap-6 items-start">
         <div class="lg:col-span-7">
-          <div class="glass rounded-3xl p-6 sm:p-8">
+          <div class="rounded-[32px] border border-white/10 bg-white/[0.035] backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.35)] p-6 sm:p-8">
             <div class="inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs text-white/80">
               <span>⚡</span><span data-i18n="heroPill">Privacy-first. Instant risk signals. Built for real-world calls.</span>
             </div>
@@ -422,7 +422,7 @@
             </p>
 
             <div class="mt-6 flex flex-col sm:flex-row gap-3">
-              <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" href="#analyze">
+              <a class="inline-flex items-center justify-center gap-2 rounded-[22px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold shadow-[0_16px_35px_rgba(240,181,61,0.28)] transition px-6 py-4 text-[18px]" href="#">
                 <span>🔎</span><span data-i18n="heroCtaAnalyze">Analyze now</span>
               </a>
               <button id="demoBtnHero" class="btn rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
@@ -434,15 +434,15 @@
             </div>
 
             <div class="mt-6 grid sm:grid-cols-3 gap-3 text-sm">
-              <div class="glass2 rounded-2xl p-4">
+              <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
                 <div class="text-white/80 font-semibold" data-i18n="heroStat1Title">Fast</div>
                 <div class="text-white/60 mt-1" data-i18n="heroStat1Desc">Typical analysis in seconds.</div>
               </div>
-              <div class="glass2 rounded-2xl p-4">
+              <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
                 <div class="text-white/80 font-semibold" data-i18n="heroStat2Title">Explainable</div>
                 <div class="text-white/60 mt-1" data-i18n="heroStat2Desc">Action-oriented guidance, not just a score.</div>
               </div>
-              <div class="glass2 rounded-2xl p-4">
+              <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
                 <div class="text-white/80 font-semibold" data-i18n="heroStat3Title">Private</div>
                 <div class="text-white/60 mt-1" data-i18n="heroStat3Desc">Prototype stores no voice permanently.</div>
               </div>
@@ -2608,6 +2608,87 @@ function renderTimeline(payload){
       });
     }
    }); 
+
+// premium header helpers
+const userBox = document.getElementById("userBox");
+const userEmail = document.getElementById("userEmail");
+const mobileUserLite = document.getElementById("mobileUserLite");
+const mobileUserEmail = document.getElementById("mobileUserEmail");
+const upgradeBtn = document.getElementById("upgradeBtn");
+const upgradeBtnMobile = document.getElementById("upgradeBtnMobile");
+const langBtn = document.getElementById("langBtn");
+const langMenu = document.getElementById("langMenu");
+const langBackdrop = document.getElementById("langBackdrop");
+
+function applyUserToHeader(user) {
+  if (!user || !user.email) return;
+
+  if (userBox) userBox.classList.remove("hidden");
+  if (userEmail) userEmail.textContent = user.email;
+
+  if (mobileUserEmail) mobileUserEmail.textContent = user.email;
+  if (mobileUserLite) mobileUserLite.classList.remove("hidden");
+}
+
+if (upgradeBtn && upgradeBtnMobile) {
+  upgradeBtnMobile.addEventListener("click", () => upgradeBtn.click());
+}
+
+// language dropdown
+function openLangMenu() {
+  if (!langMenu || !langBackdrop) return;
+  langMenu.classList.remove("hidden");
+  langBackdrop.classList.remove("hidden");
+  langBtn?.setAttribute("aria-expanded", "true");
+}
+
+function closeLangMenu() {
+  if (!langMenu || !langBackdrop) return;
+  langMenu.classList.add("hidden");
+  langBackdrop.classList.add("hidden");
+  langBtn?.setAttribute("aria-expanded", "false");
+}
+
+if (langBtn) {
+  langBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (langMenu?.classList.contains("hidden")) openLangMenu();
+    else closeLangMenu();
+  });
+}
+
+if (langBackdrop) {
+  langBackdrop.addEventListener("click", closeLangMenu);
+}
+
+document.querySelectorAll(".langItem").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const lang = btn.getAttribute("data-lang") || "en";
+    const label = btn.textContent.trim();
+    const langLabel = document.getElementById("langLabel");
+    if (langLabel) langLabel.textContent = label;
+
+    try {
+      localStorage.setItem("voicesafe_lang", lang);
+    } catch (_) {}
+
+    closeLangMenu();
+
+    // ak máš vlastnú funkciu pre i18n, zavolaj ju:
+    if (typeof setLanguage === "function") {
+      setLanguage(lang);
+    }
+  });
+});
+
+// načítanie usera z localStorage/JWT ak máš uložený
+try {
+  const savedUser = localStorage.getItem("voicesafe_user");
+  if (savedUser) {
+    applyUserToHeader(JSON.parse(savedUser));
+  }
+} catch (_) {}
+
 </script>
 </body>
 </html>
