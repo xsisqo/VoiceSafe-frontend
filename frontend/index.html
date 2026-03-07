@@ -452,10 +452,20 @@ backdrop-filter: blur(10px);
 
 /* VoiceSafe AI scan animation */
 
-@keyframes aiScan {
-  0% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.7; }
+@keyframes aiScan{
+0%{
+transform:scale(1);
+opacity:.6;
+}
+50%{
+transform:scale(1.08);
+opacity:1;
+filter:drop-shadow(0 0 15px rgba(255,200,0,.6));
+}
+100%{
+transform:scale(1);
+opacity:.6;
+}
 }
 
 .ai-scan {
@@ -504,6 +514,45 @@ header::after,
 
 .navPill{
   color:#fff !important;
+}
+
+
+.riskGauge{
+  position:relative;
+  width:128px;
+  height:128px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.riskGauge svg{
+  transform:rotate(-90deg);
+}
+
+.riskGaugeBg{
+  fill:none;
+  stroke:rgba(255,255,255,0.10);
+  stroke-width:8;
+}
+
+.riskGaugeFill{
+  fill:none;
+  stroke:#f59e0b;
+  stroke-width:8;
+  stroke-linecap:round;
+  transition:stroke-dashoffset .9s ease, stroke .3s ease;
+  filter:drop-shadow(0 0 10px rgba(245,158,11,.35));
+}
+
+.riskGaugeCenter{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
 }
 
 </style>
@@ -1006,24 +1055,37 @@ class="proPill flex items-center gap-2"
 Results
 </div>
 
-<div id="riskMeter" class="mt-5">
+<div id="riskMeter" class="mt-5 flex flex-col items-center">
 
-  <div class="text-xs text-white/60">
+  <div class="text-xs text-white/60 tracking-[0.18em]">
     SCAM PROBABILITY
   </div>
 
-  <div class="w-full bg-gray-800 rounded-full h-3 mt-2 overflow-hidden">
+  <div class="riskGauge mt-4">
+    <svg viewBox="0 0 120 120" class="w-32 h-32">
+      <circle cx="60" cy="60" r="46" class="riskGaugeBg"></circle>
+      <circle
+        id="riskGaugeFill"
+        cx="60"
+        cy="60"
+        r="46"
+        class="riskGaugeFill"
+        stroke-dasharray="289"
+        stroke-dashoffset="289"
+      ></circle>
+    </svg>
 
-    <div id="riskBar"
-  class="h-3 transition-all duration-700 bg-amber-500"
-  style="width:0%">
+    <div class="riskGaugeCenter">
+      <div id="riskPercent" class="text-2xl font-bold text-white">0%</div>
+      <div class="text-[10px] uppercase tracking-[0.16em] text-white/45">risk</div>
+    </div>
+  </div>
+
+  <div class="w-full bg-gray-800 rounded-full h-2 mt-4 overflow-hidden max-w-[260px]">
+    <div id="riskBar" class="h-2 transition-all duration-700 bg-amber-500" style="width:0%"></div>
+  </div>
+
 </div>
-
-  </div>
-
-  <div id="riskPercent" class="text-lg font-bold mt-2">
-    0%
-  </div>
 
 </div>
 
@@ -2973,6 +3035,28 @@ function updateRisk(score){
 
   if(el) el.innerText = percent + "%";
   if(bar) bar.style.width = percent + "%";
+
+  updateRiskGauge(riskPercentValue);
+}
+
+const riskGaugeFill = document.getElementById("riskGaugeFill");
+
+function updateRiskGauge(percent){
+  if (!riskGaugeFill) return;
+
+  const p = Math.max(0, Math.min(100, Number(percent || 0)));
+  const circumference = 289;
+  const offset = circumference - (p / 100) * circumference;
+
+  riskGaugeFill.style.strokeDashoffset = offset;
+
+  if (p < 35) {
+    riskGaugeFill.style.stroke = "#22c55e";
+  } else if (p < 70) {
+    riskGaugeFill.style.stroke = "#f59e0b";
+  } else {
+    riskGaugeFill.style.stroke = "#ef4444";
+  }
 }
 
 function updateRiskFromPayload(payload){
