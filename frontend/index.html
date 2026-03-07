@@ -3727,8 +3727,21 @@ document.getElementById("googleBtn").addEventListener("click", () => {
 const exampleBtn = document.getElementById("exampleBtn");
 
 if(exampleBtn){
-exampleBtn.addEventListener("click", () => {
-alert("Demo scam example coming soon");
+exampleBtn.addEventListener("click", async () => {
+
+const response = await fetch("demo/scam-example.mp3");
+const blob = await response.blob();
+
+const file = new File([blob], "scam-example.mp3", {type:"audio/mpeg"});
+
+const dt = new DataTransfer();
+dt.items.add(file);
+
+const fileInput = document.getElementById("fileInput");
+fileInput.files = dt.files;
+
+document.getElementById("analyzeBtn").click();
+
 });
 }
 
