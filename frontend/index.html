@@ -32,6 +32,29 @@ header{
 background: transparent !important;
 }
 
+.stickyAnalyze{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:9999;
+}
+
+.stickyAnalyze button{
+background:linear-gradient(135deg,#facc15,#f59e0b);
+color:#111;
+border:none;
+padding:14px 26px;
+border-radius:14px;
+font-weight:600;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+cursor:pointer;
+}
+
+.stickyAnalyze button:hover{
+transform:scale(1.05);
+}
+
 .navPill{
   display:inline-flex;
   align-items:center;
@@ -3669,6 +3692,23 @@ window.addEventListener("load", () => {
     setTimeout(() => loader.remove(), 500);
   }
 });
+
+function scrollToAnalyze(){
+document.getElementById("analyze").scrollIntoView({
+behavior:"smooth"
+});
+}
+
+window.addEventListener("scroll",()=>{
+const sticky=document.getElementById("stickyAnalyze");
+
+if(window.scrollY>600){
+sticky.classList.remove("hidden");
+}else{
+sticky.classList.add("hidden");
+}
+});
+
 </script>
 
 <script>
@@ -3857,6 +3897,12 @@ document.getElementById("analyzeBtn").click();
 
 })();
 </script>
+
+<div id="stickyAnalyze" class="stickyAnalyze hidden">
+<button onclick="scrollToAnalyze()">
+🔎 Analyze voice message
+</button>
+</div>
 
 </body>
 </html>
