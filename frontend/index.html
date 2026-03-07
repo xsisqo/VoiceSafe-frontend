@@ -148,13 +148,6 @@ transform: scale(1.05);
 box-shadow: 0 0 20px rgba(255,255,255,.25);
 }
 
-/* NAVBAR LESS TRANSPARENT */
-header{
-background: rgba(15,23,42,0.92);
-backdrop-filter: blur(12px);
-border-bottom:1px solid rgba(255,255,255,.08);
-}
-
 .btnPrimary{
 background: rgba(255,255,255,.08);
 color:#ffffff;
@@ -677,6 +670,19 @@ animation:radarSpin 3s linear infinite;
 @keyframes radarSpin{
 0%{ transform:rotate(0deg); }
 100%{ transform:rotate(360deg); }
+}
+
+/* HEADER LESS TRANSPARENT */
+header{
+  background: transparent !important;
+}
+
+.headerShell{
+  background: rgba(15,23,42,0.92) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,.28) !important;
 }
 
 </style>
