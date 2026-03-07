@@ -4011,6 +4011,9 @@ counter.textContent = value.toLocaleString()
 const shareResultBtn = document.getElementById("shareResultBtn");
 const shareBox = document.getElementById("shareBox");
 
+const shareLink = document.getElementById("shareLink");
+if (shareLink) shareLink.value = "https://voicesafe.ai";
+
 if (shareResultBtn && shareBox) {
   shareResultBtn.addEventListener("click", () => {
     shareBox.style.display = "block";
