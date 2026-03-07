@@ -3805,6 +3805,9 @@ const examplePlayer = document.getElementById("examplePlayer");
 if(exampleBtn && exampleBox){
 exampleBtn.addEventListener("click", () => {
 
+const loadingText = document.getElementById("loadingText");
+if(loadingText) loadingText.innerText = "Loading demo scam call...";
+
 exampleBox.classList.remove("hidden");
 
 if(examplePlayer){
@@ -3817,6 +3820,9 @@ examplePlayer.play().catch(()=>{});
 
 if(analyzeExampleBtn){
 analyzeExampleBtn.addEventListener("click", async () => {
+
+const loadingText = document.getElementById("loadingText");
+if(loadingText) loadingText.innerText = "Loading demo scam call...";
 
 const response = await fetch("demo/scam-example.mp3");
 const blob = await response.blob();
