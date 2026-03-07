@@ -1345,6 +1345,8 @@ This result should be verified before taking financial action.
 AI detected these risk signals
 </div>
 
+
+
 <ul class="text-sm text-white/70 space-y-1 list-disc ml-4">
 
 <li>• AI voice synthesis patterns detected</li>
@@ -1354,6 +1356,10 @@ AI detected these risk signals
 <li>• Urgent language patterns common in scam calls</li>
 
 </ul>
+
+<button id="shareResultBtn" class="btnDark rounded-2xl px-5 py-3 mt-4">
+🔗 Share result
+</button>
 
 </div>
 
@@ -3997,6 +4003,19 @@ counter.textContent = value.toLocaleString()
 
 },4000)
 
+}
+
+</script>
+
+<script>
+const shareResultBtn = document.getElementById("shareResultBtn");
+const shareBox = document.getElementById("shareBox");
+
+if (shareResultBtn && shareBox) {
+  shareResultBtn.addEventListener("click", () => {
+    shareBox.style.display = "block";
+    shareBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
 }
 </script>
 
