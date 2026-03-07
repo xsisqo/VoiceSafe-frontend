@@ -86,7 +86,7 @@ transition:transform .2s ease;
     padding-right:0;
   }
 
-  #googleLoginBtn span:last-child,
+  #googleBtn span:last-child,
   #langBtn span:nth-child(2),
   #upgradeBtn{
     font-size:13px;
@@ -103,7 +103,7 @@ padding:10px 14px;
 /* MOBILE HEADER FIX */
 @media (max-width:640px){
 
-#googleLoginBtn,
+#googleBtn,
 #langBtn,
 #upgradeBtn{
 font-size:12px;
@@ -379,7 +379,7 @@ header::after,
   box-shadow: none !important;
 }
 
-#googleLoginBtn,
+#googleBtn,
 #langBtn,
 #upgradeBtn,
 .navPill,
@@ -533,8 +533,6 @@ class="proPill flex items-center gap-2"
     </div>
   </div>
 </header>
-
-</a>
 
   <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
 
@@ -709,7 +707,7 @@ class="proPill flex items-center gap-2"
           </div>
         </div>
 
-        <div class="lg:col-span-7" min-w-0"
+        <div class="lg:col-span-7" min-w-0">
           <div class="glass rounded-3xl p-6">
             <div class="flex items-center justify-between">
               <div>
@@ -1185,7 +1183,7 @@ Results
   </main>
 
   <!-- Footer (NO backend links) -->
-  <<footer class="mt-24 border-t border-white/10 pt-12 pb-14">
+  <footer class="mt-24 border-t border-white/10 pt-12 pb-14">
 
   <div class="mx-auto max-w-7xl px-6">
 
@@ -3254,7 +3252,7 @@ window.addEventListener("load", () => {
 
 <script>
 
-document.getElementById("googleLoginBtn").addEventListener("click", () => {
+document.getElementById("googleBtn").addEventListener("click", () => {
 
   window.location.href =
   "https://accounts.google.com/o/oauth2/v2/auth?" +
@@ -3270,7 +3268,7 @@ document.getElementById("googleLoginBtn").addEventListener("click", () => {
   const langMenu = document.getElementById("langMenu");
   const langBackdrop = document.getElementById("langBackdrop");
   const langLabel = document.getElementById("langLabel");
-  const googleLoginBtn = document.getElementById("googleLoginBtn");
+  const googleBtn = document.getElementById("googleBtn");
 
   function openLangMenu() {
     if (!langMenu || !langBackdrop || !langBtn) return;
@@ -3315,8 +3313,8 @@ document.getElementById("googleLoginBtn").addEventListener("click", () => {
   });
 
   // Google button: use existing Google Identity if present
-  if (googleLoginBtn) {
-    googleLoginBtn.addEventListener("click", () => {
+  if (googleBtn) {
+    googleBtn.addEventListener("click", () => {
       try {
         if (window.google && google.accounts && google.accounts.id) {
           google.accounts.id.prompt();
