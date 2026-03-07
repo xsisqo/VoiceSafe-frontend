@@ -159,32 +159,33 @@ background-position:0% 50%;
 }
 }
     .btnPrimary{
-background: linear-gradient(135deg,#f5b21b,#ff8a00);
-color:#000;
+background: rgba(255,255,255,.08);
+color:#fff;
 font-weight:600;
 border-radius:12px;
-border:1px solid rgba(255,200,0,.45);
-box-shadow:0 0 20px rgba(245,158,11,.5);
+border:1px solid rgba(255,255,255,.15);
+box-shadow:none;
 transition: all .3s ease;
-animation: proPulse 3s infinite;
+animation: none;
 position: relative;
 overflow: hidden;
 }
 
 .btnPrimary:hover{
-transform: scale(1.07);
-box-shadow:0 0 40px rgba(245,158,11,.95);
-filter: brightness(1.05);
+transform: scale(1.03);
+box-shadow:0 0 20px rgba(255,255,255,.20);
+filter: brightness(1.03);
 }
 
 .proPill::before{
 content:"";
 position:absolute;
-inset:-2px;
-border-radius:14px;
+inset:0;
+border-radius:12px;
 background:linear-gradient(270deg,#f5b21b,#ff8a00,#ffd700,#ff8a00,#f5b21b);
 background-size:400% 400%;
 animation: goldBorder 6s linear infinite;
+opacity:.22;
 z-index:-1;
 }
 
