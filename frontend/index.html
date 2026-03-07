@@ -3823,8 +3823,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const savedLang = localStorage.getItem("vs_lang") || "en";
+  const savedLang = localStorage.getItem("vs_lang");
+
+if (savedLang) {
   loadLanguage(savedLang);
+} else {
+  const browserLang = navigator.language.slice(0,2);
+
+  const supported = ["en","de","es","fr","pt","hi","ko","zh","ja","sk"];
+
+  const lang = supported.includes(browserLang) ? browserLang : "en";
+
+  loadLanguage(lang);
+}
 });
 
 if ("serviceWorker" in navigator) {
