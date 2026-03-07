@@ -1068,9 +1068,21 @@ class="proPill flex items-center gap-2"
                 <button id="analyzeBtn" class="btnPrimary ai-scan rounded-2xl px-4 py-3 font-semibold flex-1" type="button" data-i18n="analyzeBtn">Analyze</button>
               </div>
 
-          <button id="exampleBtn" class="btn mt-3">
+          <button id="exampleBtn" class="btn mt-3 w-full">
 🎧 Try scam example
-</button>    
+</button>  
+<div id="exampleBox" class="glass2 rounded-2xl p-4 mt-3 hidden">
+  <div class="text-sm text-white/80 mb-2">Simulated scam-style voice example</div>
+
+  <audio id="examplePlayer" controls class="w-full">
+    <source src="demo/scam-example.mp3" type="audio/mpeg" />
+    Your browser does not support audio playback.
+  </audio>
+
+  <button id="analyzeExampleBtn" class="btnPrimary mt-3 w-full rounded-2xl px-4 py-3">
+    Analyze this example
+  </button>
+</div>  
 
               <div class="mt-4 text-xs text-white/60 leading-relaxed">
                 <div>• <span data-i18n="bankBullet1">Designed for fraud prevention workflows and compliance-friendly incident reporting.</span></div>
@@ -3725,9 +3737,25 @@ document.getElementById("googleBtn").addEventListener("click", () => {
   }
 
 const exampleBtn = document.getElementById("exampleBtn");
+const exampleBox = document.getElementById("exampleBox");
+const analyzeExampleBtn = document.getElementById("analyzeExampleBtn");
+const examplePlayer = document.getElementById("examplePlayer");
 
-if(exampleBtn){
-exampleBtn.addEventListener("click", async () => {
+if(exampleBtn && exampleBox){
+exampleBtn.addEventListener("click", () => {
+
+exampleBox.classList.remove("hidden");
+
+if(examplePlayer){
+examplePlayer.currentTime = 0;
+examplePlayer.play().catch(()=>{});
+}
+
+});
+}
+
+if(analyzeExampleBtn){
+analyzeExampleBtn.addEventListener("click", async () => {
 
 const response = await fetch("demo/scam-example.mp3");
 const blob = await response.blob();
