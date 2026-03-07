@@ -152,6 +152,37 @@ background: rgba(255,255,255,.18);
 transform: scale(1.05);
 box-shadow: 0 0 20px rgba(255,255,255,.25);
 }
+
+/* PRO BUTTON FIX */
+
+.proPill{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:10px 18px;
+border-radius:999px;
+
+background: transparent !important;
+background-image: none !important;
+
+color:#facc15;
+border:1px solid rgba(255,200,0,.35);
+
+box-shadow:none !important;
+filter:none !important;
+}
+
+.proPill:hover{
+transform:none;
+box-shadow:none !important;
+filter:none !important;
+}
+
+.proPill::before{
+content:none !important;
+background:none !important;
+}
+
 @keyframes proPulse{
 0%{
 box-shadow:0 0 15px rgba(245,158,11,.4);
