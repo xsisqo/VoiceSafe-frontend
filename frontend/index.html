@@ -638,6 +638,40 @@ left:100%;
 }
 }
 
+.radar{
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+pointer-events:none;
+}
+
+.radarCircle{
+width:220px;
+height:220px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,.08);
+position:relative;
+overflow:hidden;
+}
+
+.radarBeam{
+position:absolute;
+width:50%;
+height:2px;
+background:linear-gradient(90deg,rgba(59,130,246,.8),transparent);
+top:50%;
+left:50%;
+transform-origin:left center;
+animation:radarSpin 3s linear infinite;
+}
+
+@keyframes radarSpin{
+0%{ transform:rotate(0deg); }
+100%{ transform:rotate(360deg); }
+}
+
 </style>
 </head>
 
@@ -1124,6 +1158,12 @@ class="proPill flex items-center gap-2"
          resultsCard.classList.add("scanning")
         <div class="lg:col-span-7" min-w-0">
           <div id="resultsCard" class="glass rounded-3xl p-6 relative overflow-hidden pulseSoft">
+
+            <div class="radar">
+  <div class="radarCircle">
+    <div class="radarBeam"></div>
+  </div>
+</div>
 
 <div class="scanLine"></div>
 
