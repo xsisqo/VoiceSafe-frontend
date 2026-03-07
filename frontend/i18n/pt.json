@@ -1,20 +1,7 @@
 {
-  "langName": "Português",
-  "tagline": "Avaliação de risco de fraude por voz com IA",
-  "navHow": "Como funciona",
-  "navContact": "Contato",
-
-  "heroTitle": "Transforme uma mensagem suspeita em uma decisão clara.",
-  "heroDesc": "Envie áudio ou vídeo e receba uma análise de risco estruturada.",
-
-  "fastTitle": "Rápido",
-  "fastDesc": "Análise em segundos.",
-  "privateTitle": "Privado",
-
-  "uploadTitle": "Enviar áudio ou vídeo",
-  "analyzeBtn": "Analisar",
-
-  "reportTitle": "Relatório de risco VoiceSafe",
-  "confidence": "Confiança",
-  "riskLevel": "Nível de risco"
+"heroPill": "Privacidade primeiro. Sinais de risco instantâneos.",
+"heroTitleA": "Transforme uma",
+"heroTitleB": "mensagem de voz suspeita",
+"heroTitleC": "em uma decisão clara.",
+"heroDesc": "Envie um áudio, grave um clipe ou teste um exemplo de golpe. O VoiceSafe retorna uma pontuação estruturada de risco com sinais explicáveis."  
 }

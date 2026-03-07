@@ -1,34 +1,7 @@
 {
-  "langName": "日本語",
-  "tagline": "AI音声詐欺リスク分析",
-  "navHow": "仕組み",
-  "navServices": "サービス",
-  "navContact": "連絡先",
-  "navTerms": "利用規約",
-  "unlockPro": "Proを解除",
-
-  "heroBadge": "プライバシー優先。即時リスク検出。",
-  "heroTitle": "疑わしい音声メッセージを明確な判断へ。",
-  "heroDesc": "音声または動画をアップロードするか録音してください。VoiceSafeがリスク分析を提供します。",
-  "heroAnalyze": "今すぐ分析",
-  "heroDemo": "デモを見る",
-
-  "fastTitle": "高速",
-  "fastDesc": "数秒で分析。",
-  "explainTitle": "説明可能",
-  "explainDesc": "スコアだけでなく具体的なアドバイス。",
-  "privateTitle": "プライバシー",
-  "privateDesc": "音声は永久保存されません。",
-
-  "uploadTitle": "音声または動画をアップロード",
-  "analyzeBtn": "分析",
-  "recordBtn": "録音",
-  "stopBtn": "停止",
-
-  "reportTitle": "VoiceSafe リスクレポート",
-  "confidence": "信頼度",
-  "scamScore": "詐欺スコア",
-  "aiProbability": "AI音声確率",
-  "stressLevel": "ストレスレベル",
-  "riskLevel": "リスクレベル"
+"heroPill": "プライバシーを最優先。即時リスクシグナル。",
+"heroTitleA": "疑わしい",
+"heroTitleB": "音声メッセージを",
+"heroTitleC": "明確な判断へ。",
+"heroDesc": "音声をアップロード、録音、または詐欺の例をテストしてください。VoiceSafe は説明可能なシグナルとともに構造化された詐欺リスクスコアを返します。"
 }

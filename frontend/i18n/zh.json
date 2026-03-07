@@ -1,46 +1,7 @@
 {
-  "langName": "中文",
-  "tagline": "AI语音诈骗风险评估",
-  "navHow": "工作原理",
-  "navServices": "服务",
-  "navContact": "联系",
-  "navTerms": "条款",
-  "unlockPro": "解锁Pro",
-
-  "heroBadge": "隐私优先。即时风险信号。",
-  "heroTitle": "将可疑语音消息转化为清晰决策。",
-  "heroDesc": "上传音频或视频，或录制短片。VoiceSafe 提供结构化风险评估和建议行动。",
-  "heroAnalyze": "开始分析",
-  "heroDemo": "查看演示",
-  "heroHow": "工作原理",
-
-  "fastTitle": "快速",
-  "fastDesc": "通常几秒内完成分析。",
-  "explainTitle": "可解释",
-  "explainDesc": "提供可执行建议，而不仅仅是评分。",
-  "privateTitle": "隐私保护",
-  "privateDesc": "原型不会永久存储语音。",
-
-  "uploadTitle": "上传音频或视频",
-  "uploadDesc": "支持：mp3, wav, m4a, mp4, mov",
-  "analyzeBtn": "分析",
-  "recordBtn": "录制",
-  "stopBtn": "停止",
-  "liveBtn": "实时",
-  "adminBtn": "管理",
-
-  "reportTitle": "VoiceSafe 风险报告",
-  "confidence": "置信度",
-  "scamScore": "诈骗评分",
-  "aiProbability": "AI语音概率",
-  "stressLevel": "压力水平",
-  "riskLevel": "风险等级",
-
-  "contactTitle": "联系我们",
-  "contactDesc": "如果您有兴趣与银行或企业合作，请联系我们获取私人演示。",
-
-  "footerProduct": "产品",
-  "footerCompany": "公司",
-  "footerStart": "开始分析",
-  "footerAnalyze": "分析音频"
+"heroPill": "隐私优先。即时风险信号。",
+"heroTitleA": "将可疑的",
+"heroTitleB": "语音消息",
+"heroTitleC": "转化为清晰的决策。",
+"heroDesc": "上传音频、录制语音或测试诈骗示例。VoiceSafe 会返回结构化的欺诈风险评分，并提供可解释的信号。"
 }
