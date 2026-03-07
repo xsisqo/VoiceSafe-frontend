@@ -3979,6 +3979,25 @@ document.getElementById("analyzeBtn").click();
 }
 
 })();
+
+</script>
+
+<script>
+const counter = document.getElementById("analysisCounter")
+
+if(counter){
+
+let value = 12482
+
+setInterval(()=>{
+
+value += Math.floor(Math.random()*3)
+
+counter.textContent = value.toLocaleString()
+
+},4000)
+
+}
 </script>
 
 <div id="stickyAnalyze" class="stickyAnalyze hidden">
