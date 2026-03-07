@@ -1301,6 +1301,24 @@ Results
 
 <div class="text-sm text-white/60 mt-2" id="summaryText"></div>
 
+<div class="mt-4 glass2 rounded-2xl p-4">
+
+<div class="text-sm text-white/80 mb-2">
+Why this message looks suspicious
+</div>
+
+<ul class="text-sm text-white/70 space-y-1">
+
+<li>• AI voice synthesis patterns detected</li>
+
+<li>• Elevated vocal stress markers</li>
+
+<li>• Urgent language patterns common in scam calls</li>
+
+</ul>
+
+</div>
+
 <div id="shareBox" style="margin-top:20px;display:none">
   <div class="text-sm text-white/60">Share result</div>
   <input id="shareLink" style="width:100%;padding:10px;border-radius:8px;margin-top:6px" readonly>
@@ -3242,6 +3260,9 @@ function updateRisk(score){
 
   const el = document.getElementById("riskPercent");
   const bar = document.getElementById("riskBar");
+
+const signals = document.getElementById("riskSignals");
+if(signals) signals.classList.remove("hidden");
 
   if(el) el.innerText = percent + "%";
   if(bar) bar.style.width = percent + "%";
