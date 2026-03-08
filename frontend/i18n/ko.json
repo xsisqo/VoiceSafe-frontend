@@ -1,7 +1,81 @@
 {
-"heroPill": "개인정보 우선. 즉각적인 위험 신호.",
-"heroTitleA": "의심스러운",
-"heroTitleB": "음성 메시지를",
-"heroTitleC": "명확한 결정으로 바꾸세요.",
-"heroDesc": "오디오를 업로드하거나 녹음하거나 사기 예제를 테스트하세요. VoiceSafe는 설명 가능한 신호와 함께 구조화된 사기 위험 점수를 제공합니다."
+  "langName": "한국어",
+
+  "heroPill": "프라이버시 우선. 즉각적인 위험 신호.",
+  "heroTitleA": "의심스러운",
+  "heroTitleB": "음성 메시지를",
+  "heroTitleC": "명확한 결정으로 바꾸세요.",
+  "heroDesc": "오디오를 업로드하거나 녹음하거나 사기 예제를 테스트하세요. VoiceSafe는 설명 가능한 신호와 함께 구조화된 사기 위험 점수를 제공합니다.",
+
+  "btn_analyze": "음성 메시지 분석",
+  "btn_try_example": "사기 예제 테스트",
+  "btn_run_demo": "데모 시작",
+  "btn_how_it_works": "작동 방식",
+  "btn_share_result": "결과 공유",
+  "btn_analyze_example": "이 예제 분석",
+
+  "security_privacy": "프라이버시 우선",
+  "security_focused": "보안 중심",
+  "security_realtime": "실시간 AI 탐지",
+  "security_global": "글로벌 사기 보호",
+
+  "example_output": "예시 결과",
+  "example_risk_high": "사기 위험 점수: 높음",
+  "example_ai_probability": "AI 음성 확률: 91%",
+  "example_signal_1": "• 긴급함 / 압박",
+  "example_signal_2": "• 돈 또는 코드 요청",
+  "example_signal_3": "• 의심스러운 결제 지시",
+
+  "analyze_section_title": "의심스러운 음성 메시지 분석",
+
+  "api_key_placeholder": "x-api-key 붙여넣기",
+  "save": "저장",
+  "clear": "지우기",
+  "test": "테스트",
+  "record": "녹음",
+  "analyze": "분석",
+
+  "try_real_scenarios": "실제 사기 시나리오 테스트",
+  "scenario_bank": "은행 사기",
+  "scenario_crypto": "암호화폐 사기",
+  "scenario_ceo": "CEO 음성 복제",
+  "scenario_family": "가족 긴급 상황",
+
+  "fraud_risk_score": "사기 위험 점수",
+  "summary_default": "VoiceSafe는 분석 후 감지된 위험을 요약합니다.",
+  "result_warning": "금융 결정을 내리기 전에 이 결과를 확인해야 합니다.",
+
+  "signals_title": "이 메시지가 의심스러운 이유",
+  "signal_1": "AI 음성 합성 패턴 감지",
+  "signal_2": "높은 음성 스트레스 지표",
+  "signal_3": "사기 전화에서 흔한 긴급 언어 패턴",
+
+  "share_title": "결과 공유",
+  "copy_json": "JSON 복사",
+  "copy_link": "링크 복사",
+  "share": "공유",
+  "share_card": "공유 카드",
+
+  "how_title": "작동 방식",
+
+  "who_uses_title": "VoiceSafe를 사용하는 사람들",
+  "who_uses_subtitle": "실제 사기 판단을 위해 설계됨",
+
+  "use_banks": "은행",
+  "use_investigators": "조사관",
+  "use_journalists": "기자",
+  "use_businesses": "기업",
+
+  "technology_title": "AI 음성 사기 탐지 엔진",
+  "technology_label": "기술",
+
+  "tech_1": "음성 패턴 분석",
+  "tech_2": "억양 및 지역 신호",
+  "tech_3": "실시간 사기 확률 평가",
+
+  "loading_default": "음성 분석 중...",
+  "loading_demo": "데모 사기 통화 로딩 중...",
+
+  "toast_link_copied": "링크가 복사되었습니다.",
+  "toast_example_error": "예시 오디오를 불러올 수 없습니다."
 }
