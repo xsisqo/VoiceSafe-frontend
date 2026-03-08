@@ -812,31 +812,35 @@ header{
           </button>
 
           <!-- Language -->
-          <div class="relative">
-            <button
-              id="langBtn"
-              type="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              class="navPill"
-            >
-              <span class="text-sky-400">🌐</span>
-              <span id="langLabel">English</span>
-              <span class="text-white/40 text-[10px]">▼</span>
-            </button>
+<div class="relative">
+  <button
+    id="langBtn"
+    type="button"
+    aria-haspopup="true"
+    aria-expanded="false"
+    class="navPill"
+  >
+    <span class="text-sky-400">🌐</span>
+    <span id="langLabel">English</span>
+    <span class="text-white/40 text-[10px]">▼</span>
+  </button>
 
-            <div id="langBackdrop" class="hidden fixed inset-0 z-40"></div>
+  <div id="langBackdrop" class="hidden fixed inset-0 z-40"></div>
 
-            <div
-              id="langMenu"
-              class="hidden absolute right-0 top-[calc(100%+10px)] z-50 min-w-[220px] rounded-2xl border border-white/10 bg-[#0f172a]/95 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-              role="menu"
-              aria-label="Language"
-            >
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="sk" type="button">Slovenčina</button>
-              <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="en" type="button">English</button>
-            </div>
-          </div>
+  <div
+    id="langMenu"
+    class="hidden absolute right-0 top-[calc(100%+10px)] z-50 min-w-[220px] rounded-2xl border border-white/10 bg-[#0f172a]/95 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+    role="menu"
+    aria-label="Language"
+  >
+    <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="sk" type="button">
+      Slovenčina
+    </button>
+    <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="en" type="button">
+      English
+    </button>
+  </div>
+</div>
 
           <!-- Unlock Pro -->
           <button
