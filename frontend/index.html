@@ -2375,44 +2375,7 @@ renderTimeline(payload);
     hint.textContent = `Selected: ${file.name} (${Math.round(file.size/1024)} KB)`;
   }
 
-  function demoPayload(){
-  return {
-    scores: {
-      scam_score: 0.82,
-      ai_probability: 0.91,
-      stress_level: 0.67,
-      risk_level: "HIGH",
-      confidence: 0.78,
-      risk_text: "High risk signals detected. Pause and verify via official channels."
-    },
-
-    // toto si doplň (aby sa malo čo vykresliť v 'Scam type detected')
-    scam_types: [
-      "Urgency / pressure",
-      "Request for money or codes",
-      "Suspicious payment instructions"
-    ],
-
-    // ak používaš skôr 'scamPhrases' v UI, pridaj aj toto
-    scam_phrases: [
-      "Send it now, don’t tell anyone.",
-      "We need a verification code.",
-      "Pay via gift cards / crypto."
-    ],
-
-    // timeline pre renderTimeline()
-    timeline: [
-      { time: "00:05", label: "Urgency / pressure" },
-      { time: "00:12", label: "Request for money or codes" },
-      { time: "00:18", label: "Suspicious payment instructions" }
-    ],
-
-    meta: { demo: true, ts: new Date().toISOString() }
-  };
-}
-
-
-async function analyzeCurrent(){
+async function analyzeAudio(){
     // ===========================
     // FREE LIMIT CHECK (daily)
     // anon vs logged-in
@@ -3474,8 +3437,7 @@ function runDemo(){
 // ANALYZE
 // -----------------------------
 
-function analyzeAudio(){
-
+async function analyzeAudio(){
   const file = qs("fileInput")?.files?.[0];
 
   if(!file){
@@ -3483,7 +3445,54 @@ function analyzeAudio(){
     return;
   }
 
-  runDemo(); // demo simulation
+  setLoading(true);
+
+  try{
+    const form = new FormData();
+    form.append("audio", file);
+    form.append("title", qs("titleEl")?.value || "");
+    form.append("platform", qs("platformEl")?.value || "");
+    form.append("country", qs("countryEl")?.value || "");
+    form.append("language", qs("languageEl")?.value || "");
+    form.append("tags", qs("tagsEl")?.value || "");
+    form.append("notes", qs("notesEl")?.value || "");
+
+    const resp = await fetch("https://voicesafe-backend-1.onrender.com/upload", {
+      method: "POST",
+      body: form
+    });
+
+    const data = await resp.json().catch(() => null);
+
+    if(!resp.ok || !data){
+      toast("Analyze failed");
+      setLoading(false);
+      return;
+    }
+
+    const ai = data.ai || data.scores || data.result || data.analysis || data || {};
+
+    const scam = Math.round((Number(ai.scam_score ?? ai.scam ?? 0)) * ((Number(ai.scam_score ?? ai.scam ?? 0)) <= 1 ? 100 : 1));
+    const confidence = Number(ai.confidence ?? 0.91);
+    const riskLevel = String(ai.risk_level || "HIGH").toUpperCase();
+    const summary =
+      ai.summary ||
+      ai.risk_text ||
+      "Analysis completed.";
+
+    if(qs("riskPercent")) qs("riskPercent").textContent = `${scam}%`;
+    if(qs("riskBar")) qs("riskBar").style.width = `${scam}%`;
+    if(qs("riskLevel")) qs("riskLevel").textContent = riskLevel;
+    if(qs("confidence")) qs("confidence").textContent = confidence;
+    if(qs("summaryText")) qs("summaryText").textContent = summary;
+    if(qs("rawJson")) qs("rawJson").textContent = JSON.stringify(data, null, 2);
+
+  }catch(e){
+    console.error(e);
+    toast("Network error");
+  }finally{
+    setLoading(false);
+  }
 }
 
 // -----------------------------
@@ -3508,10 +3517,20 @@ async function toggleRecord(){
     };
 
     recorder.onstop = ()=>{
-      const blob = new Blob(chunks,{type:"audio/webm"});
-      chunks=[];
-      toast("Recording ready");
-    };
+  const blob = new Blob(chunks, { type: "audio/webm" });
+  chunks = [];
+
+  const file = new File([blob], "recording.webm", { type: "audio/webm" });
+  const dt = new DataTransfer();
+  dt.items.add(file);
+
+  const input = qs("fileInput");
+  if (input) {
+    input.files = dt.files;
+  }
+
+  toast("Recording ready");
+};
 
     recorder.start();
 
