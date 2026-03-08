@@ -1,0 +1,65 @@
+{
+ "langName": "Italiano",
+
+ "heroPill": "Privacy prima di tutto. Segnali di rischio immediati.",
+ "heroTitleA": "Trasforma un",
+ "heroTitleB": "messaggio vocale sospetto",
+ "heroTitleC": "in una decisione chiara.",
+ "heroDesc": "Carica un audio, registra un messaggio o prova un esempio di truffa. VoiceSafe restituisce un punteggio di rischio di frode con segnali spiegabili.",
+
+ "btn_analyze": "Analizza messaggio vocale",
+ "btn_try_example": "Prova esempio di truffa",
+ "btn_run_demo": "Esegui demo",
+ "btn_how_it_works": "Come funziona",
+ "btn_share_result": "Condividi risultato",
+
+ "security_privacy": "Privacy prima",
+ "security_focused": "Focalizzato sulla sicurezza",
+ "security_realtime": "Rilevamento AI in tempo reale",
+ "security_global": "Protezione globale dalle truffe",
+
+ "analyze_section_title": "Analizza messaggi vocali sospetti",
+
+ "record": "Registra",
+ "analyze": "Analizza",
+ "clear": "Cancella",
+
+ "try_real_scenarios": "Prova scenari di truffa reali",
+
+ "scenario_bank": "Truffa bancaria",
+ "scenario_crypto": "Truffa crypto",
+ "scenario_ceo": "Clone voce CEO",
+ "scenario_family": "Emergenza familiare",
+
+ "fraud_risk_score": "PUNTEGGIO RISCHIO FRODE",
+
+ "signals_title": "Perché questo messaggio è sospetto",
+
+ "signal_1": "Pattern di sintesi vocale AI rilevati",
+ "signal_2": "Indicatori di stress vocale elevato",
+ "signal_3": "Linguaggio urgente tipico delle truffe",
+
+ "share_title": "Condividi risultato",
+
+ "copy_json": "Copia JSON",
+ "copy_link": "Copia link",
+ "share": "Condividi",
+
+ "how_title": "Come funziona",
+
+ "who_uses_title": "Chi usa VoiceSafe",
+
+ "use_banks": "Banche",
+ "use_investigators": "Investigatori",
+ "use_journalists": "Giornalisti",
+ "use_businesses": "Aziende",
+
+ "technology_title": "Motore AI di rilevamento truffe vocali",
+
+ "tech_1": "Analisi pattern vocali",
+ "tech_2": "Segnali di accento e regione",
+ "tech_3": "Valutazione probabilità truffa in tempo reale",
+
+ "loading_default": "Analisi voce...",
+ "loading_demo": "Caricamento chiamata truffa..."
+}

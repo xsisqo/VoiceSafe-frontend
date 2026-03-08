@@ -1,0 +1,17 @@
+{
+ "langName": "Norsk",
+
+ "heroPill": "Personvern først. Umiddelbare risikosignaler.",
+ "heroTitleA": "Gjør en",
+ "heroTitleB": "mistenkelig talemelding",
+ "heroTitleC": "til en klar beslutning.",
+
+ "heroDesc": "Last opp lyd, ta opp en melding eller test et svindeleksempel. VoiceSafe returnerer en strukturert svindelrisikoscore.",
+
+ "btn_analyze": "Analyser talemelding",
+
+ "scenario_bank": "Banksvindel",
+ "scenario_crypto": "Kryptosvindel",
+ "scenario_ceo": "CEO stemmeklon",
+ "scenario_family": "Familienødsituasjon"
+}
