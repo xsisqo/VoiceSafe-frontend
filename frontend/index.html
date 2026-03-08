@@ -41,6 +41,27 @@
 <link rel="alternate" hreflang="ar" href="https://voicesafe.ai/?lang=ar">
 <link rel="alternate" hreflang="x-default" href="https://voicesafe.ai/?lang=en">
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "VoiceSafe",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "Web",
+  "url": "https://voicesafe.ai",
+  "description": "VoiceSafe analyzes suspicious voice messages and detects AI voice scams before you send money.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "VoiceSafe"
+  }
+}
+</script>
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="./config.js"></script>
@@ -976,109 +997,117 @@ class="proPill flex items-center gap-2"
 </section>
 
     <!-- HERO -->
-    <section class="pt-10 pb-6 appOnly">
-      <div class="grid lg:grid-cols-12 gap-6 items-start">
-        <div class="lg:col-span-7">
-          <div class="rounded-[32px] border border-white/10 bg-white/[0.035] backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.35)] p-6 sm:p-8">
-            <div class="inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs text-white/80">
-              <span>⚡</span><span data-i18n="heroPill">Privacy-first. Instant risk signals. Built for real-world calls.</span>
-            </div>
+<section class="pt-10 pb-6 appOnly">
+  <div class="grid lg:grid-cols-12 gap-6 items-start">
+    <div class="lg:col-span-7">
+      <div class="rounded-[32px] border border-white/10 bg-white/[0.035] backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.35)] p-6 sm:p-8">
+        <div class="inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs text-white/80">
+          <span>⚡</span>
+          <span data-i18n="heroPill">Privacy-first. Instant risk signals.</span>
+        </div>
 
-            <h1 class="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight text-white">
-              <span class="text-white" data-i18n="heroTitleA">Turn a suspicious</span>
-              <span class="text-white/90" data-i18n="heroTitleB">voice message</span>
-              <span data-i18n="heroTitleC">into a clear decision.</span>
-            </h1>
+        <h1 class="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+          <span class="text-white" data-i18n="heroTitleA">Turn a suspicious</span>
+          <span class="text-white/90" data-i18n="heroTitleB">voice message</span>
+          <span data-i18n="heroTitleC">into a clear decision.</span>
+        </h1>
 
-            <p class="mt-4 text-white/70 max-w-2xl" data-i18n="heroDesc">
-Upload audio, record a clip, or test a scam example. VoiceSafe returns a structured fraud risk score with explainable signals.
-</p>
+        <p class="mt-4 text-white/70 max-w-2xl" data-i18n="heroDesc">
+          Upload audio, record a clip, or test a scam example. VoiceSafe returns a structured fraud risk score with explainable signals.
+        </p>
 
-            <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+          <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
+            <span>⚡</span>
+            <span data-i18n="heroFeature1">Instant AI analysis</span>
+          </div>
 
-  <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
-    ⚡ <span>Instant AI analysis</span>
-  </div>
+          <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
+            <span>🔒</span>
+            <span data-i18n="heroFeature2">Private voice processing</span>
+          </div>
 
-  <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
-    🔒 <span>Private voice processing</span>
-  </div>
-
-  <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
-    🌍 <span>Global scam detection</span>
-  </div>
-
-</div>
-
-            <div class="mt-6 flex flex-col sm:flex-row gap-3">
-              <a class="inline-flex items-center justify-center gap-2 rounded-[22px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold shadow-[0_16px_35px_rgba(240,181,61,0.28)] transition px-6 py-4 text-[18px]" href="#">
-                <span>🔎</span><span data-i18n="heroCtaAnalyze">Scan voice message</span>
-              </a>
-
-<div class="text-xs text-white/60 mt-2">
-⚡ AI analysis takes ~5 seconds • 🔒 Voice is never stored
-</div>
-
-<div class="mt-4 text-xs text-white/60">
-<span id="analysisCounter">12,482</span> voice messages analyzed
-</div>
-
-<div id="signalsBox" class="mt-4 text-sm text-white/80"></div>
-
-              <button id="demoBtnHero" class="btn rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
-                <span>🧪</span><span data-i18n="heroCtaDemo">Run demo</span>
-              </button>
-              <button id="howBtnHero" class="btnDark rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
-                <span>▶</span><span data-i18n="heroCtaHow">How it works</span>
-              </button>
-            </div>
-
-            <div class="mt-6 grid sm:grid-cols-3 gap-3 text-sm">
-              <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
-                <div class="text-white/80 font-semibold" data-i18n="heroStat1Title">Fast</div>
-                <div class="text-white/60 mt-1" data-i18n="heroStat1Desc">Typical analysis in seconds.</div>
-              </div>
-              <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
-                <div class="text-white/80 font-semibold" data-i18n="heroStat2Title">Explainable</div>
-                <div class="text-white/60 mt-1" data-i18n="heroStat2Desc">Action-oriented guidance, not just a score.</div>
-              </div>
-              <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
-                <div class="text-white/80 font-semibold" data-i18n="heroStat3Title">Private</div>
-                <div class="text-white/60 mt-1" data-i18n="heroStat3Desc">Prototype stores no voice permanently.</div>
-              </div>
-            </div>
+          <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
+            <span>🌍</span>
+            <span data-i18n="heroFeature3">Global scam detection</span>
           </div>
         </div>
 
-        <div class="lg:col-span-7" min-w-0">
-          <div class="glass rounded-3xl p-6">
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="text-sm text-white/60" data-i18n="statusTitle">Service status</div>
-                <div class="mt-1 font-semibold" id="backendStatus">—</div>
-              </div>
-              <div class="text-xs text-white/60 mono" id="envBadge">PRODUCTION</div>
-            </div>
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <a class="inline-flex items-center justify-center gap-2 rounded-[22px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold shadow-[0_16px_35px_rgba(240,181,61,0.28)] transition px-6 py-4 text-[18px]" href="#">
+            <span>🔎</span>
+            <span data-i18n="heroCtaAnalyze">Scan voice message</span>
+          </a>
 
-            <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
-              <div class="font-semibold text-white/80" data-i18n="bankNoteTitle">Bank-grade output</div>
-              <div class="mt-1" data-i18n="bankNoteBody">
-                Designed for fraud workflows: pause → verify → document. Structured JSON enables audit logs, case management, and compliance reporting.
-              </div>
-            </div>
+          <button id="demoBtnHero" class="btn rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
+            <span>🧪</span>
+            <span data-i18n="heroCtaDemo">Run demo</span>
+          </button>
 
-            <div class="mt-4 flex items-center gap-3">
-              <div class="w-2.5 h-2.5 rounded-full bg-emerald-400/80" id="statusDot"></div>
-              <div class="text-xs text-white/60" data-i18n="statusHint">Health check via secure backend endpoint.</div>
-            </div>
+          <button id="howBtnHero" class="btnDark rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
+            <span>▶</span>
+            <span data-i18n="heroCtaHow">How it works</span>
+          </button>
+        </div>
 
-            <div class="mt-4 text-xs text-white/55">
-              <span data-i18n="mobileHint">Mobile-ready UI with safe-area support and bank-friendly typography.</span>
-            </div>
+        <div class="text-xs text-white/60 mt-2" data-i18n="heroMetaLine">
+          ⚡ AI analysis takes ~5 seconds • 🔒 Voice is never stored
+        </div>
+
+        <div class="mt-4 text-xs text-white/60">
+          <span id="analysisCounter">12,482</span> <span data-i18n="heroCounterLabel">voice messages analyzed</span>
+        </div>
+
+        <div id="signalsBox" class="mt-4 text-sm text-white/80"></div>
+
+        <div class="mt-6 grid sm:grid-cols-3 gap-3 text-sm">
+          <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
+            <div class="text-white/80 font-semibold" data-i18n="heroStat1Title">Fast</div>
+            <div class="text-white/60 mt-1" data-i18n="heroStat1Desc">Typical analysis in seconds.</div>
+          </div>
+
+          <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
+            <div class="text-white/80 font-semibold" data-i18n="heroStat2Title">Explainable</div>
+            <div class="text-white/60 mt-1" data-i18n="heroStat2Desc">Action-oriented guidance, not just a score.</div>
+          </div>
+
+          <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
+            <div class="text-white/80 font-semibold" data-i18n="heroStat3Title">Private</div>
+            <div class="text-white/60 mt-1" data-i18n="heroStat3Desc">Prototype stores no voice permanently.</div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <div class="lg:col-span-5 min-w-0">
+      <div class="glass rounded-3xl p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-sm text-white/60" data-i18n="statusTitle">Service status</div>
+            <div class="mt-1 font-semibold" id="backendStatus">—</div>
+          </div>
+          <div class="text-xs text-white/60 mono" id="envBadge">PRODUCTION</div>
+        </div>
+
+        <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
+          <div class="font-semibold text-white/80" data-i18n="bankNoteTitle">Bank-grade output</div>
+          <div class="mt-1" data-i18n="bankNoteBody">
+            Designed for fraud workflows: pause → verify → document. Structured JSON enables audit logs, case management, and compliance reporting.
+          </div>
+        </div>
+
+        <div class="mt-4 flex items-center gap-3">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-400/80" id="statusDot"></div>
+          <div class="text-xs text-white/60" data-i18n="statusHint">Health check via secure backend endpoint.</div>
+        </div>
+
+        <div class="mt-4 text-xs text-white/55">
+          <span data-i18n="mobileHint">Mobile-ready UI with safe-area support and bank-friendly typography.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <div class="mt-4 glass2 rounded-2xl p-4 max-w-xl">
   <div class="text-xs text-white/50 uppercase tracking-[0.18em] mb-2">

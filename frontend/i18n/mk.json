@@ -62,5 +62,10 @@
   "heroTitleA": "Turn a suspicious",
   "heroTitleB": "voice message",
   "heroTitleC": "into a clear decision.",
-  "heroDesc": "Upload audio, record a clip, or test a scam example. VoiceSafe returns a structured fraud risk score with explainable signals."
+  "heroDesc": "Upload audio, record a clip, or test a scam example. VoiceSafe returns a structured fraud risk score with explainable signals.",
+  "heroFeature1": "Instant AI analysis",
+  "heroFeature2": "Private voice processing",
+  "heroFeature3": "Global scam detection",
+  "heroMetaLine": "⚡ AI analysis takes ~5 seconds • 🔒 Voice is never stored",
+  "heroCounterLabel": "voice messages analyzed"
 }
