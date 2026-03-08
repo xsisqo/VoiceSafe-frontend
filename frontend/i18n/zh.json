@@ -1,7 +1,81 @@
 {
-"heroPill": "隐私优先。即时风险信号。",
-"heroTitleA": "将可疑的",
-"heroTitleB": "语音消息",
-"heroTitleC": "转化为清晰的决策。",
-"heroDesc": "上传音频、录制语音或测试诈骗示例。VoiceSafe 会返回结构化的欺诈风险评分，并提供可解释的信号。"
+  "langName": "中文",
+
+  "heroPill": "隐私优先。即时风险信号。",
+  "heroTitleA": "将可疑的",
+  "heroTitleB": "语音消息",
+  "heroTitleC": "转化为清晰的决策。",
+  "heroDesc": "上传音频、录制语音或测试诈骗示例。VoiceSafe 会返回结构化的诈骗风险评分，并提供可解释的信号。",
+
+  "btn_analyze": "分析语音消息",
+  "btn_try_example": "测试诈骗示例",
+  "btn_run_demo": "启动演示",
+  "btn_how_it_works": "工作原理",
+  "btn_share_result": "分享结果",
+  "btn_analyze_example": "分析此示例",
+
+  "security_privacy": "隐私优先",
+  "security_focused": "安全优先",
+  "security_realtime": "实时 AI 检测",
+  "security_global": "全球诈骗防护",
+
+  "example_output": "示例结果",
+  "example_risk_high": "诈骗风险评分：高",
+  "example_ai_probability": "AI 语音概率：91%",
+  "example_signal_1": "• 紧急 / 压力",
+  "example_signal_2": "• 要求金钱或验证码",
+  "example_signal_3": "• 可疑的付款指示",
+
+  "analyze_section_title": "分析可疑语音消息",
+
+  "api_key_placeholder": "粘贴 x-api-key",
+  "save": "保存",
+  "clear": "清除",
+  "test": "测试",
+  "record": "录音",
+  "analyze": "分析",
+
+  "try_real_scenarios": "测试真实诈骗场景",
+  "scenario_bank": "银行诈骗",
+  "scenario_crypto": "加密货币诈骗",
+  "scenario_ceo": "CEO 语音克隆",
+  "scenario_family": "家庭紧急情况",
+
+  "fraud_risk_score": "诈骗风险评分",
+  "summary_default": "VoiceSafe 将在分析后总结检测到的风险。",
+  "result_warning": "在做出财务决定之前应验证此结果。",
+
+  "signals_title": "为什么这条消息可疑",
+  "signal_1": "检测到 AI 语音合成模式",
+  "signal_2": "语音压力指标升高",
+  "signal_3": "诈骗电话中常见的紧急语言模式",
+
+  "share_title": "分享结果",
+  "copy_json": "复制 JSON",
+  "copy_link": "复制链接",
+  "share": "分享",
+  "share_card": "分享卡片",
+
+  "how_title": "工作原理",
+
+  "who_uses_title": "谁在使用 VoiceSafe",
+  "who_uses_subtitle": "为真实诈骗决策而设计",
+
+  "use_banks": "银行",
+  "use_investigators": "调查人员",
+  "use_journalists": "记者",
+  "use_businesses": "企业",
+
+  "technology_title": "AI 语音诈骗检测引擎",
+  "technology_label": "技术",
+
+  "tech_1": "语音模式分析",
+  "tech_2": "口音和地区信号",
+  "tech_3": "实时诈骗概率评分",
+
+  "loading_default": "正在分析语音...",
+  "loading_demo": "正在加载演示诈骗电话...",
+
+  "toast_link_copied": "链接已复制。",
+  "toast_example_error": "无法加载示例音频。"
 }
