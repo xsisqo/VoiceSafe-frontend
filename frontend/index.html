@@ -794,11 +794,11 @@ header{
 
         <!-- Desktop nav -->
         <nav class="hidden lg:flex items-center gap-3">
-          <a href="#how" class="navPill">How it works</a>
-          <a href="#services" class="navPill">Services</a>
-          <a href="#contact" class="navPill">Contact</a>
-          <a href="#terms" class="navPill">Terms</a>
-        </nav>
+  <a href="#how" class="navPill" data-i18n="navHow">How it works</a>
+  <a href="#services" class="navPill" data-i18n="navServices">Services</a>
+  <a href="#contact" class="navPill" data-i18n="navContact">Contact</a>
+  <a href="#terms" class="navPill" data-i18n="navTerms">Terms</a>
+</nav>
 
         <!-- Right side -->
         <div class="flex flex-wrap items-center gap-2 shrink-0 justify-end">
@@ -854,12 +854,21 @@ header{
 
           <!-- Unlock Pro -->
           <button
-id="upgradeBtn"
-type="button"
-class="proPill flex items-center gap-2"
+  id="googleBtn"
+  type="button"
+  class="navPill"
 >
-<span>👑</span>
-<span>Unlock Pro Features</span>
+  <span class="text-red-500 font-bold text-[15px]">G</span>
+  <span data-i18n="googleLabel">Google</span>
+</button>
+
+<button
+  id="upgradeBtn"
+  type="button"
+  class="proPill flex items-center gap-2"
+>
+  <span>👑</span>
+  <span data-i18n="unlockPro">Unlock Pro Features</span>
 </button>
 
         </div>
@@ -1217,66 +1226,55 @@ class="proPill flex items-center gap-2"
           </div>
 
           <button id="exampleBtn" class="btn mt-3 w-full" data-i18n="tryScamExampleBtn">
-            🎧 Try scam example
-          </button>
-</button> 
+  🎧 Try scam example
+</button>
 
-<div class="mt-6 text-sm text-white/80">
-Example scenarios
+<div class="mt-6 text-sm text-white/80" data-i18n="exampleScenariosTitle">
+  Example scenarios
 </div>
 
 <div class="mt-6">
-<div class="text-sm text-white/60 mb-2">
-Test real scam scenarios
-</div>
+  <div class="text-sm text-white/60 mb-2" data-i18n="try_real_scenarios">
+    Test real scam scenarios
+  </div>
 
-<div class="flex flex-wrap gap-2">
+  <div class="flex flex-wrap gap-2">
+    <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('bank')" data-i18n="scenario_bank">
+      🏦 Bank scam
+    </button>
 
-<button class="chip rounded-full px-3 py-1 text-xs"
-onclick="loadScamExample('bank')">
-🏦 Bank scam
-</button>
+    <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('crypto')" data-i18n="scenario_crypto">
+      💰 Crypto scam
+    </button>
 
-<button class="chip rounded-full px-3 py-1 text-xs"
-onclick="loadScamExample('crypto')">
-💰 Crypto scam
-</button>
+    <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('ceo')" data-i18n="scenario_ceo">
+      👔 CEO voice clone
+    </button>
 
-<button class="chip rounded-full px-3 py-1 text-xs"
-onclick="loadScamExample('ceo')">
-👔 CEO voice clone
-</button>
-
-<button class="chip rounded-full px-3 py-1 text-xs"
-onclick="loadScamExample('family')">
-👨‍👩‍👧 Family emergency
-</button>
-
-</div>
+    <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('family')" data-i18n="scenario_family">
+      👨‍👩‍👧 Family emergency
+    </button>
+  </div>
 </div>
 
 <div class="mt-3 flex flex-wrap gap-2">
-
-<button class="btn text-xs">🎧 Bank scam</button>
-
-<button class="btn text-xs">🎧 Crypto scam</button>
-
-<button class="btn text-xs">🎧 CEO voice clone</button>
-
+  <button class="btn text-xs" data-i18n="scenario_bank">🎧 Bank scam</button>
+  <button class="btn text-xs" data-i18n="scenario_crypto">🎧 Crypto scam</button>
+  <button class="btn text-xs" data-i18n="scenario_ceo">🎧 CEO voice clone</button>
 </div>
 
 <div id="exampleBox" class="glass2 rounded-2xl p-4 mt-3 hidden">
-  <div class="text-sm text-white/80 mb-2">Simulated scam-style voice example</div>
+  <div class="text-sm text-white/80 mb-2" data-i18n="simulatedExampleTitle">Simulated scam-style voice example</div>
 
   <audio id="examplePlayer" controls class="w-full">
     <source src="demo/scam-example.mp3" type="audio/mpeg" />
     Your browser does not support audio playback.
   </audio>
 
-  <button id="analyzeExampleBtn" class="btnPrimary mt-3 w-full rounded-2xl px-4 py-3">
+  <button id="analyzeExampleBtn" class="btnPrimary mt-3 w-full rounded-2xl px-4 py-3" data-i18n="btn_analyze_example">
     Analyze this example
   </button>
-</div>  
+</div>
 
               <div class="mt-4 text-xs text-white/60 leading-relaxed">
                 <div>• <span data-i18n="bankBullet1">Designed for fraud prevention workflows and compliance-friendly incident reporting.</span></div>
@@ -1407,7 +1405,6 @@ onclick="loadScamExample('family')">
     <div class="text-sm text-white/80" id="loadingText">
       Analyzing voice...
     </div>
-resultsCard.classList.remove("scanning")
   </div>
 </div>
 
@@ -1455,36 +1452,30 @@ Results
 
 <div class="text-sm text-white/60 mt-2" id="summaryText"></div>
 
-<div class="mt-2 text-xs text-white/50">
-This result should be verified before taking financial action.
+<div class="text-sm text-white/60 mt-2" id="summaryText"></div>
+
+<div class="mt-2 text-xs text-white/50" data-i18n="result_warning">
+  This result should be verified before taking financial action.
 </div>
 
 <div class="mt-4 glass2 rounded-2xl p-4">
+  <div class="text-sm text-white/80 mb-2" data-i18n="signals_title">
+    Why this message looks suspicious
+  </div>
 
-<div class="text-sm text-white/80 mb-2">
-AI detected these risk signals
-</div>
+  <ul class="text-sm text-white/70 space-y-1 list-disc ml-4">
+    <li data-i18n="signal_1">AI voice synthesis patterns detected</li>
+    <li data-i18n="signal_2">Elevated vocal stress markers</li>
+    <li data-i18n="signal_3">Urgent language patterns common in scam calls</li>
+  </ul>
 
-
-
-<ul class="text-sm text-white/70 space-y-1 list-disc ml-4">
-
-<li>• AI voice synthesis patterns detected</li>
-
-<li>• Elevated vocal stress markers</li>
-
-<li>• Urgent language patterns common in scam calls</li>
-
-</ul>
-
-<button id="shareResultBtn" class="btnDark rounded-2xl px-5 py-3 mt-4">
-🔗 Share result
-</button>
-
+  <button id="shareResultBtn" class="btnDark rounded-2xl px-5 py-3 mt-4" data-i18n="share_title">
+    Share result
+  </button>
 </div>
 
 <div id="shareBox" style="margin-top:20px;display:none">
-  <div class="text-sm text-white/60">Share result</div>
+  <div class="text-sm text-white/60" data-i18n="share_title">Share result</div>
   <input id="shareLink" style="width:100%;padding:10px;border-radius:8px;margin-top:6px" readonly>
 </div>
 
@@ -1516,25 +1507,23 @@ AI detected these risk signals
 
               <div id="scamAlert"
      class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
-  <div class="flex items-center gap-2 font-semibold">⚠️ Possible Scam Call Detected</div>
-  <div class="text-sm mt-1 text-red-200/80">
+  <div id="scamAlert"
+     class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
+  <div class="flex items-center gap-2 font-semibold" data-i18n="scamAlertTitle">⚠️ Possible Scam Call Detected</div>
+  <div class="text-sm mt-1 text-red-200/80" data-i18n="scamAlertDesc">
     Do not send money. Verify caller identity through an official number.
   </div>
 </div>
 
-              <div class="mt-4 glass2 rounded-xl p-4">
-  <div class="text-xs text-white/60">AI Risk Explanation</div>
-<div id="scamPhrases" style="margin-top:10px;color:#ffb3b3;"></div>
-  <div id="fraudExplanation"
-       class="mt-2 text-sm text-white/80 whitespace-pre-line">
-    —
+<div class="mt-4 glass2 rounded-xl p-4">
+  <div class="text-xs text-white/60" data-i18n="aiRiskExplanation">AI Risk Explanation</div>
+  <div id="scamPhrases" style="margin-top:10px;color:#ffb3b3;"></div>
+  <div id="fraudExplanation" class="mt-2 text-sm text-white/80 whitespace-pre-line">—</div>
+
+  <div id="scamTypeBox" style="margin-top:10px;">
+    <div style="font-weight:600;" data-i18n="scamTypeDetected">Scam type detected</div>
+    <div id="scamTypes"></div>
   </div>
-
-<div id="scamTypeBox" style="margin-top:10px;">
-  <div style="font-weight:600;">Scam type detected</div>
-  <div id="scamTypes"></div>
-</div>
-
 </div>
 
               <div class="mt-4 grid sm:grid-cols-3 gap-3">
@@ -1681,28 +1670,28 @@ AI detected these risk signals
 
 <section class="mt-10">
   <div class="glass rounded-3xl p-6">
-    <div class="text-sm text-white/60">Who uses VoiceSafe</div>
-    <h2 class="mt-2 text-2xl font-semibold text-white">Built for real-world fraud decisions</h2>
+    <div class="text-sm text-white/60" data-i18n="who_uses_title">Who uses VoiceSafe</div>
+    <h2 class="mt-2 text-2xl font-semibold text-white" data-i18n="who_uses_subtitle">Built for real-world fraud decisions</h2>
 
     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="glass2 rounded-2xl p-4">
-        <div class="text-white font-semibold">Banks</div>
-        <div class="text-white/65 text-sm mt-2">Support fraud review and suspicious-call triage.</div>
+        <div class="text-white font-semibold" data-i18n="use_banks">Banks</div>
+        <div class="text-white/65 text-sm mt-2" data-i18n="use_banks_desc">Support fraud review and suspicious-call triage.</div>
       </div>
 
       <div class="glass2 rounded-2xl p-4">
-        <div class="text-white font-semibold">Investigators</div>
-        <div class="text-white/65 text-sm mt-2">Review voice evidence faster with structured risk signals.</div>
+        <div class="text-white font-semibold" data-i18n="use_investigators">Investigators</div>
+        <div class="text-white/65 text-sm mt-2" data-i18n="use_investigators_desc">Review voice evidence faster with structured risk signals.</div>
       </div>
 
       <div class="glass2 rounded-2xl p-4">
-        <div class="text-white font-semibold">Journalists</div>
-        <div class="text-white/65 text-sm mt-2">Check suspicious audio before publishing or reporting.</div>
+        <div class="text-white font-semibold" data-i18n="use_journalists">Journalists</div>
+        <div class="text-white/65 text-sm mt-2" data-i18n="use_journalists_desc">Check suspicious audio before publishing or reporting.</div>
       </div>
 
       <div class="glass2 rounded-2xl p-4">
-        <div class="text-white font-semibold">Businesses</div>
-        <div class="text-white/65 text-sm mt-2">Reduce risk from fake executives, payment pressure and cloned voices.</div>
+        <div class="text-white font-semibold" data-i18n="use_businesses">Businesses</div>
+        <div class="text-white/65 text-sm mt-2" data-i18n="use_businesses_desc">Reduce risk from fake executives, payment pressure and cloned voices.</div>
       </div>
     </div>
   </div>
@@ -1732,52 +1721,44 @@ AI detected these risk signals
 
 <section class="mt-12">
   <div class="glass rounded-3xl p-6">
-    
-    <div class="text-sm text-white/60">
-      Technology
-    </div>
+    <div class="text-sm text-white/60" data-i18n="technology_label">Technology</div>
 
-    <h2 class="mt-2 text-2xl font-semibold text-white">
-      Why VoiceSafe works
+    <h2 class="mt-2 text-2xl font-semibold text-white" data-i18n="technology_title">
+      AI voice fraud detection engine
     </h2>
 
-    <div class="mt-4 text-white/70 max-w-3xl">
-      VoiceSafe analyzes acoustic, behavioral and linguistic patterns in voice messages.
-      The system detects signals commonly associated with fraud calls such as voice cloning,
-      emotional pressure, urgency patterns and synthetic speech artifacts.
+    <div class="mt-4 text-white/70 max-w-3xl" data-i18n="technology_desc">
+      VoiceSafe analyzes acoustic, behavioral and linguistic patterns in voice messages. The system detects signals commonly associated with fraud calls such as voice cloning, emotional pressure, urgency patterns and synthetic speech artifacts.
     </div>
 
     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
       <div class="glass2 rounded-2xl p-4">
-        <div class="font-semibold text-white">
+        <div class="font-semibold text-white" data-i18n="tech_card_1_title">
           AI voice synthesis detection
         </div>
-        <div class="text-sm text-white/65 mt-2">
+        <div class="text-sm text-white/65 mt-2" data-i18n="tech_card_1_desc">
           Identifies patterns typical for cloned or generated voices.
         </div>
       </div>
 
       <div class="glass2 rounded-2xl p-4">
-        <div class="font-semibold text-white">
+        <div class="font-semibold text-white" data-i18n="tech_card_2_title">
           Stress & pressure signals
         </div>
-        <div class="text-sm text-white/65 mt-2">
+        <div class="text-sm text-white/65 mt-2" data-i18n="tech_card_2_desc">
           Detects urgency and emotional manipulation used in scams.
         </div>
       </div>
 
       <div class="glass2 rounded-2xl p-4">
-        <div class="font-semibold text-white">
+        <div class="font-semibold text-white" data-i18n="tech_card_3_title">
           Structured fraud risk report
         </div>
-        <div class="text-sm text-white/65 mt-2">
+        <div class="text-sm text-white/65 mt-2" data-i18n="tech_card_3_desc">
           Produces explainable signals instead of a simple score.
         </div>
       </div>
-
     </div>
-
   </div>
 </section>
 
@@ -1812,181 +1793,97 @@ AI detected these risk signals
 
   <!-- Footer (NO backend links) -->
   <footer class="mt-24 border-t border-white/10 pt-12 pb-14">
-
   <div class="mx-auto max-w-7xl px-6">
 
-    <!-- Trust / security strip -->
     <div class="rounded-[26px] border border-white/10 bg-white/[0.03] backdrop-blur-md p-6 mb-12">
-
       <div class="flex flex-wrap items-center justify-between gap-6 text-sm text-white/60">
-
         <div class="flex items-center gap-3">
           <span class="text-emerald-400">●</span>
-          <span>AI-powered scam detection</span>
+          <span data-i18n="footer_strip_1">AI-powered scam detection</span>
         </div>
 
         <div class="flex items-center gap-3">
           <span class="text-sky-400">●</span>
-          <span>Privacy-first audio analysis</span>
+          <span data-i18n="footer_strip_2">Privacy-first audio analysis</span>
         </div>
 
         <div class="flex items-center gap-3">
           <span class="text-indigo-400">●</span>
-          <span>Structured fraud risk signals</span>
+          <span data-i18n="footer_strip_3">Structured fraud risk signals</span>
         </div>
 
         <div class="flex items-center gap-3">
           <span class="text-orange-400">●</span>
-          <span>Designed for banks & marketplaces</span>
+          <span data-i18n="footer_strip_4">Designed for banks & marketplaces</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-12">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <img
+            src="/icons/voicesafe-192.png"
+            alt="VoiceSafe"
+            class="w-24 h-24 object-contain rounded-2xl shadow-lg transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(255,200,0,0.8)]"
+          />
+
+          <div>
+            <div class="text-white font-semibold text-lg">VoiceSafe</div>
+            <div class="text-white/50 text-sm" data-i18n="footerTagline">AI voice scam risk assessment</div>
+          </div>
         </div>
 
-      </div>
-
-    </div>
-
-
-    <!-- Main footer -->
-    <div class="grid md:grid-cols-4 gap-12">
-
-      <!-- Brand -->
-      <div>
-
-        <div class="flex items-center gap-3 mb-4">
-
-  <img
-src="/icons/voicesafe-192.png"
-alt="VoiceSafe"
-class="w-24 h-24 object-contain rounded-2xl shadow-lg transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_25px_rgba(255,200,0,0.8)]"
-/>
-
-  <div>
-    <div class="text-white font-semibold text-lg">
-      VoiceSafe
-    </div>
-
-    <div class="text-white/50 text-sm">
-      AI voice scam risk assessment
-    </div>
-  </div>
-
-</div>
-
-        <p class="text-white/60 text-sm max-w-xs">
-
-          VoiceSafe analyzes suspicious voice calls and audio messages using AI risk signals,
-          helping users and organizations detect potential scams.
-
+        <p class="text-white/60 text-sm max-w-xs" data-i18n="footerDesc">
+          Fast, explainable risk guidance for suspicious voice calls and messages.
         </p>
 
-        <div class="text-white/40 text-xs mt-6">
-          © 2026 VoiceSafe
-        </div>
-
+        <div class="text-white/40 text-xs mt-6">© 2026 VoiceSafe</div>
       </div>
 
-
-      <!-- Product -->
       <div>
-
-        <div class="text-white font-semibold mb-4">
-          Product
-        </div>
-
+        <div class="text-white font-semibold mb-4" data-i18n="footerProduct">Product</div>
         <div class="flex flex-col gap-2 text-white/60 text-sm">
-
-          <a href="#how" class="hover:text-white transition">
-            How it works
-          </a>
-
-          <a href="#services" class="hover:text-white transition">
-            Services
-          </a>
-
-          <a href="#analyze" class="hover:text-white transition">
-            Analyze audio
-          </a>
-
-          <a href="#cases" class="hover:text-white transition">
-            Fraud cases
-          </a>
-
+          <a href="#how" class="hover:text-white transition" data-i18n="footerHow">How it works</a>
+          <a href="#services" class="hover:text-white transition" data-i18n="footerServices">Services</a>
+          <a href="#analyze" class="hover:text-white transition" data-i18n="footerAnalyze">Analyze</a>
+          <a href="#cases" class="hover:text-white transition" data-i18n="footerFraudCases">Fraud cases</a>
         </div>
-
       </div>
 
-
-      <!-- Company -->
       <div>
-
-        <div class="text-white font-semibold mb-4">
-          Company
-        </div>
-
+        <div class="text-white font-semibold mb-4" data-i18n="footerCompany">Company</div>
         <div class="flex flex-col gap-2 text-white/60 text-sm">
-
-          <a href="#contact" class="hover:text-white transition">
-            Contact
-          </a>
-
-          <a href="#terms" class="hover:text-white transition">
-            Terms
-          </a>
-
-          <a href="#privacy" class="hover:text-white transition">
-            Privacy
-          </a>
-
+          <a href="#contact" class="hover:text-white transition" data-i18n="footerContact">Contact</a>
+          <a href="#terms" class="hover:text-white transition" data-i18n="footerTerms">Terms</a>
+          <a href="#privacy" class="hover:text-white transition" data-i18n="footerPrivacy">Privacy</a>
         </div>
-
       </div>
 
-
-      <!-- CTA -->
       <div>
-
-        <div class="text-white font-semibold mb-4">
-          Start analysis
-        </div>
-
-        <p class="text-white/60 text-sm mb-4">
-
+        <div class="text-white font-semibold mb-4" data-i18n="footerStartAnalysis">Start analysis</div>
+        <p class="text-white/60 text-sm mb-4" data-i18n="footerStartDesc">
           Upload a suspicious voice message and receive an AI-generated risk assessment in seconds.
-
         </p>
 
         <a href="#analyze"
-          class="inline-flex items-center justify-center rounded-[20px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold px-5 py-3 text-sm shadow-[0_10px_25px_rgba(240,181,61,0.25)] transition">
-
+          class="inline-flex items-center justify-center rounded-[20px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold px-5 py-3 text-sm shadow-[0_10px_25px_rgba(240,181,61,0.25)] transition"
+          data-i18n="footerAnalyzeAudio">
           Analyze audio
-
         </a>
-
       </div>
-
     </div>
 
-
-    <!-- Bottom strip -->
     <div class="mt-14 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-white/40">
-
-      <div>
-        Built with AI-driven risk analysis technology
-      </div>
+      <div data-i18n="footerBottomLeft">Built with AI-driven risk analysis technology</div>
 
       <div class="flex items-center gap-6">
-
-        <span>Security-focused design</span>
-
-        <span>Privacy-first architecture</span>
-
+        <span data-i18n="footerBottom1">Security-focused design</span>
+        <span data-i18n="footerBottom2">Privacy-first architecture</span>
         <span>VoiceSafe.ai</span>
-
       </div>
-
     </div>
-
   </div>
-
 </footer>
 
   <!-- Toast -->
@@ -2047,262 +1944,6 @@ class="w-24 h-24 object-contain rounded-2xl shadow-lg transition-all duration-30
   }
 
   function lang(){ return localStorage.getItem("vs_lang") || "en"; }
-
-  // ===========================
-  // i18n
-  // ===========================
-  const I18N = window.I18N = {
-    en: {
-      tagline: "AI voice scam risk assessment",
-      navHow:"How it works", navServices:"Services", navContact:"Contact", navTerms:"Terms",
-      ctaPro:"Unlock Pro",
-      heroPill:"Privacy-first. Instant risk signals. Built for real-world calls.",
-      heroTitleA:"Detect AI voice scams", heroTitleB:"before they cost you", heroTitleC:"money.",
-      heroDesc:"Upload audio/video or record a short clip. VoiceSafe returns a structured risk assessment with recommended actions.",
-      heroCtaAnalyze:"Analyze now", heroCtaDemo:"Run demo", heroCtaHow:"How it works",
-      heroStat1Title:"Fast", heroStat1Desc:"Typical analysis in seconds.",
-      heroStat2Title:"Explainable", heroStat2Desc:"Action-oriented guidance, not just a score.",
-      heroStat3Title:"Private", heroStat3Desc:"Prototype stores no voice permanently.",
-      statusTitle:"Service status",
-      statusHint:"Health check via secure backend endpoint.",
-      mobileHint:"Mobile-ready UI with safe-area support and bank-friendly typography.",
-      bankNoteTitle:"Bank-grade output",
-      bankNoteBody:"Designed for fraud workflows: pause → verify → document. Structured JSON enables audit logs, case management, and compliance reporting.",
-
-      enterpriseAccess:"Enterprise access",
-      apiKeyTitle:"API Key",
-      apiKeyDesc:"Stored locally in your browser. Optional for standard analysis; required for enterprise endpoints (live/admin).",
-      save:"Save", clear:"Clear", test:"Test",
-
-      analyzeTitleSmall:"Analyze a sample",
-      analyzeTitle:"Upload or record",
-      demoBtn:"Demo",
-      uploadLabel:"Upload file",
-      recordBtn:"Record",
-      analyzeBtn:"Analyze",
-      bankBullet1:"Designed for fraud prevention workflows and compliance-friendly incident reporting.",
-      bankBullet2:"No permanent voice storage in this prototype.",
-      bankBullet3:"Exportable JSON for case systems and audit logs.",
-      caseTitle:"Case details (optional)",
-      privacyTip:"Tip: Keep personal data out of notes.",
-
-      resultsTitleSmall:"AI risk assessment",
-      resultsTitle:"Results",
-      resultsHint:"Upload or record to generate a report.",
-      copyJson:"Copy JSON",
-      copyLink:"Copy link",
-      share:"Share",
-      shareCard:"Share card",
-      riskLevelLabel:"Risk level",
-      confidenceLabel:"Confidence",
-      recommendedAction:"Recommended action",
-      step1Label:"1) Pause", step1Title:"Stop sensitive steps", step1Desc:"Don’t send money or codes.",
-      step2Label:"2) Verify", step2Title:"Use official channels", step2Desc:"Call a verified number.",
-      step3Label:"3) Escalate", step3Title:"Share case & export", step3Desc:"Keep evidence & report.",
-
-      scamScore:"Scam score",
-      aiProb:"AI voice probability",
-      stressLevel:"Stress level",
-      rawJson:"Raw JSON",
-      cases:"My cases",
-      savedCase:"Saved case",
-      caseId:"Case ID",
-      loadCase:"Load",
-      openCase:"Open",
-      searchCases:"Search cases",
-      searchBtn:"Search",
-      recentCases:"Recent cases",
-      loadRecent:"Load recent",
-
-      howSmall:"How it works",
-      howTitle:"From audio to action",
-      howDesc:"VoiceSafe produces a structured risk report designed for fast, safe decisions — especially when money or identity is involved.",
-      howCta:"Try it",
-      howStep1Title:"Upload or record",
-      howStep1Desc:"Short clips work best. We extract audio features and metadata.",
-      howStep2Title:"Analyze signals",
-      howStep2Desc:"Models output scam-risk, synthetic-voice likelihood, and stress indicators.",
-      howStep3Title:"Get guidance",
-      howStep3Desc:"A clear risk level with recommended next steps and exportable JSON.",
-
-      servicesSmall:"Services",
-      servicesTitle:"Enterprise-ready roadmap",
-      svc1Title:"API + SDK", svc1Desc:"Stable endpoints, versioning, and client SDKs for web & mobile.",
-      svc2Title:"Model calibration", svc2Desc:"Country/language calibration, false-positive control, and confidence scoring.",
-      svc3Title:"Compliance & audit", svc3Desc:"Retention controls, consent flows, and compliance-ready audit logs.",
-
-      contactSmall:"Contact",
-      contactTitle:"Let’s talk",
-      contactDesc:"Interested in pilots with banks, marketplaces, or call centers? Reach out for a private demo and roadmap.",
-      contactEmail:"Email",
-      contactCopy:"Copy email",
-
-      termsSmall:"Terms",
-      termsTitle:"Safety note",
-      termsDesc:"VoiceSafe provides advisory signals only. If money is involved, verify via official channels. Keep personal data out of notes.",
-
-      footerTagline:"AI voice scam risk assessment",
-      footerDesc:"Fast, explainable risk guidance for suspicious voice calls and messages.",
-      footerProduct:"Product",
-      footerHow:"How it works",
-      footerAnalyze:"Analyze",
-      footerService:"Service",
-      footerServices:"Services",
-      footerContact:"Contact",
-      footerLegal:"Legal",
-      footerTerms:"Terms",
-      footerPrivacy:"Privacy",
-      footerLinks:"Links",
-
-      publicSmall:"Public report",
-      publicDisclaimer:"VoiceSafe provides advisory signals only. For financial decisions, verify via official channels.",
-      publicWhat:"What this means",
-      publicWhatTitle:"Decision support for fraud prevention",
-      publicWhatDesc:"This report summarizes risk signals detected in the provided audio. It is designed to support bank-grade processes: pause, verify, and document.",
-      bankStep1:"Do not send money, codes, or approve payments based on voice instructions.",
-      bankStep2:"Call a verified number from your bank/customer database — not the caller-provided number.",
-      bankStep3:"Export JSON for audit logs and attach the case to the incident workflow.",
-      backHome:"Back"
-    },
-    sk: {
-      tagline: "AI vyhodnotenie rizika podvodu z hlasu",
-      navHow:"Ako to funguje", navServices:"Služby", navContact:"Kontakt", navTerms:"Podmienky",
-      ctaPro:"Odomknúť Pro",
-      heroPill:"Súkromie na prvom mieste. Okamžité signály rizika. Pre reálne hovory.",
-      heroTitleA:"Zmeň podozrivú", heroTitleB:"hlasovú správu", heroTitleC:"na jasné rozhodnutie.",
-      heroDesc:"Nahraj audio/video alebo nahraj krátky klip. VoiceSafe vráti štruktúrované vyhodnotenie rizika a odporúčaný postup.",
-      heroCtaAnalyze:"Analyzovať", heroCtaDemo:"Spustiť demo", heroCtaHow:"Ako to funguje",
-      heroStat1Title:"Rýchle", heroStat1Desc:"Typicky v sekundách.",
-      heroStat2Title:"Vysvetliteľné", heroStat2Desc:"Odporúčania, nie len číslo.",
-      heroStat3Title:"Súkromné", heroStat3Desc:"Prototyp neukladá hlas natrvalo.",
-      statusTitle:"Stav služby",
-      statusHint:"Kontrola zdravia cez bezpečný backend endpoint.",
-      mobileHint:"Mobile-ready UI so safe-area podporou a bank-friendly typografiou.",
-      bankNoteTitle:"Výstup hodný banky",
-      bankNoteBody:"Navrhnuté pre fraud workflow: pauza → overenie → dokumentácia. Štruktúrovaný JSON pre audit logy a case management.",
-
-      enterpriseAccess:"Enterprise prístup",
-      apiKeyTitle:"API kľúč",
-      apiKeyDesc:"Ukladá sa lokálne v prehliadači. Pre bežnú analýzu voliteľné; pre enterprise (live/admin) potrebné.",
-      save:"Uložiť", clear:"Vymazať", test:"Test",
-
-      analyzeTitleSmall:"Analyzovať vzorku",
-      analyzeTitle:"Nahraj alebo nahrávaj",
-      demoBtn:"Demo",
-      uploadLabel:"Nahrať súbor",
-      recordBtn:"Nahrávať",
-      analyzeBtn:"Analyzovať",
-      bankBullet1:"Navrhnuté pre bankové fraud procesy a compliance-friendly incident reporting.",
-      bankBullet2:"Bez trvalého ukladania hlasu v tomto prototype.",
-      bankBullet3:"Exportovateľný JSON pre case systémy a audit logy.",
-      caseTitle:"Detaily prípadu (voliteľné)",
-      privacyTip:"Tip: Do poznámok nedávaj osobné údaje.",
-
-      resultsTitleSmall:"AI vyhodnotenie rizika",
-      resultsTitle:"Výsledky",
-      resultsHint:"Nahraj súbor alebo záznam pre report.",
-      copyJson:"Kopírovať JSON",
-      copyLink:"Kopírovať link",
-      share:"Zdieľať",
-      shareCard:"Zdieľať kartu",
-      riskLevelLabel:"Riziko",
-      confidenceLabel:"Istota",
-      recommendedAction:"Odporúčaný postup",
-      step1Label:"1) Pauza", step1Title:"Zastav citlivé kroky", step1Desc:"Neposielaj peniaze ani kódy.",
-      step2Label:"2) Over", step2Title:"Použi oficiálne kanály", step2Desc:"Zavolaj na overené číslo.",
-      step3Label:"3) Eskaluj", step3Title:"Zdieľaj prípad", step3Desc:"Ulož dôkazy a nahlás.",
-
-      scamScore:"Skóre podvodu",
-      aiProb:"Pravdepodobnosť AI hlasu",
-      stressLevel:"Stres",
-      rawJson:"Surový JSON",
-      cases:"Moje prípady",
-      savedCase:"Uložený prípad",
-      caseId:"ID prípadu",
-      loadCase:"Načítať",
-      openCase:"Otvoriť",
-      searchCases:"Hľadať prípady",
-      searchBtn:"Hľadať",
-      recentCases:"Posledné prípady",
-      loadRecent:"Načítať",
-
-      howSmall:"Ako to funguje",
-      howTitle:"Od audia k odporúčaniu",
-      howDesc:"VoiceSafe dáva štruktúrovaný report pre rýchle a bezpečné rozhodnutia — najmä keď ide o peniaze alebo identitu.",
-      howCta:"Vyskúšať",
-      howStep1Title:"Nahraj alebo nahrávaj",
-      howStep1Desc:"Krátke klipy fungujú najlepšie. Vyťažíme audio signály a metadáta.",
-      howStep2Title:"Vyhodnoť signály",
-      howStep2Desc:"Model dá scam-risk, pravdepodobnosť syntetického hlasu a stres.",
-      howStep3Title:"Dostaneš postup",
-      howStep3Desc:"Jasná úroveň rizika, odporúčané kroky a export JSON.",
-
-      servicesSmall:"Služby",
-      servicesTitle:"Enterprise roadmap",
-      svc1Title:"API + SDK", svc1Desc:"Stabilné endpointy, verzovanie a SDK pre web/mobil.",
-      svc2Title:"Kalibrácia modelu", svc2Desc:"Kalibrácia podľa krajiny/jazyka, kontrola false-positive a confidence.",
-      svc3Title:"Compliance & audit", svc3Desc:"Retention, consent flow a audit logy pripravené na reguláciu.",
-
-      contactSmall:"Kontakt",
-      contactTitle:"Ozvi sa",
-      contactDesc:"Zaujíma pilot pre banky, marketplaces alebo call centrá? Ozvi sa na privátnu demo ukážku a roadmap.",
-      contactEmail:"Email",
-      contactCopy:"Skopírovať email",
-
-      termsSmall:"Podmienky",
-      termsTitle:"Bezpečnostná poznámka",
-      termsDesc:"VoiceSafe poskytuje len odporúčacie signály. Ak ide o peniaze, over si to cez oficiálne kanály. Do poznámok nedávaj osobné údaje.",
-
-      footerTagline:"AI vyhodnotenie rizika podvodu z hlasu",
-      footerDesc:"Rýchle a vysvetliteľné odporúčania pri podozrivých hlasových správach.",
-      footerProduct:"Produkt",
-      footerHow:"Ako to funguje",
-      footerAnalyze:"Analýza",
-      footerService:"Služby",
-      footerServices:"Služby",
-      footerContact:"Kontakt",
-      footerLegal:"Právne",
-      footerTerms:"Podmienky",
-      footerPrivacy:"Súkromie",
-      footerLinks:"Odkazy",
-
-      publicSmall:"Verejný report",
-      publicDisclaimer:"VoiceSafe poskytuje len odporúčacie signály. Pre finančné rozhodnutia vždy over cez oficiálne kanály.",
-      publicWhat:"Čo to znamená",
-      publicWhatTitle:"Podpora rozhodovania pri fraud prevencii",
-      publicWhatDesc:"Tento report sumarizuje rizikové signály v audio zázname. Je navrhnutý pre bankové procesy: pauza, overenie, dokumentácia.",
-      bankStep1:"Neposielaj peniaze, kódy ani neschvaľuj platby na základe hlasovej inštrukcie.",
-      bankStep2:"Volaj na overené číslo z databázy banky/zákazníka — nie číslo z hovoru.",
-      bankStep3:"Exportuj JSON pre audit logy a priraď prípad do incident workflow.",
-      backHome:"Späť"
-    }
-  };
-
-  function applyLang(l){
-    const L = I18N[l] || I18N.en;
-    document.documentElement.lang = l;
-
-    document.querySelectorAll("[data-i18n]").forEach(el=>{
-      const k = el.getAttribute("data-i18n");
-      if (L[k] != null) el.textContent = L[k];
-    });
-
-    const ph = {
-      titleEl: l === "sk" ? "Názov (napr. Telegram investor)" : "Title (e.g. Telegram investor)",
-      platformEl: l === "sk" ? "Platforma (Telegram)" : "Platform (Telegram)",
-      countryEl: l === "sk" ? "Krajina (SK)" : "Country (US)",
-      languageEl: l === "sk" ? "Jazyk (SK)" : "Language (EN)",
-      tagsEl: l === "sk" ? "Tagy (oddelené čiarkou)" : "Tags (comma separated)",
-      notesEl: l === "sk" ? "Poznámky (čo sa stalo)" : "Notes (what happened)",
-      searchQuery: l === "sk" ? "Hľadať názov / poznámky..." : "Search title / notes..."
-    };
-    Object.entries(ph).forEach(([id, val])=>{
-      const el = qs(id);
-      if (el) el.setAttribute("placeholder", val);
-    });
-
-    qs("langLabel").textContent = (l === "sk" ? "Slovenčina" : "English");
-  }
 
   // ===========================
   // Auth headers
@@ -3740,7 +3381,7 @@ async function loadLanguage(lang) {
 
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.dataset.i18n;
-      if (translations[key]) {
+      if (translations[key] !== undefined) {
         el.textContent = translations[key];
       }
     });
@@ -3783,6 +3424,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (langBtn) {
     langBtn.addEventListener("click", (e) => {
       e.preventDefault();
+      e.stopPropagation();
 
       const menu = document.getElementById("langMenu");
       if (!menu) return;
@@ -3797,79 +3439,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.querySelectorAll(".langItem").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const lang = btn.dataset.lang || "en";
-      await loadLanguage(lang);
-      closeLangMenu();
-    });
-  });
-
-  const savedLang = localStorage.getItem("vs_lang") || "en";
-  loadLanguage(savedLang);
-});
-
-
-async function loadLanguage(lang) {
-  try {
-    const res = await fetch(`/i18n/${lang}.json`, { cache: "no-store" });
-    if (!res.ok) throw new Error(`Language file not found: ${lang}`);
-
-    translations = await res.json();
-
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.dataset.i18n;
-      if (translations[key]) {
-        el.textContent = translations[key];
-      }
-    });
-
-    const langLabel = document.getElementById("langLabel");
-    if (langLabel) {
-      langLabel.textContent = translations.langName || lang;
-    }
-
-    localStorage.setItem("vs_lang", lang);
-  } catch (err) {
-    console.error("loadLanguage error:", err);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const langBtn = document.getElementById("langBtn");
-  const langMenu = document.getElementById("langMenu");
-  const langBackdrop = document.getElementById("langBackdrop");
-
-  function openLangMenu() {
-    if (langMenu) langMenu.classList.remove("hidden");
-    if (langBackdrop) langBackdrop.classList.remove("hidden");
-    if (langBtn) langBtn.setAttribute("aria-expanded", "true");
-  }
-
-  function closeLangMenu() {
-    if (langMenu) langMenu.classList.add("hidden");
-    if (langBackdrop) langBackdrop.classList.add("hidden");
-    if (langBtn) langBtn.setAttribute("aria-expanded", "false");
-  }
-
-  if (langBtn) {
-    langBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (langMenu && langMenu.classList.contains("hidden")) openLangMenu();
-      else closeLangMenu();
-    });
-  }
-
-  if (langBackdrop) {
-    langBackdrop.addEventListener("click", closeLangMenu);
-  }
-
-  document.querySelectorAll(".langItem").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       e.preventDefault();
       e.stopPropagation();
-
       const lang = btn.dataset.lang || "en";
       await loadLanguage(lang);
       closeLangMenu();
@@ -3877,19 +3449,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const savedLang = localStorage.getItem("vs_lang");
-
-if (savedLang) {
-  loadLanguage(savedLang);
-} else {
-  const browserLang = navigator.language.slice(0,2);
-
-  const supported = ["en","de","es","fr","pt","hi","ko","zh","ja","sk"];
-
-  const lang = supported.includes(browserLang) ? browserLang : "en";
-
-  loadLanguage(lang);
-}
+  if (savedLang) {
+    loadLanguage(savedLang);
+  } else {
+    const browserLang = navigator.language.slice(0, 2).toLowerCase();
+    const supported = ["en","sk","cs","de","fr","es","it","pt","pl","hu","ro","ja","ko","zh"];
+    const lang = supported.includes(browserLang) ? browserLang : "en";
+    loadLanguage(lang);
+  }
 });
+</script>
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
@@ -4184,9 +3753,9 @@ document.getElementById("analyzeBtn").click()
 </script>
 
 <div id="stickyAnalyze" class="stickyAnalyze hidden">
-<button onclick="scrollToAnalyze()">
-🔎 Analyze voice message
-</button>
+  <button onclick="scrollToAnalyze()" data-i18n="btn_analyze">
+    🔎 Analyze voice message
+  </button>
 </div>
 
 </body>
