@@ -1,7 +1,81 @@
 {
-"heroPill": "プライバシーを最優先。即時リスクシグナル。",
-"heroTitleA": "疑わしい",
-"heroTitleB": "音声メッセージを",
-"heroTitleC": "明確な判断へ。",
-"heroDesc": "音声をアップロード、録音、または詐欺の例をテストしてください。VoiceSafe は説明可能なシグナルとともに構造化された詐欺リスクスコアを返します。"
+  "langName": "日本語",
+
+  "heroPill": "プライバシーを最優先。即時リスクシグナル。",
+  "heroTitleA": "疑わしい",
+  "heroTitleB": "音声メッセージを",
+  "heroTitleC": "明確な判断へ。",
+  "heroDesc": "音声をアップロード、録音、または詐欺の例をテストしてください。VoiceSafe は説明可能なシグナルとともに構造化された詐欺リスクスコアを返します。",
+
+  "btn_analyze": "音声メッセージを分析",
+  "btn_try_example": "詐欺の例を試す",
+  "btn_run_demo": "デモを開始",
+  "btn_how_it_works": "仕組み",
+  "btn_share_result": "結果を共有",
+  "btn_analyze_example": "この例を分析",
+
+  "security_privacy": "プライバシー優先",
+  "security_focused": "セキュリティ重視",
+  "security_realtime": "リアルタイムAI検出",
+  "security_global": "グローバル詐欺保護",
+
+  "example_output": "結果例",
+  "example_risk_high": "詐欺リスクスコア: 高",
+  "example_ai_probability": "AI音声確率: 91%",
+  "example_signal_1": "• 緊急性 / プレッシャー",
+  "example_signal_2": "• お金やコードの要求",
+  "example_signal_3": "• 不審な支払い指示",
+
+  "analyze_section_title": "疑わしい音声メッセージを分析",
+
+  "api_key_placeholder": "x-api-key を貼り付け",
+  "save": "保存",
+  "clear": "クリア",
+  "test": "テスト",
+  "record": "録音",
+  "analyze": "分析",
+
+  "try_real_scenarios": "実際の詐欺シナリオを試す",
+  "scenario_bank": "銀行詐欺",
+  "scenario_crypto": "暗号資産詐欺",
+  "scenario_ceo": "CEO音声クローン",
+  "scenario_family": "家族の緊急事態",
+
+  "fraud_risk_score": "詐欺リスクスコア",
+  "summary_default": "分析後、VoiceSafe が検出されたリスクを要約します。",
+  "result_warning": "金融的な判断を行う前に、この結果を確認する必要があります。",
+
+  "signals_title": "このメッセージが疑わしい理由",
+  "signal_1": "AI音声合成パターンを検出",
+  "signal_2": "音声ストレス指標の上昇",
+  "signal_3": "詐欺通話に典型的な緊急言語パターン",
+
+  "share_title": "結果を共有",
+  "copy_json": "JSONをコピー",
+  "copy_link": "リンクをコピー",
+  "share": "共有",
+  "share_card": "共有カード",
+
+  "how_title": "仕組み",
+
+  "who_uses_title": "VoiceSafe を使用する人",
+  "who_uses_subtitle": "実際の詐欺判断のために設計",
+
+  "use_banks": "銀行",
+  "use_investigators": "調査員",
+  "use_journalists": "ジャーナリスト",
+  "use_businesses": "企業",
+
+  "technology_title": "AI音声詐欺検出エンジン",
+  "technology_label": "テクノロジー",
+
+  "tech_1": "音声パターン分析",
+  "tech_2": "アクセントと地域シグナル",
+  "tech_3": "リアルタイム詐欺確率スコアリング",
+
+  "loading_default": "音声を分析中...",
+  "loading_demo": "デモ詐欺通話を読み込み中...",
+
+  "toast_link_copied": "リンクをコピーしました。",
+  "toast_example_error": "サンプル音声を読み込めませんでした。"
 }
