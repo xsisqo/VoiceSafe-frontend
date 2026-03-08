@@ -1,7 +1,81 @@
 {
-"heroPill": "Confidentialité d'abord. Signaux de risque instantanés.",
-"heroTitleA": "Transformez un",
-"heroTitleB": "message vocal suspect",
-"heroTitleC": "en une décision claire.",
-"heroDesc": "Téléchargez un audio, enregistrez un message ou testez un exemple d'arnaque. VoiceSafe renvoie un score de risque structuré avec des signaux explicables."   
+  "langName": "Français",
+
+  "heroPill": "La confidentialité d'abord. Signaux de risque instantanés.",
+  "heroTitleA": "Transformez un",
+  "heroTitleB": "message vocal suspect",
+  "heroTitleC": "en une décision claire.",
+  "heroDesc": "Téléchargez un audio, enregistrez un message ou testez un exemple d’arnaque. VoiceSafe renvoie un score structuré de risque de fraude avec des signaux explicables.",
+
+  "btn_analyze": "Analyser le message vocal",
+  "btn_try_example": "Tester un exemple d’arnaque",
+  "btn_run_demo": "Lancer la démo",
+  "btn_how_it_works": "Comment ça marche",
+  "btn_share_result": "Partager le résultat",
+  "btn_analyze_example": "Analyser cet exemple",
+
+  "security_privacy": "Confidentialité d'abord",
+  "security_focused": "Axé sur la sécurité",
+  "security_realtime": "Détection IA en temps réel",
+  "security_global": "Protection mondiale contre les arnaques",
+
+  "example_output": "Exemple de résultat",
+  "example_risk_high": "Score de risque de fraude : ÉLEVÉ",
+  "example_ai_probability": "Probabilité de voix IA : 91%",
+  "example_signal_1": "• urgence / pression",
+  "example_signal_2": "• demande d’argent ou de codes",
+  "example_signal_3": "• instructions de paiement suspectes",
+
+  "analyze_section_title": "Analyser les messages vocaux suspects",
+
+  "api_key_placeholder": "Collez x-api-key",
+  "save": "Enregistrer",
+  "clear": "Effacer",
+  "test": "Tester",
+  "record": "Enregistrer",
+  "analyze": "Analyser",
+
+  "try_real_scenarios": "Tester des scénarios réels d’arnaque",
+  "scenario_bank": "Arnaque bancaire",
+  "scenario_crypto": "Arnaque crypto",
+  "scenario_ceo": "Clone de voix de PDG",
+  "scenario_family": "Urgence familiale",
+
+  "fraud_risk_score": "SCORE DE RISQUE DE FRAUDE",
+  "summary_default": "VoiceSafe résumera le risque détecté après l’analyse.",
+  "result_warning": "Ce résultat doit être vérifié avant toute décision financière.",
+
+  "signals_title": "Pourquoi ce message semble suspect",
+  "signal_1": "Modèles de synthèse vocale IA détectés",
+  "signal_2": "Marqueurs de stress vocal élevés",
+  "signal_3": "Modèles de langage urgent fréquents dans les appels frauduleux",
+
+  "share_title": "Partager le résultat",
+  "copy_json": "Copier JSON",
+  "copy_link": "Copier le lien",
+  "share": "Partager",
+  "share_card": "Carte de partage",
+
+  "how_title": "Comment ça marche",
+
+  "who_uses_title": "Qui utilise VoiceSafe",
+  "who_uses_subtitle": "Conçu pour les décisions réelles contre la fraude",
+
+  "use_banks": "Banques",
+  "use_investigators": "Enquêteurs",
+  "use_journalists": "Journalistes",
+  "use_businesses": "Entreprises",
+
+  "technology_title": "Moteur de détection de fraude vocale par IA",
+  "technology_label": "Technologie",
+
+  "tech_1": "Analyse des modèles vocaux",
+  "tech_2": "Signaux d'accent et de région",
+  "tech_3": "Évaluation en temps réel de la probabilité d’arnaque",
+
+  "loading_default": "Analyse de la voix...",
+  "loading_demo": "Chargement de l’appel frauduleux de démonstration...",
+
+  "toast_link_copied": "Lien copié.",
+  "toast_example_error": "Impossible de charger l’audio d’exemple."
 }
