@@ -2337,7 +2337,10 @@ function countFreeUseOnce(payload, norm) {
     qs("debugLine").textContent = "Build " + BUILD_ID;
 
     qs("confidence").textContent = (norm.confidencePct == null ? "—" : (norm.confidencePct + "%"));
-    qs("summaryText").textContent = (norm.summary && String(norm.summary).trim()) ? String(norm.summary).trim() : (I18N[l]?.resultsHint || I18N.en.resultsHint);
+    qs("summaryText").textContent =
+  (norm.summary && String(norm.summary).trim())
+    ? String(norm.summary).trim()
+    : (l === "sk" ? "Nahraj súbor alebo záznam pre report." : "Upload or record to generate a report.");
 
     const action = actionFromLevel(norm.level, l);
     qs("riskPill").textContent = action.pill;
@@ -2369,7 +2372,7 @@ renderTimeline(payload);
     if (btn){
       btn.disabled = !!on;
       btn.classList.toggle("btnLoading", !!on);
-      const txt = (I18N[lang()]?.analyzeBtn) ? I18N[lang()].analyzeBtn : "Analyze";
+      const txt = lang() === "sk" ? "Analyzovať" : "Analyze";
       btn.innerHTML = on ? `<span class="btnInlineSpinner"></span>${lang()==="sk" ? "Analyzujem…" : "Analyzing…"}`
                          : txt;
     }
@@ -2591,7 +2594,7 @@ rec.start(2000); // každé 2 sekundy pošle audio chunk
       const type = (chunks[0] && chunks[0].type) ? chunks[0].type : "audio/webm";
       recordedBlob = new Blob(chunks, { type });
 
-      if (btn) btn.textContent = (I18N[lang()]?.recordBtn || "Record");
+      if (btn) btn.textContent = lang() === "sk" ? "Nahrávať" : "Record";
       toast(lang()==="sk" ? "Nahraté. Pripravené na analýzu." : "Recorded. Ready to analyze.");
       setFileHint({ name: "recording.webm", size: recordedBlob.size });
     };
@@ -2601,7 +2604,7 @@ rec.start(2000); // každé 2 sekundy pošle audio chunk
   } catch(e){
     console.error(e);
     toast(lang()==="sk" ? "Mikrofón je blokovaný. Povoľ mikrofón." : "Mic blocked. Allow microphone.");
-    if (btn) btn.textContent = (I18N[lang()]?.recordBtn || "Record");
+    if (btn) btn.textContent = lang() === "sk" ? "Nahrávať" : "Record";
     recording = null;
   }
 }
@@ -3085,11 +3088,9 @@ loadLanguage(savedLang);
       b.addEventListener("click", ()=>{
         const l = b.getAttribute("data-lang");
         localStorage.setItem("vs_lang", l);
-        applyLang(l);
+        loadLanguage(l);
         toggleLangMenu(false);
         toast(l === "sk" ? "Jazyk: SK" : "Language: EN");
-        qs("recordBtn").textContent = I18N[l]?.recordBtn || "Record";
-        qs("analyzeBtn").textContent = I18N[l]?.analyzeBtn || "Analyze";
       });
     });
 
