@@ -41,7 +41,9 @@
 <link rel="alternate" hreflang="ar" href="https://voicesafe.ai/?lang=ar">
 <link rel="alternate" hreflang="x-default" href="https://voicesafe.ai/?lang=en">
 
-<script type="application/ld+json">
+<script> 
+
+type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -3386,34 +3388,165 @@ if (shareResultBtn && shareBox) {
   });
 }
 
-function loadScamExample(type){
+// -----------------------------
+// BASIC HELPERS
+// -----------------------------
 
-const map = {
-bank: "/examples/bank-scam.mp3",
-crypto: "/examples/crypto-scam.mp3",
-ceo: "/examples/ceo-clone.mp3",
-family: "/examples/family-scam.mp3"
+function qs(id){
+  return document.getElementById(id);
 }
 
-const url = map[type]
+function toast(msg){
+  const el = qs("toast");
+  const txt = qs("toastText");
+  if(!el || !txt) return;
 
-fetch(url)
-.then(r=>r.blob())
-.then(blob=>{
+  txt.textContent = msg;
+  el.classList.remove("hidden");
 
-const file = new File([blob],"scam.mp3",{type:"audio/mpeg"})
-
-const dt = new DataTransfer()
-dt.items.add(file)
-
-const fileInput = document.getElementById("fileInput")
-fileInput.files = dt.files
-
-document.getElementById("analyzeBtn").click()
-
-})
-
+  setTimeout(()=>{
+    el.classList.add("hidden");
+  },2500);
 }
+
+// -----------------------------
+// COPY
+// -----------------------------
+
+function copyText(txt){
+  navigator.clipboard.writeText(txt).then(()=>{
+    toast("Copied");
+  }).catch(()=>{
+    const ta=document.createElement("textarea");
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+    toast("Copied");
+  });
+}
+
+// -----------------------------
+// LOADING
+// -----------------------------
+
+function setLoading(on){
+  const btn = qs("analyzeBtn");
+  const loading = qs("resultsLoading");
+
+  if(btn){
+    btn.innerHTML = on
+      ? `<span class="btnInlineSpinner"></span>Analyzing…`
+      : `Analyze`;
+  }
+
+  if(loading){
+    loading.classList.toggle("hidden", !on);
+  }
+}
+
+// -----------------------------
+// DEMO
+// -----------------------------
+
+function runDemo(){
+
+  setLoading(true);
+
+  setTimeout(()=>{
+
+    qs("riskPercent").textContent = "82%";
+    qs("riskBar").style.width = "82%";
+    qs("riskLevel").textContent = "HIGH";
+    qs("confidence").textContent = "0.91";
+
+    qs("summaryText").textContent =
+      "This voice message contains strong fraud indicators including urgency patterns and synthetic voice signals.";
+
+    setLoading(false);
+
+  },2000);
+}
+
+// -----------------------------
+// ANALYZE
+// -----------------------------
+
+function analyzeAudio(){
+
+  const file = qs("fileInput")?.files?.[0];
+
+  if(!file){
+    toast("Upload audio first");
+    return;
+  }
+
+  runDemo(); // demo simulation
+}
+
+// -----------------------------
+// RECORD
+// -----------------------------
+
+let recorder;
+let chunks = [];
+
+async function toggleRecord(){
+
+  const btn = qs("recordBtn");
+
+  if(!recorder){
+
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+
+    recorder = new MediaRecorder(stream);
+
+    recorder.ondataavailable = e=>{
+      chunks.push(e.data);
+    };
+
+    recorder.onstop = ()=>{
+      const blob = new Blob(chunks,{type:"audio/webm"});
+      chunks=[];
+      toast("Recording ready");
+    };
+
+    recorder.start();
+
+    btn.textContent = "Stop";
+
+  } else {
+
+    recorder.stop();
+    recorder = null;
+
+    btn.textContent = "Record";
+  }
+}
+
+// -----------------------------
+// EVENTS
+// -----------------------------
+
+window.addEventListener("DOMContentLoaded",()=>{
+
+  qs("analyzeBtn")?.addEventListener("click", analyzeAudio);
+
+  qs("demoBtn")?.addEventListener("click", runDemo);
+  qs("demoBtnHero")?.addEventListener("click", runDemo);
+
+  qs("recordBtn")?.addEventListener("click", toggleRecord);
+
+  qs("copyJsonBtn")?.addEventListener("click", ()=>{
+    copyText(qs("rawJson")?.textContent || "");
+  });
+
+  qs("copyLinkBtn")?.addEventListener("click", ()=>{
+    copyText(window.location.href);
+  });
+
+});
 
 </script>
 
