@@ -1,0 +1,81 @@
+{
+  "langName": "Türkçe",
+
+  "heroPill": "Önce gizlilik. Anında risk sinyalleri.",
+  "heroTitleA": "Şüpheli bir",
+  "heroTitleB": "sesli mesajı",
+  "heroTitleC": "net bir karara dönüştürün.",
+  "heroDesc": "Ses yükleyin, bir mesaj kaydedin veya bir dolandırıcılık örneğini test edin. VoiceSafe, açıklanabilir sinyallerle yapılandırılmış bir dolandırıcılık risk puanı döndürür.",
+
+  "btn_analyze": "Sesli mesajı analiz et",
+  "btn_try_example": "Dolandırıcılık örneğini dene",
+  "btn_run_demo": "Demoyu başlat",
+  "btn_how_it_works": "Nasıl çalışır",
+  "btn_share_result": "Sonucu paylaş",
+  "btn_analyze_example": "Bu örneği analiz et",
+
+  "security_privacy": "Önce gizlilik",
+  "security_focused": "Güvenlik odaklı",
+  "security_realtime": "Gerçek zamanlı AI tespiti",
+  "security_global": "Küresel dolandırıcılık koruması",
+
+  "example_output": "Örnek sonuç",
+  "example_risk_high": "Dolandırıcılık risk puanı: YÜKSEK",
+  "example_ai_probability": "AI ses olasılığı: %91",
+  "example_signal_1": "• aciliyet / baskı",
+  "example_signal_2": "• para veya kod talebi",
+  "example_signal_3": "• şüpheli ödeme talimatları",
+
+  "analyze_section_title": "Şüpheli sesli mesajları analiz et",
+
+  "api_key_placeholder": "x-api-key yapıştır",
+  "save": "Kaydet",
+  "clear": "Temizle",
+  "test": "Test",
+  "record": "Kaydet",
+  "analyze": "Analiz et",
+
+  "try_real_scenarios": "Gerçek dolandırıcılık senaryolarını dene",
+  "scenario_bank": "Banka dolandırıcılığı",
+  "scenario_crypto": "Kripto dolandırıcılığı",
+  "scenario_ceo": "CEO ses klonu",
+  "scenario_family": "Aile acil durumu",
+
+  "fraud_risk_score": "DOLANDIRICILIK RİSK PUANI",
+  "summary_default": "VoiceSafe analizden sonra tespit edilen riski özetler.",
+  "result_warning": "Finansal bir karar vermeden önce bu sonuç doğrulanmalıdır.",
+
+  "signals_title": "Bu mesaj neden şüpheli",
+  "signal_1": "AI ses sentezi kalıpları tespit edildi",
+  "signal_2": "Yüksek ses stresi göstergeleri",
+  "signal_3": "Dolandırıcılık çağrılarında yaygın acil dil kalıpları",
+
+  "share_title": "Sonucu paylaş",
+  "copy_json": "JSON kopyala",
+  "copy_link": "Bağlantıyı kopyala",
+  "share": "Paylaş",
+  "share_card": "Paylaşım kartı",
+
+  "how_title": "Nasıl çalışır",
+
+  "who_uses_title": "VoiceSafe’i kim kullanıyor",
+  "who_uses_subtitle": "Gerçek dolandırıcılık kararları için tasarlandı",
+
+  "use_banks": "Bankalar",
+  "use_investigators": "Araştırmacılar",
+  "use_journalists": "Gazeteciler",
+  "use_businesses": "Şirketler",
+
+  "technology_title": "AI ses dolandırıcılığı tespit motoru",
+  "technology_label": "Teknoloji",
+
+  "tech_1": "Ses modeli analizi",
+  "tech_2": "Aksan ve bölge sinyalleri",
+  "tech_3": "Gerçek zamanlı dolandırıcılık olasılığı puanı",
+
+  "loading_default": "Ses analiz ediliyor...",
+  "loading_demo": "Demo dolandırıcılık çağrısı yükleniyor...",
+
+  "toast_link_copied": "Bağlantı kopyalandı.",
+  "toast_example_error": "Örnek ses yüklenemedi."
+}
