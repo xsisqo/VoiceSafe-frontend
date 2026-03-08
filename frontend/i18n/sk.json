@@ -11,7 +11,7 @@
   "btn_share_result": "Zdieľať výsledok",
   "btn_analyze_example": "Analyzovať tento príklad",
 
-  "security_privacy": "Ochrana súkromia na prvom mieste",
+  "security_privacy": "Súkromie na prvom mieste",
   "security_focused": "Zamerané na bezpečnosť",
   "security_realtime": "AI detekcia v reálnom čase",
   "security_global": "Globálna ochrana pred podvodmi",
@@ -28,7 +28,7 @@
   "save": "Uložiť",
   "clear": "Vymazať",
   "test": "Testovať",
-  "record": "Nahrať",
+  "record": "Nahrávať",
   "analyze": "Analyzovať",
 
   "try_real_scenarios": "Otestujte reálne podvodné scenáre",
@@ -38,9 +38,9 @@
   "scenario_family": "👨‍👩‍👧 Rodinná núdzová situácia",
 
   "fraud_risk_score": "SKÓRE RIZIKA PODVODU",
-  "summary_default": "VoiceSafe zhrnie zistené riziko po dokončení analýzy.",
+  "summary_default": "VoiceSafe po analýze zhrnie zistené riziko.",
   "result_warning": "Tento výsledok by mal byť overený pred vykonaním finančnej akcie.",
-  "signals_title": "Prečo táto správa vyzerá podozrivo",
+  "signals_title": "Prečo táto správa pôsobí podozrivo",
   "signal_1": "Detegované vzory syntézy AI hlasu",
   "signal_2": "Zvýšené hlasové stresové markery",
   "signal_3": "Naliehavý jazyk typický pre podvodné hovory",
@@ -53,7 +53,7 @@
 
   "how_title": "Ako to funguje",
   "who_uses_title": "Kto používa VoiceSafe",
-  "who_uses_subtitle": "Vytvorené pre reálne rozhodnutia o podvodoch",
+  "who_uses_subtitle": "Vytvorené pre reálne rozhodovanie o podvodoch",
   "use_banks": "Banky",
   "use_investigators": "Vyšetrovatelia",
   "use_journalists": "Novinári",
@@ -71,25 +71,57 @@
   "toast_example_error": "Ukážkové audio sa nepodarilo načítať.",
 
   "heroPill": "Súkromie na prvom mieste. Okamžité rizikové signály.",
-  "heroTitleA": "Premení podozrivú",
+  "heroTitleA": "Premeňte podozrivú",
   "heroTitleB": "hlasovú správu",
   "heroTitleC": "na jasné rozhodnutie.",
-  "heroDesc": "Nahrajte audio, zaznamenajte ukážku alebo vyskúšajte podvodný príklad. VoiceSafe vráti štruktúrované skóre rizika podvodu s vysvetliteľnými signálmi.",
-
+  "heroDesc": "Nahrajte audio, zaznamenajte krátku ukážku alebo vyskúšajte podvodný príklad. VoiceSafe vráti štruktúrované skóre rizika podvodu s vysvetliteľnými signálmi.",
   "heroFeature1": "Okamžitá AI analýza",
   "heroFeature2": "Súkromné spracovanie hlasu",
   "heroFeature3": "Globálna detekcia podvodov",
-
-  "heroMetaLine": "⚡ AI analýza trvá ~5 sekúnd • 🔒 Hlas sa nikdy neukladá",
+  "heroMetaLine": "⚡ AI analýza trvá ~5 sekúnd • 🔒 Hlas sa neukladá",
   "heroCounterLabel": "analyzovaných hlasových správ",
 
   "apiKeyNotSet": "Nenastavené",
-
   "tabAnalyze": "Analýza",
-  "tabLive": "Live",
+  "tabLive": "Naživo",
   "tabAdmin": "Admin",
-
   "privateAnalysisNote": "🔒 Súkromná analýza. Audio sa spracuje okamžite a neukladá sa.",
   "tryScamVoiceNote": "⚠ Vyskúšajte simulovaný AI podvodný hlas",
-  "tryScamExampleBtn": "🎧 Vyskúšať podvodný príklad"
+  "tryScamExampleBtn": "🎧 Vyskúšať podvodný príklad",
+
+  "googleLabel": "Google",
+  "unlockPro": "Odomknúť Pro funkcie",
+  "exampleScenariosTitle": "Ukážkové scenáre",
+  "simulatedExampleTitle": "Simulovaný hlasový príklad podvodu",
+
+  "use_banks_desc": "Podpora preverovania podvodov a triedenia podozrivých hovorov.",
+  "use_investigators_desc": "Rýchlejšie vyhodnotenie hlasových dôkazov pomocou štruktúrovaných rizikových signálov.",
+  "use_journalists_desc": "Overenie podozrivého audia pred publikovaním alebo reportovaním.",
+  "use_businesses_desc": "Zníženie rizika falošných manažérov, tlaku na platby a klonovaných hlasov.",
+
+  "technology_desc": "VoiceSafe analyzuje akustické, behaviorálne a jazykové vzory v hlasových správach. Systém rozpoznáva signály typické pre podvodné hovory, ako sú klonovanie hlasu, emocionálny tlak, naliehavosť a syntetické hlasové artefakty.",
+  "tech_card_1_title": "Detekcia syntézy AI hlasu",
+  "tech_card_1_desc": "Rozpoznáva vzory typické pre klonované alebo generované hlasy.",
+  "tech_card_2_title": "Signály stresu a tlaku",
+  "tech_card_2_desc": "Deteguje naliehavosť a emocionálnu manipuláciu používanú pri podvodoch.",
+  "tech_card_3_title": "Štruktúrovaný report rizika podvodu",
+  "tech_card_3_desc": "Prináša vysvetliteľné signály namiesto jednoduchého skóre.",
+
+  "footer_strip_1": "AI detekcia podvodov",
+  "footer_strip_2": "Analýza audia so súkromím na prvom mieste",
+  "footer_strip_3": "Štruktúrované signály rizika podvodu",
+  "footer_strip_4": "Navrhnuté pre banky a marketplace platformy",
+  "footerFraudCases": "Podvodné prípady",
+  "footerCompany": "Spoločnosť",
+  "footerStartAnalysis": "Začať analýzu",
+  "footerStartDesc": "Nahrajte podozrivú hlasovú správu a získajte AI vyhodnotenie rizika za pár sekúnd.",
+  "footerAnalyzeAudio": "Analyzovať audio",
+  "footerBottomLeft": "Vytvorené s AI technológiou na analýzu rizika",
+  "footerBottom1": "Dizajn zameraný na bezpečnosť",
+  "footerBottom2": "Architektúra so súkromím na prvom mieste",
+
+  "scamAlertTitle": "⚠️ Zistený možný podvodný hovor",
+  "scamAlertDesc": "Neposielajte peniaze. Overte identitu volajúceho cez oficiálne číslo.",
+  "aiRiskExplanation": "AI vysvetlenie rizika",
+  "scamTypeDetected": "Zistený typ podvodu"
 }
