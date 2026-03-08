@@ -1,7 +1,81 @@
 {
-"heroPill": "Datenschutz zuerst. Sofortige Risiko-Signale.",
-"heroTitleA": "Verwandle eine verdächtige",
-"heroTitleB": "Sprachnachricht",
-"heroTitleC": "in eine klare Entscheidung.",
-"heroDesc": "Lade Audio hoch, nimm eine Nachricht auf oder teste ein Betrugsbeispiel. VoiceSafe liefert eine strukturierte Risikoanalyse mit erklärbaren Signalen."
+  "langName": "Deutsch",
+
+  "heroPill": "Datenschutz zuerst. Sofortige Risiko-Signale.",
+  "heroTitleA": "Verwandle eine verdächtige",
+  "heroTitleB": "Sprachnachricht",
+  "heroTitleC": "in eine klare Entscheidung.",
+  "heroDesc": "Lade Audio hoch, nimm eine Nachricht auf oder teste ein Betrugsbeispiel. VoiceSafe liefert einen strukturierten Betrugsrisiko-Score mit erklärbaren Signalen.",
+
+  "btn_analyze": "Sprachnachricht analysieren",
+  "btn_try_example": "Betrugsbeispiel testen",
+  "btn_run_demo": "Demo starten",
+  "btn_how_it_works": "Wie es funktioniert",
+  "btn_share_result": "Ergebnis teilen",
+  "btn_analyze_example": "Dieses Beispiel analysieren",
+
+  "security_privacy": "Datenschutz zuerst",
+  "security_focused": "Sicherheitsorientiert",
+  "security_realtime": "Echtzeit-KI-Erkennung",
+  "security_global": "Globaler Betrugsschutz",
+
+  "example_output": "Beispielergebnis",
+  "example_risk_high": "Betrugsrisiko-Score: HOCH",
+  "example_ai_probability": "KI-Stimmenwahrscheinlichkeit: 91%",
+  "example_signal_1": "• Dringlichkeit / Druck",
+  "example_signal_2": "• Anfrage nach Geld oder Codes",
+  "example_signal_3": "• Verdächtige Zahlungsanweisungen",
+
+  "analyze_section_title": "Verdächtige Sprachnachrichten analysieren",
+
+  "api_key_placeholder": "x-api-key einfügen",
+  "save": "Speichern",
+  "clear": "Löschen",
+  "test": "Testen",
+  "record": "Aufnehmen",
+  "analyze": "Analysieren",
+
+  "try_real_scenarios": "Echte Betrugsszenarien testen",
+  "scenario_bank": "Bankbetrug",
+  "scenario_crypto": "Krypto-Betrug",
+  "scenario_ceo": "CEO-Stimmenklon",
+  "scenario_family": "Familiennotfall",
+
+  "fraud_risk_score": "BETRUGSRISIKO-SCORE",
+  "summary_default": "VoiceSafe fasst das erkannte Risiko nach der Analyse zusammen.",
+  "result_warning": "Dieses Ergebnis sollte vor finanziellen Entscheidungen überprüft werden.",
+
+  "signals_title": "Warum diese Nachricht verdächtig ist",
+  "signal_1": "KI-Sprachsynthese-Muster erkannt",
+  "signal_2": "Erhöhte Stimmstress-Marker",
+  "signal_3": "Dringende Sprachmuster typisch für Betrugsanrufe",
+
+  "share_title": "Ergebnis teilen",
+  "copy_json": "JSON kopieren",
+  "copy_link": "Link kopieren",
+  "share": "Teilen",
+  "share_card": "Ergebniskarte",
+
+  "how_title": "Wie es funktioniert",
+
+  "who_uses_title": "Wer VoiceSafe nutzt",
+  "who_uses_subtitle": "Entwickelt für reale Betrugsentscheidungen",
+
+  "use_banks": "Banken",
+  "use_investigators": "Ermittler",
+  "use_journalists": "Journalisten",
+  "use_businesses": "Unternehmen",
+
+  "technology_title": "KI-Stimmenbetrug-Erkennungsengine",
+  "technology_label": "Technologie",
+
+  "tech_1": "Stimm-Musteranalyse",
+  "tech_2": "Akzent- und Regionssignale",
+  "tech_3": "Echtzeit-Betrugswahrscheinlichkeits-Bewertung",
+
+  "loading_default": "Stimme wird analysiert...",
+  "loading_demo": "Demo-Betrugsanruf wird geladen...",
+
+  "toast_link_copied": "Link kopiert.",
+  "toast_example_error": "Beispielaudio konnte nicht geladen werden."
 }
