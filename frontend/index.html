@@ -768,7 +768,6 @@ header{
 <header class="sticky top-0 z-50">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 pb-2">
     <div class="headerShell px-4 sm:px-5 py-3 overflow-visible">
-
       <div class="flex flex-wrap items-center justify-between gap-3">
 
         <!-- Brand -->
@@ -785,7 +784,6 @@ header{
             <div class="font-semibold tracking-tight text-white text-[18px] sm:text-[19px]">
               VoiceSafe
             </div>
-
             <div class="hidden md:block text-white/60 text-[12px] mt-1 leading-none">
               AI voice scam risk assessment
             </div>
@@ -794,11 +792,11 @@ header{
 
         <!-- Desktop nav -->
         <nav class="hidden lg:flex items-center gap-3">
-  <a href="#how" class="navPill" data-i18n="navHow">How it works</a>
-  <a href="#services" class="navPill" data-i18n="navServices">Services</a>
-  <a href="#contact" class="navPill" data-i18n="navContact">Contact</a>
-  <a href="#terms" class="navPill" data-i18n="navTerms">Terms</a>
-</nav>
+          <a href="#how" class="navPill" data-i18n="navHow">How it works</a>
+          <a href="#services" class="navPill" data-i18n="navServices">Services</a>
+          <a href="#contact" class="navPill" data-i18n="navContact">Contact</a>
+          <a href="#terms" class="navPill" data-i18n="navTerms">Terms</a>
+        </nav>
 
         <!-- Right side -->
         <div class="flex flex-wrap items-center gap-2 shrink-0 justify-end">
@@ -810,7 +808,7 @@ header{
             class="navPill"
           >
             <span class="text-red-500 font-bold text-[15px]">G</span>
-            <span>Google</span>
+            <span data-i18n="googleLabel">Google</span>
           </button>
 
           <!-- Language -->
@@ -854,28 +852,20 @@ header{
 
           <!-- Unlock Pro -->
           <button
->
-  <span class="text-red-500 font-bold text-[15px]">G</span>
-  <span data-i18n="googleLabel">Google</span>
-</button>
-
-<button
-  id="upgradeBtn"
-  type="button"
-  class="proPill flex items-center gap-2"
->
-  <span>👑</span>
-  <span data-i18n="unlockPro">Unlock Pro Features</span>
-</button>
+            id="upgradeBtn"
+            type="button"
+            class="proPill flex items-center gap-2"
+          >
+            <span>👑</span>
+            <span data-i18n="unlockPro">Unlock Pro Features</span>
+          </button>
 
         </div>
-
       </div>
-
-      <!-- Mobile only: no duplicate nav here -->
     </div>
   </div>
 </header>
+
 
   <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
 
@@ -1449,8 +1439,6 @@ Results
 
 <div class="text-sm text-white/60 mt-2" id="summaryText"></div>
 
-<div class="text-sm text-white/60 mt-2" id="summaryText"></div>
-
 <div class="mt-2 text-xs text-white/50" data-i18n="result_warning">
   This result should be verified before taking financial action.
 </div>
@@ -1502,10 +1490,7 @@ Results
               <div class="mt-2 text-lg font-semibold" id="riskTitle">—</div>
               <div class="mt-1 text-sm text-white/65" id="riskText">—</div>
 
-              <div id="scamAlert"
-     class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
-  <div id="scamAlert"
-     class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
+              <div id="scamAlert" class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
   <div class="flex items-center gap-2 font-semibold" data-i18n="scamAlertTitle">⚠️ Possible Scam Call Detected</div>
   <div class="text-sm mt-1 text-red-200/80" data-i18n="scamAlertDesc">
     Do not send money. Verify caller identity through an official number.
@@ -3414,23 +3399,6 @@ function closeLangMenu() {
   if (btn) btn.setAttribute("aria-expanded", "false");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const langBtn = document.getElementById("langBtn");
-  const langBackdrop = document.getElementById("langBackdrop");
-
-  if (langBtn) {
-    langBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const menu = document.getElementById("langMenu");
-      if (!menu) return;
-
-      if (menu.classList.contains("hidden")) openLangMenu();
-      else closeLangMenu();
-    });
-  }
-
   if (langBackdrop) {
     langBackdrop.addEventListener("click", closeLangMenu);
   }
@@ -3454,7 +3422,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const lang = supported.includes(browserLang) ? browserLang : "en";
     loadLanguage(lang);
   }
-});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
@@ -3493,194 +3460,6 @@ sticky.classList.remove("hidden");
 sticky.classList.add("hidden");
 }
 });
-
-</script>
-
-<script>
-
-document.getElementById("googleBtn").addEventListener("click", () => {
-
-  window.location.href =
-  "https://accounts.google.com/o/oauth2/v2/auth?" +
-  "client_id=348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.googleusercontent.com" +
-  "&redirect_uri=" + window.location.origin +
-  "&response_type=token" +
-  "&scope=email profile";
-
-});
-
-(function () {
-  const langBtn = document.getElementById("langBtn");
-  const langMenu = document.getElementById("langMenu");
-  const langBackdrop = document.getElementById("langBackdrop");
-  const langLabel = document.getElementById("langLabel");
-  const googleBtn = document.getElementById("googleBtn");
-
-  function openLangMenu() {
-    if (!langMenu || !langBackdrop || !langBtn) return;
-    langMenu.classList.remove("hidden");
-    langBackdrop.classList.remove("hidden");
-    langBtn.setAttribute("aria-expanded", "true");
-  }
-
-  function closeLangMenu() {
-    if (!langMenu || !langBackdrop || !langBtn) return;
-    langMenu.classList.add("hidden");
-    langBackdrop.classList.add("hidden");
-    langBtn.setAttribute("aria-expanded", "false");
-  }
-
-  if (langBtn) {
-    langBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (langMenu.classList.contains("hidden")) openLangMenu();
-      else closeLangMenu();
-    });
-  }
-
-  if (langBackdrop) {
-    langBackdrop.addEventListener("click", closeLangMenu);
-  }
-
-  document.querySelectorAll(".langItem").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const lang = btn.dataset.lang || "en";
-      if (langLabel) langLabel.textContent = btn.textContent.trim();
-
-      if (typeof loadLanguage === "function") {
-        await loadLanguage(lang);
-      } else {
-        localStorage.setItem("vs_lang", lang);
-      }
-
-      closeLangMenu();
-    });
-  });
-
-  // Google button: use existing Google Identity if present
-  if (googleBtn) {
-    googleBtn.addEventListener("click", () => {
-      try {
-        if (window.google && google.accounts && google.accounts.id) {
-          google.accounts.id.prompt();
-        } else {
-          console.error("Google Identity Services not initialized");
-        }
-      } catch (err) {
-        console.error("Google login failed:", err);
-      }
-    });
-  }
-})();
-
-</script>
-
-<script>
-(function () {
-  const langBtn = document.getElementById("langBtn");
-  const langMenu = document.getElementById("langMenu");
-  const langBackdrop = document.getElementById("langBackdrop");
-  const langLabel = document.getElementById("langLabel");
-
-  function openLangMenu() {
-    if (!langMenu || !langBackdrop || !langBtn) return;
-    langMenu.classList.remove("hidden");
-    langBackdrop.classList.remove("hidden");
-    langBtn.setAttribute("aria-expanded", "true");
-  }
-
-  function closeLangMenu() {
-    if (!langMenu || !langBackdrop || !langBtn) return;
-    langMenu.classList.add("hidden");
-    langBackdrop.classList.add("hidden");
-    langBtn.setAttribute("aria-expanded", "false");
-  }
-
-  if (langBtn) {
-    langBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (langMenu.classList.contains("hidden")) {
-        openLangMenu();
-      } else {
-        closeLangMenu();
-      }
-    });
-  }
-
-  if (langBackdrop) {
-    langBackdrop.addEventListener("click", closeLangMenu);
-  }
-
-  document.querySelectorAll(".langItem").forEach(function (btn) {
-    btn.addEventListener("click", async function () {
-      const lang = btn.dataset.lang || "en";
-
-      if (langLabel) {
-        langLabel.textContent = btn.textContent.trim();
-      }
-
-      localStorage.setItem("vs_lang", lang);
-
-      if (typeof loadLanguage === "function") {
-        await loadLanguage(lang);
-      }
-
-      closeLangMenu();
-    });
-  });
-
-  const savedLang = localStorage.getItem("vs_lang") || "en";
-  if (typeof loadLanguage === "function") {
-    loadLanguage(savedLang);
-  }
-
-const exampleBtn = document.getElementById("exampleBtn");
-const exampleBox = document.getElementById("exampleBox");
-const analyzeExampleBtn = document.getElementById("analyzeExampleBtn");
-const examplePlayer = document.getElementById("examplePlayer");
-
-if(exampleBtn && exampleBox){
-exampleBtn.addEventListener("click", () => {
-
-const loadingText = document.getElementById("loadingText");
-if(loadingText) loadingText.innerText = "Loading demo scam call...";
-
-exampleBox.classList.remove("hidden");
-
-if(examplePlayer){
-examplePlayer.currentTime = 0;
-examplePlayer.play().catch(()=>{});
-}
-
-});
-}
-
-if(analyzeExampleBtn){
-analyzeExampleBtn.addEventListener("click", async () => {
-
-const loadingText = document.getElementById("loadingText");
-if(loadingText) loadingText.innerText = "Loading demo scam call...";
-
-const response = await fetch("demo/scam-example.mp3");
-const blob = await response.blob();
-
-const file = new File([blob], "scam-example.mp3", {type:"audio/mpeg"});
-
-const dt = new DataTransfer();
-dt.items.add(file);
-
-const fileInput = document.getElementById("fileInput");
-fileInput.files = dt.files;
-
-document.getElementById("analyzeBtn").click();
-
-});
-}
-
-})();
 
 </script>
 
