@@ -79,5 +79,12 @@
 "heroFeature2": "Private voice processing",
 "heroFeature3": "Global scam detection",
 "heroMetaLine": "⚡ AI analysis takes ~5 seconds • 🔒 Voice is never stored",
-"heroCounterLabel": "voice messages analyzed"
+"heroCounterLabel": "voice messages analyzed",
+"apiKeyNotSet": "Not set",
+"tabAnalyze": "Analyze",
+"tabLive": "Live",
+"tabAdmin": "Admin",
+"privateAnalysisNote": "🔒 Private analysis. Audio is processed instantly and not stored.",
+"tryScamVoiceNote": "⚠ Try a simulated AI scam voice example",
+"tryScamExampleBtn": "🎧 Try scam example"
 }
