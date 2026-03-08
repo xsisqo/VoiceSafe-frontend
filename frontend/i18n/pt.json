@@ -1,7 +1,81 @@
 {
-"heroPill": "Privacidade primeiro. Sinais de risco instantâneos.",
-"heroTitleA": "Transforme uma",
-"heroTitleB": "mensagem de voz suspeita",
-"heroTitleC": "em uma decisão clara.",
-"heroDesc": "Envie um áudio, grave um clipe ou teste um exemplo de golpe. O VoiceSafe retorna uma pontuação estruturada de risco com sinais explicáveis."  
+  "langName": "Português",
+
+  "heroPill": "Privacidade primeiro. Sinais de risco instantâneos.",
+  "heroTitleA": "Transforme uma",
+  "heroTitleB": "mensagem de voz suspeita",
+  "heroTitleC": "em uma decisão clara.",
+  "heroDesc": "Envie um áudio, grave um clipe ou teste um exemplo de golpe. O VoiceSafe retorna uma pontuação estruturada de risco de fraude com sinais explicáveis.",
+
+  "btn_analyze": "Analisar mensagem de voz",
+  "btn_try_example": "Testar exemplo de golpe",
+  "btn_run_demo": "Iniciar demo",
+  "btn_how_it_works": "Como funciona",
+  "btn_share_result": "Compartilhar resultado",
+  "btn_analyze_example": "Analisar este exemplo",
+
+  "security_privacy": "Privacidade primeiro",
+  "security_focused": "Focado em segurança",
+  "security_realtime": "Detecção de IA em tempo real",
+  "security_global": "Proteção global contra golpes",
+
+  "example_output": "Exemplo de resultado",
+  "example_risk_high": "Pontuação de risco de fraude: ALTA",
+  "example_ai_probability": "Probabilidade de voz IA: 91%",
+  "example_signal_1": "• urgência / pressão",
+  "example_signal_2": "• solicitação de dinheiro ou códigos",
+  "example_signal_3": "• instruções de pagamento suspeitas",
+
+  "analyze_section_title": "Analisar mensagens de voz suspeitas",
+
+  "api_key_placeholder": "Cole x-api-key",
+  "save": "Salvar",
+  "clear": "Limpar",
+  "test": "Testar",
+  "record": "Gravar",
+  "analyze": "Analisar",
+
+  "try_real_scenarios": "Testar cenários reais de golpe",
+  "scenario_bank": "Golpe bancário",
+  "scenario_crypto": "Golpe de criptomoeda",
+  "scenario_ceo": "Clone de voz de CEO",
+  "scenario_family": "Emergência familiar",
+
+  "fraud_risk_score": "PONTUAÇÃO DE RISCO DE FRAUDE",
+  "summary_default": "VoiceSafe resumirá o risco detectado após a análise.",
+  "result_warning": "Este resultado deve ser verificado antes de qualquer decisão financeira.",
+
+  "signals_title": "Por que esta mensagem parece suspeita",
+  "signal_1": "Padrões de síntese de voz IA detectados",
+  "signal_2": "Marcadores elevados de estresse vocal",
+  "signal_3": "Padrões de linguagem urgente comuns em chamadas de golpe",
+
+  "share_title": "Compartilhar resultado",
+  "copy_json": "Copiar JSON",
+  "copy_link": "Copiar link",
+  "share": "Compartilhar",
+  "share_card": "Cartão de compartilhamento",
+
+  "how_title": "Como funciona",
+
+  "who_uses_title": "Quem usa VoiceSafe",
+  "who_uses_subtitle": "Projetado para decisões reais contra fraudes",
+
+  "use_banks": "Bancos",
+  "use_investigators": "Investigadores",
+  "use_journalists": "Jornalistas",
+  "use_businesses": "Empresas",
+
+  "technology_title": "Motor de detecção de fraude de voz com IA",
+  "technology_label": "Tecnologia",
+
+  "tech_1": "Análise de padrões de voz",
+  "tech_2": "Sinais de sotaque e região",
+  "tech_3": "Pontuação de probabilidade de golpe em tempo real",
+
+  "loading_default": "Analisando voz...",
+  "loading_demo": "Carregando chamada de golpe de demonstração...",
+
+  "toast_link_copied": "Link copiado.",
+  "toast_example_error": "Não foi possível carregar o áudio de exemplo."
 }
