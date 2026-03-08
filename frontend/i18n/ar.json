@@ -1,0 +1,81 @@
+{
+  "langName": "العربية",
+
+  "heroPill": "الخصوصية أولاً. إشارات خطر فورية.",
+  "heroTitleA": "حوّل",
+  "heroTitleB": "رسالة صوتية مشبوهة",
+  "heroTitleC": "إلى قرار واضح.",
+  "heroDesc": "قم برفع الصوت أو تسجيل رسالة أو تجربة مثال احتيال. يعرض VoiceSafe درجة خطر احتيال منظمة مع إشارات قابلة للتفسير.",
+
+  "btn_analyze": "تحليل الرسالة الصوتية",
+  "btn_try_example": "تجربة مثال احتيال",
+  "btn_run_demo": "تشغيل العرض",
+  "btn_how_it_works": "كيف يعمل",
+  "btn_share_result": "مشاركة النتيجة",
+  "btn_analyze_example": "تحليل هذا المثال",
+
+  "security_privacy": "الخصوصية أولاً",
+  "security_focused": "التركيز على الأمان",
+  "security_realtime": "كشف الذكاء الاصطناعي في الوقت الحقيقي",
+  "security_global": "حماية عالمية من الاحتيال",
+
+  "example_output": "مثال على النتيجة",
+  "example_risk_high": "درجة خطر الاحتيال: مرتفع",
+  "example_ai_probability": "احتمالية صوت الذكاء الاصطناعي: 91%",
+  "example_signal_1": "• الإلحاح / الضغط",
+  "example_signal_2": "• طلب المال أو الرموز",
+  "example_signal_3": "• تعليمات دفع مشبوهة",
+
+  "analyze_section_title": "تحليل الرسائل الصوتية المشبوهة",
+
+  "api_key_placeholder": "الصق x-api-key",
+  "save": "حفظ",
+  "clear": "مسح",
+  "test": "اختبار",
+  "record": "تسجيل",
+  "analyze": "تحليل",
+
+  "try_real_scenarios": "تجربة سيناريوهات احتيال حقيقية",
+  "scenario_bank": "احتيال بنكي",
+  "scenario_crypto": "احتيال العملات الرقمية",
+  "scenario_ceo": "استنساخ صوت المدير التنفيذي",
+  "scenario_family": "حالة طارئة عائلية",
+
+  "fraud_risk_score": "درجة خطر الاحتيال",
+  "summary_default": "سيقوم VoiceSafe بتلخيص المخاطر المكتشفة بعد التحليل.",
+  "result_warning": "يجب التحقق من هذه النتيجة قبل اتخاذ قرار مالي.",
+
+  "signals_title": "لماذا تبدو هذه الرسالة مشبوهة",
+  "signal_1": "تم اكتشاف أنماط تركيب صوت الذكاء الاصطناعي",
+  "signal_2": "مؤشرات توتر صوتي مرتفعة",
+  "signal_3": "أنماط لغة عاجلة شائعة في مكالمات الاحتيال",
+
+  "share_title": "مشاركة النتيجة",
+  "copy_json": "نسخ JSON",
+  "copy_link": "نسخ الرابط",
+  "share": "مشاركة",
+  "share_card": "بطاقة المشاركة",
+
+  "how_title": "كيف يعمل",
+
+  "who_uses_title": "من يستخدم VoiceSafe",
+  "who_uses_subtitle": "مصمم لاتخاذ قرارات حقيقية ضد الاحتيال",
+
+  "use_banks": "البنوك",
+  "use_investigators": "المحققون",
+  "use_journalists": "الصحفيون",
+  "use_businesses": "الشركات",
+
+  "technology_title": "محرك كشف الاحتيال الصوتي بالذكاء الاصطناعي",
+  "technology_label": "التكنولوجيا",
+
+  "tech_1": "تحليل أنماط الصوت",
+  "tech_2": "إشارات اللهجة والمنطقة",
+  "tech_3": "تقييم احتمال الاحتيال في الوقت الحقيقي",
+
+  "loading_default": "جارٍ تحليل الصوت...",
+  "loading_demo": "جارٍ تحميل مكالمة الاحتيال التجريبية...",
+
+  "toast_link_copied": "تم نسخ الرابط.",
+  "toast_example_error": "تعذر تحميل الصوت التجريبي."
+}
