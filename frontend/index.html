@@ -792,10 +792,10 @@ header{
 
         <!-- Desktop nav -->
         <nav class="hidden lg:flex items-center gap-3">
-          <a href="#how" class="navPill" data-i18n="navHow">How it works</a>
-          <a href="#services" class="navPill" data-i18n="navServices">Services</a>
-          <a href="#contact" class="navPill" data-i18n="navContact">Contact</a>
-          <a href="#terms" class="navPill" data-i18n="navTerms">Terms</a>
+          <a href="#how" class="navPill">How it works</a>
+          <a href="#services" class="navPill">Services</a>
+          <a href="#contact" class="navPill">Contact</a>
+          <a href="#terms" class="navPill">Terms</a>
         </nav>
 
         <!-- Right side -->
@@ -808,39 +808,8 @@ header{
             class="navPill"
           >
             <span class="text-red-500 font-bold text-[15px]">G</span>
-            <span data-i18n="googleLabel">Google</span>
+            <span >Google</span>
           </button>
-
-          <!-- Language -->
-<div class="relative">
-  <button
-    id="langBtn"
-    type="button"
-    aria-haspopup="true"
-    aria-expanded="false"
-    class="navPill"
-  >
-    <span class="text-sky-400">🌐</span>
-    <span id="langLabel">English</span>
-    <span class="text-white/40 text-[10px]">▼</span>
-  </button>
-
-  <div id="langBackdrop" class="hidden fixed inset-0 z-40"></div>
-
-  <div
-    id="langMenu"
-    class="hidden absolute right-0 top-[calc(100%+10px)] z-50 min-w-[220px] rounded-2xl border border-white/10 bg-[#0f172a]/95 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-    role="menu"
-    aria-label="Language"
-  >
-    <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="sk" type="button">
-      Slovenčina
-    </button>
-    <button class="langItem w-full text-left px-3 py-2 rounded-xl text-white/90 hover:bg-white/10" data-lang="en" type="button">
-      English
-    </button>
-  </div>
-</div>
 
           <!-- Unlock Pro -->
           <button
@@ -849,7 +818,7 @@ header{
             class="proPill flex items-center gap-2"
           >
             <span>👑</span>
-            <span data-i18n="unlockPro">Unlock Pro Features</span>
+            <span>Unlock Pro Features</span>
           </button>
 
         </div>
@@ -991,77 +960,81 @@ header{
       <div class="rounded-[32px] border border-white/10 bg-white/[0.035] backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.35)] p-6 sm:p-8">
         <div class="inline-flex items-center gap-2 chip rounded-full px-3 py-1 text-xs text-white/80">
           <span>⚡</span>
-          <span data-i18n="heroPill">Privacy-first. Instant risk signals.</span>
+          <span>Privacy-first. Instant risk signals.</span>
         </div>
 
         <h1 class="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight text-white">
-          <span class="text-white" data-i18n="heroTitleA">Turn a suspicious</span>
-          <span class="text-white/90" data-i18n="heroTitleB">voice message</span>
-          <span data-i18n="heroTitleC">into a clear decision.</span>
+          <span class="text-white">Turn a suspicious</span>
+          <span class="text-white/90">voice message</span>
+          <span>into a clear decision.</span>
         </h1>
 
-        <p class="mt-4 text-white/70 max-w-2xl" data-i18n="heroDesc">
+        <p class="mt-4 text-white/70 max-w-2xl">
           Upload audio, record a clip, or test a scam example. VoiceSafe returns a structured fraud risk score with explainable signals.
         </p>
 
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
           <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
             <span>⚡</span>
-            <span data-i18n="heroFeature1">Instant AI analysis</span>
+            <span>Instant AI analysis</span>
           </div>
 
           <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
             <span>🔒</span>
-            <span data-i18n="heroFeature2">Private voice processing</span>
+            <span>Private voice processing</span>
           </div>
 
           <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
             <span>🌍</span>
-            <span data-i18n="heroFeature3">Global scam detection</span>
+            <span>Global scam detection</span>
           </div>
         </div>
 
         <div class="mt-6 flex flex-col sm:flex-row gap-3">
-          <a class="inline-flex items-center justify-center gap-2 rounded-[22px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold shadow-[0_16px_35px_rgba(240,181,61,0.28)] transition px-6 py-4 text-[18px]" href="#">
+          <a
+            class="inline-flex items-center justify-center gap-2 rounded-[22px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold shadow-[0_16px_35px_rgba(240,181,61,0.28)] transition px-6 py-4 text-[18px]"
+            href="#analyze"
+          >
             <span>🔎</span>
-            <span data-i18n="heroCtaAnalyze">Scan voice message</span>
+            <span>Scan voice message</span>
           </a>
 
           <button id="demoBtnHero" class="btn rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
             <span>🧪</span>
-            <span data-i18n="heroCtaDemo">Run demo</span>
+            <span>Run demo</span>
           </button>
 
           <button id="howBtnHero" class="btnDark rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" type="button">
             <span>▶</span>
-            <span data-i18n="heroCtaHow">How it works</span>
+            <span>How it works</span>
           </button>
         </div>
 
-        <div class="text-xs text-white/60 mt-2" data-i18n="heroMetaLine">
+        <div class="text-xs text-white/60 mt-2">
           ⚡ AI analysis takes ~5 seconds • 🔒 Voice is never stored
         </div>
 
         <div class="mt-4 text-xs text-white/60">
-          <span id="analysisCounter">12,482</span> <span data-i18n="heroCounterLabel">voice messages analyzed</span>
+          <span id="analysisCounter">12,482</span>
+          <span>voice messages analyzed</span>
         </div>
 
         <div id="signalsBox" class="mt-4 text-sm text-white/80"></div>
 
         <div class="mt-6 grid sm:grid-cols-3 gap-3 text-sm">
           <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
-            <div class="text-white/80 font-semibold" data-i18n="heroStat1Title">Fast</div>
-            <div class="text-white/60 mt-1" data-i18n="heroStat1Desc">Typical analysis in seconds.</div>
+            <div class="text-white/80 font-semibold">Fast</div>
+            <div class="text-white/60 mt-1">Typical analysis in seconds.</div>
           </div>
 
           <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
-            <div class="text-white/80 font-semibold" data-i18n="heroStat2Title">Explainable</div>
-            <div class="text-white/60 mt-1" data-i18n="heroStat2Desc">Action-oriented guidance, not just a score.</div>
+            <div class="text-white/80 font-semibold">Explainable</div>
+            <div class="text-white/60 mt-1">Action-oriented guidance, not just a score.</div>
           </div>
 
           <div class="rounded-[24px] border border-white/8 bg-white/[0.05] backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.18)] p-6">
-            <div class="text-white/80 font-semibold" data-i18n="heroStat3Title">Private</div>
-            <div class="text-white/60 mt-1" data-i18n="heroStat3Desc">Prototype stores no voice permanently.</div>
+            <div class="text-white/80 font-semibold">Private</div>
+            <div class="text-white/60 mt-1">Prototype stores no voice permanently.</div>
           </div>
         </div>
       </div>
@@ -1071,26 +1044,26 @@ header{
       <div class="glass rounded-3xl p-6">
         <div class="flex items-center justify-between">
           <div>
-            <div class="text-sm text-white/60" data-i18n="statusTitle">Service status</div>
+            <div class="text-sm text-white/60">Service status</div>
             <div class="mt-1 font-semibold" id="backendStatus">—</div>
           </div>
           <div class="text-xs text-white/60 mono" id="envBadge">PRODUCTION</div>
         </div>
 
         <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
-          <div class="font-semibold text-white/80" data-i18n="bankNoteTitle">Bank-grade output</div>
-          <div class="mt-1" data-i18n="bankNoteBody">
+          <div class="font-semibold text-white/80">Bank-grade output</div>
+          <div class="mt-1">
             Designed for fraud workflows: pause → verify → document. Structured JSON enables audit logs, case management, and compliance reporting.
           </div>
         </div>
 
         <div class="mt-4 flex items-center gap-3">
           <div class="w-2.5 h-2.5 rounded-full bg-emerald-400/80" id="statusDot"></div>
-          <div class="text-xs text-white/60" data-i18n="statusHint">Health check via secure backend endpoint.</div>
+          <div class="text-xs text-white/60">Health check via secure backend endpoint.</div>
         </div>
 
         <div class="mt-4 text-xs text-white/55">
-          <span data-i18n="mobileHint">Mobile-ready UI with safe-area support and bank-friendly typography.</span>
+          <span>Mobile-ready UI with safe-area support and bank-friendly typography.</span>
         </div>
       </div>
     </div>
@@ -1098,41 +1071,41 @@ header{
 </section>
 
 <div class="mt-4 glass2 rounded-2xl p-4 max-w-xl">
-  <div class="text-xs text-white/50 uppercase tracking-[0.18em] mb-2" data-i18n="example_output">
+  <div class="text-xs text-white/50 uppercase tracking-[0.18em] mb-2">
     Example output
   </div>
 
   <div class="flex flex-wrap gap-2 mb-3">
-    <span class="chip rounded-full px-3 py-1 text-xs" data-i18n="example_risk_high">Fraud Risk Score: HIGH</span>
-    <span class="chip rounded-full px-3 py-1 text-xs" data-i18n="example_ai_probability">AI voice probability: 91%</span>
+    <span class="chip rounded-full px-3 py-1 text-xs">Fraud Risk Score: HIGH</span>
+    <span class="chip rounded-full px-3 py-1 text-xs">AI voice probability: 91%</span>
   </div>
 
   <div class="text-sm text-white/75">
-    <div data-i18n="example_signal_1">• urgency / pressure</div>
-    <div data-i18n="example_signal_2">• request for money or codes</div>
-    <div data-i18n="example_signal_3">• suspicious payment instructions</div>
+    <div>• urgency / pressure</div>
+    <div>• request for money or codes</div>
+    <div>• suspicious payment instructions</div>
   </div>
 </div>
 
 <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-white/70">
   <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
     <span>🔒</span>
-    <span data-i18n="security_privacy">Privacy first</span>
+    <span>Privacy first</span>
   </div>
 
   <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
     <span>🛡️</span>
-    <span data-i18n="security_focused">Security focused</span>
+    <span>Security focused</span>
   </div>
 
   <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
     <span>⚡</span>
-    <span data-i18n="security_realtime">Real-time AI detection</span>
+    <span>Real-time AI detection</span>
   </div>
 
   <div class="glass2 rounded-xl px-4 py-3 flex items-center gap-2">
     <span>🌍</span>
-    <span data-i18n="security_global">Global scam protection</span>
+    <span>Global scam protection</span>
   </div>
 </div>
 
@@ -1141,594 +1114,598 @@ header{
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     <div class="lg:col-span-7 min-w-0">
       <div class="glass rounded-3xl p-6">
-
         <div class="glass2 rounded-2xl p-4 mb-4">
           <div class="flex items-start justify-between gap-3">
             <div>
-              <div class="text-xs text-white/60" data-i18n="enterpriseAccess">Enterprise access</div>
-              <div class="text-sm font-semibold text-white/85" data-i18n="apiKeyTitle">API Key</div>
-              <div class="text-xs text-white/55 mt-1" data-i18n="apiKeyDesc">
+              <div class="text-xs text-white/60">Enterprise access</div>
+              <div class="text-sm font-semibold text-white/85">API Key</div>
+              <div class="text-xs text-white/55 mt-1">
                 Stored locally in your browser. Optional for standard analysis; required for enterprise endpoints (live/admin).
               </div>
             </div>
-            <div id="apiKeyState" class="chip rounded-full px-3 py-1 text-xs font-semibold" data-i18n="apiKeyNotSet">Not set</div>
+            <div id="apiKeyState" class="chip rounded-full px-3 py-1 text-xs font-semibold">Not set</div>
           </div>
+
           <div class="mt-3 flex gap-2">
             <input id="apiKeyInput" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40 flex-1" placeholder="Paste x-api-key…" />
-            <button id="saveApiKeyBtn" class="btnPrimary rounded-2xl px-4 py-3 text-sm font-semibold" type="button" data-i18n="save">Save</button>
+            <button id="saveApiKeyBtn" class="btnPrimary rounded-2xl px-4 py-3 text-sm font-semibold" type="button">Save</button>
           </div>
+
           <div class="mt-2 flex gap-2">
-            <button id="clearApiKeyBtn" class="btn rounded-2xl px-4 py-2 text-xs font-semibold" type="button" data-i18n="clear">Clear</button>
-            <button id="testKeyBtn" class="btn rounded-2xl px-4 py-2 text-xs font-semibold" type="button" data-i18n="test">Test</button>
+            <button id="clearApiKeyBtn" class="btn rounded-2xl px-4 py-2 text-xs font-semibold" type="button">Clear</button>
+            <button id="testKeyBtn" class="btn rounded-2xl px-4 py-2 text-xs font-semibold" type="button">Test</button>
           </div>
+
           <div class="mt-2 text-xs text-white/55 mono" id="apiKeyHint">—</div>
         </div>
 
         <div class="flex gap-2 mb-4">
-          <button id="tabAnalyze" class="btnPrimary rounded-2xl px-4 py-2 text-sm font-semibold" type="button" data-i18n="tabAnalyze">Analyze</button>
-          <button id="tabLive" class="btn rounded-2xl px-4 py-2 text-sm font-semibold" type="button" data-i18n="tabLive">Live</button>
-          <button id="tabAdmin" class="btn rounded-2xl px-4 py-2 text-sm font-semibold" type="button" data-i18n="tabAdmin">Admin</button>
+          <button id="tabAnalyze" class="btnPrimary rounded-2xl px-4 py-2 text-sm font-semibold" type="button">Analyze</button>
+          <button id="tabLive" class="btn rounded-2xl px-4 py-2 text-sm font-semibold" type="button">Live</button>
+          <button id="tabAdmin" class="btn rounded-2xl px-4 py-2 text-sm font-semibold" type="button">Admin</button>
         </div>
 
         <!-- Analyze panel -->
         <div id="panelAnalyze">
           <div class="flex items-center justify-between">
             <div>
-              <div class="text-sm text-white/60" data-i18n="analyzeTitleSmall">Analyze a sample</div>
-              <div class="text-xl font-semibold mt-1" data-i18n="analyzeTitle">Upload or record</div>
+              <div class="text-sm text-white/60">Analyze a sample</div>
+              <div class="text-xl font-semibold mt-1">Upload or record</div>
             </div>
             <button id="demoBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button">
-              <span data-i18n="demoBtn">Demo</span>
+              <span>Demo</span>
             </button>
           </div>
 
           <div class="mt-4">
-            <label class="text-xs text-white/60" data-i18n="uploadLabel">Upload file</label>
+            <label class="text-xs text-white/60">Upload file</label>
             <div class="mt-2 glass2 rounded-2xl p-3">
-              <input id="fileInput" type="file" class="block w-full text-sm text-white/80 file:mr-3 file:rounded-xl file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-white/80 hover:file:bg-white/15"
-                     accept="audio/*,video/*" />
+              <input
+                id="fileInput"
+                type="file"
+                class="block w-full text-sm text-white/80 file:mr-3 file:rounded-xl file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-white/80 hover:file:bg-white/15"
+                accept="audio/*,video/*"
+              />
               <div id="fileHint" class="mt-2 text-xs text-white/60">—</div>
             </div>
 
-            <div class="mt-2 text-xs text-white/70" data-i18n="privateAnalysisNote">
+            <div class="mt-2 text-xs text-white/70">
               🔒 Private analysis. Audio is processed instantly and not stored.
             </div>
           </div>
 
           <div class="mt-4 flex gap-3">
-            <button id="recordBtn" class="btn rounded-2xl px-4 py-3 font-semibold flex-1" type="button" data-i18n="recordBtn">Record</button>
-            <button id="analyzeBtn" class="btnPrimary ai-scan rounded-2xl px-4 py-3 font-semibold flex-1" type="button" data-i18n="analyzeBtn">Analyze</button>
+            <button id="recordBtn" class="btn rounded-2xl px-4 py-3 font-semibold flex-1" type="button">Record</button>
+            <button id="analyzeBtn" class="btnPrimary ai-scan rounded-2xl px-4 py-3 font-semibold flex-1" type="button">Analyze</button>
           </div>
 
-          <div class="mt-3 text-sm text-amber-300/90" data-i18n="tryScamVoiceNote">
+          <div class="mt-3 text-sm text-amber-300/90">
             ⚠ Try a simulated AI scam voice example
           </div>
 
-          <button id="exampleBtn" class="btn mt-3 w-full" data-i18n="tryScamExampleBtn">
-  🎧 Try scam example
-</button>
+          <button id="exampleBtn" class="btn mt-3 w-full" type="button">
+            🎧 Try scam example
+          </button>
 
-<div class="mt-6 text-sm text-white/80" data-i18n="exampleScenariosTitle">
-  Example scenarios
-</div>
+          <div class="mt-6 text-sm text-white/80">
+            Example scenarios
+          </div>
 
-<div class="mt-6">
-  <div class="text-sm text-white/60 mb-2" data-i18n="try_real_scenarios">
-    Test real scam scenarios
-  </div>
-
-  <div class="flex flex-wrap gap-2">
-    <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('bank')" data-i18n="scenario_bank">
-      🏦 Bank scam
-    </button>
-
-    <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('crypto')" data-i18n="scenario_crypto">
-      💰 Crypto scam
-    </button>
-
-    <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('ceo')" data-i18n="scenario_ceo">
-      👔 CEO voice clone
-    </button>
-
-    <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('family')" data-i18n="scenario_family">
-      👨‍👩‍👧 Family emergency
-    </button>
-  </div>
-</div>
-
-<div class="mt-3 flex flex-wrap gap-2">
-  <button class="btn text-xs" data-i18n="scenario_bank">🎧 Bank scam</button>
-  <button class="btn text-xs" data-i18n="scenario_crypto">🎧 Crypto scam</button>
-  <button class="btn text-xs" data-i18n="scenario_ceo">🎧 CEO voice clone</button>
-</div>
-
-<div id="exampleBox" class="glass2 rounded-2xl p-4 mt-3 hidden">
-  <div class="text-sm text-white/80 mb-2" data-i18n="simulatedExampleTitle">Simulated scam-style voice example</div>
-
-  <audio id="examplePlayer" controls class="w-full">
-    <source src="demo/scam-example.mp3" type="audio/mpeg" />
-    Your browser does not support audio playback.
-  </audio>
-
-  <button id="analyzeExampleBtn" class="btnPrimary mt-3 w-full rounded-2xl px-4 py-3" data-i18n="btn_analyze_example">
-    Analyze this example
-  </button>
-</div>
-
-              <div class="mt-4 text-xs text-white/60 leading-relaxed">
-                <div>• <span data-i18n="bankBullet1">Designed for fraud prevention workflows and compliance-friendly incident reporting.</span></div>
-                <div>• <span data-i18n="bankBullet2">No permanent voice storage in this prototype.</span></div>
-                <div>• <span data-i18n="bankBullet3">Exportable JSON for case systems and audit logs.</span></div>
-              </div>
-
-              <hr class="my-5 border-white/10" />
-
-              <div class="text-sm font-semibold text-white/80" data-i18n="caseTitle">Case details (optional)</div>
-              <div class="mt-3 grid grid-cols-2 gap-3">
-                <input id="titleEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Title" />
-                <input id="platformEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Platform" />
-                <input id="countryEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Country" />
-                <input id="languageEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Language" />
-              </div>
-              <input id="tagsEl" class="mt-3 glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Tags (comma separated)" />
-              <textarea id="notesEl" class="mt-3 glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40 min-h-[110px]" placeholder="Notes (what happened)"></textarea>
-              <div class="mt-3 text-xs text-white/50" data-i18n="privacyTip">Tip: Keep personal data out of notes.</div>
+          <div class="mt-6">
+            <div class="text-sm text-white/60 mb-2">
+              Test real scam scenarios
             </div>
 
-            <!-- Live panel -->
-            <div id="panelLive" class="hidden">
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="text-sm text-white/60">Live streaming</div>
-                  <div class="text-xl font-semibold mt-1">Real-time risk (2s chunks)</div>
-                </div>
-              </div>
+            <div class="flex flex-wrap gap-2">
+              <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('bank')" type="button">
+                🏦 Bank scam
+              </button>
 
-              <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
-                <div class="font-semibold text-white/85">Enterprise preview</div>
-                <div class="mt-1">Requires backend endpoints <span class="mono">/stream/start</span> and <span class="mono">/stream/chunk</span>.</div>
-              </div>
+              <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('crypto')" type="button">
+                💰 Crypto scam
+              </button>
 
-              <div class="mt-4 flex gap-3">
-                <button id="liveStartBtn" class="btnPrimary rounded-2xl px-4 py-3 font-semibold flex-1" type="button">Start live</button>
-                <button id="liveStopBtn" class="btn rounded-2xl px-4 py-3 font-semibold flex-1" type="button" disabled>Stop</button>
-              </div>
+              <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('ceo')" type="button">
+                👔 CEO voice clone
+              </button>
 
-              <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-                <div class="glass2 rounded-2xl p-4">
-                  <div class="text-xs text-white/60">Session</div>
-                  <div class="mt-1 mono font-semibold" id="liveSessionId">—</div>
-                </div>
-                <div class="glass2 rounded-2xl p-4">
-                  <div class="text-xs text-white/60">Status</div>
-                  <div class="mt-1 font-semibold" id="liveStatus">Idle</div>
-                </div>
-              </div>
+              <button class="chip rounded-full px-3 py-1 text-xs" onclick="loadScamExample('family')" type="button">
+                👨‍👩‍👧 Family emergency
+              </button>
+            </div>
+          </div>
 
-              <div class="mt-4 glass2 rounded-2xl p-5 gradLow" id="liveRollingCard">
-                <div class="flex items-center justify-between">
-                  <div class="text-xs text-white/60">Rolling risk</div>
-                  <div id="liveRiskPill" class="chip rounded-full px-3 py-1 text-xs font-semibold">—</div>
-                </div>
-                <div class="mt-2 text-lg font-semibold" id="liveRiskTitle">—</div>
-                <div class="mt-1 text-sm text-white/65" id="liveRiskText">Start live to see streaming results.</div>
+          <div id="exampleBox" class="glass2 rounded-2xl p-4 mt-3 hidden">
+            <div class="text-sm text-white/80 mb-2">Simulated scam-style voice example</div>
 
-                <div class="mt-4 grid grid-cols-3 gap-3">
-                  <div class="glass rounded-2xl p-4">
-                    <div class="text-xs text-white/60">Now</div>
-                    <div class="mt-1 text-2xl font-semibold"><span id="liveRiskNow">—</span><span class="text-white/60 text-sm">%</span></div>
-                  </div>
-                  <div class="glass rounded-2xl p-4">
-                    <div class="text-xs text-white/60">EMA</div>
-                    <div class="mt-1 text-2xl font-semibold"><span id="liveRiskEma">—</span><span class="text-white/60 text-sm">%</span></div>
-                  </div>
-                  <div class="glass rounded-2xl p-4">
-                    <div class="text-xs text-white/60">Peak</div>
-                    <div class="mt-1 text-2xl font-semibold"><span id="liveRiskPeak">—</span><span class="text-white/60 text-sm">%</span></div>
-                  </div>
-                </div>
+            <audio id="examplePlayer" controls class="w-full">
+              <source src="demo/scam-example.mp3" type="audio/mpeg" />
+              Your browser does not support audio playback.
+            </audio>
 
-                <div class="mt-4 text-xs text-white/55 mono" id="liveDebug">—</div>
-              </div>
+            <button id="analyzeExampleBtn" class="btnPrimary mt-3 w-full rounded-2xl px-4 py-3" type="button">
+              Analyze this example
+            </button>
+          </div>
+
+          <div class="mt-4 text-xs text-white/60 leading-relaxed">
+            <div>• Designed for fraud prevention workflows and compliance-friendly incident reporting.</div>
+            <div>• No permanent voice storage in this prototype.</div>
+            <div>• Exportable JSON for case systems and audit logs.</div>
+          </div>
+
+          <hr class="my-5 border-white/10" />
+
+          <div class="text-sm font-semibold text-white/80">Case details (optional)</div>
+          <div class="mt-3 grid grid-cols-2 gap-3">
+            <input id="titleEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Title" />
+            <input id="platformEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Platform" />
+            <input id="countryEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Country" />
+            <input id="languageEl" class="glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Language" />
+          </div>
+
+          <input id="tagsEl" class="mt-3 glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40" placeholder="Tags (comma separated)" />
+          <textarea id="notesEl" class="mt-3 glass2 rounded-2xl px-4 py-3 text-sm outline-none placeholder:text-white/40 min-h-[110px]" placeholder="Notes (what happened)"></textarea>
+
+          <div class="mt-3 text-xs text-white/50">Tip: Keep personal data out of notes.</div>
+        </div>
+
+        <!-- Live panel -->
+        <div id="panelLive" class="hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-white/60">Live streaming</div>
+              <div class="text-xl font-semibold mt-1">Real-time risk (2s chunks)</div>
+            </div>
+          </div>
+
+          <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
+            <div class="font-semibold text-white/85">Enterprise preview</div>
+            <div class="mt-1">
+              Requires backend endpoints <span class="mono">/stream/start</span> and <span class="mono">/stream/chunk</span>.
+            </div>
+          </div>
+
+          <div class="mt-4 flex gap-3">
+            <button id="liveStartBtn" class="btnPrimary rounded-2xl px-4 py-3 font-semibold flex-1" type="button">Start live</button>
+            <button id="liveStopBtn" class="btn rounded-2xl px-4 py-3 font-semibold flex-1" type="button" disabled>Stop</button>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+            <div class="glass2 rounded-2xl p-4">
+              <div class="text-xs text-white/60">Session</div>
+              <div class="mt-1 mono font-semibold" id="liveSessionId">—</div>
             </div>
 
-            <!-- Admin panel -->
-            <div id="panelAdmin" class="hidden">
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="text-sm text-white/60">Admin</div>
-                  <div class="text-xl font-semibold mt-1">Audit logs</div>
-                </div>
-                <button id="adminLoadBtn" class="btnPrimary rounded-2xl px-4 py-3 text-sm font-semibold" type="button">Load recent</button>
+            <div class="glass2 rounded-2xl p-4">
+              <div class="text-xs text-white/60">Status</div>
+              <div class="mt-1 font-semibold" id="liveStatus">Idle</div>
+            </div>
+          </div>
+
+          <div class="mt-4 glass2 rounded-2xl p-5 gradLow" id="liveRollingCard">
+            <div class="flex items-center justify-between">
+              <div class="text-xs text-white/60">Rolling risk</div>
+              <div id="liveRiskPill" class="chip rounded-full px-3 py-1 text-xs font-semibold">—</div>
+            </div>
+
+            <div class="mt-2 text-lg font-semibold" id="liveRiskTitle">—</div>
+            <div class="mt-1 text-sm text-white/65" id="liveRiskText">Start live to see streaming results.</div>
+
+            <div class="mt-4 grid grid-cols-3 gap-3">
+              <div class="glass rounded-2xl p-4">
+                <div class="text-xs text-white/60">Now</div>
+                <div class="mt-1 text-2xl font-semibold"><span id="liveRiskNow">—</span><span class="text-white/60 text-sm">%</span></div>
               </div>
 
-              <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
-                Requires backend endpoint <span class="mono">/audit/recent</span> (enterprise).
+              <div class="glass rounded-2xl p-4">
+                <div class="text-xs text-white/60">EMA</div>
+                <div class="mt-1 text-2xl font-semibold"><span id="liveRiskEma">—</span><span class="text-white/60 text-sm">%</span></div>
               </div>
 
-              <div class="mt-4 glass2 rounded-2xl p-4">
-                <div class="text-xs text-white/60">Output</div>
-                <pre id="adminOut" class="mt-2 text-xs text-white/70 whitespace-pre-wrap break-words mono max-h-72 overflow-auto"></pre>
+              <div class="glass rounded-2xl p-4">
+                <div class="text-xs text-white/60">Peak</div>
+                <div class="mt-1 text-2xl font-semibold"><span id="liveRiskPeak">—</span><span class="text-white/60 text-sm">%</span></div>
               </div>
             </div>
 
+            <div class="mt-4 text-xs text-white/55 mono" id="liveDebug">—</div>
           </div>
         </div>
 
-        <!-- Results -->
-    
-        <div class="lg:col-span-7" min-w-0">
-          <div id="resultsCard" class="glass rounded-3xl p-6 relative overflow-hidden pulseSoft">
+        <!-- Admin panel -->
+        <div id="panelAdmin" class="hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-white/60">Admin</div>
+              <div class="text-xl font-semibold mt-1">Audit logs</div>
+            </div>
+            <button id="adminLoadBtn" class="btnPrimary rounded-2xl px-4 py-3 text-sm font-semibold" type="button">Load recent</button>
+          </div>
 
-            <div class="radar">
-  <div class="radarCircle">
-    <div class="radarBeam"></div>
-  </div>
-</div>
+          <div class="mt-4 glass2 rounded-2xl p-4 text-sm text-white/70">
+            Requires backend endpoint <span class="mono">/audit/recent</span> (enterprise).
+          </div>
 
-<div class="scanLine"></div>
-
-            <div id="resultsLoading" class="loadingOverlay hidden">
-  <div class="flex flex-col items-center gap-4">
-
-    <div class="spinner"></div>
-
-    <div class="aiWave">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+          <div class="mt-4 glass2 rounded-2xl p-4">
+            <div class="text-xs text-white/60">Output</div>
+            <pre id="adminOut" class="mt-2 text-xs text-white/70 whitespace-pre-wrap break-words mono max-h-72 overflow-auto"></pre>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="text-sm text-white/80" id="loadingText">
-      Analyzing voice...
-    </div>
-  </div>
-</div>
+    <!-- Results -->
+    <div class="lg:col-span-5 min-w-0">
+      <div id="resultsCard" class="glass rounded-3xl p-6 relative overflow-hidden pulseSoft">
+        <div class="radar">
+          <div class="radarCircle">
+            <div class="radarBeam"></div>
+          </div>
+        </div>
 
-            <div class="flex flex-col gap-4">
-              <div>
-                <div class="text-sm text-white/60" data-i18n="resultsTitleSmall">AI risk assessment</div>
+        <div class="scanLine"></div>
 
-<div class="text-2xl font-semibold mt-1" data-i18n="resultsTitle">
-Results
-</div>
+        <div id="resultsLoading" class="loadingOverlay hidden">
+          <div class="flex flex-col items-center gap-4">
+            <div class="spinner"></div>
 
-<div id="riskMeter" class="mt-5 flex flex-col items-center">
+            <div class="aiWave">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
 
-  <div class="text-xs text-white/60 tracking-[0.18em]">
-    FRAUD RISK SCORE
-  </div>
+            <div class="text-sm text-white/80" id="loadingText">
+              Analyzing voice...
+            </div>
+          </div>
+        </div>
 
-  <div class="riskGauge mt-4">
-    <svg viewBox="0 0 120 120" class="w-32 h-32">
-      <circle cx="60" cy="60" r="46" class="riskGaugeBg"></circle>
-      <circle
-        id="riskGaugeFill"
-        cx="60"
-        cy="60"
-        r="46"
-        class="riskGaugeFill"
-        stroke-dasharray="289"
-        stroke-dashoffset="289"
-      ></circle>
-    </svg>
+        <div class="flex flex-col gap-4">
+          <div>
+            <div class="text-sm text-white/60">AI risk assessment</div>
 
-    <div class="riskGaugeCenter">
-      <div id="riskPercent" class="text-2xl font-bold text-white">0%</div>
-      <div class="text-[10px] uppercase tracking-[0.16em] text-white/45">risk</div>
-    </div>
-  </div>
+            <div class="text-2xl font-semibold mt-1">
+              Results
+            </div>
 
-  <div class="w-full bg-gray-800 rounded-full h-2 mt-4 overflow-hidden max-w-[260px]">
-    <div id="riskBar" class="h-2 transition-all duration-700 bg-amber-500" style="width:0%"></div>
-  </div>
+            <div id="riskMeter" class="mt-5 flex flex-col items-center">
+              <div class="text-xs text-white/60 tracking-[0.18em]">
+                FRAUD RISK SCORE
+              </div>
 
-</div>
+              <div class="riskGauge mt-4">
+                <svg viewBox="0 0 120 120" class="w-32 h-32">
+                  <circle cx="60" cy="60" r="46" class="riskGaugeBg"></circle>
+                  <circle
+                    id="riskGaugeFill"
+                    cx="60"
+                    cy="60"
+                    r="46"
+                    class="riskGaugeFill"
+                    stroke-dasharray="289"
+                    stroke-dashoffset="289"
+                  ></circle>
+                </svg>
 
-</div>
+                <div class="riskGaugeCenter">
+                  <div id="riskPercent" class="text-2xl font-bold text-white">0%</div>
+                  <div class="text-[10px] uppercase tracking-[0.16em] text-white/45">risk</div>
+                </div>
+              </div>
 
-<div class="text-sm text-white/60 mt-2" id="summaryText"></div>
+              <div class="w-full bg-gray-800 rounded-full h-2 mt-4 overflow-hidden max-w-[260px]">
+                <div id="riskBar" class="h-2 transition-all duration-700 bg-amber-500" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
 
-<div class="mt-2 text-xs text-white/50" data-i18n="result_warning">
-  This result should be verified before taking financial action.
-</div>
+          <div class="text-sm text-white/60 mt-2" id="summaryText"></div>
 
-<div class="mt-4 glass2 rounded-2xl p-4">
-  <div class="text-sm text-white/80 mb-2" data-i18n="signals_title">
-    Why this message looks suspicious
-  </div>
+          <div class="mt-2 text-xs text-white/50">
+            This result should be verified before taking financial action.
+          </div>
 
-  <ul class="text-sm text-white/70 space-y-1 list-disc ml-4">
-    <li data-i18n="signal_1">AI voice synthesis patterns detected</li>
-    <li data-i18n="signal_2">Elevated vocal stress markers</li>
-    <li data-i18n="signal_3">Urgent language patterns common in scam calls</li>
-  </ul>
+          <div class="mt-4 glass2 rounded-2xl p-4">
+            <div class="text-sm text-white/80 mb-2">
+              Why this message looks suspicious
+            </div>
 
-  <button id="shareResultBtn" class="btnDark rounded-2xl px-5 py-3 mt-4" data-i18n="share_title">
-    Share result
-  </button>
-</div>
+            <ul class="text-sm text-white/70 space-y-1 list-disc ml-4">
+              <li>AI voice synthesis patterns detected</li>
+              <li>Elevated vocal stress markers</li>
+              <li>Urgent language patterns common in scam calls</li>
+            </ul>
 
-<div id="shareBox" style="margin-top:20px;display:none">
-  <div class="text-sm text-white/60" data-i18n="share_title">Share result</div>
-  <input id="shareLink" style="width:100%;padding:10px;border-radius:8px;margin-top:6px" readonly>
-</div>
+            <button id="shareResultBtn" class="btnDark rounded-2xl px-5 py-3 mt-4" type="button">
+              Share result
+            </button>
+          </div>
 
-              <div class="flex flex-wrap gap-2">
-                <button id="copyJsonBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="copyJson">Copy JSON</button>
-                <button id="copyLinkBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="copyLink">Copy link</button>
-                <button id="shareBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="share">Share</button>
-                <button id="shareCardBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button" data-i18n="shareCard">Share card</button>
+          <div id="shareBox" style="margin-top:20px;display:none">
+            <div class="text-sm text-white/60">Share result</div>
+            <input id="shareLink" style="width:100%;padding:10px;border-radius:8px;margin-top:6px" readonly>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <button id="copyJsonBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button">Copy JSON</button>
+            <button id="copyLinkBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button">Copy link</button>
+            <button id="shareBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button">Share</button>
+            <button id="shareCardBtn" class="btn rounded-xl px-3 py-2 text-sm font-semibold" type="button">Share card</button>
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-2 items-center">
+            <span class="chip rounded-full px-3 py-1 text-xs text-white/80">
+              <span>Risk level</span>: <span id="riskLevel" class="font-semibold">—</span>
+            </span>
+
+            <span class="chip rounded-full px-3 py-1 text-xs text-white/80">
+              <span>Confidence</span>: <span id="confidence" class="font-semibold">—</span>
+            </span>
+
+            <span id="proBadge" class="hidden chip rounded-full px-3 py-1 text-xs text-white/80">PRO</span>
+          </div>
+
+          <div class="mt-4 glass2 rounded-2xl p-5 gradLow" id="actionCard">
+            <div class="flex items-center justify-between">
+              <div class="text-xs text-white/60">Recommended action</div>
+              <div id="riskPill" class="chip rounded-full px-3 py-1 text-xs font-semibold">—</div>
+            </div>
+
+            <div class="mt-2 text-lg font-semibold" id="riskTitle">—</div>
+            <div class="mt-1 text-sm text-white/65" id="riskText">—</div>
+
+            <div id="scamAlert" class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
+              <div class="flex items-center gap-2 font-semibold">⚠️ Possible Scam Call Detected</div>
+              <div class="text-sm mt-1 text-red-200/80">
+                Do not send money. Verify caller identity through an official number.
               </div>
             </div>
 
-            <div class="mt-4 flex flex-wrap gap-2 items-center">
-              <span class="chip rounded-full px-3 py-1 text-xs text-white/80">
-                <span data-i18n="riskLevelLabel">Risk level</span>: <span id="riskLevel" class="font-semibold">—</span>
-              </span>
-              <span class="chip rounded-full px-3 py-1 text-xs text-white/80">
-                <span data-i18n="confidenceLabel">Confidence</span>: <span id="confidence" class="font-semibold">—</span>
-              </span>
-              <span id="proBadge" class="hidden chip rounded-full px-3 py-1 text-xs text-white/80">PRO</span>
-            </div>
+            <div class="mt-4 glass2 rounded-xl p-4">
+              <div class="text-xs text-white/60">AI Risk Explanation</div>
+              <div id="scamPhrases" style="margin-top:10px;color:#ffb3b3;"></div>
+              <div id="fraudExplanation" class="mt-2 text-sm text-white/80 whitespace-pre-line">—</div>
 
-            <div class="mt-4 glass2 rounded-2xl p-5 gradLow" id="actionCard">
-              <div class="flex items-center justify-between">
-                <div class="text-xs text-white/60" data-i18n="recommendedAction">Recommended action</div>
-                <div id="riskPill" class="chip rounded-full px-3 py-1 text-xs font-semibold">—</div>
-              </div>
-              <div class="mt-2 text-lg font-semibold" id="riskTitle">—</div>
-              <div class="mt-1 text-sm text-white/65" id="riskText">—</div>
-
-              <div id="scamAlert" class="hidden mb-4 rounded-xl border border-red-400/40 bg-red-500/10 p-4 text-red-300">
-  <div class="flex items-center gap-2 font-semibold" data-i18n="scamAlertTitle">⚠️ Possible Scam Call Detected</div>
-  <div class="text-sm mt-1 text-red-200/80" data-i18n="scamAlertDesc">
-    Do not send money. Verify caller identity through an official number.
-  </div>
-</div>
-
-<div class="mt-4 glass2 rounded-xl p-4">
-  <div class="text-xs text-white/60" data-i18n="aiRiskExplanation">AI Risk Explanation</div>
-  <div id="scamPhrases" style="margin-top:10px;color:#ffb3b3;"></div>
-  <div id="fraudExplanation" class="mt-2 text-sm text-white/80 whitespace-pre-line">—</div>
-
-  <div id="scamTypeBox" style="margin-top:10px;">
-    <div style="font-weight:600;" data-i18n="scamTypeDetected">Scam type detected</div>
-    <div id="scamTypes"></div>
-  </div>
-</div>
-
-              <div class="mt-4 grid sm:grid-cols-3 gap-3">
-                <div class="glass rounded-2xl p-4">
-                  <div class="text-xs text-white/60" data-i18n="step1Label">1) Pause</div>
-                  <div class="mt-1 text-sm font-semibold" data-i18n="step1Title">Stop sensitive steps</div>
-                  <div class="mt-1 text-xs text-white/60" data-i18n="step1Desc">Don’t send money or codes.</div>
-                </div>
-                <div class="glass rounded-2xl p-4">
-                  <div class="text-xs text-white/60" data-i18n="step2Label">2) Verify</div>
-                  <div class="mt-1 text-sm font-semibold" data-i18n="step2Title">Use official channels</div>
-                  <div class="mt-1 text-xs text-white/60" data-i18n="step2Desc">Call a verified number.</div>
-                </div>
-                <div class="glass rounded-2xl p-4">
-                  <div class="text-xs text-white/60" data-i18n="step3Label">3) Escalate</div>
-                  <div class="mt-1 text-sm font-semibold" data-i18n="step3Title">Share case & export</div>
-                  <div class="mt-1 text-xs text-white/60" data-i18n="step3Desc">Keep evidence & report.</div>
-                </div>
+              <div id="scamTypeBox" style="margin-top:10px;">
+                <div style="font-weight:600;">Scam type detected</div>
+                <div id="scamTypes"></div>
               </div>
             </div>
 
-            <div class="mt-4 grid sm:grid-cols-4 gap-3">
-              <div class="glass2 rounded-2xl p-4">
-                <div class="text-xs text-white/60" data-i18n="scamScore">Scam score</div>
-                <div class="mt-1 text-2xl font-semibold"><span id="scamScore">—</span><span class="text-white/60 text-sm">%</span></div>
-                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div id="scamBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
-                </div>
+            <div class="mt-4 grid sm:grid-cols-3 gap-3">
+              <div class="glass rounded-2xl p-4">
+                <div class="text-xs text-white/60">1) Pause</div>
+                <div class="mt-1 text-sm font-semibold">Stop sensitive steps</div>
+                <div class="mt-1 text-xs text-white/60">Don’t send money or codes.</div>
               </div>
-              <div class="glass2 rounded-2xl p-4">
-                <div class="text-xs text-white/60" data-i18n="aiProb">AI voice probability</div>
-                <div class="mt-1 text-2xl font-semibold"><span id="aiProb">—</span><span class="text-white/60 text-sm">%</span></div>
-                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div id="aiBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
-                </div>
+
+              <div class="glass rounded-2xl p-4">
+                <div class="text-xs text-white/60">2) Verify</div>
+                <div class="mt-1 text-sm font-semibold">Use official channels</div>
+                <div class="mt-1 text-xs text-white/60">Call a verified number.</div>
               </div>
-              <div class="glass2 rounded-2xl p-4">
-                <div class="text-xs text-white/60" data-i18n="stressLevel">Stress level</div>
-                <div class="mt-1 text-2xl font-semibold"><span id="stress">—</span><span class="text-white/60 text-sm">%</span></div>
-                <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div id="stressBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
-                </div>
+
+              <div class="glass rounded-2xl p-4">
+                <div class="text-xs text-white/60">3) Escalate</div>
+                <div class="mt-1 text-sm font-semibold">Share case & export</div>
+                <div class="mt-1 text-xs text-white/60">Keep evidence & report.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 grid sm:grid-cols-4 gap-3">
+            <div class="glass2 rounded-2xl p-4">
+              <div class="text-xs text-white/60">Scam score</div>
+              <div class="mt-1 text-2xl font-semibold"><span id="scamScore">—</span><span class="text-white/60 text-sm">%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div id="scamBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
               </div>
             </div>
 
             <div class="glass2 rounded-2xl p-4">
-  <div class="text-xs text-white/60">Trust Score</div>
-
-  <div class="mt-1 text-2xl font-semibold">
-    <span id="trustScore">—</span>
-    <span class="text-white/60 text-sm">/100</span>
-  </div>
-
-  <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-    <div id="trustBar"
-      class="h-2 rounded-full bg-emerald-400/80"
-      style="width:0%">
-    </div>
-  </div>
-</div>
-
-            <div class="mt-4 grid sm:grid-cols-2 gap-3">
-              <div class="glass2 rounded-2xl p-4">
-                <div class="text-xs text-white/60" data-i18n="rawJson">Raw JSON</div>
-                <pre id="rawJson" class="mt-2 text-xs text-white/70 whitespace-pre-wrap break-words mono max-h-56 overflow-auto"></pre>
-              </div>
-
-              <div class="glass2 rounded-2xl p-4">
-                <div class="text-xs text-white/60" data-i18n="cases">My cases</div>
-                <div class="mt-2 grid gap-3">
-                  <div class="glass rounded-2xl p-3">
-                    <div class="text-xs text-white/60" data-i18n="savedCase">Saved case</div>
-                    <div class="mt-1 text-sm"><span class="text-white/60" data-i18n="caseId">Case ID</span>: <span id="caseId" class="font-semibold">—</span></div>
-                    <div class="mt-2 flex gap-2">
-                      <button id="loadCaseBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="loadCase">Load</button>
-                      <button id="openCaseBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="openCase">Open</button>
-                    </div>
-                  </div>
-
-                  <div class="glass rounded-2xl p-3">
-                    <div class="text-xs text-white/60" data-i18n="searchCases">Search cases</div>
-                    <div class="mt-2 flex gap-2">
-                      <input id="searchQuery" class="glass2 rounded-xl px-3 py-2 text-xs outline-none placeholder:text-white/40 flex-1" placeholder="Search title / notes..." />
-                      <button id="searchBtn" class="btnPrimary rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="searchBtn">Search</button>
-                    </div>
-                    <div id="searchOut" class="mt-2 text-xs text-white/60 max-h-44 overflow-auto"></div>
-                  </div>
-
-                  <div class="glass rounded-2xl p-3">
-                    <div class="text-xs text-white/60" data-i18n="recentCases">Recent cases</div>
-                    <div class="mt-2 flex gap-2">
-                      <button id="recentBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="loadRecent">Load recent</button>
-                      <button id="clearListBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button" data-i18n="clear">Clear</button>
-                    </div>
-                    <div id="recentOut" class="mt-2 text-xs text-white/60 max-h-44 overflow-auto"></div>
-                  </div>
-
-                </div>
+              <div class="text-xs text-white/60">AI voice probability</div>
+              <div class="mt-1 text-2xl font-semibold"><span id="aiProb">—</span><span class="text-white/60 text-sm">%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div id="aiBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
               </div>
             </div>
 
-            <div class="mt-4 text-xs text-white/50" id="debugLine"></div>
+            <div class="glass2 rounded-2xl p-4">
+              <div class="text-xs text-white/60">Stress level</div>
+              <div class="mt-1 text-2xl font-semibold"><span id="stress">—</span><span class="text-white/60 text-sm">%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div id="stressBar" class="h-2 rounded-full bg-amber-400/80 barAnim" style="width:0%"></div>
+              </div>
+            </div>
+
+            <div class="glass2 rounded-2xl p-4">
+              <div class="text-xs text-white/60">Trust Score</div>
+              <div class="mt-1 text-2xl font-semibold">
+                <span id="trustScore">—</span>
+                <span class="text-white/60 text-sm">/100</span>
+              </div>
+              <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+                <div id="trustBar" class="h-2 rounded-full bg-emerald-400/80" style="width:0%"></div>
+              </div>
+            </div>
           </div>
+
+          <div class="mt-4 grid sm:grid-cols-2 gap-3">
+            <div class="glass2 rounded-2xl p-4">
+              <div class="text-xs text-white/60">Raw JSON</div>
+              <pre id="rawJson" class="mt-2 text-xs text-white/70 whitespace-pre-wrap break-words mono max-h-56 overflow-auto"></pre>
+            </div>
+
+            <div class="glass2 rounded-2xl p-4">
+              <div class="text-xs text-white/60">My cases</div>
+              <div class="mt-2 grid gap-3">
+                <div class="glass rounded-2xl p-3">
+                  <div class="text-xs text-white/60">Saved case</div>
+                  <div class="mt-1 text-sm"><span class="text-white/60">Case ID</span>: <span id="caseId" class="font-semibold">—</span></div>
+                  <div class="mt-2 flex gap-2">
+                    <button id="loadCaseBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button">Load</button>
+                    <button id="openCaseBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button">Open</button>
+                  </div>
+                </div>
+
+                <div class="glass rounded-2xl p-3">
+                  <div class="text-xs text-white/60">Search cases</div>
+                  <div class="mt-2 flex gap-2">
+                    <input id="searchQuery" class="glass2 rounded-xl px-3 py-2 text-xs outline-none placeholder:text-white/40 flex-1" placeholder="Search title / notes..." />
+                    <button id="searchBtn" class="btnPrimary rounded-xl px-3 py-2 text-xs font-semibold" type="button">Search</button>
+                  </div>
+                  <div id="searchOut" class="mt-2 text-xs text-white/60 max-h-44 overflow-auto"></div>
+                </div>
+
+                <div class="glass rounded-2xl p-3">
+                  <div class="text-xs text-white/60">Recent cases</div>
+                  <div class="mt-2 flex gap-2">
+                    <button id="recentBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button">Load recent</button>
+                    <button id="clearListBtn" class="btn rounded-xl px-3 py-2 text-xs font-semibold" type="button">Clear</button>
+                  </div>
+                  <div id="recentOut" class="mt-2 text-xs text-white/60 max-h-44 overflow-auto"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 text-xs text-white/50" id="debugLine"></div>
         </div>
-      </div>
-    </section>
-
-    <!-- How it works -->
-    <section id="how" class="pt-10 appOnly">
-      <div class="glass rounded-3xl p-6 sm:p-8">
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <div class="text-sm text-white/60" data-i18n="howSmall">How it works</div>
-            <div class="text-2xl font-semibold mt-1" data-i18n="howTitle">From audio to action</div>
-            <p class="text-white/70 mt-3 max-w-3xl" data-i18n="howDesc">
-              VoiceSafe produces a structured risk report designed for fast, safe decisions — especially when money or identity is involved.
-            </p>
-          </div>
-          <a href="#analyze" class="btn rounded-2xl px-4 py-3 text-sm font-semibold hidden sm:inline-flex" data-i18n="howCta">Try it</a>
-        </div>
-
-        <div class="mt-6 grid md:grid-cols-3 gap-4">
-          <div class="glass2 rounded-2xl p-5">
-            <div class="text-xs text-white/60">01</div>
-            <div class="mt-2 font-semibold" data-i18n="howStep1Title">Upload or record</div>
-            <div class="mt-1 text-sm text-white/65" data-i18n="howStep1Desc">Short clips work best. We extract audio features and metadata.</div>
-          </div>
-          <div class="glass2 rounded-2xl p-5">
-            <div class="text-xs text-white/60">02</div>
-            <div class="mt-2 font-semibold" data-i18n="howStep2Title">Analyze signals</div>
-            <div class="mt-1 text-sm text-white/65" data-i18n="howStep2Desc">Models output scam-risk, synthetic-voice likelihood, and stress indicators.</div>
-          </div>
-          <div class="glass2 rounded-2xl p-5">
-            <div class="text-xs text-white/60">03</div>
-            <div class="mt-2 font-semibold" data-i18n="howStep3Title">Get guidance</div>
-            <div class="mt-1 text-sm text-white/65" data-i18n="howStep3Desc">A clear risk level with recommended next steps and exportable JSON.</div>
-          </div>
-        </div>
-      </div>
-
-
-
-    </section>
-
-<section class="mt-10">
-  <div class="glass rounded-3xl p-6">
-    <div class="text-sm text-white/60" data-i18n="who_uses_title">Who uses VoiceSafe</div>
-    <h2 class="mt-2 text-2xl font-semibold text-white" data-i18n="who_uses_subtitle">Built for real-world fraud decisions</h2>
-
-    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="glass2 rounded-2xl p-4">
-        <div class="text-white font-semibold" data-i18n="use_banks">Banks</div>
-        <div class="text-white/65 text-sm mt-2" data-i18n="use_banks_desc">Support fraud review and suspicious-call triage.</div>
-      </div>
-
-      <div class="glass2 rounded-2xl p-4">
-        <div class="text-white font-semibold" data-i18n="use_investigators">Investigators</div>
-        <div class="text-white/65 text-sm mt-2" data-i18n="use_investigators_desc">Review voice evidence faster with structured risk signals.</div>
-      </div>
-
-      <div class="glass2 rounded-2xl p-4">
-        <div class="text-white font-semibold" data-i18n="use_journalists">Journalists</div>
-        <div class="text-white/65 text-sm mt-2" data-i18n="use_journalists_desc">Check suspicious audio before publishing or reporting.</div>
-      </div>
-
-      <div class="glass2 rounded-2xl p-4">
-        <div class="text-white font-semibold" data-i18n="use_businesses">Businesses</div>
-        <div class="text-white/65 text-sm mt-2" data-i18n="use_businesses_desc">Reduce risk from fake executives, payment pressure and cloned voices.</div>
       </div>
     </div>
   </div>
 </section>
 
-    <!-- Services -->
-    <section id="services" class="pt-10 appOnly">
-      <div class="glass rounded-3xl p-6 sm:p-8">
-        <div class="text-sm text-white/60" data-i18n="servicesSmall">Services</div>
-        <div class="text-2xl font-semibold mt-1" data-i18n="servicesTitle">Enterprise-ready roadmap</div>
-        <div class="mt-3 grid md:grid-cols-3 gap-4 text-sm text-white/70">
-          <div class="glass2 rounded-2xl p-5">
-            <div class="font-semibold text-white/85" data-i18n="svc1Title">API + SDK</div>
-            <div class="mt-1" data-i18n="svc1Desc">Stable endpoints, versioning, and client SDKs for web & mobile.</div>
-          </div>
-          <div class="glass2 rounded-2xl p-5">
-            <div class="font-semibold text-white/85" data-i18n="svc2Title">Model calibration</div>
-            <div class="mt-1" data-i18n="svc2Desc">Country/language calibration, false-positive control, and confidence scoring.</div>
-          </div>
-          <div class="glass2 rounded-2xl p-5">
-            <div class="font-semibold text-white/85" data-i18n="svc3Title">Compliance & audit</div>
-            <div class="mt-1" data-i18n="svc3Desc">Retention controls, consent flows, and compliance-ready audit logs.</div>
-          </div>
-        </div>
+<!-- How it works -->
+<section id="how" class="pt-10 appOnly">
+  <div class="glass rounded-3xl p-6 sm:p-8">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <div class="text-sm text-white/60">How it works</div>
+        <div class="text-2xl font-semibold mt-1">From audio to action</div>
+        <p class="text-white/70 mt-3 max-w-3xl">
+          VoiceSafe produces a structured risk report designed for fast, safe decisions — especially when money or identity is involved.
+        </p>
       </div>
-    </section>
+      <a href="#analyze" class="btn rounded-2xl px-4 py-3 text-sm font-semibold hidden sm:inline-flex">Try it</a>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-3 gap-4">
+      <div class="glass2 rounded-2xl p-5">
+        <div class="text-xs text-white/60">01</div>
+        <div class="mt-2 font-semibold">Upload or record</div>
+        <div class="mt-1 text-sm text-white/65">Short clips work best. We extract audio features and metadata.</div>
+      </div>
+
+      <div class="glass2 rounded-2xl p-5">
+        <div class="text-xs text-white/60">02</div>
+        <div class="mt-2 font-semibold">Analyze signals</div>
+        <div class="mt-1 text-sm text-white/65">Models output scam-risk, synthetic-voice likelihood, and stress indicators.</div>
+      </div>
+
+      <div class="glass2 rounded-2xl p-5">
+        <div class="text-xs text-white/60">03</div>
+        <div class="mt-2 font-semibold">Get guidance</div>
+        <div class="mt-1 text-sm text-white/65">A clear risk level with recommended next steps and exportable JSON.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mt-10">
+  <div class="glass rounded-3xl p-6">
+    <div class="text-sm text-white/60">Who uses VoiceSafe</div>
+    <h2 class="mt-2 text-2xl font-semibold text-white">Built for real-world fraud decisions</h2>
+
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="glass2 rounded-2xl p-4">
+        <div class="text-white font-semibold">Banks</div>
+        <div class="text-white/65 text-sm mt-2">Support fraud review and suspicious-call triage.</div>
+      </div>
+
+      <div class="glass2 rounded-2xl p-4">
+        <div class="text-white font-semibold">Investigators</div>
+        <div class="text-white/65 text-sm mt-2">Review voice evidence faster with structured risk signals.</div>
+      </div>
+
+      <div class="glass2 rounded-2xl p-4">
+        <div class="text-white font-semibold">Journalists</div>
+        <div class="text-white/65 text-sm mt-2">Check suspicious audio before publishing or reporting.</div>
+      </div>
+
+      <div class="glass2 rounded-2xl p-4">
+        <div class="text-white font-semibold">Businesses</div>
+        <div class="text-white/65 text-sm mt-2">Reduce risk from fake executives, payment pressure and cloned voices.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="pt-10 appOnly">
+  <div class="glass rounded-3xl p-6 sm:p-8">
+    <div class="text-sm text-white/60">Services</div>
+    <div class="text-2xl font-semibold mt-1">Enterprise-ready roadmap</div>
+
+    <div class="mt-3 grid md:grid-cols-3 gap-4 text-sm text-white/70">
+      <div class="glass2 rounded-2xl p-5">
+        <div class="font-semibold text-white/85">API + SDK</div>
+        <div class="mt-1">Stable endpoints, versioning, and client SDKs for web & mobile.</div>
+      </div>
+
+      <div class="glass2 rounded-2xl p-5">
+        <div class="font-semibold text-white/85">Model calibration</div>
+        <div class="mt-1">Country/language calibration, false-positive control, and confidence scoring.</div>
+      </div>
+
+      <div class="glass2 rounded-2xl p-5">
+        <div class="font-semibold text-white/85">Compliance & audit</div>
+        <div class="mt-1">Retention controls, consent flows, and compliance-ready audit logs.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="mt-12">
   <div class="glass rounded-3xl p-6">
-    <div class="text-sm text-white/60" data-i18n="technology_label">Technology</div>
+    <div class="text-sm text-white/60">Technology</div>
 
-    <h2 class="mt-2 text-2xl font-semibold text-white" data-i18n="technology_title">
+    <h2 class="mt-2 text-2xl font-semibold text-white">
       AI voice fraud detection engine
     </h2>
 
-    <div class="mt-4 text-white/70 max-w-3xl" data-i18n="technology_desc">
+    <div class="mt-4 text-white/70 max-w-3xl">
       VoiceSafe analyzes acoustic, behavioral and linguistic patterns in voice messages. The system detects signals commonly associated with fraud calls such as voice cloning, emotional pressure, urgency patterns and synthetic speech artifacts.
     </div>
 
     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <div class="glass2 rounded-2xl p-4">
-        <div class="font-semibold text-white" data-i18n="tech_card_1_title">
+        <div class="font-semibold text-white">
           AI voice synthesis detection
         </div>
-        <div class="text-sm text-white/65 mt-2" data-i18n="tech_card_1_desc">
+        <div class="text-sm text-white/65 mt-2">
           Identifies patterns typical for cloned or generated voices.
         </div>
       </div>
 
       <div class="glass2 rounded-2xl p-4">
-        <div class="font-semibold text-white" data-i18n="tech_card_2_title">
+        <div class="font-semibold text-white">
           Stress & pressure signals
         </div>
-        <div class="text-sm text-white/65 mt-2" data-i18n="tech_card_2_desc">
+        <div class="text-sm text-white/65 mt-2">
           Detects urgency and emotional manipulation used in scams.
         </div>
       </div>
 
       <div class="glass2 rounded-2xl p-4">
-        <div class="font-semibold text-white" data-i18n="tech_card_3_title">
+        <div class="font-semibold text-white">
           Structured fraud risk report
         </div>
-        <div class="text-sm text-white/65 mt-2" data-i18n="tech_card_3_desc">
+        <div class="text-sm text-white/65 mt-2">
           Produces explainable signals instead of a simple score.
         </div>
       </div>
@@ -1736,59 +1713,61 @@ Results
   </div>
 </section>
 
-    <!-- Contact -->
-    <section id="contact" class="pt-10 appOnly">
-      <div class="glass rounded-3xl p-6 sm:p-8">
-        <div class="text-sm text-white/60" data-i18n="contactSmall">Contact</div>
-        <div class="text-2xl font-semibold mt-1" data-i18n="contactTitle">Let’s talk</div>
-        <p class="text-white/70 mt-3 max-w-3xl" data-i18n="contactDesc">
-          Interested in pilots with banks, marketplaces, or call centers? Reach out for a private demo and roadmap.
-        </p>
-        <div class="mt-4 flex flex-col sm:flex-row gap-3">
-          <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" href="mailto:hello@voicesafe.ai">
-            <span>✉️</span><span data-i18n="contactEmail">Email</span>
-          </a>
-          <button id="copyContactBtn" class="btn rounded-2xl px-5 py-3 font-semibold" type="button" data-i18n="contactCopy">Copy email</button>
-        </div>
-      </div>
-    </section>
+<!-- Contact -->
+<section id="contact" class="pt-10 appOnly">
+  <div class="glass rounded-3xl p-6 sm:p-8">
+    <div class="text-sm text-white/60">Contact</div>
+    <div class="text-2xl font-semibold mt-1">Let’s talk</div>
+    <p class="text-white/70 mt-3 max-w-3xl">
+      Interested in pilots with banks, marketplaces, or call centers? Reach out for a private demo and roadmap.
+    </p>
 
-    <!-- Terms -->
-    <section id="terms" class="pt-10 appOnly">
-      <div class="glass rounded-3xl p-6 sm:p-8">
-        <div class="text-sm text-white/60" data-i18n="termsSmall">Terms</div>
-        <div class="text-2xl font-semibold mt-1" data-i18n="termsTitle">Safety note</div>
-        <p class="text-white/70 mt-3" data-i18n="termsDesc">
-          VoiceSafe provides advisory signals only. If money is involved, verify via official channels. Keep personal data out of notes.
-        </p>
-      </div>
-    </section>
-  </main>
+    <div class="mt-4 flex flex-col sm:flex-row gap-3">
+      <a class="btnPrimary rounded-2xl px-5 py-3 font-semibold inline-flex items-center justify-center gap-2" href="mailto:hello@voicesafe.ai">
+        <span>✉️</span><span>Email</span>
+      </a>
 
-  <!-- Footer (NO backend links) -->
-  <footer class="mt-24 border-t border-white/10 pt-12 pb-14">
+      <button id="copyContactBtn" class="btn rounded-2xl px-5 py-3 font-semibold" type="button">Copy email</button>
+    </div>
+  </div>
+</section>
+
+<!-- Terms -->
+<section id="terms" class="pt-10 appOnly">
+  <div class="glass rounded-3xl p-6 sm:p-8">
+    <div class="text-sm text-white/60">Terms</div>
+    <div class="text-2xl font-semibold mt-1">Safety note</div>
+    <p class="text-white/70 mt-3">
+      VoiceSafe provides advisory signals only. If money is involved, verify via official channels. Keep personal data out of notes.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer (NO backend links) -->
+<footer class="mt-24 border-t border-white/10 pt-12 pb-14">
   <div class="mx-auto max-w-7xl px-6">
-
     <div class="rounded-[26px] border border-white/10 bg-white/[0.03] backdrop-blur-md p-6 mb-12">
       <div class="flex flex-wrap items-center justify-between gap-6 text-sm text-white/60">
         <div class="flex items-center gap-3">
           <span class="text-emerald-400">●</span>
-          <span data-i18n="footer_strip_1">AI-powered scam detection</span>
+          <span>AI-powered scam detection</span>
         </div>
 
         <div class="flex items-center gap-3">
           <span class="text-sky-400">●</span>
-          <span data-i18n="footer_strip_2">Privacy-first audio analysis</span>
+          <span>Privacy-first audio analysis</span>
         </div>
 
         <div class="flex items-center gap-3">
           <span class="text-indigo-400">●</span>
-          <span data-i18n="footer_strip_3">Structured fraud risk signals</span>
+          <span>Structured fraud risk signals</span>
         </div>
 
         <div class="flex items-center gap-3">
           <span class="text-orange-400">●</span>
-          <span data-i18n="footer_strip_4">Designed for banks & marketplaces</span>
+          <span>Designed for banks & marketplaces</span>
         </div>
       </div>
     </div>
@@ -1804,11 +1783,11 @@ Results
 
           <div>
             <div class="text-white font-semibold text-lg">VoiceSafe</div>
-            <div class="text-white/50 text-sm" data-i18n="footerTagline">AI voice scam risk assessment</div>
+            <div class="text-white/50 text-sm">AI voice scam risk assessment</div>
           </div>
         </div>
 
-        <p class="text-white/60 text-sm max-w-xs" data-i18n="footerDesc">
+        <p class="text-white/60 text-sm max-w-xs">
           Fast, explainable risk guidance for suspicious voice calls and messages.
         </p>
 
@@ -1816,54 +1795,55 @@ Results
       </div>
 
       <div>
-        <div class="text-white font-semibold mb-4" data-i18n="footerProduct">Product</div>
+        <div class="text-white font-semibold mb-4">Product</div>
         <div class="flex flex-col gap-2 text-white/60 text-sm">
-          <a href="#how" class="hover:text-white transition" data-i18n="footerHow">How it works</a>
-          <a href="#services" class="hover:text-white transition" data-i18n="footerServices">Services</a>
-          <a href="#analyze" class="hover:text-white transition" data-i18n="footerAnalyze">Analyze</a>
-          <a href="#cases" class="hover:text-white transition" data-i18n="footerFraudCases">Fraud cases</a>
+          <a href="#how" class="hover:text-white transition">How it works</a>
+          <a href="#services" class="hover:text-white transition">Services</a>
+          <a href="#analyze" class="hover:text-white transition">Analyze</a>
+          <a href="#cases" class="hover:text-white transition">Fraud cases</a>
         </div>
       </div>
 
       <div>
-        <div class="text-white font-semibold mb-4" data-i18n="footerCompany">Company</div>
+        <div class="text-white font-semibold mb-4">Company</div>
         <div class="flex flex-col gap-2 text-white/60 text-sm">
-          <a href="#contact" class="hover:text-white transition" data-i18n="footerContact">Contact</a>
-          <a href="#terms" class="hover:text-white transition" data-i18n="footerTerms">Terms</a>
-          <a href="#privacy" class="hover:text-white transition" data-i18n="footerPrivacy">Privacy</a>
+          <a href="#contact" class="hover:text-white transition">Contact</a>
+          <a href="#terms" class="hover:text-white transition">Terms</a>
+          <a href="#privacy" class="hover:text-white transition">Privacy</a>
         </div>
       </div>
 
       <div>
-        <div class="text-white font-semibold mb-4" data-i18n="footerStartAnalysis">Start analysis</div>
-        <p class="text-white/60 text-sm mb-4" data-i18n="footerStartDesc">
+        <div class="text-white font-semibold mb-4">Start analysis</div>
+        <p class="text-white/60 text-sm mb-4">
           Upload a suspicious voice message and receive an AI-generated risk assessment in seconds.
         </p>
 
-        <a href="#analyze"
+        <a
+          href="#analyze"
           class="inline-flex items-center justify-center rounded-[20px] bg-gradient-to-b from-[#f0b53d] to-[#c88b14] hover:brightness-105 text-[#1e1404] font-semibold px-5 py-3 text-sm shadow-[0_10px_25px_rgba(240,181,61,0.25)] transition"
-          data-i18n="footerAnalyzeAudio">
+        >
           Analyze audio
         </a>
       </div>
     </div>
 
     <div class="mt-14 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-white/40">
-      <div data-i18n="footerBottomLeft">Built with AI-driven risk analysis technology</div>
+      <div>Built with AI-driven risk analysis technology</div>
 
       <div class="flex items-center gap-6">
-        <span data-i18n="footerBottom1">Security-focused design</span>
-        <span data-i18n="footerBottom2">Privacy-first architecture</span>
+        <span>Security-focused design</span>
+        <span>Privacy-first architecture</span>
         <span>VoiceSafe.ai</span>
       </div>
     </div>
   </div>
 </footer>
 
-  <!-- Toast -->
-  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden">
-    <div class="glass rounded-2xl px-4 py-3 text-sm text-white/85 max-w-[92vw]" id="toastText">—</div>
-  </div>
+<!-- Toast -->
+<div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden">
+  <div class="glass rounded-2xl px-4 py-3 text-sm text-white/85 max-w-[92vw]" id="toastText">—</div>
+</div>
 
 <script>
 (function(){
@@ -2989,32 +2969,9 @@ if (buildEl) buildEl.textContent = BUILD_ID;
   const saved = localStorage.getItem("vs_lang");
   if (saved) return saved;
 
-  const browserLang =
-    (navigator.language || navigator.userLanguage || "en").toLowerCase();
-
-  if (browserLang.startsWith("sk")) return "sk";
-  if (browserLang.startsWith("cs")) return "cs";
-  if (browserLang.startsWith("de")) return "de";
-  if (browserLang.startsWith("fr")) return "fr";
-  if (browserLang.startsWith("es")) return "es";
-  if (browserLang.startsWith("it")) return "it";
-  if (browserLang.startsWith("pt")) return "pt";
-  if (browserLang.startsWith("nl")) return "nl";
-  if (browserLang.startsWith("pl")) return "pl";
-  if (browserLang.startsWith("hu")) return "hu";
-  if (browserLang.startsWith("ro")) return "ro";
-  if (browserLang.startsWith("ja")) return "ja";
-  if (browserLang.startsWith("ko")) return "ko";
-  if (browserLang.startsWith("zh-cn")) return "zh-CN";
-  if (browserLang.startsWith("zh-sg")) return "zh-CN";
-  if (browserLang.startsWith("zh-tw")) return "zh-TW";
-  if (browserLang.startsWith("zh-hk")) return "zh-TW";
-  if (browserLang.startsWith("hi")) return "hi";
-  if (browserLang.startsWith("th")) return "th";
-  if (browserLang.startsWith("vi")) return "vi";
-  if (browserLang.startsWith("id")) return "id";
-
+  function detectPreferredLanguage(){
   return "en";
+}
 }
 
 const savedLang = detectPreferredLanguage();
@@ -3080,19 +3037,6 @@ loadLanguage(savedLang);
 
     // contact
     qs("copyContactBtn")?.addEventListener("click", ()=> copyText("hello@voicesafe.ai"));
-
-    // language dropdown
-    qs("langBtn")?.addEventListener("click", ()=> toggleLangMenu());
-    qs("langBackdrop")?.addEventListener("click", ()=> toggleLangMenu(false));
-    qs("langMenu")?.querySelectorAll("[data-lang]")?.forEach(b=>{
-      b.addEventListener("click", ()=>{
-        const l = b.getAttribute("data-lang");
-        localStorage.setItem("vs_lang", l);
-        loadLanguage(l);
-        toggleLangMenu(false);
-        toast(l === "sk" ? "Jazyk: SK" : "Language: EN");
-      });
-    });
 
     // default empty UI
     setResultUI({});
@@ -3341,37 +3285,6 @@ function closeLangMenu() {
   langBtn?.setAttribute("aria-expanded", "false");
 }
 
-// ===============================
-// Language system
-// ===============================
-
-let translations = {};
-
-async function loadLanguage(lang) {
-  try {
-    const res = await fetch(`/i18n/${lang}.json`, { cache: "no-store" });
-    if (!res.ok) throw new Error(`Language file not found: ${lang}`);
-
-    translations = await res.json();
-
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.dataset.i18n;
-      if (translations[key] !== undefined) {
-        el.textContent = translations[key];
-      }
-    });
-
-    const langLabel = document.getElementById("langLabel");
-    if (langLabel) {
-      langLabel.textContent = translations.langName || lang.toUpperCase();
-    }
-
-    localStorage.setItem("vs_lang", lang);
-  } catch (err) {
-    console.error("loadLanguage error:", err);
-  }
-}
-
 function openLangMenu() {
   const menu = document.getElementById("langMenu");
   const back = document.getElementById("langBackdrop");
@@ -3396,24 +3309,8 @@ function closeLangMenu() {
     langBackdrop.addEventListener("click", closeLangMenu);
   }
 
-  document.querySelectorAll(".langItem").forEach((btn) => {
-    btn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const lang = btn.dataset.lang || "en";
-      await loadLanguage(lang);
-      closeLangMenu();
-    });
-  });
-
-  const savedLang = localStorage.getItem("vs_lang");
-  if (savedLang) {
-    loadLanguage(savedLang);
-  } else {
-    const browserLang = navigator.language.slice(0, 2).toLowerCase();
-    const supported = ["en","sk","cs","de","fr","es","it","pt","pl","hu","ro","ja","ko","zh"];
-    const lang = supported.includes(browserLang) ? browserLang : "en";
-    loadLanguage(lang);
+   else {
+    
   }
 
 if ("serviceWorker" in navigator) {
@@ -3521,7 +3418,7 @@ document.getElementById("analyzeBtn").click()
 </script>
 
 <div id="stickyAnalyze" class="stickyAnalyze hidden">
-  <button onclick="scrollToAnalyze()" data-i18n="btn_analyze">
+  <button onclick="scrollToAnalyze()">
     🔎 Analyze voice message
   </button>
 </div>
