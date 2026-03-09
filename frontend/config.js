@@ -10,8 +10,8 @@ window.GOOGLE_CLIENT_ID = "348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.go
 window.VOICESAFE_CONFIG = Object.freeze({
   URLS: {
     PROD: {
-      BACKEND: "https://voicesafe-backend-1.onrender.com",
-      AI: "https://voicesafe-ai.onrender.com"
+      BACKEND: "https://voicesafe.onrender.com",
+      AI: "https://voicesafe-ai-mmnf.onrender.com"
     },
     LOCAL: {
       BACKEND: "http://127.0.0.1:10000",
