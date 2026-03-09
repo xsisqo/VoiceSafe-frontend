@@ -7,7 +7,7 @@ window.GOOGLE_CLIENT_ID = "348148364673-pmqok6ms5okg261u7vn7v5c3g5nmm4vh.apps.go
  * Global runtime config (loaded by index.html if you want).
  * NOTE: Keep URLs CLEAN (no markdown, no brackets).
  */
-window.VOICESAFE_SAFE_CONFIG = Object.freeze({
+window.VOICE_SAFE_CONFIG = Object.freeze({
   URLS: {
     PROD: {
       BACKEND: "https://voicesafe.onrender.com",
